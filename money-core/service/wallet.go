@@ -1,0 +1,53 @@
+package service
+
+import (
+	"github.com/pkg/errors"
+	"money-core/repository"
+	"money-core/validator"
+	"money-core/view"
+)
+
+type (
+	WalletServiceInterface interface {
+		Create(userId string, form *view.WalletForm) (*view.WalletForm, error)
+		Update(userId string, form *view.WalletForm) error
+	}
+	WalletService struct {
+		validator    *validator.Validator
+		repositories *repository.Repositories
+	}
+)
+
+func NewWalletService(validator *validator.Validator, repositories *repository.Repositories) *WalletService {
+	return &WalletService{
+		validator:    validator,
+		repositories: repositories,
+	}
+}
+
+func (s *WalletService) Create(userId string, form *view.WalletForm) (*view.WalletForm, error) {
+	form.UserId = userId
+	wallet, err := s.repositories.WalletRepo.Create(form)
+	if err != nil {
+		return nil, errors.Errorf("error in create wallet: %v", err)
+	}
+	//TODO: after create, need to add init transaction for balance > 0
+	form.WalletId = wallet.Id
+	return form, nil
+}
+
+func (s *WalletService) Update(userId string, form *view.WalletForm) error {
+	form.UserId = userId
+	_, err := s.repositories.WalletRepo.GetById(form.WalletId)
+
+	if err != nil {
+		return errors.Errorf("error in find wallet: %v", err)
+	}
+
+	err = s.repositories.WalletRepo.Update(form)
+	if err != nil {
+		return errors.Errorf("error in update wallet: %v", err)
+	}
+	//TODO: after create, need to add init transaction for balance > 0
+	return nil
+}

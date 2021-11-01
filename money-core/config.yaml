@@ -1,0 +1,31 @@
+service:
+  host: 0.0.0.0
+  port: 8080
+
+db:
+  addr: localhost
+  port: 5432
+  user: monstertau
+  password: 098poiA#
+  db_name: money_thrower
+
+jwt:
+  secret_key: monstertau
+
+swagger:
+  host: localhost:8080
+  schemes: [ http ]
+
+redis:
+  host: localhost:6379
+  password:
+  DB: 1
+
+mail:
+  email: hoangtest999@gmail.com
+  password: 123456aA@
+  smtphost: smtp.gmail.com
+  smtpport: 587
+  timeout: 300
+#  Link nay doi thanh link frontend de doi pass
+  link: http://localhost:8080/api/v1/changepass/submit?token=

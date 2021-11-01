@@ -1,0 +1,320 @@
+basePath: /api/v1
+definitions:
+  controller.AppError:
+    properties:
+      args:
+        example:
+        - "null"
+        items:
+          type: string
+        type: array
+      code:
+        example: 400
+        type: integer
+      message:
+        example: invalid form
+        type: string
+    type: object
+  view.ForgotPasswordForm:
+    properties:
+      email:
+        example: test@gmail.com
+        type: string
+    type: object
+  view.LoginForm:
+    properties:
+      email:
+        example: test@gmail.com
+        type: string
+      password:
+        example: test
+        type: string
+    type: object
+  view.RegisterForm:
+    properties:
+      email:
+        example: test@gmail.com
+        type: string
+      id:
+        example: id
+        type: string
+      password:
+        example: test
+        type: string
+      token:
+        example: token-string
+        type: string
+    type: object
+  view.SubmitNewPasswordForm:
+    properties:
+      email:
+        example: test@gmail.com
+        type: string
+      password:
+        example: test
+        type: string
+      token:
+        example: token-string
+        type: string
+    type: object
+  view.WalletForm:
+    properties:
+      balance:
+        example: 1500000
+        type: number
+      currency:
+        example: VND
+        type: string
+      icon:
+        example: mua_sam
+        type: string
+      id:
+        example: id
+        type: string
+      name:
+        example: MyBankAccount
+        type: string
+      type:
+        example: 1
+        type: integer
+    type: object
+host: api.moneythrower.site
+info:
+  contact:
+    email: trungdungvu172@gmail.com
+    name: Trung Dung Vu
+  description: This is API Documentation of Money Thrower Core
+  title: Money Thrower Core API
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Login with email and password
+      parameters:
+      - description: Login with account
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/view.LoginForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.LoginForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      summary: Login with email and password
+      tags:
+      - authentication
+  /auth/logout:
+    post:
+      consumes:
+      - application/json
+      description: Logout and push JWT Token into blacklist for 72 hours
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Logout and push JWT Token into blacklist for 72 hours
+      tags:
+      - authentication
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Register with email and password
+      parameters:
+      - description: Register with account
+        in: body
+        name: register
+        required: true
+        schema:
+          $ref: '#/definitions/view.LoginForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.RegisterForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      summary: Register with email and password
+      tags:
+      - authentication
+  /dummy:
+    get:
+      consumes:
+      - application/json
+      description: Dummy test connection and token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'message": "Hello World"}'
+          schema:
+            type: object
+      security:
+      - JWT: []
+      summary: Dummy test connection and token
+      tags:
+      - testing
+  /password/change:
+    post:
+      consumes:
+      - application/json
+      description: Submit token, new password, email to reset password
+      parameters:
+      - description: Submit token, new password, email to reset password
+        in: body
+        name: ForgotPassword
+        required: true
+        schema:
+          $ref: '#/definitions/view.SubmitNewPasswordForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'message": true}'
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      summary: Submit token, new password, email to reset password
+      tags:
+      - password management
+  /password/forgot:
+    post:
+      consumes:
+      - application/json
+      description: Submit email for sending reset password email
+      parameters:
+      - description: Submit email for reset password (Must be valid email)
+        in: body
+        name: ForgotPassword
+        required: true
+        schema:
+          $ref: '#/definitions/view.ForgotPasswordForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'message": true}'
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      summary: Submit email for sending reset password email
+      tags:
+      - password management
+  /wallet:
+    post:
+      consumes:
+      - application/json
+      description: Add a new wallet
+      parameters:
+      - description: Create wallet
+        in: body
+        name: create
+        required: true
+        schema:
+          $ref: '#/definitions/view.WalletForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.WalletForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Add a new wallet
+      tags:
+      - wallet
+    put:
+      consumes:
+      - application/json
+      description: Edit info of a wallet
+      parameters:
+      - description: Update wallet
+        in: body
+        name: update
+        required: true
+        schema:
+          $ref: '#/definitions/view.WalletForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.WalletForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Edit info of a wallet
+      tags:
+      - wallet
+schemes:
+- https
+securityDefinitions:
+  JWT:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

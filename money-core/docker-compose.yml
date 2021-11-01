@@ -1,0 +1,19 @@
+version: '3'
+services:
+  money-core:
+    image: "money-core:latest"
+    container_name: money-core
+#    network_mode: "host"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "10"
+    ports:
+      - "8080:8080"
+#    volumes:
+#      - ./config.yaml:/money-core/config.yaml
+networks:
+  default:
+    external:
+      name: money-thrower
