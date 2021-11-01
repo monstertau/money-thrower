@@ -1,0 +1,19 @@
+:host {
+    width: 100%;
+}
+
+ul {
+    width: 100% !important;
+}
+
+.sider-open{ 
+    min-width: 200px !important;
+}
+
+.sider-close{ 
+    width: 48px;
+}
+
+.ant-menu-item-selected  {
+    background-color: #fcfcfc !important;
+}

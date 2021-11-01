@@ -1,0 +1,37 @@
+<div [ngClass]="{'sider-open': !isCollapsed, 'sider-close': isCollapsed}" style="height: 100vh;">
+    <div style="width: 100%; display: flex; ">
+        <button nz-button (click)="toggleCollapsed()" style="width: 100%">
+            <i nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
+        </button>
+    </div>
+    <ul nz-menu [nzInlineCollapsed]="isCollapsed" nzMode="inline" class="sider-menu"
+        style="display: flex; flex-direction: column; height: calc(100% - 32px);">
+        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Sổ giao dịch' : ''">
+            <i nz-icon nzType="book"></i>
+            <span>Sổ giao dịch</span>
+        </li>
+        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Báo cáo' : ''">
+            <i nz-icon nzType="file-text"></i>
+            <span>Báo cáo</span>
+        </li>
+        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Ngân sách' : ''">
+            <i nz-icon nzType="container"></i>
+            <span>Ngân sách</span>
+        </li>
+        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Ví' : ''">
+            <i nz-icon nzType="wallet"></i>
+            <span>Ví</span>
+        </li>
+        <div style="flex: 1;"></div>
+
+        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Cửa hàng' : ''">
+            <i nz-icon nzType="shopping-cart"></i>
+            <span>Cửa hàng</span>
+        </li>
+        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Trợ giúp' : ''">
+            <i nz-icon nzType="info-circle"></i>
+            <span>Trợ giúp</span>
+        </li>
+    </ul>
+
+</div>

@@ -1,0 +1,113 @@
+<div class="container">
+    <div class="top">
+        <div class="logo">
+            <div class="avatar"></div>
+            <div class="name">Money Thrower</div>
+        </div>
+    </div>
+    <div class="dialog">
+            <p class="dialog-title" *ngIf="isLoginForm">Login</p>
+            <p class="dialog-title" *ngIf="!isLoginForm">Register</p>
+            <div class="divider"></div>
+            <div class="dialog-content">
+                <div class="left">
+                    Using social networking accounts
+                    <div class="social-media-btn">
+                        <button nz-button nzType="primary" class="gg-btn">
+                            <i nz-icon nzType="google-circle" nzTheme="fill" class="icon"></i>
+                            Login with Google</button>
+                        <br>
+                        <button nz-button nzType="primary" class="fb-btn">
+                            <i nz-icon nzType="facebook" nzTheme="fill" class="icon"></i>
+                            Login with Facebook</button>
+                    </div>
+                </div>
+                <div class="right">
+                    Using Money Thrower account
+                    <div class="form-control">
+                        <form nz-form [formGroup]="form" class="login-form">
+                            <nz-form-item>
+                                <nz-form-control [nzErrorTip]="emailErrorTpl">
+                                    <nz-input-group nzPrefixIcon="mail">
+                                        <input type="email" nz-input placeholder="Email" formControlName="email" />
+                                    </nz-input-group>
+                                    <ng-template #emailErrorTpl let-control>
+                                        <ng-container *ngIf="control.hasError('required')">Please input your email!
+                                        </ng-container>
+                                        <ng-container *ngIf="control.hasError('email')">Invalid email format!
+                                        </ng-container>
+                                        <ng-container *ngIf="control.hasError('duplicated')">The email is already used!
+                                        </ng-container>
+                                    </ng-template>
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-control [nzErrorTip]="passwordErrorTpl">
+                                    <nz-input-group [nzSuffix]="suffixTemplate" nzPrefixIcon="lock">
+                                        <input [type]="passwordVisible ? 'text' : 'password'" nz-input
+                                            placeholder="Password" formControlName="password" />
+                                    </nz-input-group>
+                                    <ng-template #suffixTemplate>
+                                        <i nz-icon [nzType]="passwordVisible ? 'eye' : 'eye-invisible'"
+                                            (click)="passwordVisible = !passwordVisible"></i>
+                                    </ng-template>
+                                    <ng-template #passwordErrorTpl let-control>
+                                        <ng-container *ngIf="control.hasError('required')">Please input your password!
+                                        </ng-container>
+                                        <ng-container *ngIf="control.hasError('minlength')">Password must contain at
+                                            least 8 characters!</ng-container>
+                                    </ng-template>
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item *ngIf="!isLoginForm">
+                                <nz-form-control [nzErrorTip]="confirmErrorTpl">
+                                    <nz-input-group [nzSuffix]="suffixTemplate" nzPrefixIcon="lock">
+                                        <input [type]="passwordConfirmVisible ? 'text' : 'password'" nz-input
+                                            placeholder="Confirm Password" formControlName="confirmPassword" />
+                                    </nz-input-group>
+                                    <ng-template #suffixTemplate>
+                                        <i nz-icon [nzType]="passwordConfirmVisible ? 'eye' : 'eye-invisible'"
+                                            (click)="passwordConfirmVisible = !passwordConfirmVisible"></i>
+                                    </ng-template>
+                                    <ng-template #confirmErrorTpl let-control>
+                                        <ng-container *ngIf="control.hasError('required')">Please confirm your password!
+                                        </ng-container>
+                                        <ng-container *ngIf="control.hasError('confirm')">Confirm password doesn't
+                                            match!</ng-container>
+                                    </ng-template>
+                                </nz-form-control>
+                            </nz-form-item>
+                            <div *ngIf="isLoginForm" nz-row class="login-form-margin">
+                                <div nz-col [nzSpan]="12" class="login-form-forgot">
+                                    <a style="color: #a0d911;" (click)="fwp()">Forgot password</a>
+                                </div>
+                            </div>
+                            <button nz-button *ngIf="isLoginForm" class="login-form-button login-form-margin"
+                                [nzType]="'primary'"
+                                (click)="login(form.controls.email.value, form.controls.password.value)">Log in
+                                <span><nz-spin nzSimple *ngIf="isLoading" style="margin-left: 10px;"></nz-spin></span>
+                            </button>
+                            <button nz-button *ngIf="!isLoginForm" class="login-form-button login-form-margin"
+                                [nzType]="'primary'"
+                                (click)="register(form.controls.email.value, form.controls.password.value)">Register
+                                <span><nz-spin nzSimple *ngIf="isLoading" style="margin-left: 10px;"></nz-spin></span>
+                            </button>
+                            <br>
+                            <div style="display: flex;" *ngIf="isLoginForm">
+                                <p style="margin-left: 18%;">Don't have account?</p>
+                                <a style="margin-left: auto; margin-right: 18%; color: #a0d911;"
+                                    (click)="change()">Register
+                                    now!</a>
+                            </div>
+                            <div style="display: flex;" *ngIf="!isLoginForm">
+                                <p style="margin-left: 18%;">Already have an account?</p>
+                                <a style="margin-left: auto; margin-right: 18%; color: #a0d911;"
+                                    (click)="change()">Login
+                                    now!</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>

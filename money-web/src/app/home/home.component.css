@@ -1,0 +1,26 @@
+nz-header {
+    background-color: white;
+    padding: 0px;
+    z-index: 2;
+}
+
+nz-sider {
+    background-color: white;
+    /* position: absolute; */
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    padding: 0px;
+    /* border-right: 1px solid #c2c2c2; */
+    box-shadow: inset -1px 0px 0px #f0f0f0;
+}
+
+nz-layout.body-container {
+    display: flex;
+    height: 100vh;
+
+}
+
+nz-content {
+    height: calc(100vh - 64px);
+}

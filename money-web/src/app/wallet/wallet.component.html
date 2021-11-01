@@ -1,0 +1,18 @@
+<div>
+    <div class="top-bar">
+        <div class="left">
+            <i class="icon" nz-icon nzType="arrow-left" nzTheme="outline" (click)="back()"></i>
+            <span style="margin-left: 30px;
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 28px;"> My wallets</span>
+        </div>
+        <div class="right">
+            <button class="add-btn" nz-button nzType="primary" (click)="addWallet()">ADD WALLET</button>
+        </div>
+    </div>
+    <div class="data">
+        <app-wallet-detail *ngIf="add_wallet == false"></app-wallet-detail>
+        <app-wallet-add *ngIf="add_wallet"></app-wallet-add>
+    </div>
+</div>

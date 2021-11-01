@@ -1,0 +1,170 @@
+.content {
+    display: flex;
+}
+
+.dialog {
+    position: absolute;
+    width: 40%;
+    /* height: 15%; */
+    left: 50%;
+    top: 150px;
+
+    background: #ffffff;
+    border-radius: 20px;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.043);
+    transition: left 0.5s;
+}
+
+.header {
+    background: #e5e5e5;
+    border-radius: 20px 20px 0px 0px;
+    padding: 10px 20px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 25px;
+    box-sizing: border-box;
+}
+
+.wallets {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+
+    position: absolute;
+
+    /* Conditional / pop-over */
+
+    background: #ffffff;
+    border-radius: 2px;
+    text-align: center;
+    width: 100%;
+    border-radius: 0px 0px 20px 20px;
+    text-align: left;
+}
+
+.wallet-item:hover {
+    background-color: #ecffc0;
+    cursor: pointer;
+}
+
+.wallet-item {
+    display: flex;
+    padding: 20px;
+}
+
+.name {
+    font-weight: 600;
+}
+
+.item-amount {
+    color: rgba(0, 0, 0, 0.54);
+}
+
+.selected-wallet {
+    margin-left: auto;
+    color: #a0d911;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+#dialog-detail {
+    position: absolute;
+    width: 53%;
+    /* height: 763px; */
+    left: 44%;
+    top: 130px;
+
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.043);
+}
+
+.is-open {
+    transform: translateX(0);
+}
+
+.title {
+    display: flex;
+    padding: 10px 20px;
+}
+
+.ant-divider-horizontal {
+    margin: 0px;
+}
+
+.close-icon {
+    font-size: 20px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.54);
+    padding-top: 5px;
+}
+
+.close-icon:hover {
+    color: black;
+    cursor: pointer;
+}
+
+.btn-modify {
+    display: flex;
+    margin-left: auto;
+}
+
+.btn-delete {
+    margin-right: 50px;
+}
+
+.btn-delete:hover {
+    background-color: #fcecec;
+}
+
+.btn-edit {
+    margin-right: 30px;
+    color: #52c41a;
+    width: 77px;
+}
+
+.btn-edit:hover {
+    background-color: #e6f6e9;
+}
+
+.wallet-detail {
+    display: flex;
+    padding: 25px 60px;
+}
+
+.user-info {
+    padding: 10px 60px 25px;
+}
+
+.owner-tag {
+    position: absolute;
+    margin-left: 10px;
+
+    /* Sunrise Yellow / 4 */
+
+    background: #fff566;
+    padding: 0px 10px;
+    /* drop-shadow / button-primary */
+
+    box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.043);
+    border-radius: 20px;
+}
+
+.options {
+    padding: 10px 80px;
+}
+
+.btn-group {
+    text-align: center;
+    font-weight: 500;
+    padding: 10px 0px;
+    color: #52c41a;
+}
+
+.btn-group:hover {
+    background-color: #ecffc0;
+    cursor: pointer;
+}
