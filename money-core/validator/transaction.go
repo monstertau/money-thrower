@@ -19,5 +19,6 @@ func NewTransactionValidator(repo *repository.Repositories) *TransactionValidato
 }
 
 func (v *TransactionValidator) ValidateFilterForm(form *view.FilterTransactionForm) error {
+	// TODO
 	return nil
 }

@@ -22,13 +22,16 @@ func NewTransactionRepo(dbConn *gorm.DB) *TransactionRepo {
 }
 
 func (r *TransactionRepo) GetById(id string) (*model.Transaction, error) {
+	// TODO
 	return nil, nil
 }
 
 func (r *TransactionRepo) DeleteById(id string) error {
+	// TODO
 	return nil
 }
 
 func (r *TransactionRepo) FilteredTransactions(form *view.FilterTransactionForm) ([]*model.Transaction, error) {
+	// TODO
 	return nil, nil
 }
