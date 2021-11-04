@@ -20,3 +20,15 @@ type (
 func NewTransactionRepo(dbConn *gorm.DB) *TransactionRepo {
 	return &TransactionRepo{dbConn: dbConn}
 }
+
+func (r *TransactionRepo) GetById(id string) (*model.Transaction, error) {
+	return nil, nil
+}
+
+func (r *TransactionRepo) DeleteById(id string) error {
+	return nil
+}
+
+func (r *TransactionRepo) FilteredTransactions(form *view.FilterTransactionForm) ([]*model.Transaction, error) {
+	return nil, nil
+}

@@ -3,11 +3,21 @@ package view
 import "time"
 
 type (
-	// TransactionIdForm Use for Get detail or Delete a transaction
-	TransactionIdForm struct {
+	// TransactionForm Use for Get detail or Delete a transaction
+	TransactionForm struct {
+		TransactionId   string    `json:"transaction_id" example:""`
+		UserId          string    `json:"user_id" swaggerignore:"true"`
+		WalletId        string    `json:"wallet_id"`
+		CatId           string    `json:"cat_id"`
+		Amount          float64   `json:"amount"`
+		Note            string    `json:"note"`
+		TransactionDate time.Time `json:"transaction_date" gorm:"->"`
+	}
+	// DeleteTransactionForm Use for Delete a transaction using id
+	DeleteTransactionForm struct {
 		TransactionId string `json:"transaction_id" example:""`
 	}
-	// FilterTransactionForm Use when filtering for list of transactions
+	// FilterTransactionForm Use for filtering for list of transactions
 	FilterTransactionForm struct {
 		UserId      string    `json:"user_id" swaggerignore:"true"`
 		WalletId    string    `json:"wallet_id" example:""`
