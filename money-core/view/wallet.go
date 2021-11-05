@@ -5,7 +5,7 @@ import "money-core/model"
 type (
 	WalletForm struct {
 		WalletId       string  `json:"id" example:"id"`
-		UserId         string  `json:"user_id" swaggerignore:"true"`
+		UserId         string  `json:"user_id,omitempty" swaggerignore:"true"`
 		WalletName     string  `json:"name" example:"MyBankAccount"`
 		WalletType     int     `json:"type" example:"1"`
 		WalletCurrency string  `json:"currency" example:"VND"`
@@ -22,5 +22,16 @@ func (f *WalletForm) ToWalletModel() *model.Wallet {
 		Currency:   f.WalletCurrency,
 		Balance:    f.WalletBalance,
 		Icon:       f.WalletIconPath,
+	}
+}
+
+func ToWalletView(w *model.Wallet) *WalletForm {
+	return &WalletForm{
+		WalletId:       w.Id,
+		WalletName:     w.WalletName,
+		WalletType:     w.Type,
+		WalletCurrency: w.Currency,
+		WalletBalance:  w.Balance,
+		WalletIconPath: w.Icon,
 	}
 }

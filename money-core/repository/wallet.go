@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"fmt"
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
 	"money-core/model"
@@ -10,9 +11,10 @@ import (
 type (
 	WalletRepoInterface interface {
 		Create(form *view.WalletForm) (*model.Wallet, error)
-		GetById(id string) (*model.Wallet, error)
+		GetById(id string,userId string) (*model.Wallet, error)
 		Update(form *view.WalletForm) error
 		UpdateAmount(wallet *model.Wallet, amount float64, isExpense bool) error
+		List(userId string, limit int, from int) ([]*model.Wallet, error)
 	}
 	WalletRepo struct {
 		dbConn *gorm.DB
@@ -31,12 +33,20 @@ func (r *WalletRepo) Create(form *view.WalletForm) (*model.Wallet, error) {
 	return walletModel, nil
 }
 
-func (r *WalletRepo) GetById(id string) (*model.Wallet, error) {
+func (r *WalletRepo) GetById(id string,userId string) (*model.Wallet, error) {
 	wallet := &model.Wallet{}
-	if err := r.dbConn.First(&wallet, "id=?", id).Error; err != nil {
+	if err := r.dbConn.First(&wallet, "id=? AND user_id=?", id,userId).Error; err != nil {
 		return nil, errors.Errorf("failed to execute select query: %s", err)
 	}
 	return wallet, nil
+}
+
+func (r *WalletRepo) List(userId string, limit int, from int) ([]*model.Wallet, error) {
+	var wallets []*model.Wallet
+	if err := r.dbConn.Limit(limit).Offset(from).Find(&wallets, "user_id=?", userId).Error; err != nil {
+		return nil, fmt.Errorf("failed to execute select query: %s", err)
+	}
+	return wallets, nil
 }
 
 func (r *WalletRepo) Update(form *view.WalletForm) error {

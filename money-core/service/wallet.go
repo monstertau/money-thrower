@@ -11,6 +11,8 @@ type (
 	WalletServiceInterface interface {
 		Create(userId string, form *view.WalletForm) (*view.WalletForm, error)
 		Update(userId string, form *view.WalletForm) error
+		GetById(userId string, id string) (*view.WalletForm, error)
+		GetAll(userId string, limit int, from int) ([]*view.WalletForm, error)
 	}
 	WalletService struct {
 		validator    *validator.Validator
@@ -40,7 +42,7 @@ func (s *WalletService) Create(userId string, form *view.WalletForm) (*view.Wall
 
 func (s *WalletService) Update(userId string, form *view.WalletForm) error {
 	form.UserId = userId
-	_, err := s.repositories.WalletRepo.GetById(form.WalletId)
+	_, err := s.repositories.WalletRepo.GetById(form.WalletId, userId)
 
 	if err != nil {
 		return errors.Errorf("error in find wallet: %v", err)
@@ -70,4 +72,25 @@ func (s *WalletService) InitTransaction(f *view.WalletForm) error {
 		return errors.Errorf("%v", err)
 	}
 	return nil
+}
+
+func (s *WalletService) GetAll(userId string, limit int, from int) ([]*view.WalletForm, error) {
+	walletViews := make([]*view.WalletForm, 0)
+	wallets, err := s.repositories.WalletRepo.List(userId, limit, from)
+	if err != nil {
+		return make([]*view.WalletForm, 0), errors.Errorf("error in find wallets: %v", err)
+	}
+	for _, wallet := range wallets {
+		walletView := view.ToWalletView(wallet)
+		walletViews = append(walletViews, walletView)
+	}
+	return walletViews, nil
+}
+
+func (s *WalletService) GetById(userId string, id string) (*view.WalletForm, error) {
+	wallet, err := s.repositories.WalletRepo.GetById(id, userId)
+	if err != nil {
+		return nil, errors.Errorf("error in find wallets: %v", err)
+	}
+	return view.ToWalletView(wallet), nil
 }
