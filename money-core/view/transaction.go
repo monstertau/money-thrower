@@ -1,6 +1,9 @@
 package view
 
-import "time"
+import (
+	"money-core/model"
+	"time"
+)
 
 type (
 	// TransactionForm Use for Get detail or Delete a transaction
@@ -29,3 +32,13 @@ type (
 		EndAmount   float64   `json:"end_amount" example:"2500000"`
 	}
 )
+
+func (f *TransactionForm) ToAddTransactionModel() *model.Transaction {
+	return &model.Transaction{
+		UserId:   f.UserId,
+		WalletId: f.WalletId,
+		CatId:    f.CatId,
+		Amount:   f.Amount,
+		Note:     f.Note,
+	}
+}

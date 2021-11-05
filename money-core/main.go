@@ -73,10 +73,11 @@ func main() {
 
 	//init repositories
 	repo := &repository.Repositories{
-		UserRepo:   repository.NewUserRepo(dbConn),
-		WalletRepo: repository.NewWalletRepo(dbConn),
-		RedisRepo:  repository.NewRedisRepo(redisConn, appConfig.MailConfig.Timeout),
+		UserRepo:        repository.NewUserRepo(dbConn),
+		WalletRepo:      repository.NewWalletRepo(dbConn),
+		RedisRepo:       repository.NewRedisRepo(redisConn, appConfig.MailConfig.Timeout),
 		TransactionRepo: repository.NewTransactionRepo(dbConn),
+		CategoryRepo:    repository.NewCategoryRepo(dbConn),
 	}
 
 	// init validator
@@ -84,16 +85,16 @@ func main() {
 		AuthValidator:           validator.NewAuthValidator(repo),
 		ForgotPasswordValidator: validator.NewForgotPasswordValidator(repo),
 		WalletValidator:         validator.NewWalletValidator(repo),
-		TransactionValidator: validator.NewTransactionValidator(repo),
+		TransactionValidator:    validator.NewTransactionValidator(repo),
 	}
 
 	// init services
 	serv := &service.Services{
-		AuthService:     service.NewAuthenticationService(repo),
-		JWTService:      service.NewJWTService(appConfig.JWTConfig.SecretKey, repo),
-		PasswordService: service.NewPasswordService(repo),
-		MailService:     service.NewMailService(appConfig.MailConfig),
-		WalletService:   service.NewWalletService(validators, repo),
+		AuthService:        service.NewAuthenticationService(repo),
+		JWTService:         service.NewJWTService(appConfig.JWTConfig.SecretKey, repo),
+		PasswordService:    service.NewPasswordService(repo),
+		MailService:        service.NewMailService(appConfig.MailConfig),
+		WalletService:      service.NewWalletService(validators, repo),
 		TransactionService: service.NewTransactionService(validators, repo),
 	}
 

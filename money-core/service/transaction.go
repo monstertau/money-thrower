@@ -1,6 +1,7 @@
 package service
 
 import (
+	"github.com/pkg/errors"
 	"money-core/repository"
 	"money-core/validator"
 	"money-core/view"
@@ -12,6 +13,7 @@ type (
 		Delete(form *view.DeleteTransactionForm) error
 		GetFilteredList(userId string, form *view.FilterTransactionForm) (*view.FilterTransactionForm, error)
 		GetAllTransactions(userId string) (*view.FilterTransactionForm, error)
+		AddTransactions(form *view.TransactionForm) (*view.TransactionForm, error)
 	}
 	TransactionService struct {
 		validator    *validator.Validator
@@ -44,4 +46,13 @@ func (s TransactionService) GetFilteredList(userId string, form *view.FilterTran
 func (s TransactionService) GetAllTransactions(userId string) (*view.FilterTransactionForm, error) {
 	// TODO
 	return nil, nil
+}
+
+func (s TransactionService) AddTransactions(form *view.TransactionForm) (*view.TransactionForm, error) {
+	transaction, err := s.repositories.TransactionRepo.Create(form)
+	if err != nil {
+		return nil, errors.Errorf("Failed when creating transaction %s", err)
+	}
+	form.TransactionId = transaction.Id
+	return form, nil
 }

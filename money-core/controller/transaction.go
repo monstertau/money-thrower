@@ -28,10 +28,39 @@ func (h *TransactionController) MakeHandler(g *gin.RouterGroup) {
 	group := g.Group("/transaction")
 	group.Use(h.services.JWTService.AuthorizeJWT())
 	{
+		group.POST("add", h.Add)
 		group.GET("detail", h.GetDetail)
 		group.PUT("delete", h.DeleteTransaction)
 		group.GET("filter", h.FilterTransactionList)
 	}
+}
+
+func (h *TransactionController) Add(c *gin.Context) {
+	var form *view.TransactionForm
+	if err := c.ShouldBindJSON(&form); err != nil {
+		ReportError(c, http.StatusBadRequest, fmt.Sprintf("invalid input in parse json format: %v", err))
+		return
+	}
+
+	userId, err := h.services.JWTService.GetUserId(c)
+	form.UserId = userId
+	if err != nil {
+		ReportError(c, http.StatusForbidden, fmt.Sprintf("Error when find user: %v", err))
+		return
+	}
+
+	if err := h.validator.TransactionValidator.ValidateAddForm(form); err != nil {
+		ReportError(c, http.StatusBadRequest, fmt.Sprintf("Invalid when adding new transaction: %v", err))
+		return
+	}
+
+	transaction, err := h.services.TransactionService.AddTransactions(form)
+	if err != nil {
+		ReportError(c, http.StatusBadRequest, fmt.Sprintf("Invalid when adding new transaction: %v", err))
+		return
+	}
+
+	c.JSON(http.StatusCreated, transaction)
 }
 
 // GetDetail godoc

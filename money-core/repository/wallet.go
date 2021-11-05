@@ -12,6 +12,7 @@ type (
 		Create(form *view.WalletForm) (*model.Wallet, error)
 		GetById(id string) (*model.Wallet, error)
 		Update(form *view.WalletForm) error
+		UpdateAmount(wallet *model.Wallet, amount float64, isExpense bool) error
 	}
 	WalletRepo struct {
 		dbConn *gorm.DB
@@ -42,6 +43,19 @@ func (r *WalletRepo) Update(form *view.WalletForm) error {
 	newWallet := form.ToWalletModel()
 	newWallet.Id = form.WalletId
 	if err := r.dbConn.Updates(newWallet).Error; err != nil {
+		return errors.Errorf("failed to execute update query: %s", err)
+	}
+	return nil
+}
+
+func (r *WalletRepo) UpdateAmount(wallet *model.Wallet, amount float64, isExpense bool) error {
+	var newAmount = wallet.Balance
+	if isExpense {
+		newAmount -= amount
+	} else {
+		newAmount += amount
+	}
+	if err := r.dbConn.Model(&wallet).Update("balance", newAmount).Error; err != nil {
 		return errors.Errorf("failed to execute update query: %s", err)
 	}
 	return nil
