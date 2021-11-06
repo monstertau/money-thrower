@@ -1,10 +1,14 @@
 package controller
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"money-core/service"
 	"money-core/validator"
+	"money-core/view"
+	"net/http"
+	"strconv"
 )
 
 type TransactionController struct {
@@ -25,28 +29,42 @@ func (h *TransactionController) MakeHandler(g *gin.RouterGroup) {
 	group := g.Group("/transaction")
 	group.Use(h.services.JWTService.AuthorizeJWT())
 	{
-		group.GET("", h.GetById)
-		group.PUT("", h.DeleteById)
-		group.GET("", h.GetList)
-		group.GET("", h.GetFilteredList)
+		group.GET("/:id", h.GetById)
+		group.PUT("/delete/:id", h.DeleteById)
+		group.GET("/list", h.GetList)
+		group.GET("/filter", h.GetFilteredList)
 	}
 }
 
 // GetById godoc
-// @Summary Get detail information of a transaction
-// @Description Get detail information of a transaction
+// @Summary Get detail information of a transaction by id
+// @Description Get detail information of a transaction by id
 // @Tags transaction
 // @Accept json
 // @Produce json
-// @Param id
+// @Param id path string true "transaction id"
 // @Security JWT
 // @Success 200 {object} view.TransactionForm
 // @Failure 400 {object} AppError
 // @Failure 500 {object} AppError
-// @Router /transaction/detail [GET]
+// @Router /transaction/{id} [GET]
 func (h *TransactionController) GetById(c *gin.Context) {
-	// userId, err := h.services.JWTService.GetUserId(c)
-	// TODO
+	transactionId := c.Param("id")
+	if len(transactionId) == 0 {
+		ReportError(c, http.StatusBadRequest, fmt.Sprintf("cant found transaction id in request"))
+		return
+	}
+	userId, err := h.services.JWTService.GetUserId(c)
+	if err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get user id: %v", err))
+		return
+	}
+	transaction, err := h.services.TransactionService.GetById(userId, transactionId)
+	if err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get transaction information: %v", err))
+		return
+	}
+	c.JSON(http.StatusOK, transaction)
 }
 
 // DeleteById godoc
@@ -55,34 +73,69 @@ func (h *TransactionController) GetById(c *gin.Context) {
 // @Tags transaction
 // @Accept json
 // @Produce json
-// @Param id
+// @Param id path string true "transaction id"
 // @Security JWT
 // @Success 200 {object} string
 // @Failure 400 {object} AppError
 // @Failure 500 {object} AppError
-// @Router /transaction/delete [PUT]
+// @Router /transaction/delete/{id} [PUT]
 func (h *TransactionController) DeleteById(c *gin.Context) {
-	// userId, err := h.services.JWTService.GetUserId(c)
-	// TODO
+	transactionId := c.Param("id")
+	if len(transactionId) == 0 {
+		ReportError(c, http.StatusBadRequest, fmt.Sprintf("cant found transaction id in request"))
+		return
+	}
+	userId, err := h.services.JWTService.GetUserId(c)
+	if err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get user id: %v", err))
+		return
+	}
+	err = h.services.TransactionService.DeleteById(userId, transactionId)
+	if err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant delete transaction: %v", err))
+		return
+	}
+	c.JSON(http.StatusOK, "deleted")
 }
 
 // GetList godoc
-// @Summary Get list of transactions based on filter
-// @Description Get list of transactions based on filter
+// @Summary Get list of transactions
+// @Description Get list of transactions
 // @Tags transaction
 // @Accept json
 // @Produce json
-// @Param id
-// @Param limit query int false "limit of list wallet want to specify, default 10"
-// @Param offset query int false "offset of list wallet want to specify, default 0"
+// @Param limit query int false "limit of list transactions want to specify, default 10"
+// @Param offset query int false "offset of list transactions want to specify, default 0"
 // @Security JWT
 // @Success 200 {object} view.TransactionForm
 // @Failure 400 {object} AppError
 // @Failure 500 {object} AppError
-// @Router /transaction/filter [GET]
+// @Router /transaction/list [GET]
 func (h *TransactionController) GetList(c *gin.Context) {
-	// userId, err := h.services.JWTService.GetUserId(c)
-	// TODO
+	offset, _ := strconv.Atoi(c.Query("offset"))
+	if offset < 0 {
+		ReportError(c, http.StatusBadRequest, fmt.Sprintf("expect 'offset' query param to be non-negative number"))
+		return
+	}
+	limit, _ := strconv.Atoi(c.Query("limit"))
+	if limit < 0 {
+		ReportError(c, http.StatusBadRequest, fmt.Sprintf("expect 'limit' query param to be non-negative number"))
+		return
+	}
+	if limit == 0 {
+		limit = 10 // Default limit
+	}
+	userId, err := h.services.JWTService.GetUserId(c)
+	if err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get user id: %v", err))
+		return
+	}
+	transactions, err := h.services.TransactionService.GetList(userId, limit, offset)
+	if err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get list transactions: %v", err))
+		return
+	}
+	c.JSON(http.StatusOK, transactions)
 }
 
 // GetFilteredList godoc
@@ -91,15 +144,47 @@ func (h *TransactionController) GetList(c *gin.Context) {
 // @Tags transaction
 // @Accept json
 // @Produce json
-// @Param create body view.FilterTransactionForm true "Get transaction list"
-// @Param limit query int false "limit of list wallet want to specify, default 10"
-// @Param offset query int false "offset of list wallet want to specify, default 0"
+// @Param create body view.FilterTransactionForm true "Get filtered transaction list"
+// @Param limit query int false "limit of list transactions want to specify, default 10"
+// @Param offset query int false "offset of list transactions want to specify, default 0"
 // @Security JWT
 // @Success 200 {object} view.TransactionForm
 // @Failure 400 {object} AppError
 // @Failure 500 {object} AppError
 // @Router /transaction/filter [GET]
 func (h *TransactionController) GetFilteredList(c *gin.Context) {
-	// userId, err := h.services.JWTService.GetUserId(c)
-	// TODO
+	var filterForm *view.FilterTransactionForm
+	if err := c.ShouldBindJSON(&filterForm); err != nil {
+		h.logger.Infof("Invalid form: %v ", err.Error())
+		ReportError(c, http.StatusBadRequest, fmt.Sprintf("invalid input in parse json format: %v", err))
+		return
+	}
+	if err := h.validator.TransactionValidator.ValidateFilterForm(filterForm); err != nil {
+		ReportError(c, http.StatusBadRequest, fmt.Sprintf("invalid filter transactions form: %v", err))
+		return
+	}
+	offset, _ := strconv.Atoi(c.Query("offset"))
+	if offset < 0 {
+		ReportError(c, http.StatusBadRequest, fmt.Sprintf("expect 'offset' query param to be non-negative number"))
+		return
+	}
+	limit, _ := strconv.Atoi(c.Query("limit"))
+	if limit < 0 {
+		ReportError(c, http.StatusBadRequest, fmt.Sprintf("expect 'limit' query param to be non-negative number"))
+		return
+	}
+	if limit == 0 {
+		limit = 10 // Default limit
+	}
+	userId, err := h.services.JWTService.GetUserId(c)
+	if err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get user id: %v", err))
+		return
+	}
+	transactions, err := h.services.TransactionService.GetFilteredList(userId, limit, offset, filterForm)
+	if err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get filtered list transactions: %v", err))
+		return
+	}
+	c.JSON(http.StatusOK, transactions)
 }

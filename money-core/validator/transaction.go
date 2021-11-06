@@ -1,6 +1,7 @@
 package validator
 
 import (
+	"github.com/pkg/errors"
 	"money-core/repository"
 	"money-core/view"
 )
@@ -19,6 +20,11 @@ func NewTransactionValidator(repo *repository.Repositories) *TransactionValidato
 }
 
 func (v *TransactionValidator) ValidateFilterForm(form *view.FilterTransactionForm) error {
-	// TODO
+	if form.StartAmount > form.EndAmount || form.EndAmount <= 0 {
+		return errors.New("start amount should smaller than end amount")
+	}
+	if form.StartDate.After(form.EndDate) {
+		return errors.New("start date should before end date")
+	}
 	return nil
 }
