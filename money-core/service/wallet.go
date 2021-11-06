@@ -60,7 +60,7 @@ func (s *WalletService) Update(userId string, form *view.WalletForm) error {
 }
 
 func (s *WalletService) InitTransaction(f *view.WalletForm) error {
-	var form = &view.TransactionForm{
+	var form = &view.AddTransactionForm{
 		UserId:   f.UserId,
 		WalletId: f.WalletId,
 		CatId:    "228f6db1-bac7-47ab-84b0-65d0e16ff12d",
