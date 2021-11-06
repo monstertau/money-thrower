@@ -33,10 +33,8 @@ func (s *WalletService) Create(userId string, form *view.WalletForm) (*view.Wall
 	if err != nil {
 		return nil, errors.Errorf("error in create wallet: %v", err)
 	}
+	//TODO: after create, need to add init transaction for balance > 0
 	form.WalletId = wallet.Id
-	if err := s.InitTransaction(form); err != nil {
-		return nil, errors.Errorf("error in create wallet: %v", err)
-	}
 	return form, nil
 }
 
@@ -52,25 +50,7 @@ func (s *WalletService) Update(userId string, form *view.WalletForm) error {
 	if err != nil {
 		return errors.Errorf("error in update wallet: %v", err)
 	}
-
-	if err := s.InitTransaction(form); err != nil {
-		return errors.Errorf("error in create wallet: %v", err)
-	}
-	return nil
-}
-
-func (s *WalletService) InitTransaction(f *view.WalletForm) error {
-	var form = &view.AddTransactionForm{
-		UserId:   f.UserId,
-		WalletId: f.WalletId,
-		CatId:    "228f6db1-bac7-47ab-84b0-65d0e16ff12d",
-		Amount:   f.WalletBalance,
-		Note:     "Initialize Wallet",
-	}
-	//TODO: need to transform to const table
-	if _, err := s.repositories.TransactionRepo.Create(form); err != nil {
-		return errors.Errorf("%v", err)
-	}
+	//TODO: after create, need to add init transaction for balance > 0
 	return nil
 }
 

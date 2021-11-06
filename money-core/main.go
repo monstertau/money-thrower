@@ -73,29 +73,24 @@ func main() {
 
 	//init repositories
 	repo := &repository.Repositories{
-		UserRepo:        repository.NewUserRepo(dbConn),
-		WalletRepo:      repository.NewWalletRepo(dbConn),
-		RedisRepo:       repository.NewRedisRepo(redisConn, appConfig.MailConfig.Timeout),
-		TransactionRepo: repository.NewTransactionRepo(dbConn),
-		CategoryRepo:    repository.NewCategoryRepo(dbConn),
+		UserRepo:   repository.NewUserRepo(dbConn),
+		WalletRepo: repository.NewWalletRepo(dbConn),
+		RedisRepo:  repository.NewRedisRepo(redisConn, appConfig.MailConfig.Timeout),
 	}
-
 	// init validator
 	validators := &validator.Validator{
 		AuthValidator:           validator.NewAuthValidator(repo),
 		ForgotPasswordValidator: validator.NewForgotPasswordValidator(repo),
 		WalletValidator:         validator.NewWalletValidator(repo),
-		TransactionValidator:    validator.NewTransactionValidator(repo),
 	}
 
 	// init services
 	serv := &service.Services{
-		AuthService:        service.NewAuthenticationService(repo),
-		JWTService:         service.NewJWTService(appConfig.JWTConfig.SecretKey, repo),
-		PasswordService:    service.NewPasswordService(repo),
-		MailService:        service.NewMailService(appConfig.MailConfig),
-		WalletService:      service.NewWalletService(validators, repo),
-		TransactionService: service.NewTransactionService(validators, repo),
+		AuthService:     service.NewAuthenticationService(repo),
+		JWTService:      service.NewJWTService(appConfig.JWTConfig.SecretKey, repo),
+		PasswordService: service.NewPasswordService(repo),
+		MailService:     service.NewMailService(appConfig.MailConfig),
+		WalletService:   service.NewWalletService(validators, repo),
 	}
 
 	route := gin.Default()
@@ -112,12 +107,10 @@ func main() {
 	forgotPasswordController := controller.NewPasswordController(serv, validators)
 	dummyController := controller.NewDummyController(serv)
 	walletController := controller.NewWalletController(serv, validators)
-	transactionController := controller.NewTransactionController(serv, validators)
 	authController.MakeHandler(v1)
 	dummyController.MakeHandler(v1)
 	walletController.MakeHandler(v1)
 	forgotPasswordController.MakeHandler(v1)
-	transactionController.MakeHandler(v1)
 
 	docs.SwaggerInfo.Host = appConfig.SwagConfig.Host
 	docs.SwaggerInfo.Schemes = appConfig.SwagConfig.Schemes
