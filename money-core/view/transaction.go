@@ -1,6 +1,9 @@
 package view
 
-import "time"
+import (
+	"money-core/model"
+	"time"
+)
 
 type (
 	// TransactionForm Use for Get detail or Delete a transaction
@@ -11,7 +14,7 @@ type (
 		CatId           string    `json:"cat_id"`
 		Amount          float64   `json:"amount"`
 		Note            string    `json:"note"`
-		TransactionDate time.Time `json:"transaction_date" gorm:"->"`
+		TransactionDate time.Time `json:"transaction_date"`
 	}
 	// DeleteTransactionForm Use for Delete a transaction using id
 	DeleteTransactionForm struct {
@@ -27,5 +30,19 @@ type (
 		KeyNote     string    `json:"key_note" example:""`
 		StartAmount float64   `json:"start_amount" example:"10000"`
 		EndAmount   float64   `json:"end_amount" example:"2500000"`
+		Limit       int       `json:"limit" example:"20"`
+		Offset      int       `json:"offset" example:"40"`
 	}
 )
+
+func ToTransactionView(t *model.Transaction) *TransactionForm {
+	return &TransactionForm{
+		TransactionId:   t.Id,
+		UserId:          t.UserId,
+		WalletId:        t.WalletId,
+		CatId:           t.CatId,
+		Amount:          t.Amount,
+		Note:            t.Note,
+		TransactionDate: t.TransactionDate,
+	}
+}
