@@ -314,7 +314,7 @@
             }
         },
         "/transaction/filter": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "JWT": []
@@ -607,27 +607,32 @@
             "type": "object",
             "properties": {
                 "cat_id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "f3b91567-3496-4d9b-9f1e-ca69c92b89a6"
                 },
                 "end_amount": {
                     "type": "number",
-                    "example": 2500000
+                    "example": 999999
                 },
                 "end_date": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2099-06-23T20:29:39.688+07:00"
                 },
                 "key_note": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "mua"
                 },
                 "start_amount": {
                     "type": "number",
-                    "example": 10000
+                    "example": 1
                 },
                 "start_date": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "1960-06-23T20:29:39.688+07:00"
                 },
                 "wallet_id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "dda1d792-337b-476b-adbc-f81b06baa0d0"
                 }
             }
         },
@@ -707,6 +712,9 @@
                     "type": "string"
                 },
                 "transaction_id": {
+                    "type": "string"
+                },
+                "user_id": {
                     "type": "string"
                 },
                 "wallet_id": {

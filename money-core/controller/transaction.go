@@ -32,7 +32,7 @@ func (h *TransactionController) MakeHandler(g *gin.RouterGroup) {
 		group.GET("/:id", h.GetById)
 		group.PUT("/delete/:id", h.DeleteById)
 		group.GET("/list", h.GetList)
-		group.GET("/filter", h.GetFilteredList)
+		group.POST("/filter", h.GetFilteredList)
 	}
 }
 
@@ -151,7 +151,7 @@ func (h *TransactionController) GetList(c *gin.Context) {
 // @Success 200 {object} view.TransactionForm
 // @Failure 400 {object} AppError
 // @Failure 500 {object} AppError
-// @Router /transaction/filter [GET]
+// @Router /transaction/filter [POST]
 func (h *TransactionController) GetFilteredList(c *gin.Context) {
 	var filterForm *view.FilterTransactionForm
 	if err := c.ShouldBindJSON(&filterForm); err != nil {
