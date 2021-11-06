@@ -1,0 +1,74 @@
+<div class="container">
+    <div class="top">
+        <div class="logo">
+            <div class="avatar"></div>
+            <div class="name">Money Thrower</div>
+        </div>
+    </div>
+    <div class="dialog">
+            <p class="dialog-title" *ngIf="isPassForm">Change Password</p>
+            <p class="dialog-title" *ngIf="!isPassForm">Successfully Change Password</p>
+            <div class="dialog-content">
+                <div class="center" *ngIf="isPassForm">
+                    Enter new password and confirm!
+                    <div class="form-control">
+                        <form nz-form [formGroup]="form" class="pass-form">
+                            <nz-form-item>
+                                <nz-form-control [nzErrorTip]="passwordErrorTpl">
+                                    <nz-input-group [nzSuffix]="suffixTemplate" nzPrefixIcon="lock">
+                                        <input [type]="passwordVisible ? 'text' : 'password'" nz-input
+                                            placeholder="Password" formControlName="password" />
+                                    </nz-input-group>
+                                    <ng-template #suffixTemplate>
+                                        <i nz-icon [nzType]="passwordVisible ? 'eye' : 'eye-invisible'"
+                                            (click)="passwordVisible = !passwordVisible"></i>
+                                    </ng-template>
+                                    <ng-template #passwordErrorTpl let-control>
+                                        <ng-container *ngIf="control.hasError('required')">Please input your password!
+                                        </ng-container>
+                                        <ng-container *ngIf="control.hasError('minlength')">Password must contain at
+                                            least 8 characters!</ng-container>
+                                    </ng-template>
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-control [nzErrorTip]="confirmErrorTpl">
+                                    <nz-input-group [nzSuffix]="suffixTemplate" nzPrefixIcon="lock">
+                                        <input [type]="passwordConfirmVisible ? 'text' : 'password'" nz-input
+                                            placeholder="Confirm Password" formControlName="confirmPassword" />
+                                    </nz-input-group>
+                                    <ng-template #suffixTemplate>
+                                        <i nz-icon [nzType]="passwordConfirmVisible ? 'eye' : 'eye-invisible'"
+                                            (click)="passwordConfirmVisible = !passwordConfirmVisible"></i>
+                                    </ng-template>
+                                    <ng-template #confirmErrorTpl let-control>
+                                        <ng-container *ngIf="control.hasError('required')">Please confirm your password!
+                                        </ng-container>
+                                        <ng-container *ngIf="control.hasError('confirm')">Confirm password doesn't
+                                            match!</ng-container>
+                                    </ng-template>
+                                </nz-form-control>
+                            </nz-form-item>                       
+                            <button nz-button class="pass-form-button pass-form-margin" style="margin-bottom: 30px;"
+                                [nzType]="'primary'"
+                                (click)="passChange(form.controls.password.value)">Enter
+                                <span><nz-spin nzSimple *ngIf="isLoading" style="margin-left: 10px;"></nz-spin></span>
+                            </button>
+                            <br>
+                        </form>
+                    </div>
+                </div>
+                <div class="center" *ngIf="!isPassForm">
+                    You now can login with your new password!
+                    <br>
+                    <i nz-icon nzType="check-circle" nzTheme="outline" style="color:#a0d911;font-size: 90px; margin-top: 50px; margin-bottom: 40px;"></i>
+                    <br>
+                    <div style="display: flex; margin-top: 30px;margin-bottom: 30px;">
+                        <a style="margin: auto;  color: #a0d911;"
+                            (click)="login()">Go to Login now!</a>
+                    </div>                          
+                </div>
+            </div>
+    </div>
+</div>
+<!-- <p>test</p> -->

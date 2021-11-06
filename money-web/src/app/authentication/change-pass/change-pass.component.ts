@@ -6,15 +6,15 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-  selector: 'app-fwp',
-  templateUrl: './fwp.component.html',
-  styleUrls: ['./fwp.component.css']
+  selector: 'app-change-password',
+  templateUrl: './change-pass.component.html',
+  styleUrls: ['./change-pass.component.css']
 })
-export class FwpComponent implements OnInit{
+export class ChangePassComponent implements OnInit{
  form!: FormGroup;
   passwordVisible = false;
   passwordConfirmVisible = false;
-  isMailForm = true;
+  isPassForm = true;
   isLoading = false;
 
   constructor(private fb: FormBuilder,
@@ -37,7 +37,7 @@ export class FwpComponent implements OnInit{
   }
 
   change() {
-    this.isMailForm = !this.isMailForm;
+    this.isPassForm = !this.isPassForm;
     this.reset();
   }
 
@@ -59,50 +59,12 @@ export class FwpComponent implements OnInit{
     }
   }
 
-  mailConfirm(email: string){
-    // this.isLoading = true;
-    // console.log(email);
-    // var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    // if(email==null){
-    //   this.isLoading = false;
-    //   this.notification.error('Error', 'Invalid email/password combination. Please try again.');
-    // }
-    // else if(email.match(mailformat)){
-    //   this.change();
-    //   console.log(this.isMailForm);
-    // }
-    // else{
-    //   this.isLoading = false;
-    //   this.notification.error('Error', 'Invalid email. Please try again.');
-    // }
-    
-    this.isLoading = true;
-    var user = {
-      email: email
-    }
-    this.authService.mailConfirm(user).subscribe(result => {
-      if (result == 'SUCCESS') {
-        // const returnUrl: string = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
-        // this.router.navigate([returnUrl]);
-        // window.location.href = returnUrl;
-        this.change();
-      } else if (result == 'ERROR_NAME_OR_PASS') {
-        alert('Error');
-      }
-    }, (message) => {
-      this.isLoading = false;
-      this.notification.error('Error', 'Invalid email. Please try again.');
-    });
-  }
-  register() {
-    window.location.href = '';
+  passChange(email: string){
+   this.change();
   }
 
   login() {
     window.location.href = '';
-  }
-  fwp(){
-    window.location.href = 'fwp';
   }
 
   confirmationValidator = (control: FormControl): { [s: string]: boolean } => {

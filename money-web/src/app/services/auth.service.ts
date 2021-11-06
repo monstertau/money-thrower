@@ -62,6 +62,26 @@ export class AuthService {
       return { unsubscribe() { } };
     });
   }
+  mailConfirm(data: MailConfirmRequest){
+    return new Observable<string>((observable) => {
+      this.httpService.post<MailConfirmResponse>('password/forgot', data).subscribe((response: MailConfirmResponse) => {
+        if (response?.token === '') {
+          observable.next('ERROR_NAME_OR_PASS');
+        } else {
+          var currentUser = {
+            token: response.token,
+          }
+          this._userDetail = new BehaviorSubject<MailConfirmResponse>(currentUser);
+          localStorage.setItem('currentUser', JSON.stringify(currentUser));
+          this._userDetail.next(response);
+          observable.next('SUCCESS');
+        }
+      }, (error) => {
+        observable.error(error);
+      });
+      return { unsubscribe() { } };
+    });
+  }
 }
 
 export interface UserDetail {
@@ -84,5 +104,11 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
+  token: string;
+}
+export interface MailConfirmRequest {
+  email: string;
+}
+export interface MailConfirmResponse{
   token: string;
 }

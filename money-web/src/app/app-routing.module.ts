@@ -5,6 +5,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { HomeComponent } from './home/home.component';
 import { WalletComponent } from './wallet/wallet.component';
 import { WalletAddComponent} from "./wallet/wallet-add/wallet-add.component";
+import { ChangePassComponent } from './authentication/change-pass/change-pass.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -14,6 +15,7 @@ const routes: Routes = [
     loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
   },
   { path: 'forgot-password',component:FwpComponent},
+  { path: 'change-password',component:ChangePassComponent},
   {
     path: 'my-wallets', component: WalletComponent,
     canActivate: [AuthGuard],
