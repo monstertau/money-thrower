@@ -15,6 +15,30 @@ definitions:
         example: invalid form
         type: string
     type: object
+  view.DeleteTransactionForm:
+    properties:
+      transaction_id:
+        type: string
+    type: object
+  view.FilterTransactionForm:
+    properties:
+      cat_id:
+        type: string
+      end_amount:
+        example: 2500000
+        type: number
+      end_date:
+        type: string
+      key_note:
+        type: string
+      start_amount:
+        example: 10000
+        type: number
+      start_date:
+        type: string
+      wallet_id:
+        type: string
+    type: object
   view.ForgotPasswordForm:
     properties:
       email:
@@ -56,6 +80,21 @@ definitions:
       token:
         example: token-string
         type: string
+    type: object
+  view.TransactionForm:
+    properties:
+      amount:
+        type: number
+      cat_id:
+        type: string
+      note:
+        type: string
+      wallet_id:
+        type: string
+    required:
+    - amount
+    - cat_id
+    - wallet_id
     type: object
   view.WalletForm:
     properties:
@@ -247,6 +286,165 @@ paths:
       summary: Submit email for sending reset password email
       tags:
       - password management
+  /transaction/:
+    get:
+      consumes:
+      - application/json
+      description: Add new transaction
+      parameters:
+      - description: Get transaction
+        in: body
+        name: create
+        required: true
+        schema:
+          $ref: '#/definitions/view.TransactionForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.TransactionForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Add new transaction
+      tags:
+      - transaction
+    put:
+      consumes:
+      - application/json
+      description: Edit a transaction
+      parameters:
+      - description: Get transaction
+        in: body
+        name: create
+        required: true
+        schema:
+          $ref: '#/definitions/view.TransactionForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.TransactionForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Edit a transaction
+      tags:
+      - transaction
+  /transaction/delete:
+    put:
+      consumes:
+      - application/json
+      description: Delete a transaction
+      parameters:
+      - description: Delete transaction
+        in: body
+        name: create
+        required: true
+        schema:
+          $ref: '#/definitions/view.DeleteTransactionForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.DeleteTransactionForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Delete a transaction
+      tags:
+      - transaction
+  /transaction/detail:
+    get:
+      consumes:
+      - application/json
+      description: Get detail information of a transaction
+      parameters:
+      - description: Get transaction
+        in: body
+        name: create
+        required: true
+        schema:
+          $ref: '#/definitions/view.TransactionForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.TransactionForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Get detail information of a transaction
+      tags:
+      - transaction
+  /transaction/filter:
+    get:
+      consumes:
+      - application/json
+      description: Get list of transactions based on filter
+      parameters:
+      - description: Get transaction list
+        in: body
+        name: create
+        required: true
+        schema:
+          $ref: '#/definitions/view.FilterTransactionForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.FilterTransactionForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Get list of transactions based on filter
+      tags:
+      - transaction
   /wallet:
     get:
       consumes:
