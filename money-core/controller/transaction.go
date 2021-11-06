@@ -1,13 +1,10 @@
 package controller
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"money-core/service"
 	"money-core/validator"
-	"money-core/view"
-	"net/http"
 )
 
 type TransactionController struct {
@@ -28,77 +25,81 @@ func (h *TransactionController) MakeHandler(g *gin.RouterGroup) {
 	group := g.Group("/transaction")
 	group.Use(h.services.JWTService.AuthorizeJWT())
 	{
-		group.GET("detail", h.GetDetail)
-		group.PUT("delete", h.DeleteTransaction)
-		group.GET("filter", h.FilterTransactionList)
+		group.GET("", h.GetById)
+		group.PUT("", h.DeleteById)
+		group.GET("", h.GetList)
+		group.GET("", h.GetFilteredList)
 	}
 }
 
-// GetDetail godoc
+// GetById godoc
 // @Summary Get detail information of a transaction
 // @Description Get detail information of a transaction
 // @Tags transaction
 // @Accept json
 // @Produce json
-// @Param create body view.TransactionForm true "Get transaction"
+// @Param id
 // @Security JWT
 // @Success 200 {object} view.TransactionForm
 // @Failure 400 {object} AppError
 // @Failure 500 {object} AppError
 // @Router /transaction/detail [GET]
-func (h *TransactionController) GetDetail(c *gin.Context) {
-	var form *view.TransactionForm
-	if err := c.ShouldBindJSON(&form); err != nil {
-		h.logger.Infof("Invalid form: %v ", err.Error())
-		ReportError(c, http.StatusBadRequest, fmt.Sprintf("invalid input in parse json format: %v", err))
-		return
-	}
+func (h *TransactionController) GetById(c *gin.Context) {
 	// userId, err := h.services.JWTService.GetUserId(c)
 	// TODO
 }
 
-// DeleteTransaction godoc
+// DeleteById godoc
 // @Summary Delete a transaction
 // @Description Delete a transaction
 // @Tags transaction
 // @Accept json
 // @Produce json
-// @Param create body view.DeleteTransactionForm true "Delete transaction"
+// @Param id
 // @Security JWT
-// @Success 200 {object} view.DeleteTransactionForm
+// @Success 200 {object} string
 // @Failure 400 {object} AppError
 // @Failure 500 {object} AppError
 // @Router /transaction/delete [PUT]
-func (h *TransactionController) DeleteTransaction(c *gin.Context) {
-	var deleteForm *view.DeleteTransactionForm
-	if err := c.ShouldBindJSON(&deleteForm); err != nil {
-		h.logger.Infof("Invalid form: %v ", err.Error())
-		ReportError(c, http.StatusBadRequest, fmt.Sprintf("invalid input in parse json format: %v", err))
-		return
-	}
+func (h *TransactionController) DeleteById(c *gin.Context) {
 	// userId, err := h.services.JWTService.GetUserId(c)
 	// TODO
 }
 
-// FilterTransactionList godoc
+// GetList godoc
+// @Summary Get list of transactions based on filter
+// @Description Get list of transactions based on filter
+// @Tags transaction
+// @Accept json
+// @Produce json
+// @Param id
+// @Param limit query int false "limit of list wallet want to specify, default 10"
+// @Param offset query int false "offset of list wallet want to specify, default 0"
+// @Security JWT
+// @Success 200 {object} view.TransactionForm
+// @Failure 400 {object} AppError
+// @Failure 500 {object} AppError
+// @Router /transaction/filter [GET]
+func (h *TransactionController) GetList(c *gin.Context) {
+	// userId, err := h.services.JWTService.GetUserId(c)
+	// TODO
+}
+
+// GetFilteredList godoc
 // @Summary Get list of transactions based on filter
 // @Description Get list of transactions based on filter
 // @Tags transaction
 // @Accept json
 // @Produce json
 // @Param create body view.FilterTransactionForm true "Get transaction list"
+// @Param limit query int false "limit of list wallet want to specify, default 10"
+// @Param offset query int false "offset of list wallet want to specify, default 0"
 // @Security JWT
-// @Success 200 {object} view.FilterTransactionForm
+// @Success 200 {object} view.TransactionForm
 // @Failure 400 {object} AppError
 // @Failure 500 {object} AppError
 // @Router /transaction/filter [GET]
-func (h *TransactionController) FilterTransactionList(c *gin.Context) {
-	var filterForm *view.FilterTransactionForm
-	if err := c.ShouldBindJSON(&filterForm); err != nil {
-		h.logger.Infof("Invalid form: %v ", err.Error())
-		ReportError(c, http.StatusBadRequest, fmt.Sprintf("invalid input in parse json format: %v", err))
-		return
-	}
+func (h *TransactionController) GetFilteredList(c *gin.Context) {
 	// userId, err := h.services.JWTService.GetUserId(c)
 	// TODO
 }

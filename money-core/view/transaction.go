@@ -16,10 +16,6 @@ type (
 		Note            string    `json:"note"`
 		TransactionDate time.Time `json:"transaction_date"`
 	}
-	// DeleteTransactionForm Use for Delete a transaction using id
-	DeleteTransactionForm struct {
-		TransactionId string `json:"transaction_id" example:""`
-	}
 	// FilterTransactionForm Use for filtering for list of transactions
 	FilterTransactionForm struct {
 		UserId      string    `json:"user_id" swaggerignore:"true"`
@@ -30,12 +26,10 @@ type (
 		KeyNote     string    `json:"key_note" example:""`
 		StartAmount float64   `json:"start_amount" example:"10000"`
 		EndAmount   float64   `json:"end_amount" example:"2500000"`
-		Limit       int       `json:"limit" example:"20"`
-		Offset      int       `json:"offset" example:"40"`
 	}
 )
 
-func ToTransactionView(t *model.Transaction) *TransactionForm {
+func ToTransactionForm(t *model.Transaction) *TransactionForm {
 	return &TransactionForm{
 		TransactionId:   t.Id,
 		UserId:          t.UserId,
