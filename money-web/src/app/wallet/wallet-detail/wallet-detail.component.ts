@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import jwtDecode from 'jwt-decode';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { AuthService, UserDetail } from 'src/app/services/auth.service';
 import { Wallet, WalletService } from 'src/app/services/wallet.service';
 
 @Component({
@@ -6,7 +10,7 @@ import { Wallet, WalletService } from 'src/app/services/wallet.service';
     templateUrl: './wallet-detail.component.html',
     styleUrls: ['./wallet-detail.component.css']
 })
-export class WalletDetailComponent implements OnInit {
+export class WalletDetailComponent implements OnInit, OnDestroy {
 
     walletList: Wallet[] = [];
 
@@ -18,6 +22,10 @@ export class WalletDetailComponent implements OnInit {
         balance: 0,
         icon: ""
     };
+
+    private readonly destroy$ = new Subject();
+
+    currentUser: UserDetail;
 
     pageSize: number = 10;
 
@@ -31,7 +39,10 @@ export class WalletDetailComponent implements OnInit {
         return this.walletList.length <= 0
     }
 
-    constructor(private walletService: WalletService) { }
+    constructor(private walletService: WalletService, private authService: AuthService) {
+        this.currentUser = jwtDecode(this.authService.userDetail.token);
+        console.log(this.currentUser)
+    }
 
     ngOnInit() {
         this.loadWalletList();
@@ -44,36 +55,40 @@ export class WalletDetailComponent implements OnInit {
 
     loadWalletList() {
         this.isListLoading = true;
-        this.walletService.getWalletPaging(this.pageOffset, this.pageSize).subscribe(
-            (res) => {
-                console.log(res);
-                res.forEach(element => {
-                    this.walletList.push(element);
-                });
-            },
-            (err) => {
-                console.log(err)
-            },
-            () => {
-                this.isListLoading = false;
-            }
-        )
+        this.walletService.getWalletPaging(this.pageOffset, this.pageSize)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(
+                (res) => {
+                    console.log(res);
+                    res.forEach(element => {
+                        this.walletList.push(element);
+                    });
+                },
+                (err) => {
+                    console.log(err)
+                },
+                () => {
+                    this.isListLoading = false;
+                }
+            )
     }
 
     loadWalletDetail(id: string) {
         this.isDetailLoading = true;
-        this.walletService.getWalletById(id).subscribe(
-            (res) => {
-                console.log(res);
-                this.selectedWallet = res;
-            },
-            (err) => {
-                console.log(err)
-            },
-            () => {
-                this.isDetailLoading = false;
-            }
-        )
+        this.walletService.getWalletById(id)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(
+                (res) => {
+                    console.log(res);
+                    this.selectedWallet = res;
+                },
+                (err) => {
+                    console.log(err)
+                },
+                () => {
+                    this.isDetailLoading = false;
+                }
+            )
     }
 
     selectWallet(id: string) {
@@ -98,4 +113,8 @@ export class WalletDetailComponent implements OnInit {
         }
     }
 
+    ngOnDestroy() {
+        this.destroy$.next();
+        this.destroy$.complete();
+    }
 }
