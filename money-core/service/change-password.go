@@ -12,6 +12,7 @@ type (
 		ForgotPassword(email string, token string) error
 		CheckSentMail(email string) error
 		ResetPassword(form *view.SubmitNewPasswordForm) error
+		ValidateToken(token string, email string) error
 	}
 	PasswordService struct {
 		repositories *repository.Repositories
@@ -34,17 +35,24 @@ func (f *PasswordService) ForgotPassword(email string, token string) error {
 }
 
 func (f *PasswordService) ResetPassword(form *view.SubmitNewPasswordForm) error {
-	tok, err := f.repositories.RedisRepo.GetForgotTokenFromMail(form.Email)
-	if err != nil {
-		return errors.New("Invalid token")
+	if err := f.ValidateToken(form.Token, form.Email); err != nil {
+		return err
 	}
 
-	if tok != form.Token {
-		return errors.New("Invalid token")
-	}
-	// update password
+	// update password and remove token
 	if err := f.repositories.UserRepo.UpdatePassword(form.Email, form.Password); err != nil {
 		return errors.Errorf("Can not update password: %v", err)
+	}
+
+	// Remove token from redis
+	f.repositories.RedisRepo.DeleteToken(form.Email)
+	return nil
+}
+
+func (f *PasswordService) ValidateToken(token string, email string) error {
+	tok, err := f.repositories.RedisRepo.GetForgotTokenFromMail(email)
+	if err != nil || tok != token {
+		return errors.New("Invalid token")
 	}
 	return nil
 }
