@@ -9,13 +9,6 @@ const routes: Routes = [
         data: {
             title: 'Forgot Password Page'
         },
-    },
-    {
-        path: "forgot-password/**",
-        component: FwpComponent,
-        data: {
-            title: 'Forgot Password Page 2'
-        }
     }
     
 ]

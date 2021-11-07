@@ -5,17 +5,20 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { AuthService } from 'src/app/services/auth.service';
 
+
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-pass.component.html',
   styleUrls: ['./change-pass.component.css']
 })
 export class ChangePassComponent implements OnInit{
- form!: FormGroup;
+  form!: FormGroup;
   passwordVisible = false;
   passwordConfirmVisible = false;
   isPassForm = true;
   isLoading = false;
+  token: string ="";
+  email:string ="";
 
   constructor(private fb: FormBuilder,
     private authService: AuthService,
@@ -24,11 +27,20 @@ export class ChangePassComponent implements OnInit{
     private notification: NzNotificationService) { }
 
   ngOnInit(): void {
-    this.form = this.fb.group({
-
+      this.form = this.fb.group({
       email: [null, [Validators.email, Validators.required]],
       password: [null, [Validators.required, Validators.minLength(8)]],
       confirmPassword: [null, [Validators.required, this.confirmationValidator]],
+    });
+    this.activatedRoute.queryParams
+    .subscribe(params => {
+        // console.log(params);
+        // console.log(params.token);
+        // console.log(params.email);
+        this.token = params.token;
+        this.email = params.email;
+        // console.log(this.token);
+        // console.log(this.email);
     });
   }
 
@@ -39,6 +51,8 @@ export class ChangePassComponent implements OnInit{
   change() {
     this.isPassForm = !this.isPassForm;
     this.reset();
+    // console.log(this.token);
+    // console.log(this.email);
   }
 
   reset() {
@@ -59,8 +73,26 @@ export class ChangePassComponent implements OnInit{
     }
   }
 
-  passChange(email: string){
-   this.change();
+  passChange(pass: string){
+    this.isLoading = true;
+    var user = {
+      email: this.email,
+      password:pass,
+      token: this.token
+    }
+    this.authService.passChange(user).subscribe(result => {
+      if (result == 'SUCCESS') {
+        // const returnUrl: string = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
+        // this.router.navigate([returnUrl]);
+        // window.location.href = returnUrl;
+        this.change();
+      } else if (result == 'ERROR_NAME_OR_PASS') {
+        alert('Error');
+      }
+    }, (message) => {
+      this.isLoading = false;
+      this.notification.error('Error', 'Change password uncomplete!');
+    });
   }
 
   login() {

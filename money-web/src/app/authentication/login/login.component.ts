@@ -24,11 +24,12 @@ export class LoginComponent implements OnInit {
     private notification: NzNotificationService) { }
 
   ngOnInit(): void {
-    this.form = this.fb.group({
+      this.form = this.fb.group({
 
       email: [null, [Validators.email, Validators.required]],
       password: [null, [Validators.required, Validators.minLength(8)]],
       confirmPassword: [null, [Validators.required, this.confirmationValidator]],
+      
     });
   }
 
