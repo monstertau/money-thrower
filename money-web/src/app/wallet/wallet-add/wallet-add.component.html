@@ -1,81 +1,157 @@
+<!--<div class="content">-->
+<!--  <div class="dialog">-->
+<!--    <div class="header">-->
+<!--      Add wallet-->
+<!--    </div>-->
+<!--    <div class="wallet-content">-->
+<!--      <div class="wallet-type">-->
+<!--        <button class="wallet-type-btn" nz-button nzType="primary" style="background-color: #D3F261" (click)="showDetail()">Basic Wallet-->
+<!--        </button>-->
+<!--        <button class="wallet-type-btn" nz-button nzType="primary" style="background-color: #FADB14" (click)="showDetail()">Link Wallet-->
+<!--        </button>-->
+<!--        <button class="wallet-type-btn" nz-button nzType="primary" style="background-color: #D6E4FF" (click)="showDetail()">XXX Wallet</button>-->
+<!--      </div>-->
+<!--      <div class="wallet-detail" style="display: none">-->
+<!--        <div class="detail-row">-->
+<!--          <div style="width: 27%">-->
+<!--            <button class="wallet-type-icon-btn" nz-button nzType="primary" (click)="selectWalletType()">-->
+<!--              <i nz-icon nzType="wallet" nzTheme="outline"></i>-->
+<!--              <i nz-icon nzType="down" nzTheme="outline"></i>-->
+<!--            </button>-->
+<!--          </div>-->
+<!--          <div style="display: flex; align-items: center">-->
+<!--            <label for="wallet-name">Wallet Name: </label>-->
+<!--            <textarea id="wallet-name" nz-input placeholder="Your wallet name" nzAutosize></textarea>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="detail-row">-->
+<!--          <div style="width: 33.33%">-->
+<!--            <button class="wallet-currency-btn" nz-button nzType="primary" (click)="openCurrencySelection()">-->
+<!--              <span style="font-size: 10px; color: #00000040; text-align: left">Currency</span>-->
+<!--              <div style="width: 100%; justify-content: space-between; display: flex; margin-top: 5px;">-->
+<!--                <i nz-icon nzType="dollar" nzTheme="outline"></i>-->
+<!--                <i nz-icon nzType="right" nzTheme="outline"></i>-->
+<!--              </div>-->
+<!--            </button>-->
+<!--          </div>-->
+<!--          <div style="display: flex; align-items: center">-->
+<!--            <label for="money-amount">Money Amount: </label>-->
+<!--            <textarea id="money-amount" nz-input placeholder="$ xxx" nzAutosize></textarea>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div style="padding-left: 5%">-->
+<!--          <label nz-checkbox >Not included in the total</label>-->
+<!--          <p style="color: rgba(0, 0, 0, 0.45)">Skip this wallet and balance from the total</p>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="wallet-currency-selection" style="display: none">-->
+<!--        <div class="currency-grid">-->
+<!--          <button class="currency-item" nz-button nzType="primary" id="USD">-->
+<!--            <p>$</p>-->
+<!--            <p>US Dollar</p>-->
+<!--          </button>-->
+<!--          <button class="currency-item" nz-button nzType="primary" id="EUR">-->
+<!--            <p>€</p>-->
+<!--            <p>Euro</p>-->
+<!--          </button>-->
+<!--          <button class="currency-item" nz-button nzType="primary" id="GBP">-->
+<!--            <p>£</p>-->
+<!--            <p>British Pound</p>-->
+<!--          </button>-->
+<!--          <button class="currency-item" nz-button nzType="primary" id="JPY">-->
+<!--            <p>¥</p>-->
+<!--            <p>Japanese Yen</p>-->
+<!--          </button>-->
+<!--          <button class="currency-item" nz-button nzType="primary" id="CNY">-->
+<!--            <p>元</p>-->
+<!--            <p>Chinese Yuan</p>-->
+<!--          </button>-->
+<!--          <button class="currency-item" nz-button nzType="primary" id="VND">-->
+<!--            <p>$</p>-->
+<!--            <p>US Dollar</p>-->
+<!--          </button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div class="footer">-->
+<!--      <button class="save-btn footer-btn" nz-button nzType="primary" style="color: #52C41A; display: none">Save</button>-->
+<!--      <button class="cancel-btn footer-btn" nz-button nzType="primary" style="color: #FF4D4F;">Cancel</button>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
 <div class="content">
-  <div class="dialog">
-    <div class="header">
-      Add wallet
+    <div class="dialog">
+        <div class="header" *ngIf="isAddForm">
+            Add wallet
+        </div>
+        <div class="header" *ngIf="isEditForm">
+            Edit wallet
+        </div>
+        <form nz-form [formGroup]="form" class="wallet-form">
+            <div class="wallet-content">
+                <div class="wallet-type">
+                    <button class="wallet-type-btn" nz-button [nzType]="'primary'" style="background-color: #D3F261"
+                            (click)="showDetail(1)">Basic Wallet
+                    </button>
+                    <button class="wallet-type-btn" nz-button nzType="primary" style="background-color: #FADB14"
+                            (click)="showDetail(2)">Link Wallet
+                    </button>
+                    <button class="wallet-type-btn" nz-button nzType="primary" style="background-color: #D6E4FF"
+                            (click)="showDetail(3)">XXX Wallet
+                    </button>
+                </div>
+                <div class="wallet-detail" hidden>
+                    <div class="detail-row">
+                        <div style="width: 27%">
+                            <button class="wallet-type-icon-btn" nz-button nzType="primary"
+                                    (click)="selectWalletType()">
+                                <i nz-icon nzType="wallet" nzTheme="outline"></i>
+                                <i nz-icon nzType="down" nzTheme="outline"></i>
+                            </button>
+                        </div>
+                        <nz-form-item>
+                            <nz-form-label nzRequired>Wallet Name</nz-form-label>
+                            <nz-form-control nzErrorTip="Please input your wallet name">
+                                <input required nz-input formControlName="name" placeholder="Your wallet name"/>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="detail-row">
+                        <div style="width: 38%">
+                            <nz-form-control nzErrorTip="Please select a currency">
+                                <nz-select name="currency" formControlName="currency"
+                                           class="currency-selection" nzShowSearch nzPlaceHolder="Select a currency">
+                                    <nz-option nzValue="{{currency.code}}"
+                                               nzLabel="{{currency.text}}"
+                                               *ngFor="let currency of CurrencyList"></nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </div>
+                        <nz-form-item>
+                            <nz-form-label nzRequired>Money Amount</nz-form-label>
+                            <nz-form-control nzErrorTip="Please input your amount of money">
+                                <nz-input-number defaultValue={1000} [nzFormatter]="formatterCurrency"
+                                                 class="amount-input" formControlName="balance"
+                                                 [nzParser]="parserAmount"></nz-input-number>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div style="padding-left: 5%">
+                        <label nz-checkbox>Not included in the total</label>
+                        <p style="color: rgba(0, 0, 0, 0.45)">Skip this wallet and balance from the total</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <button class="save-btn footer-btn" nz-button nzType="primary" style="color: #52C41A;"
+                        (click)="submitAddWallet()" hidden>
+                    Save
+                </button>
+                <button class="cancel-btn footer-btn" nz-button nzType="primary" style="color: #FF4D4F;"
+                        (click)="returnMyWallet()">Cancel
+                </button>
+            </div>
+        </form>
     </div>
-    <div class="wallet-content">
-      <div class="wallet-type">
-        <button class="wallet-type-btn" nz-button nzType="primary" style="background-color: #D3F261" (click)="showDetail()">Basic Wallet
-        </button>
-        <button class="wallet-type-btn" nz-button nzType="primary" style="background-color: #FADB14" (click)="showDetail()">Link Wallet
-        </button>
-        <button class="wallet-type-btn" nz-button nzType="primary" style="background-color: #D6E4FF" (click)="showDetail()">XXX Wallet</button>
-      </div>
-      <div class="wallet-detail" style="display: none">
-        <div class="detail-row">
-          <div style="width: 27%">
-            <button class="wallet-type-icon-btn" nz-button nzType="primary" (click)="selectWalletType()">
-              <i nz-icon nzType="wallet" nzTheme="outline"></i>
-              <i nz-icon nzType="down" nzTheme="outline"></i>
-            </button>
-          </div>
-          <div style="display: flex; align-items: center">
-            <label for="wallet-name">Wallet Name: </label>
-            <textarea id="wallet-name" nz-input placeholder="Your wallet name" nzAutosize></textarea>
-          </div>
-        </div>
-        <div class="detail-row">
-          <div style="width: 33.33%">
-            <button class="wallet-currency-btn" nz-button nzType="primary" (click)="openCurrencySelection()">
-              <span style="font-size: 10px; color: #00000040; text-align: left">Currency</span>
-              <div style="width: 100%; justify-content: space-between; display: flex; margin-top: 5px;">
-                <i nz-icon nzType="dollar" nzTheme="outline"></i>
-                <i nz-icon nzType="right" nzTheme="outline"></i>
-              </div>
-            </button>
-          </div>
-          <div style="display: flex; align-items: center">
-            <label for="money-amount">Money Amount: </label>
-            <textarea id="money-amount" nz-input placeholder="$ xxx" nzAutosize></textarea>
-          </div>
-        </div>
-        <div style="padding-left: 5%">
-          <label nz-checkbox >Not included in the total</label>
-          <p style="color: rgba(0, 0, 0, 0.45)">Skip this wallet and balance from the total</p>
-        </div>
-      </div>
-      <div class="wallet-currency-selection" style="display: none">
-        <div class="currency-grid">
-          <button class="currency-item" nz-button nzType="primary" id="USD">
-            <p>$</p>
-            <p>US Dollar</p>
-          </button>
-          <button class="currency-item" nz-button nzType="primary" id="EUR">
-            <p>€</p>
-            <p>Euro</p>
-          </button>
-          <button class="currency-item" nz-button nzType="primary" id="GBP">
-            <p>£</p>
-            <p>British Pound</p>
-          </button>
-          <button class="currency-item" nz-button nzType="primary" id="JPY">
-            <p>¥</p>
-            <p>Japanese Yen</p>
-          </button>
-          <button class="currency-item" nz-button nzType="primary" id="CNY">
-            <p>元</p>
-            <p>Chinese Yuan</p>
-          </button>
-          <button class="currency-item" nz-button nzType="primary" id="VND">
-            <p>$</p>
-            <p>US Dollar</p>
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="footer">
-      <button class="save-btn footer-btn" nz-button nzType="primary" style="color: #52C41A; display: none">Save</button>
-      <button class="cancel-btn footer-btn" nz-button nzType="primary" style="color: #FF4D4F;">Cancel</button>
-    </div>
-  </div>
 </div>
