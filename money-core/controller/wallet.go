@@ -33,6 +33,7 @@ func (h *WalletController) MakeHandler(g *gin.RouterGroup) {
 		group.PUT("", h.Update)
 		group.GET("", h.GetAll)
 		group.GET("/:id", h.GetById)
+		group.GET("/delete/:id", h.DeleteById)
 	}
 }
 
@@ -178,3 +179,33 @@ func (h *WalletController) GetById(c *gin.Context) {
 	c.JSON(http.StatusOK, wallet)
 }
 
+// DeleteById godoc
+// @Summary Delete specific wallet by id
+// @Description Return result detail
+// @Tags wallet
+// @Accept  json
+// @Produce  json
+// @Security JWT
+// @Param id path string true "wallet id"
+// @Success 200 {object} {walletId}
+// @Failure 400 {object} AppError
+// @Failure 500 {object} AppError
+// @Router /wallet/{id} [get]
+func (h *WalletController) DeleteById(c *gin.Context) {
+	walletId := c.Param("id")
+	if len(walletId) == 0 {
+		ReportError(c, http.StatusBadRequest, fmt.Sprintf("cant found wallet id in request"))
+		return
+	}
+	userId, err := h.services.JWTService.GetUserId(c)
+	if err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get user id: %v", err))
+		return
+	}
+	err = h.services.WalletService.DeleteById(userId, walletId)
+	if err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant delete wallet: %v", err))
+		return
+	}
+	c.JSON(http.StatusOK, walletId)
+}
