@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"github.com/go-redis/redis/v8"
 	"github.com/pkg/errors"
 	"time"
@@ -11,6 +12,7 @@ type (
 	RedisRepositoryInterface interface {
 		SetForgotToken(email string, token string) error
 		GetForgotTokenFromMail(email string) (string, error)
+		DeleteToken(email string)
 		SetBlacklistJWT(token string) error
 		CheckBlacklistJWT(token string) bool
 	}
@@ -41,6 +43,14 @@ func (r *RedisRepo) GetForgotTokenFromMail(email string) (string, error) {
 	ctx, cancer := context.WithTimeout(context.TODO(), 30*time.Second)
 	defer cancer()
 	return r.rdb.Get(ctx, email).Result()
+}
+
+func (r *RedisRepo) DeleteToken(email string) {
+	ctx, cancer := context.WithTimeout(context.TODO(), 30*time.Second)
+	defer cancer()
+	if err := r.rdb.Del(ctx, email).Err(); err != nil {
+		fmt.Println(fmt.Sprintf("Error when redis DEL %s"), err)
+	}
 }
 
 func (r *RedisRepo) SetBlacklistJWT(token string) error {
