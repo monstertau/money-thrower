@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {AuthService} from 'src/app/services/auth.service';
 import {DropDownList} from './model';
+import {WalletService} from "../../services/wallet.service";
 
 
 @Component({
@@ -18,7 +19,7 @@ export class WalletAddComponent implements OnInit {
     isEditForm = false;
     isLoading = false;
 
-    constructor(private fb: FormBuilder) {
+    constructor(private fb: FormBuilder, private walletService: WalletService, private notification: NzNotificationService) {
     }
 
     get f() {
@@ -53,9 +54,26 @@ export class WalletAddComponent implements OnInit {
     }
 
     submitAddWallet() {
-        console.log(this.form.value)
+        console.log(this.form.value);
         this.isLoading = true;
-        var wallet = this.form.value
+        var wallet = this.form.value;
+        if (this.form.controls.name.value == null)
+            this.notification.error('Error', "Please input your wallet name");
+        else {
+            this.walletService.addWallet(wallet).subscribe(result => {
+                if (result == 'SUCCESS') {
+                    this.notification.success('Success', 'Add Wallet Success');
+                    setTimeout(() => {
+                        window.location.href = '/my-wallets';
+                    }, 1000);
+                } else {
+                    this.notification.error('Error', 'Add Wallet Fail');
+                }
+            }, (message) => {
+                this.isLoading = false;
+                console.log(message)
+            });
+        }
     }
 
     formatterCurrency = (value: number): string => `${this.form.value.currency} ${value}`;
@@ -67,7 +85,7 @@ export class WalletAddComponent implements OnInit {
             balance: [0, [Validators.required]],
             currency: ['USD', [Validators.required]],
             icon: ['mua_sam', [Validators.required]],
-            id: [1],
+            id: ['1'],
             name: [null, [Validators.required]],
             type: [null, [Validators.required]],
         });

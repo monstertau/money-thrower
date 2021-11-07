@@ -13,9 +13,10 @@ export class InterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const userDetail: LoginResponse = this.authService.userDetail;
     if (userDetail && userDetail.token) {
+        console.log(userDetail.token)
       req = req.clone({
         setHeaders: {
-          Authorization: `${userDetail.token}`
+          Authorization: `Bearer ${userDetail.token}`
         }
       });
     }
