@@ -30,8 +30,8 @@ func (h *TransactionController) MakeHandler(g *gin.RouterGroup) {
 	group.Use(h.services.JWTService.AuthorizeJWT())
 	{
 		group.GET("/:id", h.GetById)
-		group.PUT("/delete/:id", h.DeleteById)
-		group.GET("/list", h.GetList)
+		group.DELETE("/:id", h.DeleteById)
+		group.GET("", h.GetList)
 		group.POST("/filter", h.GetFilteredList)
 	}
 }
@@ -78,7 +78,7 @@ func (h *TransactionController) GetById(c *gin.Context) {
 // @Success 200 {object} string
 // @Failure 400 {object} AppError
 // @Failure 500 {object} AppError
-// @Router /transaction/delete/{id} [PUT]
+// @Router /transaction/{id} [DELETE]
 func (h *TransactionController) DeleteById(c *gin.Context) {
 	transactionId := c.Param("id")
 	if len(transactionId) == 0 {
@@ -110,7 +110,7 @@ func (h *TransactionController) DeleteById(c *gin.Context) {
 // @Success 200 {object} view.TransactionForm
 // @Failure 400 {object} AppError
 // @Failure 500 {object} AppError
-// @Router /transaction/list [GET]
+// @Router /transaction [GET]
 func (h *TransactionController) GetList(c *gin.Context) {
 	offset, _ := strconv.Atoi(c.Query("offset"))
 	if offset < 0 {
