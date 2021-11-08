@@ -26,25 +26,7 @@ export class ChangePassComponent implements OnInit{
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private notification: NzNotificationService) {
-      var user = {
-        email: this.email,
-        token: this.token
-    }
-      this.authService.checkTokenAndMail(user).subscribe(result => {
-        if (result == 'SUCCESS') {
-          console.log("success");
-        } else if (result == 'FAIL') {
-          alert('Error');
-          // const returnUrl: string = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
-          // this.router.navigate([returnUrl]);       
-        }
-      }, (message) => {
-        this.isLoading = false;
-        this.notification.error('Error', 'Unmatch token and mail!');
-        // window.location.href = 'forgot-password';
-        this.isValid=!this.isValid;
-        this.reset;
-      });
+      
      }
 
   ngOnInit(): void {
@@ -58,7 +40,25 @@ export class ChangePassComponent implements OnInit{
           this.token = params.token;
           this.email = params.email;
       });
-      
+      console.log(this.email);
+      console.log(this.token);
+      var user = {
+        email: this.email,
+        token: this.token
+    }
+      this.authService.checkTokenAndMail(user).subscribe(result => {
+        if (result == 'SUCCESS') {
+          console.log("success");
+        } else if (result == 'FAIL') {
+          alert('Error');    
+        }
+      }, (message) => {
+        this.isLoading = false;
+        this.notification.error('Error', 'Unmatch token and mail!');
+        //window.location.href = '';
+        this.isValid=false;
+        this.reset;
+      });
 
     
   }
