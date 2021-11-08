@@ -62,6 +62,48 @@ export class AuthService {
       return { unsubscribe() { } };
     });
   }
+  mailConfirm(data: MailConfirmRequest){
+    return new Observable<string>((observable) => {
+      this.httpService.post<MailConfirmResponse>('password/forgot', data).subscribe((response: MailConfirmResponse) => {
+        if (response?.token === '') {
+          observable.next('ERROR_NAME_OR_PASS');
+        } else {
+          observable.next('SUCCESS');
+        }
+      }, (error) => {
+        observable.error(error);
+      });
+      return { unsubscribe() { } };
+    });
+  }
+  checkTokenAndMail(data: CheckTokenAndMailRequest ){
+    return new Observable<string>((observable) => {
+      this.httpService.post<CheckTokenAndMailResponse>('password/validate', data).subscribe((response: CheckTokenAndMailResponse) => {
+        if (response?.token === '') {
+          observable.next('FAIL');
+        } else {
+          observable.next('SUCCESS');
+        }
+      }, (error) => {
+        observable.error(error);
+      });
+      return { unsubscribe() { } };
+    });
+  }
+  passChange(data: PassChangeRequest){
+    return new Observable<string>((observable) => {
+      this.httpService.post<PassChangeResponse>('password/change', data).subscribe((response: PassChangeResponse) => {
+        if (response?.token === '') {
+          observable.next('ERROR_NAME_OR_PASS');
+        } else {
+          observable.next('SUCCESS');
+        }
+      }, (error) => {
+        observable.error(error);
+      });
+      return { unsubscribe() { } };
+    });
+  }
 }
 
 export interface UserDetail {
@@ -84,5 +126,26 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
+  token: string;
+}
+export interface MailConfirmRequest {
+  email: string;
+}
+export interface MailConfirmResponse{
+  token: string;
+}
+export interface CheckTokenAndMailRequest{
+  email: string;
+  token: string;  
+}
+export interface CheckTokenAndMailResponse{
+  token: string;
+}
+export interface PassChangeRequest{
+  email: string;
+  password: string;
+  token: string;
+}
+export interface PassChangeResponse{
   token: string;
 }
