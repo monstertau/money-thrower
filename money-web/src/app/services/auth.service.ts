@@ -68,12 +68,6 @@ export class AuthService {
         if (response?.token === '') {
           observable.next('ERROR_NAME_OR_PASS');
         } else {
-          var currentUser = {
-            token: response.token,
-          }
-          this._userDetail = new BehaviorSubject<MailConfirmResponse>(currentUser);
-          localStorage.setItem('currentUser', JSON.stringify(currentUser));
-          this._userDetail.next(response);
           observable.next('SUCCESS');
         }
       }, (error) => {
@@ -86,7 +80,7 @@ export class AuthService {
     return new Observable<string>((observable) => {
       this.httpService.post<CheckTokenAndMailResponse>('password/validate', data).subscribe((response: CheckTokenAndMailResponse) => {
         if (response?.token === '') {
-          observable.next('ERROR_NAME_OR_PASS');
+          observable.next('FAIL');
         } else {
           observable.next('SUCCESS');
         }

@@ -24,7 +24,25 @@ export class ChangePassComponent implements OnInit{
     private authService: AuthService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private notification: NzNotificationService) { }
+    private notification: NzNotificationService) {
+      var user = {
+        email: this.email,
+        token: this.token
+    }
+      this.authService.checkTokenAndMail(user).subscribe(result => {
+        if (result == 'SUCCESS') {
+          console.log("success");
+        } else if (result == 'FAIL') {
+          alert('Error');
+          // const returnUrl: string = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
+          // this.router.navigate([returnUrl]);       
+        }
+      }, (message) => {
+        this.isLoading = false;
+        this.notification.error('Error', 'Unmatch token and mail!');
+        window.location.href = 'forgot-password';
+      });
+     }
 
   ngOnInit(): void {
       this.form = this.fb.group({
@@ -32,16 +50,14 @@ export class ChangePassComponent implements OnInit{
       password: [null, [Validators.required, Validators.minLength(8)]],
       confirmPassword: [null, [Validators.required, this.confirmationValidator]],
     });
-    this.activatedRoute.queryParams
-    .subscribe(params => {
-        // console.log(params);
-        // console.log(params.token);
-        // console.log(params.email);
-        this.token = params.token;
-        this.email = params.email;
-        // console.log(this.token);
-        // console.log(this.email);
-    });
+      this.activatedRoute.queryParams
+      .subscribe(params => {
+          this.token = params.token;
+          this.email = params.email;
+      });
+      
+
+    
   }
 
   get f() {

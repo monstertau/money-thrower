@@ -17,9 +17,7 @@ const routes: Routes = [
   },
   { path: 'forgot-password',component:FwpComponent},
   // { path: 'forgot-password/:**',component:FwpComponent},
-  { path: 'change-password',component:ChangePassComponent,
-    canActivate: [ChangePassGuard]
-  },
+  { path: 'change-password',component:ChangePassComponent},
   {
     path: 'my-wallets', component: WalletComponent,
     canActivate: [AuthGuard],
