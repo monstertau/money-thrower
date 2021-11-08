@@ -17,6 +17,7 @@ export class ChangePassComponent implements OnInit{
   passwordConfirmVisible = false;
   isPassForm = true;
   isLoading = false;
+  isValid = true;
   token: string ="";
   email:string ="";
 
@@ -40,7 +41,9 @@ export class ChangePassComponent implements OnInit{
       }, (message) => {
         this.isLoading = false;
         this.notification.error('Error', 'Unmatch token and mail!');
-        window.location.href = 'forgot-password';
+        // window.location.href = 'forgot-password';
+        this.isValid=!this.isValid;
+        this.reset;
       });
      }
 

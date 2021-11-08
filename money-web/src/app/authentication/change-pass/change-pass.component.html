@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="isValid">
     <div class="top">
         <div class="logo">
             <div class="avatar"></div>
@@ -70,5 +70,8 @@
                 </div>
             </div>
     </div>
+</div>
+<div class="container" *ngIf="!isValid">
+    <p style="font-size: 70px; color: red; font-style: italic;background-color: white;">Page Not Found!</p>
 </div>
 <!-- <p>test</p> -->
