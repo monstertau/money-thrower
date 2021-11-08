@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ErrorInterceptor } from './services/error.interceptor';
 import { InterceptorService } from './services/interceptor.service';
 import { HomeModule } from './home/home.module';
+import { FwpModule } from './fwp/fwp.module';
 
 registerLocaleData(en);
 
@@ -25,6 +26,7 @@ registerLocaleData(en);
     BrowserModule,
     AppRoutingModule,
     AuthenticationModule,
+    FwpModule,
     HomeModule,
     FormsModule,
     HttpClientModule,

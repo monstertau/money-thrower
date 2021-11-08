@@ -60,23 +60,39 @@ export class FwpComponent implements OnInit{
   }
 
   mailConfirm(email: string){
+    // this.isLoading = true;
+    // console.log(email);
+    // var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    // if(email==null){
+    //   this.isLoading = false;
+    //   this.notification.error('Error', 'Invalid email/password combination. Please try again.');
+    // }
+    // else if(email.match(mailformat)){
+    //   this.change();
+    //   console.log(this.isMailForm);
+    // }
+    // else{
+    //   this.isLoading = false;
+    //   this.notification.error('Error', 'Invalid email. Please try again.');
+    // }
+    
     this.isLoading = true;
-    console.log(email);
-    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if(email==null){
-      this.isLoading = false;
-      this.notification.error('Error', 'Invalid email/password combination. Please try again.');
+    var user = {
+      email: email
     }
-    else if(email.match(mailformat)){
-      this.change();
-      console.log(this.isMailForm);
-    }
-    else{
+    this.authService.mailConfirm(user).subscribe(result => {
+      if (result == 'SUCCESS') {
+        // const returnUrl: string = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
+        // this.router.navigate([returnUrl]);
+        // window.location.href = returnUrl;
+        this.change();
+      } else if (result == 'ERROR_NAME_OR_PASS') {
+        alert('Error');
+      }
+    }, (message) => {
       this.isLoading = false;
       this.notification.error('Error', 'Invalid email. Please try again.');
-    }
-    
-    
+    });
   }
   register() {
     window.location.href = '';
