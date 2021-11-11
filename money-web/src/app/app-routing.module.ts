@@ -7,13 +7,19 @@ import { WalletComponent } from './wallet/wallet.component';
 import { WalletAddComponent} from "./wallet/wallet-add/wallet-add.component";
 import { ChangePassComponent } from './authentication/change-pass/change-pass.component';
 import { ChangePassGuard } from './guards/change-pass.guard';
+import { TransactionComponent } from './home/transaction/transaction.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   {
     path: 'home', component: HomeComponent,
+    children: [
+      {
+        path: '',
+        component: TransactionComponent
+      }
+    ],
     canActivate: [AuthGuard],
-    loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
   },
   { path: 'forgot-password',component:FwpComponent},
   // { path: 'forgot-password/:**',component:FwpComponent},

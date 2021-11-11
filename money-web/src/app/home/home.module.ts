@@ -10,7 +10,10 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { TransactionComponent } from './transaction/transaction.component';
+import { TransactionListComponent } from './transaction/transaction-list/transaction-list.component';
 
 
 
@@ -18,7 +21,9 @@ import { SidebarComponent } from './sidebar/sidebar.component';
   declarations: [
     HomeComponent,
     TopbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    TransactionComponent,
+    TransactionListComponent,
   ],
   imports: [
     CommonModule,
@@ -30,7 +35,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     NzMenuModule,
     NzDropDownModule,
     NzButtonModule,
-    NzDividerModule
+    NzDividerModule,
+    NzTabsModule
   ]
 })
 export class HomeModule { }

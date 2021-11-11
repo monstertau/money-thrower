@@ -13,11 +13,17 @@ export class HomeComponent implements OnInit {
     return this._currentUser;
   };
 
+  isCollapsed: boolean = false;
+
   constructor(private authService: AuthService) { 
     this._currentUser = jwtDecode(this.authService.userDetail.token);
   }
 
   ngOnInit(): void {
+  }
+
+  onSizebarCollapse(collapsed: boolean) {
+    this.isCollapsed = collapsed;
   }
 
 }

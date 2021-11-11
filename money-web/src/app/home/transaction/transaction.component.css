@@ -1,0 +1,18 @@
+.list-transaction {
+    position: absolute;
+    width: 40%;
+    /* height: 15%; */
+    left: calc(50% + 100px);
+    top: 75px;
+    background: #ffffff;
+    border-radius: 20px;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.043);
+    transition: left 0.5s;
+}
+
+.ant-tabs {
+    position: absolute;
+    background-color: white;
+    width: 100%;
+}
