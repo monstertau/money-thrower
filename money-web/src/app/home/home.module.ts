@@ -14,6 +14,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { TransactionComponent } from './transaction/transaction.component';
 import { TransactionListComponent } from './transaction/transaction-list/transaction-list.component';
+import { TransactionDetailComponent } from './transaction/transaction-detail/transaction-detail.component';
 
 
 
@@ -24,6 +25,7 @@ import { TransactionListComponent } from './transaction/transaction-list/transac
     SidebarComponent,
     TransactionComponent,
     TransactionListComponent,
+    TransactionDetailComponent,
   ],
   imports: [
     CommonModule,

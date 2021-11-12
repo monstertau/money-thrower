@@ -1,6 +1,6 @@
-<div style="display: flex; overflow: auto;">
+<div style="display: flex">
     <div class="list-transaction">
-        <nz-tabset nzCentered>
+        <nz-tabset nzCentered [nzSelectedIndex]="defaultTab">
             <nz-tab class="tabs" nzTitle="LAST MONTH">
                 <ng-template nz-tab>
                     <app-transaction-list></app-transaction-list>
@@ -17,5 +17,8 @@
                   </ng-template>
             </nz-tab>
         </nz-tabset>
+    </div>
+    <div id="transaction-detail" hidden>
+        <app-transaction-detail></app-transaction-detail>
     </div>
 </div>

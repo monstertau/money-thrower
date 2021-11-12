@@ -1,18 +1,28 @@
 .list-transaction {
-    position: absolute;
     width: 40%;
-    /* height: 15%; */
-    left: calc(50% + 100px);
-    top: 75px;
+    margin-left: 50%;
+    margin-top: 1%;
+    transform: translate(-50%, -50%);
+    transition: margin-left 0.5s;
+}
+
+#transaction-detail {
+    position: absolute;
+    width: 49%;
+    /* height: 763px; */
+    left: 50%;
+    top: 80px;
+    height: 238px;
+
     background: #ffffff;
     border-radius: 20px;
-    transform: translate(-50%, -50%);
     box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.043);
-    transition: left 0.5s;
 }
 
 .ant-tabs {
     position: absolute;
     background-color: white;
     width: 100%;
+    border-radius: 20px;
+    box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.043);
 }

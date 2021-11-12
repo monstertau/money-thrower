@@ -1,5 +1,6 @@
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, ElementRef, HostListener, Input, OnChanges, OnInit, SimpleChange } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-topbar',
@@ -29,7 +30,7 @@ export class TopbarComponent implements OnInit, OnChanges {
     }
   }
 
-  constructor(private eRef: ElementRef) { }
+  constructor(private eRef: ElementRef, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
   }
@@ -51,6 +52,9 @@ export class TopbarComponent implements OnInit, OnChanges {
     this.isWalletMenuOpen = !this.isWalletMenuOpen;
     let dialog = document.getElementsByClassName('wallet-menu') as HTMLCollectionOf<HTMLElement>;
     dialog[0].hidden = !this.isWalletMenuOpen;
+  }
+
+  jumpToToday() {
   }
 
 }
