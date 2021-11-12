@@ -1,16 +1,14 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { LoginGuard } from "../guards/login.guard";
-import { LoginComponent } from "./login/login.component";
+import { FwpComponent } from "./fwp.component";
 
 const routes: Routes = [
     {
-        path: "login",
-        component: LoginComponent,
+        path: "forgot-password",
+        component: FwpComponent,
         data: {
-            title: 'Login Page'
+            title: 'Forgot Password Page'
         },
-        canActivate: [LoginGuard]
     }
     
 ]
@@ -23,4 +21,4 @@ const routes: Routes = [
     exports: [RouterModule]
 })
 
-export class AuthenticationRoutingModule { }
+export class FwpRountingModule { }

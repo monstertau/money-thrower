@@ -5,32 +5,62 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { AuthService } from 'src/app/services/auth.service';
 
+
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'app-change-password',
+  templateUrl: './change-pass.component.html',
+  styleUrls: ['./change-pass.component.css']
 })
-export class LoginComponent implements OnInit {
+export class ChangePassComponent implements OnInit{
   form!: FormGroup;
   passwordVisible = false;
   passwordConfirmVisible = false;
-  isLoginForm = true;
+  isPassForm = true;
   isLoading = false;
+  isValid = true;
+  token: string ="";
+  email:string ="";
 
   constructor(private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private notification: NzNotificationService) { }
+    private notification: NzNotificationService) {
+      
+     }
 
   ngOnInit(): void {
       this.form = this.fb.group({
-
       email: [null, [Validators.email, Validators.required]],
       password: [null, [Validators.required, Validators.minLength(8)]],
       confirmPassword: [null, [Validators.required, this.confirmationValidator]],
-      
     });
+      this.activatedRoute.queryParams
+      .subscribe(params => {
+          this.token = params.token;
+          this.email = params.email;
+      });
+      console.log(this.email);
+      console.log(this.token);
+      var user = {
+        email: this.email,
+        token: this.token
+    }
+      this.authService.checkTokenAndMail(user).subscribe(result => {
+        if (result == 'SUCCESS') {
+          console.log("success");
+        } else if (result == 'FAIL') {
+          alert('Error');    
+        }
+      }, (message) => {
+        this.isLoading = false;
+        this.notification.error('Error', 'Unmatch token and mail!');
+        //window.location.href = '';
+        this.isValid=false;
+        this.reset;
+      });
+
+    
   }
 
   get f() {
@@ -38,8 +68,10 @@ export class LoginComponent implements OnInit {
   }
 
   change() {
-    this.isLoginForm = !this.isLoginForm;
+    this.isPassForm = !this.isPassForm;
     this.reset();
+    // console.log(this.token);
+    // console.log(this.email);
   }
 
   reset() {
@@ -60,55 +92,30 @@ export class LoginComponent implements OnInit {
     }
   }
 
-
-  register(email: string, password: string) {
+  passChange(pass: string){
     this.isLoading = true;
     var user = {
-      email: email,
-      password: password
-    };
-    this.authService.register(user).subscribe(result => {
-      if (result == 'SUCCESS') {
-        this.notification.success('Success', 'Register Success');
-        window.location.href = '/';
-      } else {
-        this.notification.error('Error', 'Register Fail');
-      }
-    }, (message) => {
-      this.isLoading = false;
-      if (this.form.controls.confirmPassword.value != this.form.controls.password.value)
-        this.notification.error('Error', "Password and Confirm Password must be the same. Please try again.");
-      else if (message.message.includes('existed'))
-        this.notification.error('Error', "This email is unavailable. Please chose another one.");
-      else if (message.message.includes('invalid email'))
-        this.notification.error('Error', "Invalid email. Please try again.");
-      else if (message.message.includes('invalid password'))
-        this.notification.error('Error', "Password must contain at least 8 charaters. Please try again.");
-      else this.notification.error('Error', message.message);
-    });
-  }
-
-  login(email: string, password: string) {
-    this.isLoading = true;
-    var user = {
-      email: email,
-      password: password
+      email: this.email,
+      password:pass,
+      token: this.token
     }
-    this.authService.login(user).subscribe(result => {
+    this.authService.passChange(user).subscribe(result => {
       if (result == 'SUCCESS') {
-        const returnUrl: string = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
-        this.router.navigate([returnUrl]);
-        window.location.href = returnUrl;
+        // const returnUrl: string = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
+        // this.router.navigate([returnUrl]);
+        // window.location.href = returnUrl;
+        this.change();
       } else if (result == 'ERROR_NAME_OR_PASS') {
         alert('Error');
       }
     }, (message) => {
       this.isLoading = false;
-      this.notification.error('Error', 'Invalid email/password combination. Please try again.');
+      this.notification.error('Error', 'Change password uncomplete!');
     });
   }
-  fwp(){
-    window.location.href = 'forgot-password';
+
+  login() {
+    window.location.href = '';
   }
 
   confirmationValidator = (control: FormControl): { [s: string]: boolean } => {
@@ -119,5 +126,4 @@ export class LoginComponent implements OnInit {
     }
     return {};
   };
-
 }

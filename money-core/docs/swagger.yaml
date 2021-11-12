@@ -57,6 +57,15 @@ definitions:
         example: token-string
         type: string
     type: object
+  view.TokenValidateForm:
+    properties:
+      email:
+        example: test@gmail.com
+        type: string
+      token:
+        example: token-string
+        type: string
+    type: object
   view.WalletForm:
     properties:
       balance:
@@ -191,7 +200,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: Submit token, new password, email to reset password
+      description: Submit token, new password, email to reset password. Token and
       parameters:
       - description: Submit token, new password, email to reset password
         in: body
@@ -247,7 +256,70 @@ paths:
       summary: Submit email for sending reset password email
       tags:
       - password management
+  /password/validate:
+    post:
+      consumes:
+      - application/json
+      description: Validate Token before display change password form
+      parameters:
+      - description: Submit token, email to reset password
+        in: body
+        name: ForgotPassword
+        required: true
+        schema:
+          $ref: '#/definitions/view.TokenValidateForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'message": true}'
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      summary: Validate Token before display change password form
+      tags:
+      - password management
   /wallet:
+    get:
+      consumes:
+      - application/json
+      description: Return list of wallet
+      parameters:
+      - description: offset of list wallet want to specify, default 0
+        in: query
+        name: from
+        type: integer
+      - description: limit of list wallet want to specify, default 10
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.WalletForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Get list wallet with paging
+      tags:
+      - wallet
     post:
       consumes:
       - application/json
@@ -308,6 +380,37 @@ paths:
       security:
       - JWT: []
       summary: Edit info of a wallet
+      tags:
+      - wallet
+  /wallet/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Return wallet detail
+      parameters:
+      - description: wallet id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.WalletForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Get specific wallet by id
       tags:
       - wallet
 schemes:

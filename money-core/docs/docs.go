@@ -185,7 +185,7 @@ var doc = `{
         },
         "/password/change": {
             "post": {
-                "description": "Submit token, new password, email to reset password",
+                "description": "Submit token, new password, email to reset password. Token and",
                 "consumes": [
                     "application/json"
                 ],
@@ -275,7 +275,105 @@ var doc = `{
                 }
             }
         },
+        "/password/validate": {
+            "post": {
+                "description": "Validate Token before display change password form",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "password management"
+                ],
+                "summary": "Validate Token before display change password form",
+                "parameters": [
+                    {
+                        "description": "Submit token, email to reset password",
+                        "name": "ForgotPassword",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/view.TokenValidateForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "message\": true}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controller.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controller.AppError"
+                        }
+                    }
+                }
+            }
+        },
         "/wallet": {
+            "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Return list of wallet",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "wallet"
+                ],
+                "summary": "Get list wallet with paging",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "offset of list wallet want to specify, default 0",
+                        "name": "from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "limit of list wallet want to specify, default 10",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/view.WalletForm"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controller.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controller.AppError"
+                        }
+                    }
+                }
+            },
             "put": {
                 "security": [
                     {
@@ -351,6 +449,55 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/view.WalletForm"
                         }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/view.WalletForm"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controller.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controller.AppError"
+                        }
+                    }
+                }
+            }
+        },
+        "/wallet/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Return wallet detail",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "wallet"
+                ],
+                "summary": "Get specific wallet by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "wallet id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -452,6 +599,19 @@ var doc = `{
                 "password": {
                     "type": "string",
                     "example": "test"
+                },
+                "token": {
+                    "type": "string",
+                    "example": "token-string"
+                }
+            }
+        },
+        "view.TokenValidateForm": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "test@gmail.com"
                 },
                 "token": {
                     "type": "string",
