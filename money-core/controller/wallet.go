@@ -33,7 +33,7 @@ func (h *WalletController) MakeHandler(g *gin.RouterGroup) {
 		group.PUT("", h.Update)
 		group.GET("", h.GetAll)
 		group.GET("/:id", h.GetById)
-		group.GET("/delete/:id", h.DeleteById)
+		group.DELETE("/:id", h.DeleteById)
 	}
 }
 
