@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ɵangular_packages_platform_browser_platform_browser_d} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -32,25 +32,47 @@ export class WalletAddComponent implements OnInit {
         let saveButton = document.getElementsByClassName('save-btn') as HTMLCollectionOf<HTMLElement>
         if (walletDetail.length != 0 && walletType.length != 0 && walletType[0].hidden) {
             walletType[0].hidden = false;
-            walletDetail[0].hidden = true;
+            walletDetail[1].hidden = true;
             saveButton[0].hidden = true;
         }
+    }
+
+    iconDialog() {
+        let itemDialog = document.getElementsByClassName('item-dialog') as HTMLCollectionOf<HTMLElement>;
+        if (itemDialog.length != 0 && itemDialog[0].hidden) {
+            itemDialog[0].hidden = false;
+        } else {
+            itemDialog[0].hidden = true;
+        }
+    }
+
+    setIcon(icon: string) {
+        let itemDialog = document.getElementsByClassName('item-dialog') as HTMLCollectionOf<HTMLElement>;
+        this.form.patchValue({icon: icon})
+        itemDialog[0].hidden = true;
     }
 
     showDetail(value: number) {
         let walletType = document.getElementsByClassName('wallet-type') as HTMLCollectionOf<HTMLElement>;
         let walletDetail = document.getElementsByClassName('wallet-detail') as HTMLCollectionOf<HTMLElement>;
         let saveButton = document.getElementsByClassName('save-btn') as HTMLCollectionOf<HTMLElement>
-        if (walletDetail.length != 0 && walletType.length != 0 && walletDetail[0].hidden) {
+        if (walletDetail.length != 0 && walletType.length != 0 && walletDetail[1].hidden) {
             walletType[0].hidden = true;
-            walletDetail[0].hidden = false;
+            walletDetail[1].hidden = false;
             saveButton[0].hidden = false;
             this.form.patchValue({type: value})
         }
     }
 
     returnMyWallet() {
-        window.location.href = '/my-wallets'
+        let wallet = document.getElementsByClassName('content') as HTMLCollectionOf<HTMLElement>;
+        let blur = document.getElementsByClassName('blur') as HTMLCollectionOf<HTMLElement>;
+        if (wallet.length != 0 && !wallet[1].hidden) {
+            wallet[1].hidden = true;
+            blur[0].hidden = true;
+            this.selectWalletType()
+            this.closeAdd()
+        }
     }
 
     submitAddWallet() {
@@ -84,12 +106,69 @@ export class WalletAddComponent implements OnInit {
         this.form = this.fb.group({
             balance: [0, [Validators.required]],
             currency: ['USD', [Validators.required]],
-            icon: ['mua_sam', [Validators.required]],
+            icon: ['wallet_icon', [Validators.required]],
             id: ['1'],
             name: [null, [Validators.required]],
             type: [null, [Validators.required]],
         });
     }
+
+    @Output() closeAddDialog = new EventEmitter<string>();
+
+    closeAdd() {
+        this.closeAddDialog.emit();
+    }
+
+    IconList: DropDownList[] = [
+        {code: "an_uong", text: "an_uong"},
+        {code: "an_uong-do_an", text: "an_uong-do_an"},
+        {code: "an_uong-do_uong", text: "an_uong-do_uong"},
+        {code: "ban_do", text: "ban_do"},
+        {code: "bao_duong_lap_dat", text: "bao_duong_lap_dat"},
+        {code: "borrow", text: "borrow"},
+        {code: "chi_phi_khac", text: "chi_phi_khac"},
+        {code: "di_lai", text: "di_lai"},
+        {code: "di_lai-dich_vu", text: "di_lai-dich_vu"},
+        {code: "di_lai-nhien_lieu", text: "di_lai-nhien_lieu"},
+        {code: "du_lich", text: "du_lich"},
+        {code: "giai_tri", text: "giai_tri"},
+        {code: "hoc_tap", text: "hoc_tap"},
+        {code: "hoc_tap-hoc_phi", text: "hoc_tap-hoc_phi"},
+        {code: "hoc_tap-tai_lieu", text: "hoc_tap-tai_lieu"},
+        {code: "lam_dep", text: "lam_dep"},
+        {code: "loan", text: "loan"},
+        {code: "null", text: "null"},
+        {code: "qua_tang", text: "qua_tang"},
+        {code: "quan_he", text: "quan_he"},
+        {code: "return-borrow", text: "return-borrow"},
+        {code: "return-loan", text: "return-loan"},
+        {code: "rui_ro", text: "rui_ro"},
+        {code: "shopping", text: "shopping"},
+        {code: "shopping-dau_tu_tai_san", text: "shopping-dau_tu_tai_san"},
+        {code: "shopping-do_dien_dien_tu", text: "shopping-do_dien_dien_tu"},
+        {code: "shopping-do_gia_dung", text: "shopping-do_gia_dung"},
+        {code: "shopping-khac", text: "shopping-khac"},
+        {code: "shopping-my_pham", text: "shopping-my_pham"},
+        {code: "shopping-trang_phuc_phu_kien", text: "shopping-trang_phuc_phu_kien"},
+        {code: "sinh_hoat", text: "sinh_hoat"},
+        {code: "sinh_hoat-dien_thoai", text: "sinh_hoat-dien_thoai"},
+        {code: "sinh_hoat-gas", text: "sinh_hoat-gas"},
+        {code: "sinh_hoat-nha_cua", text: "sinh_hoat-nha_cua"},
+        {code: "sinh_hoat-tien_dien", text: "sinh_hoat-tien_dien"},
+        {code: "sinh_hoat-tien_mang", text: "sinh_hoat-tien_mang"},
+        {code: "sinh_hoat-tien_nuoc", text: "sinh_hoat-tien_nuoc"},
+        {code: "sinh_hoat-tieu_dung", text: "sinh_hoat-tieu_dung"},
+        {code: "sinh_hoat-truyen_hinh", text: "sinh_hoat-truyen_hinh"},
+        {code: "sinh_hoat-vat_nuoi", text: "sinh_hoat-vat_nuoi"},
+        {code: "so_du", text: "so_du"},
+        {code: "suc_khoe", text: "suc_khoe"},
+        {code: "suc_khoe-the_thao", text: "suc_khoe-the_thao"},
+        {code: "thu_nhap", text: "thu_nhap"},
+        {code: "thu_nhap_khac", text: "thu_nhap_khac"},
+        {code: "thuong", text: "thuong"},
+        {code: "tu_thien", text: "tu_thien"},
+        {code: "wallet_icon", text: "wallet_icon"},
+    ]
 
     CurrencyList: DropDownList[] = [
         {code: "AFN", text: "Afghanistan Afghanis – AFN"},

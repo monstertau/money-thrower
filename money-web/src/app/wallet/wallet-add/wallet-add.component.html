@@ -1,3 +1,4 @@
+<div class="blur"></div>
 <div class="content">
     <div class="dialog">
         <div class="header" *ngIf="isAddForm">
@@ -23,8 +24,8 @@
                     <div class="detail-row">
                         <div style="width: 27%">
                             <button class="wallet-type-icon-btn" nz-button nzType="primary"
-                                    (click)="selectWalletType()">
-                                <i nz-icon nzType="wallet" nzTheme="outline"></i>
+                                    (click)="iconDialog()">
+                                <img src="../../../assets/catalogs/{{form.value.icon}}.png" class="icon-img">
                                 <i nz-icon nzType="down" nzTheme="outline"></i>
                             </button>
                         </div>
@@ -55,9 +56,11 @@
                             </nz-form-control>
                         </nz-form-item>
                     </div>
-                    <div style="padding-left: 5%">
-                        <label nz-checkbox>Not included in the total</label>
-                        <p style="color: rgba(0, 0, 0, 0.45)">Skip this wallet and balance from the total</p>
+                    <div class="detail-row">
+                        <div>
+                            <label nz-checkbox>Not included in the total</label>
+                            <p style="color: rgba(0, 0, 0, 0.45)">Skip this wallet and balance from the total</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -69,6 +72,19 @@
                 <button class="cancel-btn footer-btn" nz-button nzType="primary" style="color: #FF4D4F;"
                         (click)="returnMyWallet()">Cancel
                 </button>
+            </div>
+            <div class="item-dialog" hidden>
+                <div class="item-dialog-header">
+                    <span (click)="iconDialog()"><i nz-icon nzType="close" nzTheme="outline"></i></span>
+                    <span>Select icon</span>
+                </div>
+                <div class="item-dialog-content">
+                    <div class="item-list">
+                        <div class="icon-element" *ngFor="let icon of IconList" id="{{icon.code}}" (click)="setIcon(icon.code)">
+                            <img src="../../../assets/catalogs/{{icon.text}}.png" class="icon-img">
+                        </div>
+                    </div>
+                </div>
             </div>
         </form>
     </div>

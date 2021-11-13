@@ -12,7 +12,7 @@
         </div>
     </div>
     <div class="data">
-        <app-wallet-detail *ngIf="add_wallet == false"></app-wallet-detail>
-        <app-wallet-add *ngIf="add_wallet"></app-wallet-add>
+        <app-wallet-detail></app-wallet-detail>
+        <app-wallet-add *ngIf="add_wallet" (closeAddDialog)="closeAddWallet()"></app-wallet-add>
     </div>
 </div>

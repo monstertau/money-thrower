@@ -22,4 +22,8 @@ export class WalletComponent implements OnInit {
     this.add_wallet = true;
   }
 
+  closeAddWallet() {
+      this.add_wallet = false;
+  }
+
 }
