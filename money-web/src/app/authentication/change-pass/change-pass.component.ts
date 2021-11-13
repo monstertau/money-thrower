@@ -18,6 +18,7 @@ export class ChangePassComponent implements OnInit{
   isPassForm = true;
   isLoading = false;
   isValid = true;
+  isConfirmPassword = true;
   token: string ="";
   email:string ="";
 
