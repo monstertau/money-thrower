@@ -1,6 +1,8 @@
-const INCOME = "income";
-const OUTCOME = "outcome";
-const OTHERS = "others";
+export enum categoryType {
+  INCOME = "income",
+  OUTCOME = "outcome",
+  OTHERS = "others"
+}
 
 export interface Category {
   id: string,
@@ -21,22 +23,22 @@ export class CategoryModel {
     this.icon = category.icon;
     switch (category.type) {
       case 1:
-        this.type = INCOME;
+        this.type = categoryType.INCOME;
         return;
       case 2:
-        this.type = OUTCOME;
+        this.type = categoryType.OUTCOME;
         return;
       default:
-        this.type = OTHERS;
+        this.type = categoryType.OTHERS;
         return;
     }
   }
 
   getTypeNumber(): number {
     switch (this.type) {
-      case INCOME:
+      case categoryType.INCOME:
         return 0;
-      case OUTCOME:
+      case categoryType.OUTCOME:
         return 1;
       default:
         return 2;

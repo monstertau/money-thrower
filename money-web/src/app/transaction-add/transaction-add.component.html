@@ -1,1 +1,65 @@
-<p>transaction-add works!</p>
+<div class="test-component" nz-row nzJustify="space-between">
+  <div class="input-box" nz-col [nzSpan]="7">
+    <div class="input-name">
+      Wallet
+    </div>
+    <div class="input-content" nz-row>
+      <div class="input-picture" nz-col nzSpan="2">
+        <i nz-icon>
+          <img src="/assets/catalogs/wallet_icon.png" alt="image" style="width: 24px;height: 24px">
+        </i>
+      </div>
+      <div class="input-text" nz-col nzSpan="21">
+        Cash
+      </div>
+      <div class="left-arrow" nz-col nzSpan="1">
+        <i nz-icon nzType="right" nzTheme="outline"></i>
+      </div>
+    </div>
+  </div>
+  <div class="input-box" nz-col [nzSpan]="8">
+    <div class="input-name">
+      Category
+    </div>
+    <div class="input-content" nz-row>
+      <div class="input-picture" nz-col nzSpan="2">
+        <i nz-icon>
+          <img src="/assets/catalogs/an_uong.png" alt="image" style="width: 24px;height: 24px">
+        </i>
+      </div>
+      <div class="input-text" nz-col nzSpan="21">
+        Food & Beverage
+      </div>
+      <div class="left-arrow" nz-col nzSpan="1">
+        <i nz-icon nzType="right" nzTheme="outline"></i>
+      </div>
+    </div>
+  </div>
+  <div class="input-box" nz-col [nzSpan]="7">
+    <div class="input-name">
+      Amount
+    </div>
+    <div class="input-amount">
+      <input type="number" [ngModel]="0" nz-input nzBorderless nzSize="large"/>
+    </div>
+  </div>
+</div>
+<div nz-row nzJustify="space-between">
+  <div class="input-box" nz-col [nzSpan]="7">
+    <div class="input-name">
+      Date
+    </div>
+    <div class="input-date">
+      <nz-date-picker [ngModel]="null" style="padding: 0" nzBorderless nzSize="large" nzFormat="dd/MM/yyyy" nzInputReadOnly="true" nzSuffixIcon="" nzAllowClear="false"></nz-date-picker>
+    </div>
+  </div>
+
+  <div class="input-box" nz-col [nzSpan]="16">
+    <div class="input-name">
+      Note
+    </div>
+    <div class="input-note">
+      <input type="text" placeholder="Note" [ngModel]="" nz-input nzBorderless nzSize="large"/>
+    </div>
+  </div>
+</div>

@@ -20,6 +20,6 @@ export class TransactionAddComponent implements OnInit {
   }
 
   addTransaction() {
-    this.transactionService.addTransaction(this.transaction.toTransaction())
+    // this.transactionService.addTransaction(this.transaction.toTransaction())
   }
 }

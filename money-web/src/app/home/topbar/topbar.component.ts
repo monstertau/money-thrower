@@ -1,6 +1,8 @@
-import { Component, ElementRef, HostListener, Input, OnChanges, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CommonService, ViewMode } from 'src/app/services/common.service';
+import {Component, ElementRef, HostListener, Input, OnChanges, OnInit, ViewContainerRef} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {CommonService, ViewMode} from 'src/app/services/common.service';
+import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
+import {TransactionAddComponent} from "../../transaction-add/transaction-add.component";
 
 @Component({
   selector: 'app-topbar',
@@ -33,7 +35,7 @@ export class TopbarComponent implements OnInit, OnChanges {
     }
   }
 
-  constructor(private eRef: ElementRef, private router: Router, private route: ActivatedRoute, private commonService: CommonService) {
+  constructor(private modal: NzModalService, private viewContainerRef: ViewContainerRef, private eRef: ElementRef, private router: Router, private route: ActivatedRoute, private commonService: CommonService) {
     let mode: string = this.route.snapshot.queryParams['view'] || '';
     switch (mode) {
       case ViewMode.TRANS:
@@ -45,11 +47,15 @@ export class TopbarComponent implements OnInit, OnChanges {
         this.viewToolTip = "View by " + ViewMode.TRANS;
         break;
     }
-    this.commonService.currentMonth.subscribe(month => { this.currentMonth = month });
+    this.commonService.currentMonth.subscribe(month => {
+      this.currentMonth = month
+    });
   }
 
   ngOnInit(): void {
-    this.commonService.currentViewMode.subscribe(mode => { this.currentMode = mode });
+    this.commonService.currentViewMode.subscribe(mode => {
+      this.currentMode = mode
+    });
   }
 
   ngOnChanges(changes: any) {
@@ -84,13 +90,39 @@ export class TopbarComponent implements OnInit, OnChanges {
       this.currentMode = ViewMode.TRANS;
       this.viewToolTip = "View by category";
       this.commonService.changeViewMode(this.currentMode);
-    }
-    else {
+    } else {
       this.currentMode = ViewMode.CAT;
       this.viewToolTip = "View by transaction";
       this.commonService.changeViewMode(this.currentMode);
     }
   }
 
-}
+  addTransaction() {
+    const modal: NzModalRef = this.modal.create({
+      nzTitle: 'Add Transaction',
+      nzClassName: "add-transaction-modal",
+      nzContent: TransactionAddComponent,
+      nzViewContainerRef: this.viewContainerRef,
+      nzComponentParams: {},
+      nzWidth: 848,
+      nzClosable: false,
+      nzFooter: [
+        {
+          label: 'Cancel',
+          type: 'default',
+          size: 'large',
+          onClick: () => modal.destroy()
+        },
+        {
+          label: 'Save',
+          type: 'primary',
+          size: 'large',
+          onClick: () => {
+            console.log("hehe")
+          }
+        },
+      ]
+    });
 
+  }
+}
