@@ -7,7 +7,7 @@
     width: 40%;
     /* height: 15%; */
     left: 50%;
-    top: 150px;
+    top: 120px;
 
     background: #ffffff;
     border-radius: 20px;
@@ -63,19 +63,12 @@
     color: rgba(0, 0, 0, 0.54);
 }
 
-.selected-wallet {
-    margin-left: auto;
-    color: #a0d911;
-    font-weight: 600;
-    font-size: 20px;
-}
-
 #dialog-detail {
     position: absolute;
     width: 53%;
     /* height: 763px; */
     left: 44%;
-    top: 130px;
+    top: 97px;
 
     background: #ffffff;
     border-radius: 20px;

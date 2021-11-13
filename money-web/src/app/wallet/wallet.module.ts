@@ -8,6 +8,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzImageModule } from 'ng-zorro-antd/image';
 import { WalletAddComponent } from './wallet-add/wallet-add.component';
 
 
@@ -23,7 +24,8 @@ import { WalletAddComponent } from './wallet-add/wallet-add.component';
     NzIconModule,
     NzButtonModule,
     NzDividerModule,
-    NzCheckboxModule
+    NzCheckboxModule,
+    NzImageModule
   ]
 })
 export class WalletModule { }

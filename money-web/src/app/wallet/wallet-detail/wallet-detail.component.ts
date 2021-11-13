@@ -35,13 +35,14 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
 
     isDetailLoading: boolean = true;
 
+    fallbackIcon = 'assets/catalogs/wallet_icon.png';
+
     get isListEmpty(): boolean {
         return this.walletList.length <= 0
     }
 
     constructor(private walletService: WalletService, private authService: AuthService) {
         this.currentUser = jwtDecode(this.authService.userDetail.token);
-        console.log(this.currentUser)
     }
 
     ngOnInit() {
@@ -59,7 +60,6 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe(
                 (res) => {
-                    console.log(res);
                     res.forEach(element => {
                         this.walletList.push(element);
                     });
@@ -79,7 +79,6 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe(
                 (res) => {
-                    console.log(res);
                     this.selectedWallet = res;
                 },
                 (err) => {
@@ -111,6 +110,14 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
             dialog[0].style.left = "50%";
             dialogDetail.hidden = true;
         }
+    }
+
+    formatCurrency(balance: number) {
+        return balance.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    }
+
+    getIcon(icon: string) {
+        return "assets/catalogs/" + icon + ".png";
     }
 
     ngOnDestroy() {

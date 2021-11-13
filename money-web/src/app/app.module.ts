@@ -15,6 +15,7 @@ import { ErrorInterceptor } from './services/error.interceptor';
 import { InterceptorService } from './services/interceptor.service';
 import { HomeModule } from './home/home.module';
 import { FwpModule } from './fwp/fwp.module';
+import { WalletModule } from './wallet/wallet.module';
 
 registerLocaleData(en);
 
@@ -28,6 +29,7 @@ registerLocaleData(en);
     AuthenticationModule,
     FwpModule,
     HomeModule,
+    WalletModule,
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
