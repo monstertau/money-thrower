@@ -1,0 +1,44 @@
+{
+  "category": [
+    {
+      "id": "1",
+      "type": "0",
+      "cat_name": "Ăn uống",
+      "icon": "an_uong"
+    }
+  ],
+  "transaction": [
+    {
+      "id": "1",
+      "wallet_id": "2",
+      "cat_id": "3",
+      "amount": 100000,
+      "note": "for testing purposes",
+      "timestamp": 1636794523
+    },
+    {
+      "id": "1",
+      "wallet_id": "1",
+      "cat_id": "1",
+      "amount": 100000,
+      "note": "for testing purposes",
+      "timestamp": 1636794523
+    },
+    {
+      "id": "2",
+      "wallet_id": "1",
+      "cat_id": "1",
+      "amount": 200000,
+      "note": "for testing purposes",
+      "timestamp": 1636794523
+    },
+    {
+      "id": "3",
+      "wallet_id": "1",
+      "cat_id": "1",
+      "amount": 300000,
+      "note": "for testing purposes",
+      "timestamp": 1636794523
+    }
+  ]
+}
