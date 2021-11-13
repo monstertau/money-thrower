@@ -93,8 +93,8 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
     selectWallet(id: string) {
         let dialog = document.getElementsByClassName('dialog') as HTMLCollectionOf<HTMLElement>;
         let dialogDetail = document.getElementById('dialog-detail') as HTMLElement;
-        if (dialog.length != 0 && dialog[0].style.left != '23%' && dialogDetail.hidden) {
-            dialog[0].style.left = "23%";
+        if (dialog.length != 0 && dialog[0].style.marginLeft != '21%' && dialogDetail.hidden) {
+            dialog[0].style.marginLeft = "21%";
             setTimeout(() => {
                 dialogDetail.hidden = false;
             }, 500);
@@ -106,8 +106,8 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
     hideWalletDetail() {
         let dialog = document.getElementsByClassName('dialog') as HTMLCollectionOf<HTMLElement>;
         let dialogDetail = document.getElementById('dialog-detail') as HTMLElement;
-        if (dialog.length != 0 && dialog[0].style.left == '23%' && !dialogDetail.hidden) {
-            dialog[0].style.left = "50%";
+        if (dialog.length != 0 && dialog[0].style.marginLeft == '21%' && !dialogDetail.hidden) {
+            dialog[0].style.marginLeft = "50%";
             dialogDetail.hidden = true;
         }
     }

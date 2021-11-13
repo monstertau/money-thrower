@@ -9,13 +9,18 @@
         </div>
     </div>
     <div class="right">
-        <span class="topbar-icon" nzTooltipTitle="Jump to today" nzTooltipPlacement="bottom" nz-tooltip (click)="jumpToToday()"><i nz-icon
-                nzType="calendar" nzTheme="outline"></i></span>
-        <span class="topbar-icon" [nzTooltipTitle]="viewToolTip" nzTooltipPlacement="bottom" nz-tooltip (click)="changeViewMode()"><i nz-icon
-                nzType="eye" nzTheme="outline"></i></span>
-        <span class="topbar-icon" style="margin-right: 50px;" nzTooltipTitle="Search" nz-tooltip
-            nzTooltipPlacement="bottom"><i nz-icon nzType="search" nzTheme="outline"></i></span>
-        <button class="transaction-btn" nz-button nzType="primary">Add transaction</button>
+        <div *ngIf="currentPage=='transaction'">
+            <span class="topbar-icon" nzTooltipTitle="Jump to today" nzTooltipPlacement="bottom" nz-tooltip
+                (click)="jumpToToday()"><i nz-icon nzType="calendar" nzTheme="outline"></i></span>
+            <span class="topbar-icon" [nzTooltipTitle]="viewToolTip" nzTooltipPlacement="bottom" nz-tooltip
+                (click)="changeViewMode()"><i nz-icon nzType="eye" nzTheme="outline"></i></span>
+            <span class="topbar-icon" style="margin-right: 50px;" nzTooltipTitle="Search" nz-tooltip
+                nzTooltipPlacement="bottom"><i nz-icon nzType="search" nzTheme="outline"></i></span>
+            <button class="transaction-btn" nz-button nzType="primary">Add transaction</button>
+        </div>
+        <div *ngIf="currentPage=='wallet'">
+            <button class="transaction-btn" nz-button nzType="primary">Add wallet</button>
+        </div>
     </div>
     <div hidden class="wallet-menu">
         <div class="menu-title">Select Wallet</div>

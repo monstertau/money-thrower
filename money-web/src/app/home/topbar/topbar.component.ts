@@ -10,6 +10,7 @@ import { CommonService, ViewMode } from 'src/app/services/common.service';
 export class TopbarComponent implements OnInit, OnChanges {
   @Input() sidebarCollapse = false;
   isWalletMenuOpen = false;
+  currentPage!: string;
   currentMode: string = ViewMode.CAT;
   currentMonth!: string;
   viewToolTip: string;
@@ -45,11 +46,12 @@ export class TopbarComponent implements OnInit, OnChanges {
         this.viewToolTip = "View by " + ViewMode.TRANS;
         break;
     }
-    this.commonService.currentMonth.subscribe(month => { this.currentMonth = month });
   }
 
   ngOnInit(): void {
     this.commonService.currentViewMode.subscribe(mode => { this.currentMode = mode });
+    this.commonService.currentPage.subscribe(page => { this.currentPage = page; });
+    this.commonService.currentMonth.subscribe(month => { this.currentMonth = month });
   }
 
   ngOnChanges(changes: any) {
@@ -72,7 +74,6 @@ export class TopbarComponent implements OnInit, OnChanges {
   }
 
   jumpToToday() {
-    console.log(this.currentMonth);
     if (this.currentMonth != 'this') {
       this.commonService.reloadComponent();
       this.router.navigate(['/']);

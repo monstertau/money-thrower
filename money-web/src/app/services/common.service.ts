@@ -1,23 +1,31 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
+  private page = new BehaviorSubject<string>('');
   private viewMode = new BehaviorSubject<string>('category');
   private month = new BehaviorSubject<string>('this');
+  currentPage = this.page.asObservable();
   currentViewMode = this.viewMode.asObservable();
   currentMonth = this.month.asObservable();
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private route: ActivatedRoute) { 
+    this.page.next(this.router.url.replace("/", '') || 'transaction');
+  }
 
   reloadComponent() {
     let currentUrl = this.router.url;
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.router.onSameUrlNavigation = 'reload';
     this.router.navigate([currentUrl]);
+  }
+
+  changePage(page: string) {
+    this.page.next(page);
   }
 
   changeViewMode(mode: string) {

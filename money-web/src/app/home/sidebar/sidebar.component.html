@@ -6,21 +6,24 @@
     </div>
     <ul nz-menu [nzInlineCollapsed]="isCollapsed" nzMode="inline" class="sider-menu"
         style="display: flex; flex-direction: column; height: calc(100% - 32px);">
-        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Transactions' : ''">
-            <i nz-icon nzType="book"></i>
-            <span>Transactions</span>
+        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Transactions' : ''" (click)="selectPage('transaction')">
+            <a [routerLink]="['/']"><i nz-icon nzType="book"></i>
+                <span>Transactions</span>
+            </a>
         </li>
-        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Report' : ''">
+        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Report' : ''" (click)="selectPage('report')">
             <i nz-icon nzType="file-text"></i>
             <span>Report</span>
         </li>
-        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Budget' : ''">
+        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Budget' : ''" (click)="selectPage('budget')">
             <i nz-icon nzType="container"></i>
             <span>Budget</span>
         </li>
-        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Wallets' : ''">
-            <i nz-icon nzType="wallet"></i>
-            <span>Wallets</span>
+        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Wallets' : ''" (click)="selectPage('wallet')">
+            <a [routerLink]="['/wallet']">
+                <i nz-icon nzType="wallet"></i>
+                <span>Wallets</span>
+            </a>
         </li>
         <div style="flex: 1;"></div>
 
