@@ -18,6 +18,7 @@ export class ChangePassComponent implements OnInit{
   isPassForm = true;
   isLoading = false;
   isValid = true;
+  isConfirmPassword = true;
   token: string ="";
   email:string ="";
 
@@ -99,19 +100,31 @@ export class ChangePassComponent implements OnInit{
       password:pass,
       token: this.token
     }
+    if (this.form.controls.confirmPassword.value != this.form.controls.password.value){
+        this.notification.error('Error', "Password and Confirm Password must be the same. Please try again.");
+        this.isLoading = false;
+      }
+    else{
     this.authService.passChange(user).subscribe(result => {
       if (result == 'SUCCESS') {
         // const returnUrl: string = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
         // this.router.navigate([returnUrl]);
         // window.location.href = returnUrl;
         this.change();
-      } else if (result == 'ERROR_NAME_OR_PASS') {
+      } else{
         alert('Error');
+        this.notification.error('Error', 'Change password uncomplete!');
       }
     }, (message) => {
       this.isLoading = false;
-      this.notification.error('Error', 'Change password uncomplete!');
+      if (this.form.controls.confirmPassword.value != this.form.controls.password.value)
+        this.notification.error('Error', "Password and Confirm Password must be the same. Please try again.");
+      else if (message.message.includes('invalid password'))
+        this.notification.error('Error', "Password must contain at least 8 charaters. Please try again.");
+      else this.notification.error('Error', message.message);
+      
     });
+  }
   }
 
   login() {

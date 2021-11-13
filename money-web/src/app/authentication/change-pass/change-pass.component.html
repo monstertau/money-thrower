@@ -31,7 +31,7 @@
                                     </ng-template>
                                 </nz-form-control>
                             </nz-form-item>
-                            <nz-form-item>
+                            <nz-form-item *ngIf="isConfirmPassword">
                                 <nz-form-control [nzErrorTip]="confirmErrorTpl">
                                     <nz-input-group [nzSuffix]="suffixTemplate" nzPrefixIcon="lock">
                                         <input [type]="passwordConfirmVisible ? 'text' : 'password'" nz-input
