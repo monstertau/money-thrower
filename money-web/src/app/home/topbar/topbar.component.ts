@@ -1,6 +1,6 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { Component, ElementRef, HostListener, Input, OnChanges, OnInit, SimpleChange } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnChanges, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CommonService, ViewMode } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-topbar',
@@ -10,6 +10,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class TopbarComponent implements OnInit, OnChanges {
   @Input() sidebarCollapse = false;
   isWalletMenuOpen = false;
+  currentMode: string = ViewMode.CAT;
+  currentMonth!: string;
+  viewToolTip: string;
 
   @HostListener('document:click', ['$event'])
   clickout(event: any) {
@@ -30,9 +33,23 @@ export class TopbarComponent implements OnInit, OnChanges {
     }
   }
 
-  constructor(private eRef: ElementRef, private router: Router, private route: ActivatedRoute) { }
+  constructor(private eRef: ElementRef, private router: Router, private route: ActivatedRoute, private commonService: CommonService) {
+    let mode: string = this.route.snapshot.queryParams['view'] || '';
+    switch (mode) {
+      case ViewMode.TRANS:
+        this.currentMode = ViewMode.TRANS;
+        this.viewToolTip = "View by " + ViewMode.CAT;
+        break;
+      default:
+        this.currentMode = ViewMode.CAT;
+        this.viewToolTip = "View by " + ViewMode.TRANS;
+        break;
+    }
+    this.commonService.currentMonth.subscribe(month => { this.currentMonth = month });
+  }
 
   ngOnInit(): void {
+    this.commonService.currentViewMode.subscribe(mode => { this.currentMode = mode });
   }
 
   ngOnChanges(changes: any) {
@@ -55,6 +72,25 @@ export class TopbarComponent implements OnInit, OnChanges {
   }
 
   jumpToToday() {
+    console.log(this.currentMonth);
+    if (this.currentMonth != 'this') {
+      this.commonService.reloadComponent();
+      this.router.navigate(['/']);
+    }
+  }
+
+  changeViewMode() {
+    if (this.currentMode === ViewMode.CAT) {
+      this.currentMode = ViewMode.TRANS;
+      this.viewToolTip = "View by category";
+      this.commonService.changeViewMode(this.currentMode);
+    }
+    else {
+      this.currentMode = ViewMode.CAT;
+      this.viewToolTip = "View by transaction";
+      this.commonService.changeViewMode(this.currentMode);
+    }
   }
 
 }
+
