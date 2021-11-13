@@ -187,10 +187,10 @@ func (h *WalletController) GetById(c *gin.Context) {
 // @Produce  json
 // @Security JWT
 // @Param id path string true "wallet id"
-// @Success 200 {object} {walletId}
+// @Success 200 {object} string
 // @Failure 400 {object} AppError
 // @Failure 500 {object} AppError
-// @Router /wallet/{id} [get]
+// @Router /wallet/{id} [delete]
 func (h *WalletController) DeleteById(c *gin.Context) {
 	walletId := c.Param("id")
 	if len(walletId) == 0 {
