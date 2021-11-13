@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
@@ -6,15 +6,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
+  @Output() collapse = new EventEmitter<boolean>();
 
   constructor() { }
 
   ngOnInit(): void {
+    this.collapse.emit(false);  
   }
 
   isCollapsed = false;
 
   toggleCollapsed(): void {
     this.isCollapsed = !this.isCollapsed;
+    this.collapse.emit(this.isCollapsed);
   }
 }

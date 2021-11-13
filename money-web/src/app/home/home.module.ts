@@ -13,12 +13,11 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { SidebarComponent } from './sidebar/sidebar.component';
 
 
-
 @NgModule({
   declarations: [
     HomeComponent,
     TopbarComponent,
-    SidebarComponent
+    SidebarComponent,
   ],
   imports: [
     CommonModule,
