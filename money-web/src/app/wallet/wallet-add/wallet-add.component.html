@@ -47,12 +47,14 @@
                                 </nz-select>
                             </nz-form-control>
                         </div>
-                        <nz-form-item>
+                        <nz-form-item style="width: 52%;">
                             <nz-form-label nzRequired>Money Amount</nz-form-label>
-                            <nz-form-control nzErrorTip="Please input your amount of money">
-                                <nz-input-number defaultValue={1000} [nzFormatter]="formatterCurrency"
-                                                 class="amount-input" formControlName="balance"
-                                                 [nzParser]="parserAmount"></nz-input-number>
+                            <nz-form-control [nzSpan]="14" nzErrorTip="Please input your amount of money">
+                                <div class="amount-input">
+                                    <div class="amount-currency"><span>{{form.value.currency}}</span></div>
+                                    <input min="0.0" formControlName="balance" type="number"
+                                           class="amount-number-input"/>
+                                </div>
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -66,7 +68,11 @@
             </div>
             <div class="footer">
                 <button class="save-btn footer-btn" nz-button nzType="primary" style="color: #52C41A;"
-                        (click)="submitAddWallet()" hidden>
+                        (click)="submitAddWallet()" hidden *ngIf="isAddForm">
+                    Save
+                </button>
+                <button class="save-btn footer-btn" nz-button nzType="primary" style="color: #52C41A;"
+                        (click)="submitEditWallet()" hidden *ngIf="isEditForm">
                     Save
                 </button>
                 <button class="cancel-btn footer-btn" nz-button nzType="primary" style="color: #FF4D4F;"
@@ -75,12 +81,14 @@
             </div>
             <div class="item-dialog" hidden>
                 <div class="item-dialog-header">
-                    <span (click)="iconDialog()"><i nz-icon nzType="close" nzTheme="outline"></i></span>
+                    <span (click)="iconDialog()" class="close-icon"><i nz-icon nzType="close"
+                                                                       nzTheme="outline"></i></span>
                     <span>Select icon</span>
                 </div>
                 <div class="item-dialog-content">
                     <div class="item-list">
-                        <div class="icon-element" *ngFor="let icon of IconList" id="{{icon.code}}" (click)="setIcon(icon.code)">
+                        <div class="icon-element" *ngFor="let icon of IconList" id="{{icon.code}}"
+                             (click)="setIcon(icon.code)">
                             <img src="../../../assets/catalogs/{{icon.text}}.png" class="icon-img">
                         </div>
                     </div>

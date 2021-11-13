@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ɵangular_packages_platform_browser_platform_browser_d} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -15,8 +15,8 @@ import {WalletService} from "../../services/wallet.service";
 })
 export class WalletAddComponent implements OnInit {
     form!: FormGroup;
-    isAddForm = true;
-    isEditForm = false;
+    @Input() isAddForm = true;
+    @Input() isEditForm = false;
     isLoading = false;
 
     constructor(private fb: FormBuilder, private walletService: WalletService, private notification: NzNotificationService) {
@@ -98,9 +98,9 @@ export class WalletAddComponent implements OnInit {
         }
     }
 
-    formatterCurrency = (value: number): string => `${this.form.value.currency} ${value}`;
-
-    parserAmount = (value: string): string => value.replace(`${this.form.value.currency} `, '');
+    submitEditWallet() {
+        console.log('123abc')
+    }
 
     ngOnInit(): void {
         this.form = this.fb.group({
