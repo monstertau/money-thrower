@@ -59,9 +59,10 @@ func (r *WalletRepo) Update(form *view.WalletForm) error {
 }
 
 func (r *WalletRepo) DeleteById(id string, userId string) error {
-	var wallet model.Wallet
-	wallet.Id = id
-	wallet.UserId = userId
+	var wallet = model.Wallet{
+		Id:     id,
+		UserId: userId,
+	}
 	err := r.dbConn.Delete(wallet).RowsAffected
 	if err == 0 {
 		return errors.Errorf("failed to execute delete query, the inputed id may wrong: %s", id)
