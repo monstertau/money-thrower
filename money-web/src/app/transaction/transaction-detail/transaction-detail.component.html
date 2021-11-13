@@ -20,7 +20,7 @@
         </div>
     </div>
     <div class="detail-right">
-        <div class="amount-right">-50,000 vnd</div>
-        <div class="note-right">Note: Noodle</div>
+        <div class="amount-right">-{{transaction.amount}} vnd</div>
+        <div *ngIf="transaction.note" class="note-right">Note: {{transaction.note}}</div>
     </div>
 </div>
