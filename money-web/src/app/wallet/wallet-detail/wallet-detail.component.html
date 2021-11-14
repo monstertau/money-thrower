@@ -4,35 +4,15 @@
             Included in total
         </div>
         <div class="wallets">
-            <div style="width: 100%;" (click)="selectWallet()">
+            <div *ngFor="let item of walletList; let i = index" style="width: 100%;" (click)="selectWallet(item.id)">
                 <div class="wallet-item">
                     <div class="icon"><img style="width: 40px;"
                             src="https://static.moneylover.me/img/icon/ic_category_all.png" alt=""></div>
                     <div style="margin-left: 20px;">
-                        <div class="name">Total</div>
-                        <div class="item-amount">Balance: 100000000VND</div>
+                        <div class="name">{{item.name}}</div>
+                        <div class="item-amount">Balance: {{item.balance}} {{item.currency}}</div>
                     </div>
                     <!-- <div class="selected-wallet"><span><i nz-icon nzType="check" nzTheme="outline"></i></span></div> -->
-                </div>
-            </div>
-            <div style="width: 100%;" (click)="selectWallet()">
-                <div class="wallet-item">
-                    <div class="icon"><img style="width: 40px;"
-                            src="https://static.moneylover.me/img/icon/ic_category_all.png" alt=""></div>
-                    <div style="margin-left: 20px;">
-                        <div class="name">Total</div>
-                        <div class="item-amount">Balance: 100000000VND</div>
-                    </div>
-                </div>
-            </div>
-            <div style="width: 100%;" (click)="selectWallet()">
-                <div class="wallet-item">
-                    <div class="icon"><img style="width: 40px;"
-                            src="https://static.moneylover.me/img/icon/ic_category_all.png" alt=""></div>
-                    <div style="margin-left: 20px;">
-                        <div class="name">Total</div>
-                        <div class="item-amount">Balance: 100000000VND</div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -52,8 +32,8 @@
         <div class="wallet-detail">
             <img style="width: 60px;" src="https://static.moneylover.me/img/icon/ic_category_all.png" alt="">
             <div style="margin-left: 30px;">
-                <div style="font-size: 24px;">Total</div>
-                <div class="wallet-currency">Viet Nam Dong</div>
+                <div style="font-size: 24px;">{{selectedWallet.name}}</div>
+                <div class="wallet-currency">{{selectedWallet.currency}}</div>
             </div>
         </div>
         <nz-divider nzType="horizontal"></nz-divider>
@@ -61,8 +41,8 @@
             <div style="display: flex; margin-top: 10px;">
                 <img style="width: 50px;" src="https://static.moneylover.me/img/icon/ic_category_all.png" alt="">
                 <div style="margin-left: 30px;">
-                    <div style="font-size: 14px; font-weight: 600;">Dominhthong99 <span class="owner-tag">Owner</span></div>
-                    <div class="wallet-currency">dominhthong99@gmail.com</div>
+                    <div style="font-size: 14px; font-weight: 600;">currentUser.username <span class="owner-tag">Owner</span></div>
+                    <div class="wallet-currency">{{currentUser.email}}</div>
                 </div>
             </div>
         </div>

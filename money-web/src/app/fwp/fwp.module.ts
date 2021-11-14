@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginComponent } from './login/login.component';
-import { AuthenticationRoutingModule } from './authentication-routing.module';
+import {FwpRountingModule } from './fwp-routing.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -10,17 +9,16 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ChangePassComponent } from './change-pass/change-pass.component';
+import { FwpComponent } from './fwp.component';
 
 
 @NgModule({
   declarations: [
-    LoginComponent,
-    ChangePassComponent
+    FwpComponent
   ],
   imports: [
     CommonModule,
-    AuthenticationRoutingModule,
+    FwpRountingModule,
     NzButtonModule,
     NzIconModule,
     NzFormModule,
@@ -32,8 +30,7 @@ import { ChangePassComponent } from './change-pass/change-pass.component';
     NzSpinModule
   ],
   exports: [
-    LoginComponent,
-    ChangePassComponent
+    FwpComponent
   ]
 })
-export class AuthenticationModule { }
+export class FwpModule { }

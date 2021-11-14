@@ -13,6 +13,7 @@ type (
 		Update(userId string, form *view.WalletForm) error
 		GetById(userId string, id string) (*view.WalletForm, error)
 		GetAll(userId string, limit int, from int) ([]*view.WalletForm, error)
+		DeleteById(userId string, id string) error
 	}
 	WalletService struct {
 		validator    *validator.Validator
@@ -55,7 +56,7 @@ func (s *WalletService) Update(userId string, form *view.WalletForm) error {
 }
 
 func (s *WalletService) GetAll(userId string, limit int, from int) ([]*view.WalletForm, error) {
-	walletViews := make([]*view.WalletForm, 0)
+	walletViews := make([]*view.WalletForm, 0) //tao slice moi length  = 0 tu con tro mang kieu WalletForm
 	wallets, err := s.repositories.WalletRepo.List(userId, limit, from)
 	if err != nil {
 		return make([]*view.WalletForm, 0), errors.Errorf("error in find wallets: %v", err)
@@ -73,4 +74,11 @@ func (s *WalletService) GetById(userId string, id string) (*view.WalletForm, err
 		return nil, errors.Errorf("error in find wallets: %v", err)
 	}
 	return view.ToWalletView(wallet), nil
+}
+func (s *WalletService) DeleteById(userId string, id string) error {
+	err := s.repositories.WalletRepo.DeleteById(id, userId)
+	if err != nil {
+		return errors.Errorf("error in delete wallet: %v", err)
+	}
+	return nil
 }
