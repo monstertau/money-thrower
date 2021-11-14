@@ -9,6 +9,10 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { WalletAddComponent } from './wallet-add/wallet-add.component';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { NzFormModule } from "ng-zorro-antd/form";
+import {NzInputNumberModule} from "ng-zorro-antd/input-number";
+import {NzSelectModule} from "ng-zorro-antd/select";
 
 
 @NgModule({
@@ -17,13 +21,18 @@ import { WalletAddComponent } from './wallet-add/wallet-add.component';
     WalletDetailComponent,
     WalletAddComponent
   ],
-  imports: [
-    CommonModule,
-    WalletRoutingModule,
-    NzIconModule,
-    NzButtonModule,
-    NzDividerModule,
-    NzCheckboxModule
-  ]
+    imports: [
+        CommonModule,
+        WalletRoutingModule,
+        NzIconModule,
+        NzButtonModule,
+        NzDividerModule,
+        NzCheckboxModule,
+        ReactiveFormsModule,
+        FormsModule,
+        NzFormModule,
+        NzInputNumberModule,
+        NzSelectModule
+    ]
 })
 export class WalletModule { }

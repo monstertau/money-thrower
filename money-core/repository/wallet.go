@@ -11,9 +11,10 @@ import (
 type (
 	WalletRepoInterface interface {
 		Create(form *view.WalletForm) (*model.Wallet, error)
-		GetById(id string,userId string) (*model.Wallet, error)
+		GetById(id string, userId string) (*model.Wallet, error)
 		Update(form *view.WalletForm) error
 		List(userId string, limit int, from int) ([]*model.Wallet, error)
+		DeleteById(id string, userId string) error
 	}
 	WalletRepo struct {
 		dbConn *gorm.DB
@@ -32,9 +33,9 @@ func (r *WalletRepo) Create(form *view.WalletForm) (*model.Wallet, error) {
 	return walletModel, nil
 }
 
-func (r *WalletRepo) GetById(id string,userId string) (*model.Wallet, error) {
+func (r *WalletRepo) GetById(id string, userId string) (*model.Wallet, error) {
 	wallet := &model.Wallet{}
-	if err := r.dbConn.First(&wallet, "id=? AND user_id=?", id,userId).Error; err != nil {
+	if err := r.dbConn.First(&wallet, "id=? AND user_id=?", id, userId).Error; err != nil {
 		return nil, errors.Errorf("failed to execute select query: %s", err)
 	}
 	return wallet, nil
@@ -53,6 +54,17 @@ func (r *WalletRepo) Update(form *view.WalletForm) error {
 	newWallet.Id = form.WalletId
 	if err := r.dbConn.Updates(newWallet).Error; err != nil {
 		return errors.Errorf("failed to execute update query: %s", err)
+	}
+	return nil
+}
+
+func (r *WalletRepo) DeleteById(id string, userId string) error {
+	var wallet model.Wallet
+	wallet.Id = id
+	wallet.UserId = userId
+	err := r.dbConn.Delete(wallet).RowsAffected
+	if err == 0 {
+		return errors.Errorf("failed to execute delete query, the inputed id may wrong: %s", id)
 	}
 	return nil
 }
