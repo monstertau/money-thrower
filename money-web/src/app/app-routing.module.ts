@@ -36,7 +36,7 @@ const routes: Routes = [
     loadChildren: () => import('./wallet/wallet.module').then(m => m.WalletModule)
   },
   {
-    path: 'add_wallet', component: WalletAddComponent,
+    path: 'add-wallet', component: WalletAddComponent,
     canActivate: [AuthGuard],
   },
   { path: '**', redirectTo: '/login', pathMatch: 'full' },
