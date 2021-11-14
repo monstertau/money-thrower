@@ -1,16 +1,16 @@
-<div class="test-component" nz-row nzJustify="space-between">
-  <div class="input-box" nz-col [nzSpan]="7">
+<div class="upper-row" nz-row nzJustify="space-between">
+  <div class="input-box" nz-col [nzSpan]="7" (click)="addTransaction()">
     <div class="input-name">
       Wallet
     </div>
     <div class="input-content" nz-row>
       <div class="input-picture" nz-col nzSpan="2">
         <i nz-icon>
-          <img src="/assets/catalogs/wallet_icon.png" alt="image" style="width: 24px;height: 24px">
+          <img src="/assets/catalogs/{{this.transaction.wallet.icon}}.png" alt="image" style="width: 24px;height: 24px">
         </i>
       </div>
       <div class="input-text" nz-col nzSpan="21">
-        Cash
+        {{this.transaction.wallet.name}}
       </div>
       <div class="left-arrow" nz-col nzSpan="1">
         <i nz-icon nzType="right" nzTheme="outline"></i>
@@ -24,11 +24,11 @@
     <div class="input-content" nz-row>
       <div class="input-picture" nz-col nzSpan="2">
         <i nz-icon>
-          <img src="/assets/catalogs/an_uong.png" alt="image" style="width: 24px;height: 24px">
+          <img src="/assets/catalogs/{{this.transaction.category.icon}}.png" alt="image" style="width: 24px;height: 24px">
         </i>
       </div>
       <div class="input-text" nz-col nzSpan="21">
-        Food & Beverage
+        {{this.transaction.category.name}}
       </div>
       <div class="left-arrow" nz-col nzSpan="1">
         <i nz-icon nzType="right" nzTheme="outline"></i>
@@ -40,17 +40,21 @@
       Amount
     </div>
     <div class="input-amount">
-      <input type="number" [ngModel]="0" nz-input nzBorderless nzSize="large"/>
+      <input #inputElement type="text" [ngModel]="getFormatAmount()" nz-input
+             nzBorderless nzSize="large"
+             (ngModelChange)="onChangeAmount($event)"/>
     </div>
   </div>
 </div>
-<div nz-row nzJustify="space-between">
+<div class="lower-row" nz-row nzJustify="space-between">
   <div class="input-box" nz-col [nzSpan]="7">
     <div class="input-name">
       Date
     </div>
     <div class="input-date">
-      <nz-date-picker [ngModel]="null" style="padding: 0" nzBorderless nzSize="large" nzFormat="dd/MM/yyyy" nzInputReadOnly="true" nzSuffixIcon="" nzAllowClear="false"></nz-date-picker>
+      <nz-date-picker style="padding: 0" nzBorderless nzSize="large" nzFormat="dd/MM/yyyy"
+                      nzInputReadOnly="true" nzSuffixIcon="" nzAllowClear="false"
+                      [(ngModel)]="transaction.transactionDate" (ngModelChange)="onChangeDate($event)"></nz-date-picker>
     </div>
   </div>
 
@@ -59,7 +63,7 @@
       Note
     </div>
     <div class="input-note">
-      <input type="text" placeholder="Note" [ngModel]="" nz-input nzBorderless nzSize="large"/>
+      <input type="text" placeholder="Note" [ngModel]="transaction.note" (ngModelChange)="onChangeNote($event)" nz-input nzBorderless nzSize="large"/>
     </div>
   </div>
 </div>

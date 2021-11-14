@@ -11,27 +11,17 @@ export interface Category {
   icon: string,
 }
 
-export class CategoryModel {
+export class CategoryView {
   id: string;
   type: string;
   name: string;
   icon: string
 
-  constructor(category: Category) {
-    this.id = category.id;
-    this.name = category.cat_name;
-    this.icon = category.icon;
-    switch (category.type) {
-      case 1:
-        this.type = categoryType.INCOME;
-        return;
-      case 2:
-        this.type = categoryType.OUTCOME;
-        return;
-      default:
-        this.type = categoryType.OTHERS;
-        return;
-    }
+  constructor() {
+    this.id = "";
+    this.type = categoryType.OTHERS;
+    this.name = "Others"
+    this.icon = "null"
   }
 
   getTypeNumber(): number {
@@ -43,6 +33,24 @@ export class CategoryModel {
       default:
         return 2;
     }
+  }
+
+  addCategory(category: Category): CategoryView {
+    this.id = category.id;
+    this.name = category.cat_name;
+    this.icon = category.icon;
+    switch (category.type) {
+      case 1:
+        this.type = categoryType.INCOME;
+        break;
+      case 2:
+        this.type = categoryType.OUTCOME;
+        break;
+      default:
+        this.type = categoryType.OTHERS;
+        break;
+    }
+    return this;
   }
 
   toCategory(): Category {
