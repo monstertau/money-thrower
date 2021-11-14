@@ -1,5 +1,5 @@
 <div class="upper-row" nz-row nzJustify="space-between">
-  <div class="input-box" nz-col [nzSpan]="7" (click)="addTransaction()">
+  <div class="input-box" nz-col [nzSpan]="7" (click)="onAddWallet()">
     <div class="input-name">
       Wallet
     </div>
@@ -17,14 +17,15 @@
       </div>
     </div>
   </div>
-  <div class="input-box" nz-col [nzSpan]="8">
+  <div class="input-box" nz-col [nzSpan]="8" (click)="onAddCategory()">
     <div class="input-name">
       Category
     </div>
     <div class="input-content" nz-row>
       <div class="input-picture" nz-col nzSpan="2">
         <i nz-icon>
-          <img src="/assets/catalogs/{{this.transaction.category.icon}}.png" alt="image" style="width: 24px;height: 24px">
+          <img src="/assets/catalogs/{{this.transaction.category.icon}}.png" alt="image"
+               style="width: 24px;height: 24px">
         </i>
       </div>
       <div class="input-text" nz-col nzSpan="21">
@@ -63,7 +64,8 @@
       Note
     </div>
     <div class="input-note">
-      <input type="text" placeholder="Note" [ngModel]="transaction.note" (ngModelChange)="onChangeNote($event)" nz-input nzBorderless nzSize="large"/>
+      <input type="text" placeholder="Note" [ngModel]="transaction.note" (ngModelChange)="onChangeNote($event)" nz-input
+             nzBorderless nzSize="large"/>
     </div>
   </div>
 </div>

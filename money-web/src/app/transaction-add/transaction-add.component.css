@@ -48,3 +48,13 @@
 [nz-input] {
   padding: 0;
 }
+
+::ng-deep .add-transaction-wallet-modal .ant-modal-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+::ng-deep .add-transaction-category-modal .ant-modal-title {
+  font-size: 20px;
+  font-weight: 600;
+}

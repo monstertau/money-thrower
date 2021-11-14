@@ -1,0 +1,17 @@
+<div class="wallet-title">Included in Total</div>
+<div class="wallet-items" *ngFor="let wallet of wallets">
+  <div>
+    <nz-divider style="margin-top: 10px; width: 430px;" nzType="horizontal"></nz-divider>
+    <div class="left wallet-item">
+      <div class="icon"><img style="width: 40px;"
+                             src="/assets/catalogs/{{wallet.icon}}.png" alt=""></div>
+      <div class="wallet-info">
+        <div class="name">{{wallet.name}}
+          <div class="item-amount">{{getFormatAmount(wallet.balance)}} {{wallet.currency}}</div>
+        </div>
+      </div>
+      <div class="selected-wallet"><span><i *ngIf="wallet.isCurrent" nz-icon nzType="check"
+                                            nzTheme="outline"></i></span></div>
+    </div>
+  </div>
+</div>

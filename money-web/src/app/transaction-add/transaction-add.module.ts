@@ -6,11 +6,17 @@ import {NzGridModule} from "ng-zorro-antd/grid";
 import {NzInputModule} from "ng-zorro-antd/input";
 import {FormsModule} from "@angular/forms";
 import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
+import { TransactionAddCategoryComponent } from './transaction-add-category/transaction-add-category.component';
+import { TransactionAddWalletComponent } from './transaction-add-wallet/transaction-add-wallet.component';
+import {NzDividerModule} from "ng-zorro-antd/divider";
+import {BrowserModule} from "@angular/platform-browser";
 
 
 @NgModule({
   declarations: [
     TransactionAddComponent,
+    TransactionAddCategoryComponent,
+    TransactionAddWalletComponent,
   ],
   imports: [
     NzIconModule,
@@ -18,7 +24,9 @@ import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
     NzGridModule,
     NzInputModule,
     FormsModule,
-    NzDatePickerModule
+    NzDatePickerModule,
+    NzDividerModule,
+    BrowserModule
   ]
 })
 export class TransactionAddModule {
