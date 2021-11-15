@@ -14,13 +14,15 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NzFormModule } from "ng-zorro-antd/form";
 import { NzInputNumberModule } from "ng-zorro-antd/input-number";
 import { NzSelectModule } from "ng-zorro-antd/select";
+import { LoadingSpinnerComponent } from '../components/loading-spinner/loading-spinner.component';
 
 
 @NgModule({
   declarations: [
     WalletComponent,
     WalletDetailComponent,
-    WalletAddComponent
+    WalletAddComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     CommonModule,
