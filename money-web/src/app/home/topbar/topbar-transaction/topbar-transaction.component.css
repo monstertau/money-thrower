@@ -1,0 +1,22 @@
+.right {
+    display: flex;
+    margin-left: auto;
+    justify-content: flex-end;
+}
+
+.transaction-btn {
+    background: #a0d911;
+    border: none;
+    margin-top: 16px;
+}
+
+.topbar-icon {
+    margin-right: 40px;
+    font-size: 20px;
+    color: rgba(0, 0, 0, 0.54);
+}
+
+.topbar-icon:hover {
+    cursor: pointer;
+    color: black;
+}

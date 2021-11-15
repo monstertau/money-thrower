@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, Input, OnChanges, OnInit, ViewContainerRef} from '@angular/core';
+import {Component, ElementRef, HostListener, Input, OnChanges, OnInit, ViewContainerRef, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CommonService, ViewMode} from 'src/app/services/common.service';
 import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
@@ -13,14 +13,12 @@ import {TransactionView} from "../../view-model/transactions";
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
-  styleUrls: ['./topbar.component.css']
+  styleUrls: ['./topbar.component.css'],
 })
 export class TopbarComponent implements OnInit, OnChanges {
   @Input() sidebarCollapse = false;
   isWalletMenuOpen = false;
-  currentMode: string = ViewMode.CAT;
-  currentMonth!: string;
-  viewToolTip: string;
+  currentPage!: string;
 
   private readonly destroy$ = new Subject();
   private _wallets: WalletView[] = [];
@@ -49,31 +47,13 @@ export class TopbarComponent implements OnInit, OnChanges {
     }
   }
 
-  constructor(private walletService: WalletService, private modal: NzModalService, private viewContainerRef: ViewContainerRef, private eRef: ElementRef, private router: Router, private route: ActivatedRoute, private commonService: CommonService) {
-    let mode: string = this.route.snapshot.queryParams['view'] || '';
-    switch (mode) {
-      case ViewMode.TRANS:
-        this.currentMode = ViewMode.TRANS;
-        this.viewToolTip = "View by " + ViewMode.CAT;
-        break;
-      default:
-        this.currentMode = ViewMode.CAT;
-        this.viewToolTip = "View by " + ViewMode.TRANS;
-        break;
-    }
-    this.commonService.currentMonth.subscribe(month => {
-      this.currentMonth = month
-    });
-  }
+  constructor(private walletService: WalletService, private eRef: ElementRef, private commonService: CommonService) {}
 
   ngOnInit(): void {
-    this.commonService.currentViewMode.subscribe(mode => {
-      this.currentMode = mode
-    });
+    this.commonService.currentPage.subscribe(page => { this.currentPage = page; });
     this.walletService.getWalletPaging(0, 100).pipe(takeUntil(this.destroy$))
       .subscribe(
         (res) => {
-          console.log(res);
           res.forEach(element => {
             this._wallets.push(new WalletView().addWallet(element));
           });
@@ -107,66 +87,6 @@ export class TopbarComponent implements OnInit, OnChanges {
 
   getFormatAmount(value: number): string {
     return Utils.formatNumber(value.toString())
-  }
-
-  getCurrentWallet(): WalletView {
-    for (let wallet of this._wallets) {
-      if (wallet.isCurrent) {
-        return wallet;
-      }
-    }
-    return new WalletView();
-  }
-
-  jumpToToday() {
-    console.log(this.currentMonth);
-    if (this.currentMonth != 'this') {
-      this.commonService.reloadComponent();
-      this.router.navigate(['/']);
-    }
-  }
-
-  changeViewMode() {
-    if (this.currentMode === ViewMode.CAT) {
-      this.currentMode = ViewMode.TRANS;
-      this.viewToolTip = "View by category";
-      this.commonService.changeViewMode(this.currentMode);
-    } else {
-      this.currentMode = ViewMode.CAT;
-      this.viewToolTip = "View by transaction";
-      this.commonService.changeViewMode(this.currentMode);
-    }
-  }
-
-  addTransaction() {
-    const modal: NzModalRef = this.modal.create({
-      nzTitle: 'Add Transaction',
-      nzClassName: "add-transaction-modal",
-      nzContent: TransactionAddComponent,
-      nzViewContainerRef: this.viewContainerRef,
-      nzComponentParams: {
-        transaction: new TransactionView().addWalletView(this.getCurrentWallet())
-      },
-      nzWidth: 848,
-      nzClosable: false,
-      nzFooter: [
-        {
-          label: 'Cancel',
-          type: 'default',
-          size: 'large',
-          onClick: () => modal.destroy()
-        },
-        {
-          label: 'Save',
-          type: 'primary',
-          size: 'large',
-          onClick: () => {
-
-          }
-        },
-      ]
-    });
-
   }
 
   ngOnDestroy() {

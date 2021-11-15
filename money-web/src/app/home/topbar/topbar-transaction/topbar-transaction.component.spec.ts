@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TransactionListComponent } from './transaction-list.component';
+import { TopbarTransactionComponent } from './topbar-transaction.component';
 
-describe('TransactionListComponent', () => {
-  let component: TransactionListComponent;
-  let fixture: ComponentFixture<TransactionListComponent>;
+describe('TopbarTransactionComponent', () => {
+  let component: TopbarTransactionComponent;
+  let fixture: ComponentFixture<TopbarTransactionComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TransactionListComponent ]
+      declarations: [ TopbarTransactionComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TransactionListComponent);
+    fixture = TestBed.createComponent(TopbarTransactionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

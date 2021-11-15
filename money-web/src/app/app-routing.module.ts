@@ -24,6 +24,12 @@ const routes: Routes = [
         component: TransactionComponent,
         canLoad: [AuthGuard],
         loadChildren: () => import('./transaction/transaction.module').then(m => m.TransactionModule)
+      },
+      {
+        path: 'wallet',
+        component: WalletComponent,
+        canLoad: [AuthGuard],
+        loadChildren: () => import('./wallet/wallet.module').then(m => m.WalletModule)
       }
     ],
   },
@@ -31,12 +37,7 @@ const routes: Routes = [
   // { path: 'forgot-password/:**',component:FwpComponent},
   { path: 'change-password', component: ChangePassComponent },
   {
-    path: 'my-wallets', component: WalletComponent,
-    canActivate: [AuthGuard],
-    loadChildren: () => import('./wallet/wallet.module').then(m => m.WalletModule)
-  },
-  {
-    path: 'add-wallet', component: WalletAddComponent,
+    path: 'add_wallet', component: WalletAddComponent,
     canActivate: [AuthGuard],
   },
   { path: '**', redirectTo: '/login', pathMatch: 'full' },

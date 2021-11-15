@@ -15,9 +15,9 @@ import { ErrorInterceptor } from './services/error.interceptor';
 import { InterceptorService } from './services/interceptor.service';
 import { HomeModule } from './home/home.module';
 import { FwpModule } from './fwp/fwp.module';
-import { TransactionAddComponent } from './transaction-add/transaction-add.component';
-import {TransactionAddModule} from "./transaction-add/transaction-add.module";
-import {NzIconModule} from "ng-zorro-antd/icon";
+import { WalletModule } from './wallet/wallet.module';
+import { TransactionAddModule } from "./transaction-add/transaction-add.module";
+import { NzIconModule } from "ng-zorro-antd/icon";
 
 registerLocaleData(en);
 
@@ -31,6 +31,7 @@ registerLocaleData(en);
     AuthenticationModule,
     FwpModule,
     HomeModule,
+    WalletModule,
     FormsModule,
     HttpClientModule,
     TransactionAddModule,
