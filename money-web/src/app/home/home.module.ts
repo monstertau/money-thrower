@@ -11,15 +11,17 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { NzModalModule } from "ng-zorro-antd/modal";
 
 
 @NgModule({
   declarations: [
     HomeComponent,
     TopbarComponent,
-    SidebarComponent,
+    SidebarComponent
   ],
   imports: [
+    NzModalModule,
     CommonModule,
     HomeRoutingModule,
     NzLayoutModule,
@@ -30,6 +32,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     NzDropDownModule,
     NzButtonModule,
     NzDividerModule
-  ]
+  ],
+
 })
 export class HomeModule { }
