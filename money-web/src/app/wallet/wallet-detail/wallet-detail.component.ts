@@ -37,6 +37,8 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
 
     isDetailLoading: boolean = true;
 
+    canLoadMore: boolean = true;
+
     fallbackIcon = 'assets/catalogs/wallet_icon.png';
 
     get isListEmpty(): boolean {
@@ -53,10 +55,10 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
 
     loadMore() {
         this.pageOffset += this.pageSize;
-        this.loadWalletList;
+        this.loadWalletList();
     }
-  
-     editWalletDetail() {
+
+    editWalletDetail() {
         this.editWallet.emit();
     }
 
@@ -66,6 +68,9 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe(
                 (res) => {
+                    if (!res || res.length <= 0) {
+                        this.canLoadMore = false;
+                    }
                     res.forEach(element => {
                         this.walletList.push(element);
                     });
