@@ -1,17 +1,17 @@
-<div class="wallet-title">Included in Total</div>
-<div class="wallet-items" *ngFor="let wallet of wallets">
-  <div>
-    <nz-divider style="margin-top: 10px; width: 430px;" nzType="horizontal"></nz-divider>
-    <div class="left wallet-item">
-      <div class="icon"><img style="width: 40px;"
-                             src="/assets/catalogs/{{wallet.icon}}.png" alt=""></div>
-      <div class="wallet-info">
-        <div class="name">{{wallet.name}}
-          <div class="item-amount">{{getFormatAmount(wallet.balance)}} {{wallet.currency}}</div>
+<div class="wrapper">
+    <div class="wallet-title">Included in Total</div>
+    <div class="wallet-items" *ngFor="let wallet of wallets">
+        <div class="wallet-item" [style.background-color]="wallet.isCurrent? 'rgba(45,184,76,.08)' : ''">
+            <div nz-row nzJustify="space-between">
+                <div class="icon" nz-col nzSpan="2"><img style="width: 40px;"
+                                                         src="/assets/catalogs/{{wallet.icon}}.png" alt=""></div>
+                <div class="wallet-info" nz-col nzSpan="19">
+                    <div class="name">{{wallet.name}}</div>
+                    <div class="item-amount">{{getFormatAmount(wallet.balance)}} {{wallet.currency}}</div>
+                </div>
+                <div class="selected-wallet" nz-col nzSpan="1"><span><i *ngIf="wallet.isCurrent" nz-icon nzType="check"
+                                                                        nzTheme="outline"></i></span></div>
+            </div>
         </div>
-      </div>
-      <div class="selected-wallet"><span><i *ngIf="wallet.isCurrent" nz-icon nzType="check"
-                                            nzTheme="outline"></i></span></div>
     </div>
-  </div>
 </div>
