@@ -4,7 +4,7 @@
             Included in total
         </div>
         <div class="wallets">
-            <div *ngFor="let item of walletList; let i = index" style="width: 100%;" (click)="selectWallet(item.id)">
+            <div *ngFor="let item of data; let i = index" style="width: 100%;" (click)="selectWallet(item.id)">
                 <div class="wallet-item">
                     <img nz-image width="40px" height="40px" [nzSrc]="getIcon(item.icon)" [nzFallback]="fallbackIcon" alt=""/>
                     <div style="margin-left: 20px;">
@@ -12,6 +12,9 @@
                         <div class="item-amount">Balance: {{formatCurrency(item.balance)}} {{item.currency}}</div>
                     </div>
                 </div>
+            </div>
+            <div class="load-more" *ngIf="loadingMore" (click)="loadMore()">
+                Load more...
             </div>
         </div>
     </div>

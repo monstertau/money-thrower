@@ -50,11 +50,10 @@ export class TopbarComponent implements OnInit, OnChanges {
   constructor(private walletService: WalletService, private eRef: ElementRef, private commonService: CommonService) {}
 
   ngOnInit(): void {
-    this.commonService.currentPage.subscribe(page => { this.currentPage = page; console.log(page) });
+    this.commonService.currentPage.subscribe(page => { this.currentPage = page; });
     this.walletService.getWalletPaging(0, 100).pipe(takeUntil(this.destroy$))
       .subscribe(
         (res) => {
-          console.log(res);
           res.forEach(element => {
             this._wallets.push(new WalletView().addWallet(element));
           });

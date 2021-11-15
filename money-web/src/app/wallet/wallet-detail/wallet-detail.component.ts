@@ -15,6 +15,7 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
 
     @Output() editWallet = new EventEmitter<string>();
     walletList: Wallet[] = [];
+    data: Wallet[] = [];
 
     selectedWallet: Wallet = {
         id: "",
@@ -29,7 +30,7 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
 
     currentUser: UserDetail;
 
-    pageSize: number = 10;
+    pageSize: number = 4;
 
     pageOffset: number = 0;
 
@@ -38,6 +39,8 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
     isDetailLoading: boolean = true;
 
     fallbackIcon = 'assets/catalogs/wallet_icon.png';
+
+    loadingMore = true;
 
     get isListEmpty(): boolean {
         return this.walletList.length <= 0
@@ -49,11 +52,18 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.loadWalletList();
+        this.data = this.walletList;
     }
 
     loadMore() {
         this.pageOffset += this.pageSize;
-        this.loadWalletList;
+        this.loadWalletList();
+        if (this.walletList.length == 0) {
+            this.loadingMore = false;
+            return;
+        }
+        this.data.concat(this.walletList);
+        console.log(this.data);
     }
   
      editWalletDetail() {
