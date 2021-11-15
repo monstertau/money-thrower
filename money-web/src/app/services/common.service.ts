@@ -14,7 +14,7 @@ export class CommonService {
   currentMonth = this.month.asObservable();
 
   constructor(private router: Router, private route: ActivatedRoute) { 
-    this.page.next(this.router.url.replace("/", '') || 'transaction');
+    this.page.next(this.router.url.split('?')[0].replace("/", '') || 'transaction');
   }
 
   reloadComponent() {

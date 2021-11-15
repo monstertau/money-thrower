@@ -1,24 +1,16 @@
 <!-- <p>topbar works!</p> -->
 <div class="topbar">
   <div class="left" (click)="openWalletMenu()" *ngIf="wallets.length >= 0">
-    <div class="icon"><img style="width: 40px;" src="/assets/catalogs/{{wallets[0].icon}}.png"
-                           alt=""></div>
+    <div class="icon"><img style="width: 40px;" src="/assets/catalogs/{{wallets[0].icon}}.png" alt=""></div>
     <div class="wallet-info">
       <div class="name">{{wallets[0].name}} <span> <i nz-icon nzType="caret-down" nzTheme="outline"></i></span></div>
       <div class="amount">{{getFormatAmount(wallets[0].balance)}} {{wallets[0].currency}}</div>
     </div>
   </div>
-  <div class="right">
-        <span class="topbar-icon" nzTooltipTitle="Jump to today" nzTooltipPlacement="bottom" nz-tooltip
-              (click)="jumpToToday()"><i nz-icon
-                                         nzType="calendar" nzTheme="outline"></i></span>
-    <span class="topbar-icon" [nzTooltipTitle]="viewToolTip" nzTooltipPlacement="bottom" nz-tooltip
-          (click)="changeViewMode()"><i nz-icon
-                                        nzType="eye" nzTheme="outline"></i></span>
-    <span class="topbar-icon" style="margin-right: 50px;" nzTooltipTitle="Search" nz-tooltip
-          nzTooltipPlacement="bottom"><i nz-icon nzType="search" nzTheme="outline"></i></span>
-    <button class="transaction-btn" nz-button nzType="primary" (click)="addTransaction()">Add transaction
-    </button>
+  <div style="margin-left: auto" [ngSwitch]="currentPage">
+    <app-topbar-transaction *ngSwitchCase="'transaction'"></app-topbar-transaction>
+    <app-topbar-wallet *ngSwitchCase="'wallet'"></app-topbar-wallet>
+    <div *ngSwitchDefault="">Other topbar</div>
   </div>
   <div hidden class="wallet-menu">
     <div class="menu-title">Select Wallet</div>
@@ -26,15 +18,14 @@
       <div>
         <nz-divider style="margin-top: 10px; width: 430px;" nzType="horizontal"></nz-divider>
         <div class="left wallet-item">
-          <div class="icon"><img style="width: 40px;"
-                                 src="/assets/catalogs/{{wallet.icon}}.png" alt=""></div>
+          <div class="icon"><img style="width: 40px;" src="/assets/catalogs/{{wallet.icon}}.png" alt=""></div>
           <div class="wallet-info">
             <div class="name">{{wallet.name}}
               <div class="item-amount">{{getFormatAmount(wallet.balance)}} {{wallet.currency}}</div>
             </div>
           </div>
           <div class="selected-wallet"><span><i *ngIf="wallet.isCurrent" nz-icon nzType="check"
-                                                nzTheme="outline"></i></span></div>
+                nzTheme="outline"></i></span></div>
         </div>
       </div>
     </div>
