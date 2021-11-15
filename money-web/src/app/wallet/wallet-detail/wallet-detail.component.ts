@@ -1,9 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, EventEmitter, Output } from '@angular/core';
 import jwtDecode from 'jwt-decode';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService, UserDetail } from 'src/app/services/auth.service';
 import { Wallet, WalletService } from 'src/app/services/wallet.service';
+
 
 @Component({
     selector: 'app-wallet-detail',
@@ -12,6 +13,7 @@ import { Wallet, WalletService } from 'src/app/services/wallet.service';
 })
 export class WalletDetailComponent implements OnInit, OnDestroy {
 
+    @Output() editWallet = new EventEmitter<string>();
     walletList: Wallet[] = [];
 
     selectedWallet: Wallet = {
@@ -52,6 +54,10 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
     loadMore() {
         this.pageOffset += this.pageSize;
         this.loadWalletList;
+    }
+  
+     editWalletDetail() {
+        this.editWallet.emit();
     }
 
     loadWalletList() {
