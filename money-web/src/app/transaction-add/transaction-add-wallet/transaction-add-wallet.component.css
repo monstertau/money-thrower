@@ -1,0 +1,40 @@
+.wrapper{
+    height: 600px;
+}
+
+.wallet-title {
+    color: rgba(0, 0, 0, .54);
+    font-size: 12px;
+    line-height: 16px;
+    padding: 12px 12px;
+    width: 100%;
+}
+
+.wallet-info .name {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.wallet-info .item-amount {
+    font-size: 12px;
+    line-height: 16px;
+    margin: 0;
+    color: rgba(0, 0, 0, .54);
+}
+
+.selected-wallet {
+    color: #a0d911;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.wallet-item {
+    border-bottom: 1px solid rgba(45,184,76,.20);
+    cursor: pointer;
+    padding: 24px 24px;
+}
+.wallet-item:hover {
+    background-color: rgba(45,184,76,.20);
+}
+
+
