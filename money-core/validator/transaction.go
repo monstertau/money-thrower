@@ -4,6 +4,7 @@ import (
 	"github.com/pkg/errors"
 	"money-core/repository"
 	"money-core/view"
+	"time"
 )
 
 type (
@@ -20,10 +21,10 @@ func NewTransactionValidator(repo *repository.Repositories) *TransactionValidato
 }
 
 func (v *TransactionValidator) ValidateFilterForm(form *view.FilterTransactionForm) error {
-	if form.StartAmount > form.EndAmount || form.EndAmount <= 0 {
+	if form.StartAmount > form.EndAmount || form.EndAmount < 0 {
 		return errors.New("start amount should smaller than end amount")
 	}
-	if form.StartDate.After(form.EndDate) {
+	if time.Unix(form.StartDate, 0).After(time.Unix(form.EndDate, 0)) {
 		return errors.New("start date should before end date")
 	}
 	return nil

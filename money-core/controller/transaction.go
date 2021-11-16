@@ -31,8 +31,7 @@ func (h *TransactionController) MakeHandler(g *gin.RouterGroup) {
 	{
 		group.GET("/:id", h.GetById)
 		group.DELETE("/:id", h.DeleteById)
-		group.GET("", h.GetList)
-		group.POST("/filter", h.GetFilteredList)
+		group.POST("", h.GetFilteredList)
 	}
 }
 
@@ -98,46 +97,6 @@ func (h *TransactionController) DeleteById(c *gin.Context) {
 	c.JSON(http.StatusOK, "deleted")
 }
 
-// GetList godoc
-// @Summary Get list of transactions
-// @Description Get list of transactions
-// @Tags transaction
-// @Accept json
-// @Produce json
-// @Param limit query int false "limit of list transactions want to specify, default 10"
-// @Param offset query int false "offset of list transactions want to specify, default 0"
-// @Security JWT
-// @Success 200 {object} view.TransactionForm
-// @Failure 400 {object} AppError
-// @Failure 500 {object} AppError
-// @Router /transaction [GET]
-func (h *TransactionController) GetList(c *gin.Context) {
-	offset, _ := strconv.Atoi(c.Query("offset"))
-	if offset < 0 {
-		ReportError(c, http.StatusBadRequest, fmt.Sprintf("expect 'offset' query param to be non-negative number"))
-		return
-	}
-	limit, _ := strconv.Atoi(c.Query("limit"))
-	if limit < 0 {
-		ReportError(c, http.StatusBadRequest, fmt.Sprintf("expect 'limit' query param to be non-negative number"))
-		return
-	}
-	if limit == 0 {
-		limit = 10 // Default limit
-	}
-	userId, err := h.services.JWTService.GetUserId(c)
-	if err != nil {
-		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get user id: %v", err))
-		return
-	}
-	transactions, err := h.services.TransactionService.GetList(userId, limit, offset)
-	if err != nil {
-		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get list transactions: %v", err))
-		return
-	}
-	c.JSON(http.StatusOK, transactions)
-}
-
 // GetFilteredList godoc
 // @Summary Get list of transactions based on filter
 // @Description Get list of transactions based on filter
@@ -151,7 +110,7 @@ func (h *TransactionController) GetList(c *gin.Context) {
 // @Success 200 {object} view.TransactionForm
 // @Failure 400 {object} AppError
 // @Failure 500 {object} AppError
-// @Router /transaction/filter [POST]
+// @Router /transaction [POST]
 func (h *TransactionController) GetFilteredList(c *gin.Context) {
 	var filterForm *view.FilterTransactionForm
 	if err := c.ShouldBindJSON(&filterForm); err != nil {

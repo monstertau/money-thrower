@@ -5,13 +5,13 @@ import (
 	"gorm.io/gorm"
 	"money-core/model"
 	"money-core/view"
+	"time"
 )
 
 type (
 	TransactionRepoInterface interface {
 		GetById(userId string, id string) (*model.Transaction, error)
 		DeleteById(userId string, id string) error
-		GetList(userId string, limit int, offset int) ([]*model.Transaction, error)
 		GetFilteredList(userId string, limit int, offset int, form *view.FilterTransactionForm) ([]*model.Transaction, error)
 	}
 	TransactionRepo struct {
@@ -39,22 +39,29 @@ func (r *TransactionRepo) DeleteById(userId string, id string) error {
 	return nil
 }
 
-func (r *TransactionRepo) GetList(userId string, limit int, offset int) ([]*model.Transaction, error) {
-	var list []*model.Transaction
-	if err := r.dbConn.Limit(limit).Offset(offset).Find(&list, "user_id=?", userId).Error; err != nil {
-		return nil, fmt.Errorf("failed to execute select query: %s", err)
-	}
-	return list, nil
-}
-
 func (r *TransactionRepo) GetFilteredList(userId string, limit int, offset int, form *view.FilterTransactionForm) ([]*model.Transaction, error) {
 	var filteredList []*model.Transaction
-	if err := r.dbConn.Limit(limit).Offset(offset).Find(&filteredList, "user_id=? "+
-		"AND wallet_id=? AND cat_id=? AND "+
-		"transaction_date BETWEEN ? AND ? AND "+
-		"amount BETWEEN ? AND ? AND "+
-		"note LIKE ?", userId, form.WalletId, form.CatId, form.StartDate, form.EndDate, form.StartAmount, form.EndAmount, "%"+form.KeyNote+"%").Error; err != nil {
+
+	tx := r.dbConn.Limit(limit).Offset(offset).Where("user_id = ?", userId)
+	if form.WalletId != "" {
+		tx.Where("wallet_id = ?", form.WalletId)
+	}
+	if form.CatId != "" {
+		tx.Where("cat_id = ?", form.CatId)
+	}
+	if form.StartDate != 0 || form.EndDate != 0 {
+		tx.Where("transaction_date BETWEEN ? AND ?", time.Unix(form.StartDate, 0), time.Unix(form.EndDate, 0))
+	}
+	if form.StartAmount != 0 || form.EndAmount != 0 {
+		tx.Where("amount BETWEEN ? AND ?", form.StartAmount, form.EndAmount)
+	}
+	if form.KeyNote != "" {
+		tx.Where("note LIKE ?", "%"+form.KeyNote+"%")
+	}
+
+	if err := tx.Find(&filteredList).Error; err != nil {
 		return nil, fmt.Errorf("failed to execute select query: %s", err)
 	}
+
 	return filteredList, nil
 }

@@ -276,60 +276,6 @@ var doc = `{
             }
         },
         "/transaction": {
-            "get": {
-                "security": [
-                    {
-                        "JWT": []
-                    }
-                ],
-                "description": "Get list of transactions",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "transaction"
-                ],
-                "summary": "Get list of transactions",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "limit of list transactions want to specify, default 10",
-                        "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "offset of list transactions want to specify, default 0",
-                        "name": "offset",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/view.TransactionForm"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/controller.AppError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/controller.AppError"
-                        }
-                    }
-                }
-            }
-        },
-        "/transaction/filter": {
             "post": {
                 "security": [
                     {
@@ -624,8 +570,8 @@ var doc = `{
                     "example": 999999
                 },
                 "end_date": {
-                    "type": "string",
-                    "example": "2099-06-23T20:29:39.688+07:00"
+                    "type": "integer",
+                    "example": 4102444799
                 },
                 "key_note": {
                     "type": "string",
@@ -636,8 +582,8 @@ var doc = `{
                     "example": 1
                 },
                 "start_date": {
-                    "type": "string",
-                    "example": "1960-06-23T20:29:39.688+07:00"
+                    "type": "integer",
+                    "example": -315619200
                 },
                 "wallet_id": {
                     "type": "string",
@@ -718,7 +664,7 @@ var doc = `{
                     "type": "string"
                 },
                 "transaction_date": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "transaction_id": {
                     "type": "string"

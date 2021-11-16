@@ -24,8 +24,8 @@ definitions:
         example: 999999
         type: number
       end_date:
-        example: "2099-06-23T20:29:39.688+07:00"
-        type: string
+        example: 4102444799
+        type: integer
       key_note:
         example: mua
         type: string
@@ -33,8 +33,8 @@ definitions:
         example: 1
         type: number
       start_date:
-        example: "1960-06-23T20:29:39.688+07:00"
-        type: string
+        example: -315619200
+        type: integer
       wallet_id:
         example: dda1d792-337b-476b-adbc-f81b06baa0d0
         type: string
@@ -90,7 +90,7 @@ definitions:
       note:
         type: string
       transaction_date:
-        type: string
+        type: integer
       transaction_id:
         type: string
       user_id:
@@ -289,11 +289,17 @@ paths:
       tags:
       - password management
   /transaction:
-    get:
+    post:
       consumes:
       - application/json
-      description: Get list of transactions
+      description: Get list of transactions based on filter
       parameters:
+      - description: Get filtered transaction list
+        in: body
+        name: create
+        required: true
+        schema:
+          $ref: '#/definitions/view.FilterTransactionForm'
       - description: limit of list transactions want to specify, default 10
         in: query
         name: limit
@@ -319,7 +325,7 @@ paths:
             $ref: '#/definitions/controller.AppError'
       security:
       - JWT: []
-      summary: Get list of transactions
+      summary: Get list of transactions based on filter
       tags:
       - transaction
   /transaction/{id}:
@@ -381,46 +387,6 @@ paths:
       security:
       - JWT: []
       summary: Get detail information of a transaction by id
-      tags:
-      - transaction
-  /transaction/filter:
-    post:
-      consumes:
-      - application/json
-      description: Get list of transactions based on filter
-      parameters:
-      - description: Get filtered transaction list
-        in: body
-        name: create
-        required: true
-        schema:
-          $ref: '#/definitions/view.FilterTransactionForm'
-      - description: limit of list transactions want to specify, default 10
-        in: query
-        name: limit
-        type: integer
-      - description: offset of list transactions want to specify, default 0
-        in: query
-        name: offset
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/view.TransactionForm'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/controller.AppError'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/controller.AppError'
-      security:
-      - JWT: []
-      summary: Get list of transactions based on filter
       tags:
       - transaction
   /wallet:
