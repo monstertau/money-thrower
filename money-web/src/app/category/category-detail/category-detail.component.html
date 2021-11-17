@@ -1,5 +1,6 @@
 <div class="content">
     <div class="dialog">
+<<<<<<< HEAD
         <div *ngIf="categoryViewMode == 'all'">
             <div class="header">
                All categories
@@ -19,10 +20,38 @@
                     <div *ngIf="isListLoading" style="width: 100%;">
                         <div class="category-item" style="position: relative; height: 80px;">
                         </div>
+=======
+        <div class="header">
+            Included in total
+        </div>
+        <div class="wallets">
+            <div *ngFor="let item of data; let i = index" style="width: 100%;" (click)="selectWallet(item.id)">
+                <div class="wallet-item">
+                    <img nz-image width="40px" height="40px" [nzSrc]="getIcon(item.icon)" [nzFallback]="fallbackIcon"
+                        alt="" />
+                    <div style="margin-left: 20px;">
+                        <div class="name">{{item.name}}</div>
+                        <div class="item-amount">Balance: {{formatCurrency(item.balance)}} {{item.currency}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="load-more">
+                <nz-divider *ngIf="canLoadMore" nzType="horizontal"></nz-divider>
+                <div *ngIf="isListLoading" style="width: 100%;">
+                    <div class="wallet-item" style="position: relative; height: 80px;">
+                        <app-loading-spinner [isSmall]="true"></app-loading-spinner>
+                    </div>
+                </div>
+                <div *ngIf="!isListLoading && canLoadMore" style="width: 100%;" (click)="loadMore()">
+                    <div class="load-more"
+                        style="height: 24px ;display:flex; align-items:center; justify-content: center; cursor: pointer;">
+                        <i nz-icon nzType="caret-down" nzTheme="outline"></i>
+>>>>>>> 9a8fdba3 (update category component)
                     </div>
                 </div>
             </div>
         </div>
+<<<<<<< HEAD
         <div *ngIf="categoryViewMode == 'debt or loan'">
             <div class="header">
                 Debt or loan categories
@@ -92,10 +121,13 @@
                  </div>
              </div>
         </div>
+=======
+>>>>>>> 9a8fdba3 (update category component)
     </div>
     <div id="dialog-detail" hidden>
         <div *ngIf="!isDetailLoading">
             <div class="title">
+<<<<<<< HEAD
                 <i class="close-icon" nz-icon nzType="close" nzTheme="outline" (click)="hideCategoryDetail()"></i>
                 <span style="margin-left: 30px; font-weight: 500; font-size: 20px; line-height: 28px;"> Category
                     details</span>
@@ -110,6 +142,29 @@
             </div>
             <!-- <nz-divider nzType="horizontal"></nz-divider> -->
             <!-- <div class="user-info"><span style="margin-left: 10px; font-weight: 500; color: rgba(0, 0, 0, 0.54);">
+=======
+                <i class="close-icon" nz-icon nzType="close" nzTheme="outline" (click)="hideWalletDetail()"></i>
+                <span style="margin-left: 30px; font-weight: 500; font-size: 20px; line-height: 28px;"> Wallet
+                    details</span>
+                <div class="btn-modify">
+                    <button class="btn-delete" nz-button nzType="text" nzDanger><span style="font-weight: 550;">
+                            DELETE</span></button>
+                    <button class="btn-edit" nz-button nzType="text" (click)="editWalletDetail()"><span
+                            style="font-weight: 550;"> EDIT</span></button>
+                </div>
+            </div>
+            <nz-divider nzType="horizontal"></nz-divider>
+            <div class="wallet-detail">
+                <img nz-image width="60px" height="60px" [nzSrc]="getIcon(selectedWallet.icon)"
+                    [nzFallback]="fallbackIcon" alt="" />
+                <div style="margin-left: 30px;">
+                    <div style="font-size: 24px;">{{selectedWallet.name}}</div>
+                    <div class="wallet-currency">{{selectedWallet.currency}}</div>
+                </div>
+            </div>
+            <nz-divider nzType="horizontal"></nz-divider>
+            <div class="user-info"><span style="margin-left: 10px; font-weight: 500; color: rgba(0, 0, 0, 0.54);">
+>>>>>>> 9a8fdba3 (update category component)
                     Users</span>
                 <div style="display: flex; margin-top: 10px;">
                     <img style="width: 50px;" src="https://static.moneylover.me/img/icon/ic_category_all.png" alt="">
@@ -119,10 +174,34 @@
                         <div class="wallet-currency">{{currentUser.email}}</div>
                     </div>
                 </div>
+<<<<<<< HEAD
             </div> -->
         </div>
         <!-- <div *ngIf="isDetailLoading" style="position: relative; height: 400px;">
         </div> -->
     </div>
     
+=======
+            </div>
+            <nz-divider nzType="horizontal"></nz-divider>
+            <div class="options">
+                <label nz-checkbox><span style="margin-left: 37px;">Excluded from total</span></label>
+                <p style="font-size: 12px; color: rgba(0,0,0,.54); margin-left: 60px;">Ignore this wallet and its
+                    balance in the "Total" mode.</p>
+                <label style="margin-top: 20px;" nz-checkbox><span style="margin-left: 37px;">Archived</span></label>
+                <p style="font-size: 12px; color: rgba(0,0,0,.54); margin-left: 60px;">Freeze this wallet and stop
+                    generating bills & recurring transactions..</p>
+            </div>
+            <nz-divider nzType="horizontal"></nz-divider>
+            <div class="btn-group">SHARE WALLET</div>
+            <nz-divider nzType="horizontal"></nz-divider>
+            <div class="btn-group">TRANSFER MONEY</div>
+            <nz-divider nzType="horizontal"></nz-divider>
+            <div class="btn-group">ADJUST BALANCE</div>
+        </div>
+        <div *ngIf="isDetailLoading" style="position: relative; height: 400px;">
+            <app-loading-spinner></app-loading-spinner>
+        </div>
+    </div>
+>>>>>>> 9a8fdba3 (update category component)
 </div>
