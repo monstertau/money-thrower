@@ -185,7 +185,7 @@ var doc = `{
         },
         "/password/change": {
             "post": {
-                "description": "Submit token, new password, email to reset password",
+                "description": "Submit token, new password, email to reset password. Token and",
                 "consumes": [
                     "application/json"
                 ],
@@ -526,6 +526,52 @@ var doc = `{
                 }
             }
         },
+        "/password/validate": {
+            "post": {
+                "description": "Validate Token before display change password form",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "password management"
+                ],
+                "summary": "Validate Token before display change password form",
+                "parameters": [
+                    {
+                        "description": "Submit token, email to reset password",
+                        "name": "ForgotPassword",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/view.TokenValidateForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "message\": true}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controller.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controller.AppError"
+                        }
+                    }
+                }
+            }
+        },
         "/wallet": {
             "get": {
                 "security": [
@@ -725,6 +771,53 @@ var doc = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Return result detail",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "wallet"
+                ],
+                "summary": "Delete specific wallet by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "wallet id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controller.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controller.AppError"
+                        }
+                    }
+                }
             }
         }
     },
@@ -890,6 +983,19 @@ var doc = `{
                 "password": {
                     "type": "string",
                     "example": "test"
+                },
+                "token": {
+                    "type": "string",
+                    "example": "token-string"
+                }
+            }
+        },
+        "view.TokenValidateForm": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "test@gmail.com"
                 },
                 "token": {
                     "type": "string",

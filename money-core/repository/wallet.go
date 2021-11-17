@@ -15,6 +15,7 @@ type (
 		Update(form *view.WalletForm) error
 		UpdateAmount(walletId string, amount float64, isExpense bool) error
 		List(userId string, limit int, from int) ([]*model.Wallet, error)
+		DeleteById(id string, userId string) error
 	}
 	WalletRepo struct {
 		dbConn *gorm.DB
@@ -70,6 +71,17 @@ func (r *WalletRepo) UpdateAmount(walletId string, amount float64, isExpense boo
 	//}
 	if err := r.dbConn.Model(&model.Wallet{}).Where("id = ?", walletId).Update("balance", gorm.Expr(exp, amount)).Error; err != nil {
 		return errors.Errorf("failed to execute update query: %s", err)
+	}
+	return nil
+}
+
+func (r *WalletRepo) DeleteById(id string, userId string) error {
+	var wallet model.Wallet
+	wallet.Id = id
+	wallet.UserId = userId
+	err := r.dbConn.Delete(wallet).RowsAffected
+	if err == 0 {
+		return errors.Errorf("failed to execute delete query, the inputed id may wrong: %s", id)
 	}
 	return nil
 }

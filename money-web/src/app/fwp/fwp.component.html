@@ -6,11 +6,11 @@
         </div>
     </div>
     <div class="dialog">
-            <p class="dialog-title" *ngIf="isMailForm">Quên Mật Khẩu</p>
-            <p class="dialog-title" *ngIf="!isMailForm">Quên Mật Khẩu</p>
+            <p class="dialog-title" *ngIf="isMailForm">Forgot password</p>
+            <p class="dialog-title" *ngIf="!isMailForm">Forgot password</p>
             <div class="dialog-content">
                 <div class="center" *ngIf="isMailForm">
-                    Nhập vào e-mail bạn đã dùng để đăng kí, chúng tôi sẽ gửi cho bạn e-mail hướng dẫn sớm nhất có thể
+                    Enter the email you used to register, we will send you an e-mail with instructions as soon as possible
                     <div class="form-control">
                         <form nz-form [formGroup]="form" class="mail-form">
                             <nz-form-item>
@@ -28,7 +28,7 @@
                             </nz-form-item>                       
                             <button nz-button class="mail-form-button mail-form-margin"
                                 [nzType]="'primary'"
-                                (click)="mailConfirm(form.controls.email.value)">Xác nhận
+                                (click)="mailConfirm(form.controls.email.value)">Enter
                                 <span><nz-spin nzSimple *ngIf="isLoading" style="margin-left: 10px;"></nz-spin></span>
                             </button>
                             <br>
@@ -44,11 +44,11 @@
                     </div>
                 </div>
                 <div class="center" *ngIf="!isMailForm">
-                    Cảm ơn sự đóng góp của bạn, chúng tôi sẽ gửi cho bạn e-mail hướng dẫn sớm nhất có thể
+                    Thank you for your information, we will send you an email with instructions as soon as possible
                     <br>
                     <i nz-icon nzType="mail" nzTheme="outline" style="font-size: 70px; margin-top: 40px; margin-bottom: 40px;"></i> 
                     <br>
-                    Hãy kiểm tra e-mail của bạn để có những chỉ dẫn    
+                    Please check your email for instructions    
                     <br>  
                     <div style="display: flex; margin-top: 40px;">
                                 <p style="margin-left: 28%;">Already have an account?</p>

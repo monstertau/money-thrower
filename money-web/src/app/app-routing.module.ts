@@ -1,24 +1,41 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FwpComponent } from './authentication/fwp/fwp.component';
+import { FwpComponent } from './fwp/fwp.component';
 import { AuthGuard } from './guards/auth.guard';
 import { HomeComponent } from './home/home.component';
 import { WalletComponent } from './wallet/wallet.component';
-import { WalletAddComponent} from "./wallet/wallet-add/wallet-add.component";
+import { WalletAddComponent } from "./wallet/wallet-add/wallet-add.component";
+import { ChangePassComponent } from './authentication/change-pass/change-pass.component';
+import { LoginComponent } from './authentication/login/login.component';
+import { TransactionComponent } from './transaction/transaction.component';
+import { LoginGuard } from './guards/login.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
   {
-    path: 'home', component: HomeComponent,
-    canActivate: [AuthGuard],
-    loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
+    path: 'login', component: LoginComponent,
+    canActivate: [LoginGuard],
+    loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
   },
-  { path: 'forgot-password',component:FwpComponent},
   {
-    path: 'my-wallets', component: WalletComponent,
-    canActivate: [AuthGuard],
-    loadChildren: () => import('./wallet/wallet.module').then(m => m.WalletModule)
-    },
+    path: '', component: HomeComponent,
+    children: [
+      {
+        path: '',
+        component: TransactionComponent,
+        canLoad: [AuthGuard],
+        loadChildren: () => import('./transaction/transaction.module').then(m => m.TransactionModule)
+      },
+      {
+        path: 'wallet',
+        component: WalletComponent,
+        canLoad: [AuthGuard],
+        loadChildren: () => import('./wallet/wallet.module').then(m => m.WalletModule)
+      }
+    ],
+  },
+  { path: 'forgot-password', component: FwpComponent },
+  // { path: 'forgot-password/:**',component:FwpComponent},
+  { path: 'change-password', component: ChangePassComponent },
   {
     path: 'add_wallet', component: WalletAddComponent,
     canActivate: [AuthGuard],
@@ -27,7 +44,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }

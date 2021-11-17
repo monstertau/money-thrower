@@ -6,31 +6,34 @@
     </div>
     <ul nz-menu [nzInlineCollapsed]="isCollapsed" nzMode="inline" class="sider-menu"
         style="display: flex; flex-direction: column; height: calc(100% - 32px);">
-        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Sổ giao dịch' : ''">
-            <i nz-icon nzType="book"></i>
-            <span>Sổ giao dịch</span>
+        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Transactions' : ''" (click)="selectPage('transaction')">
+            <a [routerLink]="['/']"><i nz-icon nzType="book"></i>
+                <span>Transactions</span>
+            </a>
         </li>
-        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Báo cáo' : ''">
+        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Report' : ''" (click)="selectPage('report')">
             <i nz-icon nzType="file-text"></i>
-            <span>Báo cáo</span>
+            <span>Report</span>
         </li>
-        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Ngân sách' : ''">
+        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Budget' : ''" (click)="selectPage('budget')">
             <i nz-icon nzType="container"></i>
-            <span>Ngân sách</span>
+            <span>Budget</span>
         </li>
-        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Ví' : ''">
-            <i nz-icon nzType="wallet"></i>
-            <span>Ví</span>
+        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Wallets' : ''" (click)="selectPage('wallet')">
+            <a [routerLink]="['/wallet']">
+                <i nz-icon nzType="wallet"></i>
+                <span>Wallets</span>
+            </a>
         </li>
         <div style="flex: 1;"></div>
 
-        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Cửa hàng' : ''">
+        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Store' : ''">
             <i nz-icon nzType="shopping-cart"></i>
-            <span>Cửa hàng</span>
+            <span>Store</span>
         </li>
-        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Trợ giúp' : ''">
+        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Help' : ''">
             <i nz-icon nzType="info-circle"></i>
-            <span>Trợ giúp</span>
+            <span>Help</span>
         </li>
     </ul>
 

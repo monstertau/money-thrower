@@ -27,7 +27,7 @@ func (m *MailService) SendMail(email string, token string) error {
 	var link = m.Link + token + "&email=" + email
 	auth := smtp.PlainAuth("", m.Email, m.Password, m.Smtphost)
 	message := fmt.Sprintf("To: %s\nFrom: %s\n", email, m.Email)
-	message += fmt.Sprintf("Subject: Reset Password") // subject
+	message += fmt.Sprintf("Subject: Reset Password\n") // subject
 	message += "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\"\n\n"
 	message += fmt.Sprintf(
 		"<html><body><body>Your reset password link: <a href=\"%s\">%s</a></html>",
