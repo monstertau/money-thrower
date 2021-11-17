@@ -1,13 +1,13 @@
 <nz-layout class="body-container">
     <nz-sider [style.min-width.px]="48" [style.max-width.px]="256" nzWidth="-1">
-        <app-sidebar></app-sidebar>
+        <app-sidebar (collapse)="onSizebarCollapse($event)"></app-sidebar>
     </nz-sider>
     <nz-layout>
         <nz-header>
-            <app-topbar></app-topbar>
+            <app-topbar [sidebarCollapse]="isCollapsed"></app-topbar>
         </nz-header>
         <nz-content>
-            Content
+            <router-outlet></router-outlet>
         </nz-content>
     </nz-layout>
 </nz-layout>

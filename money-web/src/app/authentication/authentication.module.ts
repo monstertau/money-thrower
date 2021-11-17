@@ -10,13 +10,13 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FwpComponent } from './fwp/fwp.component';
+import { ChangePassComponent } from './change-pass/change-pass.component';
 
 
 @NgModule({
   declarations: [
     LoginComponent,
-    FwpComponent
+    ChangePassComponent
   ],
   imports: [
     CommonModule,
@@ -33,7 +33,7 @@ import { FwpComponent } from './fwp/fwp.component';
   ],
   exports: [
     LoginComponent,
-    FwpComponent
+    ChangePassComponent
   ]
 })
 export class AuthenticationModule { }

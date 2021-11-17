@@ -24,11 +24,12 @@ export class LoginComponent implements OnInit {
     private notification: NzNotificationService) { }
 
   ngOnInit(): void {
-    this.form = this.fb.group({
+      this.form = this.fb.group({
 
       email: [null, [Validators.email, Validators.required]],
       password: [null, [Validators.required, Validators.minLength(8)]],
       confirmPassword: [null, [Validators.required, this.confirmationValidator]],
+      
     });
   }
 
@@ -66,6 +67,11 @@ export class LoginComponent implements OnInit {
       email: email,
       password: password
     };
+    if (this.form.controls.confirmPassword.value != this.form.controls.password.value) {
+      this.notification.error('Error', "Password and Confirm Password must be the same. Please try again.");
+      this.isLoading = false;
+      return;
+    }
     this.authService.register(user).subscribe(result => {
       if (result == 'SUCCESS') {
         this.notification.success('Success', 'Register Success');
@@ -75,9 +81,7 @@ export class LoginComponent implements OnInit {
       }
     }, (message) => {
       this.isLoading = false;
-      if (this.form.controls.confirmPassword.value != this.form.controls.password.value)
-        this.notification.error('Error', "Password and Confirm Password must be the same. Please try again.");
-      else if (message.message.includes('existed'))
+      if (message.message.includes('existed'))
         this.notification.error('Error', "This email is unavailable. Please chose another one.");
       else if (message.message.includes('invalid email'))
         this.notification.error('Error', "Invalid email. Please try again.");

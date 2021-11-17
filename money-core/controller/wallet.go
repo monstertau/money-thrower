@@ -8,6 +8,7 @@ import (
 	"money-core/validator"
 	"money-core/view"
 	"net/http"
+	"strconv"
 )
 
 type WalletController struct {
@@ -30,6 +31,9 @@ func (h *WalletController) MakeHandler(g *gin.RouterGroup) {
 	{
 		group.POST("", h.Create)
 		group.PUT("", h.Update)
+		group.GET("", h.GetAll)
+		group.GET("/:id", h.GetById)
+		group.DELETE("/:id", h.DeleteById)
 	}
 }
 
@@ -102,4 +106,106 @@ func (h *WalletController) Update(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, updateForm)
+}
+
+// GetAll godoc
+// @Summary Get list wallet with paging
+// @Description Return list of wallet
+// @Tags wallet
+// @Accept  json
+// @Produce  json
+// @Security JWT
+// @Param from query int false "offset of list wallet want to specify, default 0"
+// @Param limit query int false "limit of list wallet want to specify, default 10"
+// @Success 200 {object} view.WalletForm
+// @Failure 400 {object} AppError
+// @Failure 500 {object} AppError
+// @Router /wallet [get]
+func (h *WalletController) GetAll(c *gin.Context) {
+	from, _ := strconv.Atoi(c.Query("from"))
+	if from < 0 {
+		ReportError(c, http.StatusBadRequest, fmt.Sprintf("expect 'from' query param to be non-negative number"))
+		return
+	}
+	limit, _ := strconv.Atoi(c.Query("limit"))
+	if limit < 0 {
+		ReportError(c, http.StatusBadRequest, fmt.Sprintf("expect 'limit' query param to be non-negative number"))
+		return
+	}
+	if limit == 0 {
+		limit = 10 // Default limit
+	}
+	userId, err := h.services.JWTService.GetUserId(c)
+	if err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get user id: %v", err))
+		return
+	}
+	wallets, err := h.services.WalletService.GetAll(userId, limit, from)
+	if err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get list wallets: %v", err))
+		return
+	}
+	c.JSON(http.StatusOK, wallets)
+}
+
+// GetById godoc
+// @Summary Get specific wallet by id
+// @Description Return wallet detail
+// @Tags wallet
+// @Accept  json
+// @Produce  json
+// @Security JWT
+// @Param id path string true "wallet id"
+// @Success 200 {object} view.WalletForm
+// @Failure 400 {object} AppError
+// @Failure 500 {object} AppError
+// @Router /wallet/{id} [get]
+func (h *WalletController) GetById(c *gin.Context) {
+	walletId := c.Param("id")
+	if len(walletId) == 0 {
+		ReportError(c, http.StatusBadRequest, fmt.Sprintf("cant found wallet id in request"))
+		return
+	}
+	userId, err := h.services.JWTService.GetUserId(c)
+	if err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get user id: %v", err))
+		return
+	}
+	wallet, err := h.services.WalletService.GetById(userId, walletId)
+	if err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get wallet information: %v", err))
+		return
+	}
+	c.JSON(http.StatusOK, wallet)
+}
+
+// DeleteById godoc
+// @Summary Delete specific wallet by id
+// @Description Return result detail
+// @Tags wallet
+// @Accept  json
+// @Produce  json
+// @Security JWT
+// @Param id path string true "wallet id"
+// @Success 200 {object} string
+// @Failure 400 {object} AppError
+// @Failure 500 {object} AppError
+// @Router /wallet/{id} [delete]
+func (h *WalletController) DeleteById(c *gin.Context) {
+	walletId := c.Param("id")
+	if len(walletId) == 0 {
+		ReportError(c, http.StatusBadRequest, fmt.Sprintf("cant found wallet id in request"))
+		return
+	}
+	userId, err := h.services.JWTService.GetUserId(c)
+	if err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get user id: %v", err))
+		return
+	}
+	err = h.services.WalletService.DeleteById(userId, walletId)
+	if err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant delete wallet: %v", err))
+		return
+	}
+	c.JSON(http.StatusOK, walletId)
 }

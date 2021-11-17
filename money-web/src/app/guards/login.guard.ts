@@ -21,7 +21,7 @@ export class LoginGuard implements CanActivate, CanActivateChild {
   }
   checkLogin(url: string, state?: RouterStateSnapshot): boolean {
     if (this.authService.userDetail?.token) {
-      this.router.navigate(['/home']);
+      this.router.navigate(['/']);
       return false;
     }
     return true;

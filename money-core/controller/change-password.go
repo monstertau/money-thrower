@@ -29,6 +29,7 @@ func (h *PasswordController) MakeHandler(g *gin.RouterGroup) {
 	group := g.Group("/password")
 	group.POST("/forgot", h.ForgotPassword)
 	group.POST("/change", h.ChangePassword)
+	group.POST("/validate", h.ValidateToken)
 }
 
 // ForgotPassword godoc
@@ -79,7 +80,8 @@ func (h *PasswordController) ForgotPassword(c *gin.Context) {
 
 // ChangePassword godoc
 // @Summary Submit token, new password, email to reset password
-// @Description Submit token, new password, email to reset password
+// @Description Submit token, new password, email to reset password. Token and
+//email param receive from redirect link in mail. (E.g: http://localhost:8080/api/v1/changepass/submit?token=WBIQdjryLuSAfGgoir1kZvShlgY3hLSBubv92xkf1DqPA3167ttBrLShYTtd77cK&email=nxhoang99@gmail.com)
 // @Tags password management
 // @Accept json
 // @Produce json
@@ -99,6 +101,7 @@ func (h *PasswordController) ChangePassword(c *gin.Context) {
 		ReportError(c, http.StatusBadRequest, fmt.Sprintf("invalid form: %v", err))
 		return
 	}
+	// Reset password
 	if err := h.services.PasswordService.ResetPassword(snpForm); err != nil {
 		ReportError(c, http.StatusBadRequest, fmt.Sprintf("error in reset password: %v", err))
 		return
@@ -108,4 +111,33 @@ func (h *PasswordController) ChangePassword(c *gin.Context) {
 		"message": "Change password successfully",
 	})
 
+}
+
+// ValidateToken godoc
+// @Summary Validate Token before display change password form
+// @Description Validate Token before display change password form
+// @Tags password management
+// @Accept json
+// @Produce json
+// @Param ForgotPassword body view.TokenValidateForm true "Submit token, email to reset password"
+// @Success 200 {string} {"message": true}
+// @Failure 400 {object} AppError
+// @Failure 500 {object} AppError
+// @Router /password/validate [post]
+func (h *PasswordController) ValidateToken(c *gin.Context) {
+	var vForm *view.TokenValidateForm
+	if err := c.ShouldBindJSON(&vForm); err != nil {
+		ReportError(c, http.StatusBadRequest, fmt.Sprintf("invalid input in parse json format: %v", err))
+		return
+	}
+
+	if err := h.services.PasswordService.ValidateToken(vForm.Token, vForm.Email); err != nil {
+		ReportError(c, http.StatusBadRequest, fmt.Sprintf("invalid form: %v", err))
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"message": "ok",
+	})
 }
