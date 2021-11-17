@@ -2,6 +2,7 @@ package service
 
 import (
 	"github.com/pkg/errors"
+	"money-core/model"
 	"money-core/repository"
 	"money-core/validator"
 	"money-core/view"
@@ -13,8 +14,9 @@ type (
 		GetById(userId string, id string) (*view.TransactionForm, error)
 		DeleteById(userId string, id string) error
 		GetFilteredList(userId string, limit int, offset int, form *view.FilterTransactionForm) ([]*view.TransactionForm, error)
+		GetTransactions(userId string, form *view.EditTransactionForm) (*model.Transaction, error)
 		AddTransactions(form *view.AddTransactionForm, isExpense bool) (*view.AddTransactionForm, error)
-		EditTransactions(form *view.EditTransactionForm, walletId string, newAmount float64) (
+		EditTransactions(form *view.EditTransactionForm, walletId string, newAmount float64) (*view.EditTransactionForm, error)
 	}
 	TransactionService struct {
 		validator    *validator.Validator
@@ -88,4 +90,12 @@ func (s *TransactionService) EditTransactions(form *view.EditTransactionForm, wa
 	}
 
 	return form, nil
+}
+
+func (s *TransactionService) GetTransactions(userId string, form *view.EditTransactionForm) (*model.Transaction, error) {
+	transaction, err := s.repositories.TransactionRepo.GetById(userId, form.TransactionId)
+	if err != nil {
+		return nil, errors.Errorf("Invalid transaction_id")
+	}
+	return transaction, nil
 }

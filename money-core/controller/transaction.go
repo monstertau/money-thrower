@@ -33,9 +33,10 @@ func (h *TransactionController) MakeHandler(g *gin.RouterGroup) {
 		group.PUT("", h.Edit)
 		group.GET("/:id", h.GetById)
 		group.DELETE("/:id", h.DeleteById)
-		group.POST("", h.GetFilteredList)
+		group.POST("/filter", h.GetFilteredList)
 	}
 }
+
 // Add godoc
 // @Summary Add new transaction
 // @Description Add new transaction
@@ -101,7 +102,7 @@ func (h *TransactionController) Edit(c *gin.Context) {
 		return
 	}
 	form.UserId = userId
-	transaction, err := h.services.TransactionService.GetTransactions(form)
+	transaction, err := h.services.TransactionService.GetTransactions(userId, form)
 	if err != nil {
 		ReportError(c, http.StatusForbidden, fmt.Sprintf("%v", err))
 		return
@@ -122,6 +123,7 @@ func (h *TransactionController) Edit(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, newTransaction)
 }
+
 // GetById godoc
 // @Summary Get detail information of a transaction by id
 // @Description Get detail information of a transaction by id
@@ -197,7 +199,7 @@ func (h *TransactionController) DeleteById(c *gin.Context) {
 // @Success 200 {object} view.TransactionForm
 // @Failure 400 {object} AppError
 // @Failure 500 {object} AppError
-// @Router /transaction [POST]
+// @Router /transaction/filter [POST]
 func (h *TransactionController) GetFilteredList(c *gin.Context) {
 	var filterForm *view.FilterTransactionForm
 	if err := c.ShouldBindJSON(&filterForm); err != nil {

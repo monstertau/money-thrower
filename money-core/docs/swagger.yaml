@@ -32,11 +32,6 @@ definitions:
     - cat_id
     - wallet_id
     type: object
-  view.DeleteTransactionForm:
-    properties:
-      transaction_id:
-        type: string
-    type: object
   view.EditTransactionForm:
     properties:
       amount:
@@ -57,20 +52,25 @@ definitions:
   view.FilterTransactionForm:
     properties:
       cat_id:
+        example: f3b91567-3496-4d9b-9f1e-ca69c92b89a6
         type: string
       end_amount:
-        example: 2500000
+        example: 999999
         type: number
       end_date:
-        type: string
+        example: 4102444799
+        type: integer
       key_note:
+        example: mua
         type: string
       start_amount:
-        example: 10000
+        example: 1
         type: number
       start_date:
-        type: string
+        example: -315619200
+        type: integer
       wallet_id:
+        example: dda1d792-337b-476b-adbc-f81b06baa0d0
         type: string
     type: object
   view.ForgotPasswordForm:
@@ -82,10 +82,10 @@ definitions:
   view.LoginForm:
     properties:
       email:
-        example: test@gmail.com
+        example: dungsieuvip2012@gmail.com
         type: string
       password:
-        example: test
+        example: "12345678"
         type: string
     type: object
   view.RegisterForm:
@@ -115,6 +115,15 @@ definitions:
         example: token-string
         type: string
     type: object
+  view.TokenValidateForm:
+    properties:
+      email:
+        example: test@gmail.com
+        type: string
+      token:
+        example: token-string
+        type: string
+    type: object
   view.TransactionForm:
     properties:
       amount:
@@ -123,20 +132,13 @@ definitions:
         type: string
       note:
         type: string
+      transaction_date:
+        type: integer
+      transaction_id:
+        type: string
+      user_id:
+        type: string
       wallet_id:
-        type: string
-    required:
-    - amount
-    - cat_id
-    - wallet_id
-    type: object
-  view.TokenValidateForm:
-    properties:
-      email:
-        example: test@gmail.com
-        type: string
-      token:
-        example: token-string
         type: string
     type: object
   view.WalletForm:
@@ -329,25 +331,25 @@ paths:
       summary: Submit email for sending reset password email
       tags:
       - password management
-  /transaction/:
-    delete:
+  /password/validate:
+    post:
       consumes:
       - application/json
-      description: Delete a transaction
+      description: Validate Token before display change password form
       parameters:
-      - description: Delete transaction
+      - description: Submit token, email to reset password
         in: body
-        name: create
+        name: ForgotPassword
         required: true
         schema:
-          $ref: '#/definitions/view.DeleteTransactionForm'
+          $ref: '#/definitions/view.TokenValidateForm'
       produces:
       - application/json
       responses:
         "200":
-          description: OK
+          description: 'message": true}'
           schema:
-            $ref: '#/definitions/view.DeleteTransactionForm'
+            type: string
         "400":
           description: Bad Request
           schema:
@@ -356,11 +358,10 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/controller.AppError'
-      security:
-      - JWT: []
-      summary: Delete a transaction
+      summary: Validate Token before display change password form
       tags:
-      - transaction
+      - password management
+  /transaction/:
     post:
       consumes:
       - application/json
@@ -423,18 +424,47 @@ paths:
       summary: Edit a transaction
       tags:
       - transaction
-  /transaction/detail:
+  /transaction/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a transaction
+      parameters:
+      - description: transaction id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Delete a transaction
+      tags:
+      - transaction
     get:
       consumes:
       - application/json
-      description: Get detail information of a transaction
+      description: Get detail information of a transaction by id
       parameters:
-      - description: Get transaction
-        in: body
-        name: create
+      - description: transaction id
+        in: path
+        name: id
         required: true
-        schema:
-          $ref: '#/definitions/view.TransactionForm'
+        type: string
       produces:
       - application/json
       responses:
@@ -452,28 +482,36 @@ paths:
             $ref: '#/definitions/controller.AppError'
       security:
       - JWT: []
-      summary: Get detail information of a transaction
+      summary: Get detail information of a transaction by id
       tags:
       - transaction
   /transaction/filter:
-    get:
+    post:
       consumes:
       - application/json
       description: Get list of transactions based on filter
       parameters:
-      - description: Get transaction list
+      - description: Get filtered transaction list
         in: body
         name: create
         required: true
         schema:
           $ref: '#/definitions/view.FilterTransactionForm'
+      - description: limit of list transactions want to specify, default 10
+        in: query
+        name: limit
+        type: integer
+      - description: offset of list transactions want to specify, default 0
+        in: query
+        name: offset
+        type: integer
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/view.FilterTransactionForm'
+            $ref: '#/definitions/view.TransactionForm'
         "400":
           description: Bad Request
           schema:
@@ -487,36 +525,6 @@ paths:
       summary: Get list of transactions based on filter
       tags:
       - transaction
-  /password/validate:
-    post:
-      consumes:
-      - application/json
-      description: Validate Token before display change password form
-      parameters:
-      - description: Submit token, email to reset password
-        in: body
-        name: ForgotPassword
-        required: true
-        schema:
-          $ref: '#/definitions/view.TokenValidateForm'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 'message": true}'
-          schema:
-            type: string
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/controller.AppError'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/controller.AppError'
-      summary: Validate Token before display change password form
-      tags:
-      - password management
   /wallet:
     get:
       consumes:
