@@ -34,7 +34,7 @@ const routes: Routes = [
     ],
   },
   { path: 'forgot-password', component: FwpComponent },
-  // { path: 'forgot-password/:**',component:FwpComponent},
+  { path: 'forgot-password/:**',component:FwpComponent},
   { path: 'change-password', component: ChangePassComponent },
   {
     path: 'add_wallet', component: WalletAddComponent,
