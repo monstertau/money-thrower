@@ -9,6 +9,7 @@ import { ChangePassComponent } from './authentication/change-pass/change-pass.co
 import { LoginComponent } from './authentication/login/login.component';
 import { TransactionComponent } from './transaction/transaction.component';
 import { LoginGuard } from './guards/login.guard';
+import { CategoryComponent } from './category/category.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,12 @@ const routes: Routes = [
         component: WalletComponent,
         canLoad: [AuthGuard],
         loadChildren: () => import('./wallet/wallet.module').then(m => m.WalletModule)
+      },
+      {
+        path: 'category',
+        component: CategoryComponent,
+        canLoad: [AuthGuard],
+        loadChildren: () => import('./category/category.module').then(m => m.CategoryModule)
       }
     ],
   },

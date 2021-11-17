@@ -1,57 +1,28 @@
-
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { HttpService } from './http.service';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class CategoryService {
-    private route = "category"
 
-    constructor(private httpService: HttpService) {
-    }
+  constructor(private httpService: HttpService) { }
 
-    addCategory(data: CategoryRequest) {
-        return new Observable<string>((observable) => {
-            this.httpService.post<CategoryResponse>('category', data).subscribe((response: CategoryResponse) => {
-                if (!response) {
-                    observable.next('FAIL');
-                } else {
-                    console.log(response)
-                    observable.next('SUCCESS');
-                }
-            }, (error) => {
-                observable.error(error);
-            });
-            return {
-                unsubscribe() {
-                }
-            };
-        })
-    }
-
-    getCategoryPaging(offset: number = 0, limit: number = 10) {
-        return this.httpService.get<Category[]>(this.route, {
-            params: {
-                from: offset,
-                limit: limit
-            }
-        })
-    }
-
-    getCategoryById(id: string) {
-        return this.httpService.get<Category>(`${this.route}/${id}`)
-    }
+  // getTransactions() {
+  // }
 }
 
 export interface Category {
-
-}
-
-export interface CategoryRequest {
+  categoryId: string;
+  userId: string;
+  is_expense:boolean;
+  categoryName: string;
+  catId: string;
+  icon: string;
+  type: number;
+  
 }
 
 export interface CategoryResponse {
+  categories: Category[];
 }
-

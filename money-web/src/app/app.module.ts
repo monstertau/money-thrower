@@ -18,6 +18,7 @@ import { FwpModule } from './fwp/fwp.module';
 import { WalletModule } from './wallet/wallet.module';
 import { TransactionAddModule } from "./transaction-add/transaction-add.module";
 import { NzIconModule } from "ng-zorro-antd/icon";
+import { CategoryModule } from './category/category.module';
 
 registerLocaleData(en);
 
@@ -31,6 +32,7 @@ registerLocaleData(en);
     AuthenticationModule,
     FwpModule,
     HomeModule,
+    CategoryModule,
     WalletModule,
     FormsModule,
     HttpClientModule,
