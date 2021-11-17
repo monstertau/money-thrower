@@ -2,7 +2,6 @@ package service
 
 import (
 	"github.com/pkg/errors"
-	"money-core/model"
 	"money-core/repository"
 	"money-core/validator"
 	"money-core/view"
@@ -11,13 +10,11 @@ import (
 
 type (
 	TransactionServiceInterface interface {
-		GetDetail(form *view.TransactionForm) (*view.TransactionForm, error)
-		Delete(form *view.DeleteTransactionForm) error
-		GetFilteredList(userId string, form *view.FilterTransactionForm) (*view.FilterTransactionForm, error)
-		GetAllTransactions(userId string) (*view.FilterTransactionForm, error)
+		GetById(userId string, id string) (*view.TransactionForm, error)
+		DeleteById(userId string, id string) error
+		GetFilteredList(userId string, limit int, offset int, form *view.FilterTransactionForm) ([]*view.TransactionForm, error)
 		AddTransactions(form *view.AddTransactionForm, isExpense bool) (*view.AddTransactionForm, error)
-		EditTransactions(form *view.EditTransactionForm, walletId string, newAmount float64) (*view.EditTransactionForm, error)
-		GetTransactions(form *view.EditTransactionForm) (*model.Transaction, error)
+		EditTransactions(form *view.EditTransactionForm, walletId string, newAmount float64) (
 	}
 	TransactionService struct {
 		validator    *validator.Validator
@@ -32,24 +29,33 @@ func NewTransactionService(validator *validator.Validator, repositories *reposit
 	}
 }
 
-func (s *TransactionService) GetDetail(form *view.TransactionForm) (*view.TransactionForm, error) {
-	// TODO
-	return nil, nil
+func (s TransactionService) GetById(userId string, id string) (*view.TransactionForm, error) {
+	transaction, err := s.repositories.TransactionRepo.GetById(userId, id)
+	if err != nil {
+		return nil, errors.Errorf("error in find transaction: %v", err)
+	}
+	return view.ToTransactionForm(transaction), nil
 }
 
-func (s *TransactionService) Delete(form *view.DeleteTransactionForm) error {
-	// TODO
+func (s TransactionService) DeleteById(userId string, id string) error {
+	err := s.repositories.TransactionRepo.DeleteById(userId, id)
+	if err != nil {
+		return errors.Errorf("error in delete transaction: %v", err)
+	}
 	return nil
 }
 
-func (s *TransactionService) GetFilteredList(userId string, form *view.FilterTransactionForm) (*view.FilterTransactionForm, error) {
-	// TODO
-	return nil, nil
-}
-
-func (s *TransactionService) GetAllTransactions(userId string) (*view.FilterTransactionForm, error) {
-	// TODO
-	return nil, nil
+func (s TransactionService) GetFilteredList(userId string, limit int, offset int, form *view.FilterTransactionForm) ([]*view.TransactionForm, error) {
+	transactionForms := make([]*view.TransactionForm, 0)
+	transactions, err := s.repositories.TransactionRepo.GetFilteredList(userId, limit, offset, form)
+	if err != nil {
+		return make([]*view.TransactionForm, 0), errors.Errorf("error in find transactions: %v", err)
+	}
+	for _, transaction := range transactions {
+		transactionForm := view.ToTransactionForm(transaction)
+		transactionForms = append(transactionForms, transactionForm)
+	}
+	return transactionForms, nil
 }
 
 func (s *TransactionService) AddTransactions(form *view.AddTransactionForm, isExpense bool) (*view.AddTransactionForm, error) {
@@ -68,14 +74,6 @@ func (s *TransactionService) AddTransactions(form *view.AddTransactionForm, isEx
 
 	form.TransactionId = transaction.Id
 	return form, nil
-}
-
-func (s *TransactionService) GetTransactions(form *view.EditTransactionForm) (*model.Transaction, error) {
-	transaction, err := s.repositories.TransactionRepo.GetById(form.TransactionId)
-	if err != nil {
-		return nil, errors.Errorf("Invalid transaction_id")
-	}
-	return transaction, nil
 }
 
 func (s *TransactionService) EditTransactions(form *view.EditTransactionForm, walletId string, newAmount float64) (*view.EditTransactionForm, error) {

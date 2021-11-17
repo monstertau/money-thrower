@@ -5,6 +5,7 @@ import (
 	"money-core/model"
 	"money-core/repository"
 	"money-core/view"
+	"time"
 )
 
 type (
@@ -12,6 +13,7 @@ type (
 		ValidateFilterForm(form *view.FilterTransactionForm) error
 		ValidateAddForm(form *view.AddTransactionForm) (bool, error)
 		ValidateEditForm(trans *model.Transaction, form *view.EditTransactionForm) (float64, error)
+
 	}
 	TransactionValidator struct {
 		repo *repository.Repositories
@@ -23,7 +25,12 @@ func NewTransactionValidator(repo *repository.Repositories) *TransactionValidato
 }
 
 func (v *TransactionValidator) ValidateFilterForm(form *view.FilterTransactionForm) error {
-	// TODO
+	if form.StartAmount > form.EndAmount || form.EndAmount < 0 {
+		return errors.New("start amount should smaller than end amount")
+	}
+	if time.Unix(form.StartDate, 0).After(time.Unix(form.EndDate, 0)) {
+		return errors.New("start date should before end date")
+	}
 	return nil
 }
 
