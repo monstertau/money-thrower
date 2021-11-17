@@ -1,12 +1,12 @@
 package service
 
 import (
-	"fmt"
 	"github.com/pkg/errors"
 	"money-core/model"
 	"money-core/repository"
 	"money-core/validator"
 	"money-core/view"
+	"time"
 )
 
 type (
@@ -53,6 +53,9 @@ func (s *TransactionService) GetAllTransactions(userId string) (*view.FilterTran
 }
 
 func (s *TransactionService) AddTransactions(form *view.AddTransactionForm, isExpense bool) (*view.AddTransactionForm, error) {
+	if form.TransactionDate == 0 {
+		form.TransactionDate = time.Now().Unix()
+	}
 	transaction, err := s.repositories.TransactionRepo.Create(form)
 	if err != nil {
 		return nil, errors.Errorf("Failed when creating transaction %s", err)
@@ -64,8 +67,6 @@ func (s *TransactionService) AddTransactions(form *view.AddTransactionForm, isEx
 	}
 
 	form.TransactionId = transaction.Id
-	fmt.Println(transaction.TransactionDate)
-	form.TransactionDate = transaction.TransactionDate
 	return form, nil
 }
 

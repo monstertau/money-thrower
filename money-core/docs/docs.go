@@ -276,55 +276,6 @@ var doc = `{
             }
         },
         "/transaction/": {
-            "get": {
-                "security": [
-                    {
-                        "JWT": []
-                    }
-                ],
-                "description": "Add new transaction",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "transaction"
-                ],
-                "summary": "Add new transaction",
-                "parameters": [
-                    {
-                        "description": "Get transaction",
-                        "name": "create",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/view.TransactionForm"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/view.TransactionForm"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/controller.AppError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/controller.AppError"
-                        }
-                    }
-                }
-            },
             "put": {
                 "security": [
                     {
@@ -349,7 +300,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/view.TransactionForm"
+                            "$ref": "#/definitions/view.EditTransactionForm"
                         }
                     }
                 ],
@@ -357,7 +308,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/view.TransactionForm"
+                            "$ref": "#/definitions/view.EditTransactionForm"
                         }
                     },
                     "400": {
@@ -373,10 +324,57 @@ var doc = `{
                         }
                     }
                 }
-            }
-        },
-        "/transaction/delete": {
-            "put": {
+            },
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Add new transaction",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "transaction"
+                ],
+                "summary": "Add new transaction",
+                "parameters": [
+                    {
+                        "description": "Get transaction",
+                        "name": "create",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/view.AddTransactionForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/view.AddTransactionForm"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controller.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controller.AppError"
+                        }
+                    }
+                }
+            },
+            "delete": {
                 "security": [
                     {
                         "JWT": []
@@ -753,9 +751,59 @@ var doc = `{
                 }
             }
         },
+        "view.AddTransactionForm": {
+            "type": "object",
+            "required": [
+                "amount",
+                "cat_id",
+                "wallet_id"
+            ],
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "cat_id": {
+                    "type": "string"
+                },
+                "note": {
+                    "type": "string"
+                },
+                "transaction_date": {
+                    "type": "integer"
+                },
+                "wallet_id": {
+                    "type": "string"
+                }
+            }
+        },
         "view.DeleteTransactionForm": {
             "type": "object",
             "properties": {
+                "transaction_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "view.EditTransactionForm": {
+            "type": "object",
+            "required": [
+                "amount",
+                "cat_id",
+                "transaction_id"
+            ],
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "cat_id": {
+                    "type": "string"
+                },
+                "note": {
+                    "type": "string"
+                },
+                "transaction_date": {
+                    "type": "integer"
+                },
                 "transaction_id": {
                     "type": "string"
                 }

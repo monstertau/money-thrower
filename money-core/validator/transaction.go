@@ -46,6 +46,9 @@ func (v *TransactionValidator) ValidateAddForm(form *view.AddTransactionForm) (b
 		return false, errors.Errorf("Invalid cat_id")
 	}
 
+	if form.TransactionDate < 0 {
+		return false, errors.Errorf("Invalid transaction_date")
+	}
 	return cate.IsExpense, nil
 }
 

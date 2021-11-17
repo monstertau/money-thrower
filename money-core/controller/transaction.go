@@ -42,9 +42,9 @@ func (h *TransactionController) MakeHandler(g *gin.RouterGroup) {
 // @Tags transaction
 // @Accept json
 // @Produce json
-// @Param create body view.TransactionForm true "Get transaction"
+// @Param create body view.AddTransactionForm true "Get transaction"
 // @Security JWT
-// @Success 200 {object} view.TransactionForm
+// @Success 200 {object} view.AddTransactionForm
 // @Failure 400 {object} AppError
 // @Failure 500 {object} AppError
 // @Router /transaction/ [POST]
@@ -83,9 +83,9 @@ func (h *TransactionController) Add(c *gin.Context) {
 // @Tags transaction
 // @Accept json
 // @Produce json
-// @Param create body view.TransactionForm true "Get transaction"
+// @Param create body view.EditTransactionForm true "Get transaction"
 // @Security JWT
-// @Success 200 {object} view.TransactionForm
+// @Success 200 {object} view.EditTransactionForm
 // @Failure 400 {object} AppError
 // @Failure 500 {object} AppError
 // @Router /transaction/ [PUT]
