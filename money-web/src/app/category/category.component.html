@@ -1,5 +1,13 @@
 <div>
     <div class="data">
+<<<<<<< HEAD
         <app-category-detail ></app-category-detail>
     </div>
 </div>
+=======
+        <app-wallet-detail (editWallet)="editWallet()"></app-wallet-detail>
+        <app-wallet-add *ngIf="add_edit_wallet_dialog" (closeAddDialog)="closeAddWallet()" [isAddForm]="add_wallet"
+                        [isEditForm]="edit_wallet"></app-wallet-add>
+    </div>
+</div>
+>>>>>>> a35448f4 (add category component)
