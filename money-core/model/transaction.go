@@ -9,5 +9,5 @@ type Transaction struct {
 	CatId           string    `json:"cat_id"`
 	Amount          float64   `json:"amount"`
 	Note            string    `json:"note"`
-	TransactionDate time.Time `json:"transaction_date"`
+	TransactionDate time.Time `json:"transaction_date" gorm:"->;<-"`
 }

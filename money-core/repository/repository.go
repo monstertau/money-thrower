@@ -5,4 +5,5 @@ type Repositories struct {
 	RedisRepo       RedisRepositoryInterface
 	WalletRepo      WalletRepoInterface
 	TransactionRepo TransactionRepoInterface
+	CategoryRepo    CategoryRepoInterface
 }

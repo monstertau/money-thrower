@@ -13,6 +13,7 @@ type (
 		Create(form *view.WalletForm) (*model.Wallet, error)
 		GetById(id string, userId string) (*model.Wallet, error)
 		Update(form *view.WalletForm) error
+		UpdateAmount(walletId string, amount float64, isExpense bool) error
 		List(userId string, limit int, from int) ([]*model.Wallet, error)
 		DeleteById(id string, userId string) error
 	}
@@ -53,6 +54,22 @@ func (r *WalletRepo) Update(form *view.WalletForm) error {
 	newWallet := form.ToWalletModel()
 	newWallet.Id = form.WalletId
 	if err := r.dbConn.Updates(newWallet).Error; err != nil {
+		return errors.Errorf("failed to execute update query: %s", err)
+	}
+	return nil
+}
+
+func (r *WalletRepo) UpdateAmount(walletId string, amount float64, isExpense bool) error {
+	var exp = ""
+	if isExpense {
+		exp = "balance - ?"
+	} else {
+		exp = "balance + ?"
+	}
+	//if err := r.dbConn.Model(&wallet).Update("balance", newAmount).Error; err != nil {
+	//	return errors.Errorf("failed to execute update query: %s", err)
+	//}
+	if err := r.dbConn.Model(&model.Wallet{}).Where("id = ?", walletId).Update("balance", gorm.Expr(exp, amount)).Error; err != nil {
 		return errors.Errorf("failed to execute update query: %s", err)
 	}
 	return nil

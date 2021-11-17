@@ -4,8 +4,8 @@ import "money-core/model"
 
 type (
 	LoginForm struct {
-		Email    string `json:"email" example:"test@gmail.com"`
-		Password string `json:"password" example:"test"`
+		Email    string `json:"email" example:"dungsieuvip2012@gmail.com"`
+		Password string `json:"password" example:"12345678"`
 	}
 	RegisterForm struct {
 		Id       string `json:"id" example:"id"`

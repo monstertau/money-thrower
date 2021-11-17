@@ -77,7 +77,9 @@ func main() {
 		WalletRepo:      repository.NewWalletRepo(dbConn),
 		RedisRepo:       repository.NewRedisRepo(redisConn, appConfig.MailConfig.Timeout),
 		TransactionRepo: repository.NewTransactionRepo(dbConn),
+		CategoryRepo:    repository.NewCategoryRepo(dbConn),
 	}
+
 	// init validator
 	validators := &validator.Validator{
 		AuthValidator:           validator.NewAuthValidator(repo),

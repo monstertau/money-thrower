@@ -2,6 +2,7 @@ package repository
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 	"gorm.io/gorm"
 	"money-core/model"
 	"money-core/view"
@@ -13,6 +14,8 @@ type (
 		GetById(userId string, id string) (*model.Transaction, error)
 		DeleteById(userId string, id string) error
 		GetFilteredList(userId string, limit int, offset int, form *view.FilterTransactionForm) ([]*model.Transaction, error)
+		Create(form *view.AddTransactionForm) (*model.Transaction, error)
+		Edit(form *view.EditTransactionForm) error
 	}
 	TransactionRepo struct {
 		dbConn *gorm.DB
@@ -64,4 +67,20 @@ func (r *TransactionRepo) GetFilteredList(userId string, limit int, offset int, 
 	}
 
 	return filteredList, nil
+}
+
+func (r *TransactionRepo) Create(form *view.AddTransactionForm) (*model.Transaction, error) {
+	TransactionModel := form.ToTransactionModel()
+	if result := r.dbConn.Create(TransactionModel); result.Error != nil || result.RowsAffected != 1 {
+		return nil, errors.Errorf("failed to execute insert query: %s", result.Error)
+	}
+	return TransactionModel, nil
+}
+
+func (r *TransactionRepo) Edit(form *view.EditTransactionForm) error {
+	newTransaction := form.ToTransactionModel()
+	if err := r.dbConn.Updates(newTransaction).Error; err != nil {
+		return errors.Errorf("failed to execute update query: %s", err)
+	}
+	return nil
 }

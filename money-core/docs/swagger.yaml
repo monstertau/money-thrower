@@ -15,6 +15,40 @@ definitions:
         example: invalid form
         type: string
     type: object
+  view.AddTransactionForm:
+    properties:
+      amount:
+        type: number
+      cat_id:
+        type: string
+      note:
+        type: string
+      transaction_date:
+        type: integer
+      wallet_id:
+        type: string
+    required:
+    - amount
+    - cat_id
+    - wallet_id
+    type: object
+  view.EditTransactionForm:
+    properties:
+      amount:
+        type: number
+      cat_id:
+        type: string
+      note:
+        type: string
+      transaction_date:
+        type: integer
+      transaction_id:
+        type: string
+    required:
+    - amount
+    - cat_id
+    - transaction_id
+    type: object
   view.FilterTransactionForm:
     properties:
       cat_id:
@@ -48,10 +82,10 @@ definitions:
   view.LoginForm:
     properties:
       email:
-        example: test@gmail.com
+        example: dungsieuvip2012@gmail.com
         type: string
       password:
-        example: test
+        example: "12345678"
         type: string
     type: object
   view.RegisterForm:
@@ -76,6 +110,15 @@ definitions:
         type: string
       password:
         example: test
+        type: string
+      token:
+        example: token-string
+        type: string
+    type: object
+  view.TokenValidateForm:
+    properties:
+      email:
+        example: test@gmail.com
         type: string
       token:
         example: token-string
@@ -232,7 +275,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: Submit token, new password, email to reset password
+      description: Submit token, new password, email to reset password. Token and
       parameters:
       - description: Submit token, new password, email to reset password
         in: body
@@ -288,33 +331,55 @@ paths:
       summary: Submit email for sending reset password email
       tags:
       - password management
-  /transaction:
+  /password/validate:
     post:
       consumes:
       - application/json
-      description: Get list of transactions based on filter
+      description: Validate Token before display change password form
       parameters:
-      - description: Get filtered transaction list
+      - description: Submit token, email to reset password
+        in: body
+        name: ForgotPassword
+        required: true
+        schema:
+          $ref: '#/definitions/view.TokenValidateForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'message": true}'
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      summary: Validate Token before display change password form
+      tags:
+      - password management
+  /transaction/:
+    post:
+      consumes:
+      - application/json
+      description: Add new transaction
+      parameters:
+      - description: Get transaction
         in: body
         name: create
         required: true
         schema:
-          $ref: '#/definitions/view.FilterTransactionForm'
-      - description: limit of list transactions want to specify, default 10
-        in: query
-        name: limit
-        type: integer
-      - description: offset of list transactions want to specify, default 0
-        in: query
-        name: offset
-        type: integer
+          $ref: '#/definitions/view.AddTransactionForm'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/view.TransactionForm'
+            $ref: '#/definitions/view.AddTransactionForm'
         "400":
           description: Bad Request
           schema:
@@ -325,7 +390,38 @@ paths:
             $ref: '#/definitions/controller.AppError'
       security:
       - JWT: []
-      summary: Get list of transactions based on filter
+      summary: Add new transaction
+      tags:
+      - transaction
+    put:
+      consumes:
+      - application/json
+      description: Edit a transaction
+      parameters:
+      - description: Get transaction
+        in: body
+        name: create
+        required: true
+        schema:
+          $ref: '#/definitions/view.EditTransactionForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.EditTransactionForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Edit a transaction
       tags:
       - transaction
   /transaction/{id}:
@@ -389,7 +485,80 @@ paths:
       summary: Get detail information of a transaction by id
       tags:
       - transaction
+  /transaction/filter:
+    post:
+      consumes:
+      - application/json
+      description: Get list of transactions based on filter
+      parameters:
+      - description: Get filtered transaction list
+        in: body
+        name: create
+        required: true
+        schema:
+          $ref: '#/definitions/view.FilterTransactionForm'
+      - description: limit of list transactions want to specify, default 10
+        in: query
+        name: limit
+        type: integer
+      - description: offset of list transactions want to specify, default 0
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.TransactionForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Get list of transactions based on filter
+      tags:
+      - transaction
   /wallet:
+    get:
+      consumes:
+      - application/json
+      description: Return list of wallet
+      parameters:
+      - description: offset of list wallet want to specify, default 0
+        in: query
+        name: from
+        type: integer
+      - description: limit of list wallet want to specify, default 10
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.WalletForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Get list wallet with paging
+      tags:
+      - wallet
     post:
       consumes:
       - application/json
@@ -450,6 +619,67 @@ paths:
       security:
       - JWT: []
       summary: Edit info of a wallet
+      tags:
+      - wallet
+  /wallet/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Return result detail
+      parameters:
+      - description: wallet id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Delete specific wallet by id
+      tags:
+      - wallet
+    get:
+      consumes:
+      - application/json
+      description: Return wallet detail
+      parameters:
+      - description: wallet id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.WalletForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Get specific wallet by id
       tags:
       - wallet
 schemes:
