@@ -1,0 +1,215 @@
+<!-- <div>
+    <div class="money-flow">
+        <div class="flow">
+            <p>Inflow: </p>
+            <p style="margin-left: auto; color: #1890FF">100,000 vnd</p>
+        </div>
+        <div class="flow">
+            <p>Outflow: </p>
+            <p style="margin-left: auto; color: #FF4D4F">-50,000 vnd</p>
+        </div>
+        <div class="flow">
+            <p class="total-amount">+50,000 vnd</p>
+        </div>
+    </div>
+    <div class="view-report">
+        VIEW REPORT FOR THIS PERIOD
+    </div>
+</div>
+<div class="transactions" style="overflow: auto; max-height: calc(100vh - 335px);">
+    <div *ngIf="viewMode == 'transaction'; else category">
+        <div class="transaction" *ngFor="let transaction of transactions">
+            <div class="gap"></div>
+            <div class="transaction-item">
+                <div class="top-section">
+                    <div class="top-left">
+                        <div class="icon">
+                            <img style="width: 30px;" src="https://static.moneylover.me/img/icon/ic_category_all.png"
+                                alt="">
+                        </div>
+                        <div class="category-name">
+                            <div style="font-weight: 500;">Restaurant</div>
+                            <div style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);">1 transaction
+                            </div>
+                        </div>
+                    </div>
+                    <div class="top-right">
+                        <div style="font-weight: 500; font-size: 16px;">{{transaction.amount}} vnd</div>
+                    </div>
+                </div>
+                <div style="margin-top: -25px;">
+                    <nz-divider></nz-divider>
+                </div>
+                <div style="margin-top: -25px;">
+                    <div class="bottom-section" (click)="selectTransaction(transaction.transactionId)">
+                        <div class="top-left">
+                            <div style="font-size: 30px;">
+                                11
+                            </div>
+                            <div class="category-name" style="margin-top: 7px">
+                                <div style="font-size: 12px;">Thursday, November 2021</div>
+                                <div *ngIf="transaction.note"
+                                    style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54); max-width: 150px; word-wrap: break-word; padding-bottom: 5px;">
+                                    Note: {{transaction.note}}</div>
+                            </div>
+                        </div>
+                        <div class="top-right" style="margin-top: 12px">
+                            <div style="font-weight: 500; color: #FF4D4F;">{{transaction.amount}} vnd</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template #category>
+        <div class="transaction">
+            <div class="gap"></div>
+            <div class="transaction-item">
+                <div class="top-section">
+                    <div class="top-left">
+                        <div style="font-size: 30px;">
+                            12
+                        </div>
+                        <div class="category-name" style="margin-top: 7px">
+                            <div style="font-size: 12px;">Friday</div>
+                            <div
+                                style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);">
+                                November 2021</div>
+                        </div>
+                    </div>
+                    <div class="top-right">
+                        <div style="font-weight: 500; font-size: 16px;">-10000 vnd</div>
+                    </div>
+                </div>
+                <div style="margin-top: -25px;">
+                    <nz-divider></nz-divider>
+                </div>
+                <div style="margin-top: -25px;">
+                    <div class="bottom-section" style="padding-top: 10px; padding-bottom: 10px;" (click)="selectTransaction('1')">
+                        <div class="top-left">
+                            <div class="icon">
+                                <img style="width: 30px;"
+                                    src="https://static.moneylover.me/img/icon/ic_category_all.png" alt="">
+                            </div>
+                            <div class="category-name">
+                                <div style="font-weight: 500;">Restaurant</div>
+                                <div style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);  max-width: 150px; word-wrap: break-word;">Note: some note
+                                </div>
+                            </div>
+                        </div>
+                        <div class="top-right">
+                            <div style="font-weight: 500; color: #FF4D4F;">10000 vnd</div>
+                        </div>
+                    </div>
+                    <div class="bottom-section" style="padding-top: 10px; padding-bottom: 10px;" (click)="selectTransaction('1')">
+                        <div class="top-left">
+                            <div class="icon">
+                                <img style="width: 30px;"
+                                    src="https://static.moneylover.me/img/icon/ic_category_all.png" alt="">
+                            </div>
+                            <div class="category-name">
+                                <div style="font-weight: 500;">Restaurant</div>
+                                <div style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);  max-width: 150px; word-wrap: break-word;">Note: some note
+                                </div>
+                            </div>
+                        </div>
+                        <div class="top-right">
+                            <div style="font-weight: 500; color: #FF4D4F;">10000 vnd</div>
+                        </div>
+                    </div>
+                    <div class="bottom-section" style="padding-top: 10px; padding-bottom: 10px;" (click)="selectTransaction('1')">
+                        <div class="top-left">
+                            <div class="icon">
+                                <img style="width: 30px;"
+                                    src="https://static.moneylover.me/img/icon/ic_category_all.png" alt="">
+                            </div>
+                            <div class="category-name">
+                                <div style="font-weight: 500;">Restaurant</div>
+                                <div style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);  max-width: 150px; word-wrap: break-word;">Note: some note
+                                </div>
+                            </div>
+                        </div>
+                        <div class="top-right">
+                            <div style="font-weight: 500; color: #FF4D4F;">10000 vnd</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="transaction">
+            <div class="gap"></div>
+            <div class="transaction-item">
+                <div class="top-section">
+                    <div class="top-left">
+                        <div style="font-size: 30px;">
+                            11
+                        </div>
+                        <div class="category-name" style="margin-top: 7px">
+                            <div style="font-size: 12px;">Thursday</div>
+                            <div
+                                style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);">
+                                November 2021</div>
+                        </div>
+                    </div>
+                    <div class="top-right">
+                        <div style="font-weight: 500; font-size: 16px;">-10000 vnd</div>
+                    </div>
+                </div>
+                <div style="margin-top: -25px;">
+                    <nz-divider></nz-divider>
+                </div>
+                <div style="margin-top: -25px;">
+                    <div class="bottom-section" style="padding-top: 10px; padding-bottom: 10px;" (click)="selectTransaction('1')">
+                        <div class="top-left">
+                            <div class="icon">
+                                <img style="width: 30px;"
+                                    src="https://static.moneylover.me/img/icon/ic_category_all.png" alt="">
+                            </div>
+                            <div class="category-name">
+                                <div style="font-weight: 500;">Restaurant</div>
+                                <div style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);  max-width: 150px; word-wrap: break-word;">Note: some note
+                                </div>
+                            </div>
+                        </div>
+                        <div class="top-right">
+                            <div style="font-weight: 500; color: #FF4D4F;">10000 vnd</div>
+                        </div>
+                    </div>
+                    <div class="bottom-section" style="padding-top: 10px; padding-bottom: 10px;" (click)="selectTransaction('1')">
+                        <div class="top-left">
+                            <div class="icon">
+                                <img style="width: 30px;"
+                                    src="https://static.moneylover.me/img/icon/ic_category_all.png" alt="">
+                            </div>
+                            <div class="category-name">
+                                <div style="font-weight: 500;">Restaurant</div>
+                                <div style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);  max-width: 150px; word-wrap: break-word;">Note: some note
+                                </div>
+                            </div>
+                        </div>
+                        <div class="top-right">
+                            <div style="font-weight: 500; color: #FF4D4F;">10000 vnd</div>
+                        </div>
+                    </div>
+                    <div class="bottom-section" style="padding-top: 10px; padding-bottom: 10px;" (click)="selectTransaction('1')">
+                        <div class="top-left">
+                            <div class="icon">
+                                <img style="width: 30px;"
+                                    src="https://static.moneylover.me/img/icon/ic_category_all.png" alt="">
+                            </div>
+                            <div class="category-name">
+                                <div style="font-weight: 500;">Restaurant</div>
+                                <div style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);  max-width: 150px; word-wrap: break-word;">Note: some note
+                                </div>
+                            </div>
+                        </div>
+                        <div class="top-right">
+                            <div style="font-weight: 500; color: #FF4D4F;">10000 vnd</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div> -->
+<p>test</p>

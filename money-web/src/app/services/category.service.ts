@@ -1,18 +1,21 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import {Injectable} from '@angular/core';
 import {HttpService} from "./http.service";
 import {Category} from "../view-model/category";
 =======
 
+=======
+>>>>>>> de60674d (reconstruct category component)
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { HttpService } from './http.service';
 >>>>>>> 9a8fdba3 (update category component)
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class CategoryService {
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 =======
@@ -50,29 +53,31 @@ export class CategoryService {
             };
         })
     }
+=======
 
-    getCategoryPaging(offset: number = 0, limit: number = 10) {
-        return this.httpService.get<Category[]>(this.route, {
-            params: {
-                from: offset,
-                limit: limit
-            }
-        })
-    }
+  constructor(private httpService: HttpService) { }
+>>>>>>> de60674d (reconstruct category component)
 
-    getCategoryById(id: string) {
-        return this.httpService.get<Category>(`${this.route}/${id}`)
-    }
+  // getTransactions() {
+  // }
 }
 
 export interface Category {
-
-}
-
-export interface CategoryRequest {
+  categoryId: string;
+  userId: string;
+  is_expense:boolean;
+  categoryName: string;
+  catId: string;
+  icon: string;
+  type: number;
+  
 }
 
 export interface CategoryResponse {
+  categories: Category[];
 }
+<<<<<<< HEAD
 
 >>>>>>> 9a8fdba3 (update category component)
+=======
+>>>>>>> de60674d (reconstruct category component)

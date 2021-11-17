@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { Component,Input, OnInit } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
 import { CategoryService } from '../services/category.service';
@@ -50,43 +51,55 @@ export class CategoryComponent implements OnInit {
 
 =======
 import {Component, OnInit} from '@angular/core';
+=======
+import { Component, OnInit } from '@angular/core';
+import { CommonService } from 'src/app/services/common.service';
+import { CategoryService, Category } from '../services/category.service';
+>>>>>>> de60674d (reconstruct category component)
 
 @Component({
-    selector: 'app-wallet',
-    templateUrl: './wallet.component.html',
-    styleUrls: ['./wallet.component.css']
+  selector: 'app-category',
+  templateUrl: './category.component.html',
+  styleUrls: ['./category.component.css']
 })
-export class WalletComponent implements OnInit {
+export class CategoryComponent implements OnInit {
 
-    add_wallet = true;
-    edit_wallet = false;
-    add_edit_wallet_dialog = false;
-
-    constructor() {
+  constructor(private categoryService: CategoryService,
+    private commonService: CommonService,) {
+      this.commonService.currentViewMode.subscribe(mode => { this.viewMode = mode; });
+  }
+  sampleCategories: Category[] = [
+    {
+      categoryId: "1",
+      userId: "1",
+      is_expense:true,
+      categoryName: "cate1",
+      catId: "1",
+      type: 1,
+      icon: "1"
     }
+  ];
 
-    ngOnInit(): void {
-    }
+  viewMode!: string;
 
-    back() {
-        window.location.href = '/home';
-    }
+  selectedCategory!: Category;
+  selected: boolean = false;
 
-    addWallet() {
-        this.add_edit_wallet_dialog = true;
-        this.add_wallet = true;
-        this.edit_wallet = false;
-    }
+  ngOnInit(): void {
+  }
 
-    editWallet() {
-        this.add_edit_wallet_dialog = true;
-        this.edit_wallet = true;
-        this.add_wallet = false;
-    }
+  onCategorySelected(category: Category) {
+    this.selectedCategory = category;
+    this.selected = true;
+  }
 
-    closeAddWallet() {
-        this.add_edit_wallet_dialog = false;
-    }
+  onCategoryDetailClose(closed: boolean) {
+    this.selected = closed;
+  }
 
 }
+<<<<<<< HEAD
 >>>>>>> a35448f4 (add category component)
+=======
+
+>>>>>>> de60674d (reconstruct category component)

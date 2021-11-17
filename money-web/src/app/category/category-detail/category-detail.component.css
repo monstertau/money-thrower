@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .content {
     display: flex;
 }
@@ -130,13 +131,11 @@
     transform: translateX(0);
 }
 
+=======
+>>>>>>> de60674d (reconstruct category component)
 .title {
     display: flex;
-    padding: 10px 20px;
-}
-
-.ant-divider-horizontal {
-    margin: 0px;
+    padding: 7px 20px;
 }
 
 .close-icon {
@@ -149,6 +148,10 @@
 .close-icon:hover {
     color: black;
     cursor: pointer;
+}
+
+.ant-divider-horizontal {
+    margin: -4px 0px;
 }
 
 .btn-modify {
@@ -165,7 +168,7 @@
 }
 
 .btn-edit {
-    margin-right: 30px;
+    margin-right: 15px;
     color: #52c41a;
     width: 77px;
 }
@@ -175,44 +178,38 @@
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 .category-detail {
 =======
 .wallet-detail {
 >>>>>>> 9a8fdba3 (update category component)
+=======
+.details {
+    padding: 15px;
+>>>>>>> de60674d (reconstruct category component)
     display: flex;
-    padding: 25px 60px;
 }
 
-.user-info {
-    padding: 10px 60px 25px;
+.detail-left {
+    display: flex;
 }
 
-.owner-tag {
-    position: absolute;
-    margin-left: 10px;
-
-    /* Sunrise Yellow / 4 */
-
-    background: #fff566;
-    padding: 0px 10px;
-    /* drop-shadow / button-primary */
-
-    box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.043);
-    border-radius: 20px;
+.detail-text {
+    margin-left: 17px;
 }
 
-.options {
-    padding: 10px 80px;
+.detail-right {
+    margin-left: auto;
+    margin-right: 20px;
 }
 
-.btn-group {
-    text-align: center;
+.amount-right {
     font-weight: 500;
-    padding: 10px 0px;
-    color: #52c41a;
+    color: #FF4D4F;
+    font-size: 24px;
+    text-align: right;
 }
 
-.btn-group:hover {
-    background-color: #ecffc0;
-    cursor: pointer;
+.note-right {
+    text-align: right;
 }
