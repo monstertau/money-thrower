@@ -185,7 +185,7 @@ var doc = `{
         },
         "/password/change": {
             "post": {
-                "description": "Submit token, new password, email to reset password. Token and",
+                "description": "Submit token, new password, email to reset password",
                 "consumes": [
                     "application/json"
                 ],
@@ -275,9 +275,14 @@ var doc = `{
                 }
             }
         },
-        "/password/validate": {
+        "/transaction": {
             "post": {
-                "description": "Validate Token before display change password form",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Get list of transactions based on filter",
                 "consumes": [
                     "application/json"
                 ],
@@ -285,23 +290,131 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "password management"
+                    "transaction"
                 ],
-                "summary": "Validate Token before display change password form",
+                "summary": "Get list of transactions based on filter",
                 "parameters": [
                     {
-                        "description": "Submit token, email to reset password",
-                        "name": "ForgotPassword",
+                        "description": "Get filtered transaction list",
+                        "name": "create",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/view.TokenValidateForm"
+                            "$ref": "#/definitions/view.FilterTransactionForm"
                         }
+                    },
+                    {
+                        "type": "integer",
+                        "description": "limit of list transactions want to specify, default 10",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "offset of list transactions want to specify, default 0",
+                        "name": "offset",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "message\": true}",
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/view.TransactionForm"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controller.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controller.AppError"
+                        }
+                    }
+                }
+            }
+        },
+        "/transaction/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Get detail information of a transaction by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "transaction"
+                ],
+                "summary": "Get detail information of a transaction by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "transaction id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/view.TransactionForm"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controller.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controller.AppError"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Delete a transaction",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "transaction"
+                ],
+                "summary": "Delete a transaction",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "transaction id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "type": "string"
                         }
@@ -322,58 +435,6 @@ var doc = `{
             }
         },
         "/wallet": {
-            "get": {
-                "security": [
-                    {
-                        "JWT": []
-                    }
-                ],
-                "description": "Return list of wallet",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "wallet"
-                ],
-                "summary": "Get list wallet with paging",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "offset of list wallet want to specify, default 0",
-                        "name": "from",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "limit of list wallet want to specify, default 10",
-                        "name": "limit",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/view.WalletForm"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/controller.AppError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/controller.AppError"
-                        }
-                    }
-                }
-            },
             "put": {
                 "security": [
                     {
@@ -472,102 +533,6 @@ var doc = `{
                     }
                 }
             }
-        },
-        "/wallet/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "JWT": []
-                    }
-                ],
-                "description": "Return wallet detail",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "wallet"
-                ],
-                "summary": "Get specific wallet by id",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "wallet id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/view.WalletForm"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/controller.AppError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/controller.AppError"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "JWT": []
-                    }
-                ],
-                "description": "Return result detail",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "wallet"
-                ],
-                "summary": "Delete specific wallet by id",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "wallet id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/controller.AppError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/controller.AppError"
-                        }
-                    }
-                }
-            }
         }
     },
     "definitions": {
@@ -590,6 +555,39 @@ var doc = `{
                 "message": {
                     "type": "string",
                     "example": "invalid form"
+                }
+            }
+        },
+        "view.FilterTransactionForm": {
+            "type": "object",
+            "properties": {
+                "cat_id": {
+                    "type": "string",
+                    "example": "f3b91567-3496-4d9b-9f1e-ca69c92b89a6"
+                },
+                "end_amount": {
+                    "type": "number",
+                    "example": 999999
+                },
+                "end_date": {
+                    "type": "integer",
+                    "example": 4102444799
+                },
+                "key_note": {
+                    "type": "string",
+                    "example": "mua"
+                },
+                "start_amount": {
+                    "type": "number",
+                    "example": 1
+                },
+                "start_date": {
+                    "type": "integer",
+                    "example": -315619200
+                },
+                "wallet_id": {
+                    "type": "string",
+                    "example": "dda1d792-337b-476b-adbc-f81b06baa0d0"
                 }
             }
         },
@@ -653,16 +651,29 @@ var doc = `{
                 }
             }
         },
-        "view.TokenValidateForm": {
+        "view.TransactionForm": {
             "type": "object",
             "properties": {
-                "email": {
-                    "type": "string",
-                    "example": "test@gmail.com"
+                "amount": {
+                    "type": "number"
                 },
-                "token": {
-                    "type": "string",
-                    "example": "token-string"
+                "cat_id": {
+                    "type": "string"
+                },
+                "note": {
+                    "type": "string"
+                },
+                "transaction_date": {
+                    "type": "integer"
+                },
+                "transaction_id": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                },
+                "wallet_id": {
+                    "type": "string"
                 }
             }
         },
