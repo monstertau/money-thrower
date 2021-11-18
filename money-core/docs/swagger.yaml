@@ -32,6 +32,27 @@ definitions:
     - cat_id
     - wallet_id
     type: object
+  view.CategoryForm:
+    properties:
+      icon:
+        example: tool
+        type: string
+      id:
+        example: id
+        type: string
+      is_expense:
+        example: false
+        type: boolean
+      name:
+        example: Food
+        type: string
+      parent_cat_id:
+        example: id
+        type: string
+      type:
+        example: 1
+        type: integer
+    type: object
   view.EditTransactionForm:
     properties:
       amount:
@@ -254,6 +275,62 @@ paths:
       summary: Register with email and password
       tags:
       - authentication
+  /category:
+    get:
+      consumes:
+      - application/json
+      description: Return list of category
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.CategoryForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Get list category with paging
+      tags:
+      - category
+  /category/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Return category detail
+      parameters:
+      - description: category id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.CategoryForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Get specific category by id
+      tags:
+      - category
   /dummy:
     get:
       consumes:

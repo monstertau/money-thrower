@@ -7,7 +7,6 @@ import (
 	"money-core/service"
 	"money-core/validator"
 	"net/http"
-	"strconv"
 )
 
 type CategoryController struct {
@@ -39,32 +38,17 @@ func (h *CategoryController) MakeHandler(g *gin.RouterGroup) {
 // @Accept  json
 // @Produce  json
 // @Security JWT
-// @Param from query int false "offset of list category want to specify, default 0"
-// @Param limit query int false "limit of list category want to specify, default 10"
 // @Success 200 {object} view.CategoryForm
 // @Failure 400 {object} AppError
 // @Failure 500 {object} AppError
 // @Router /category [get]
 func (h *CategoryController) GetAll(c *gin.Context) {
-	from, _ := strconv.Atoi(c.Query("from"))
-	if from < 0 {
-		ReportError(c, http.StatusBadRequest, fmt.Sprintf("expect 'from' query param to be non-negative number"))
-		return
-	}
-	limit, _ := strconv.Atoi(c.Query("limit"))
-	if limit < 0 {
-		ReportError(c, http.StatusBadRequest, fmt.Sprintf("expect 'limit' query param to be non-negative number"))
-		return
-	}
-	if limit == 0 {
-		limit = 10 // Default limit
-	}
 	userId, err := h.services.JWTService.GetUserId(c)
 	if err != nil {
 		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get user id: %v", err))
 		return
 	}
-	categorys, err := h.services.CategoryService.GetAll(userId, limit, from)
+	categorys, err := h.services.CategoryService.GetAll(userId)
 	if err != nil {
 		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get list categorys: %v", err))
 		return

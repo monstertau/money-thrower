@@ -11,7 +11,7 @@ import (
 type (
 	CategoryRepoInterface interface {
 		GetById(id string, userId string) (*model.Category, error)
-		List(userId string, limit int, from int) ([]*model.Category, error)
+		List(userId string) ([]*model.Category, error)
 	}
 	CategoryRepo struct {
 		dbConn *gorm.DB
@@ -30,9 +30,9 @@ func (r *CategoryRepo) GetById(id string, userId string) (*model.Category, error
 	return category, nil
 }
 
-func (r *CategoryRepo) List(userId string, limit int, from int) ([]*model.Category, error) {
+func (r *CategoryRepo) List(userId string) ([]*model.Category, error) {
 	var categories []*model.Category
-	if err := r.dbConn.Limit(limit).Offset(from).Find(&categories, "owner_id=? OR owner_id=?", userId, util.NilId).Error; err != nil {
+	if err := r.dbConn.Find(&categories, "owner_id=? OR owner_id=?", userId, util.NilId).Error; err != nil {
 		return nil, fmt.Errorf("failed to execute select query: %s", err)
 	}
 	return categories, nil

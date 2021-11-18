@@ -9,7 +9,7 @@ import (
 type (
 	CategoryServiceInterface interface {
 		GetById(userId string, id string) (*view.CategoryForm, error)
-		GetAll(userId string, limit int, from int) ([]*view.CategoryForm, error)
+		GetAll(userId string) ([]*view.CategoryForm, error)
 	}
 	CategoryService struct {
 		repositories *repository.Repositories
@@ -22,9 +22,9 @@ func NewCategoryService(repositories *repository.Repositories) *CategoryService 
 	}
 }
 
-func (s *CategoryService) GetAll(userId string, limit int, from int) ([]*view.CategoryForm, error) {
+func (s *CategoryService) GetAll(userId string) ([]*view.CategoryForm, error) {
 	categoryViews := make([]*view.CategoryForm, 0) //tao slice moi length  = 0 tu con tro mang kieu CategoryForm
-	categories, err := s.repositories.CategoryRepo.List(userId, limit, from)
+	categories, err := s.repositories.CategoryRepo.List(userId)
 	if err != nil {
 		return make([]*view.CategoryForm, 0), errors.Errorf("error in find categories: %v", err)
 	}
