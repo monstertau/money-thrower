@@ -1,18 +1,32 @@
-import { Component, ElementRef, HostListener, Input, OnChanges, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CommonService, ViewMode } from 'src/app/services/common.service';
+import {Component, ElementRef, HostListener, Input, OnChanges, OnInit, ViewContainerRef, ViewEncapsulation} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {CommonService, ViewMode} from 'src/app/services/common.service';
+import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
+import {TransactionAddComponent} from "../../transaction-add/transaction-add.component";
+import {WalletService} from "../../services/wallet.service";
+import {WalletView} from "../../view-model/wallet";
+import {takeUntil} from "rxjs/operators";
+import {Subject} from "rxjs";
+import {Utils} from "../../util/utils";
+import {TransactionView} from "../../view-model/transactions";
 
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
-  styleUrls: ['./topbar.component.css']
+  styleUrls: ['./topbar.component.css'],
 })
 export class TopbarComponent implements OnInit, OnChanges {
   @Input() sidebarCollapse = false;
   isWalletMenuOpen = false;
-  currentMode: string = ViewMode.CAT;
-  currentMonth!: string;
-  viewToolTip: string;
+  currentPage!: string;
+
+  private readonly destroy$ = new Subject();
+  private _wallets: WalletView[] = [];
+
+  get wallets() {
+    return this._wallets;
+  }
+
 
   @HostListener('document:click', ['$event'])
   clickout(event: any) {
@@ -33,23 +47,23 @@ export class TopbarComponent implements OnInit, OnChanges {
     }
   }
 
-  constructor(private eRef: ElementRef, private router: Router, private route: ActivatedRoute, private commonService: CommonService) {
-    let mode: string = this.route.snapshot.queryParams['view'] || '';
-    switch (mode) {
-      case ViewMode.TRANS:
-        this.currentMode = ViewMode.TRANS;
-        this.viewToolTip = "View by " + ViewMode.CAT;
-        break;
-      default:
-        this.currentMode = ViewMode.CAT;
-        this.viewToolTip = "View by " + ViewMode.TRANS;
-        break;
-    }
-    this.commonService.currentMonth.subscribe(month => { this.currentMonth = month });
-  }
+  constructor(private walletService: WalletService, private eRef: ElementRef, private commonService: CommonService) {}
 
   ngOnInit(): void {
-    this.commonService.currentViewMode.subscribe(mode => { this.currentMode = mode });
+    this.commonService.currentPage.subscribe(page => { this.currentPage = page; });
+    this.walletService.getWalletPaging(0, 100).pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (res) => {
+          res.forEach(element => {
+            this._wallets.push(new WalletView().addWallet(element));
+          });
+          this._wallets[0].isCurrent = true;
+        },
+        (err) => {
+          console.log(err)
+        }
+      )
+
   }
 
   ngOnChanges(changes: any) {
@@ -71,26 +85,12 @@ export class TopbarComponent implements OnInit, OnChanges {
     dialog[0].hidden = !this.isWalletMenuOpen;
   }
 
-  jumpToToday() {
-    console.log(this.currentMonth);
-    if (this.currentMonth != 'this') {
-      this.commonService.reloadComponent();
-      this.router.navigate(['/']);
-    }
+  getFormatAmount(value: number): string {
+    return Utils.formatNumber(value.toString())
   }
 
-  changeViewMode() {
-    if (this.currentMode === ViewMode.CAT) {
-      this.currentMode = ViewMode.TRANS;
-      this.viewToolTip = "View by category";
-      this.commonService.changeViewMode(this.currentMode);
-    }
-    else {
-      this.currentMode = ViewMode.CAT;
-      this.viewToolTip = "View by transaction";
-      this.commonService.changeViewMode(this.currentMode);
-    }
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
-
 }
-

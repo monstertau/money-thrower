@@ -1,9 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, EventEmitter, Output } from '@angular/core';
 import jwtDecode from 'jwt-decode';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService, UserDetail } from 'src/app/services/auth.service';
 import { Wallet, WalletService } from 'src/app/services/wallet.service';
+
 
 @Component({
     selector: 'app-wallet-detail',
@@ -12,7 +13,9 @@ import { Wallet, WalletService } from 'src/app/services/wallet.service';
 })
 export class WalletDetailComponent implements OnInit, OnDestroy {
 
+    @Output() editWallet = new EventEmitter<string>();
     walletList: Wallet[] = [];
+    data: Wallet[] = [];
 
     selectedWallet: Wallet = {
         id: "",
@@ -27,7 +30,7 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
 
     currentUser: UserDetail;
 
-    pageSize: number = 10;
+    pageSize: number = 4;
 
     pageOffset: number = 0;
 
@@ -35,22 +38,30 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
 
     isDetailLoading: boolean = true;
 
+    canLoadMore: boolean = true;
+
+    fallbackIcon = 'assets/catalogs/wallet_icon.png';
+
     get isListEmpty(): boolean {
         return this.walletList.length <= 0
     }
 
     constructor(private walletService: WalletService, private authService: AuthService) {
         this.currentUser = jwtDecode(this.authService.userDetail.token);
-        console.log(this.currentUser)
     }
 
     ngOnInit() {
         this.loadWalletList();
+        this.data = this.walletList;
     }
 
     loadMore() {
         this.pageOffset += this.pageSize;
-        this.loadWalletList;
+        this.loadWalletList();
+    }
+
+    editWalletDetail() {
+        this.editWallet.emit();
     }
 
     loadWalletList() {
@@ -59,7 +70,9 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe(
                 (res) => {
-                    console.log(res);
+                    if (!res || res.length <= 0) {
+                        this.canLoadMore = false;
+                    }
                     res.forEach(element => {
                         this.walletList.push(element);
                     });
@@ -79,7 +92,6 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe(
                 (res) => {
-                    console.log(res);
                     this.selectedWallet = res;
                 },
                 (err) => {
@@ -94,8 +106,8 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
     selectWallet(id: string) {
         let dialog = document.getElementsByClassName('dialog') as HTMLCollectionOf<HTMLElement>;
         let dialogDetail = document.getElementById('dialog-detail') as HTMLElement;
-        if (dialog.length != 0 && dialog[0].style.left != '23%' && dialogDetail.hidden) {
-            dialog[0].style.left = "23%";
+        if (dialog.length != 0 && dialog[0].style.marginLeft != '21%' && dialogDetail.hidden) {
+            dialog[0].style.marginLeft = "21%";
             setTimeout(() => {
                 dialogDetail.hidden = false;
             }, 500);
@@ -107,10 +119,18 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
     hideWalletDetail() {
         let dialog = document.getElementsByClassName('dialog') as HTMLCollectionOf<HTMLElement>;
         let dialogDetail = document.getElementById('dialog-detail') as HTMLElement;
-        if (dialog.length != 0 && dialog[0].style.left == '23%' && !dialogDetail.hidden) {
-            dialog[0].style.left = "50%";
+        if (dialog.length != 0 && dialog[0].style.marginLeft == '21%' && !dialogDetail.hidden) {
+            dialog[0].style.marginLeft = "50%";
             dialogDetail.hidden = true;
         }
+    }
+
+    formatCurrency(balance: number) {
+        return balance.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    }
+
+    getIcon(icon: string) {
+        return "assets/catalogs/" + icon + ".png";
     }
 
     ngOnDestroy() {

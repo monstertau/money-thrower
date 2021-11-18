@@ -1,8 +1,9 @@
 package repository
 
 type Repositories struct {
-	UserRepo     UserRepoInterface
-	RedisRepo    RedisRepositoryInterface
-	WalletRepo   WalletRepoInterface
-	CategoryRepo CategoryRepoInterface
+	UserRepo        UserRepoInterface
+	RedisRepo       RedisRepositoryInterface
+	WalletRepo      WalletRepoInterface
+	TransactionRepo TransactionRepoInterface
+	CategoryRepo    CategoryRepoInterface
 }

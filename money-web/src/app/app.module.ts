@@ -15,12 +15,15 @@ import { ErrorInterceptor } from './services/error.interceptor';
 import { InterceptorService } from './services/interceptor.service';
 import { HomeModule } from './home/home.module';
 import { FwpModule } from './fwp/fwp.module';
+import { WalletModule } from './wallet/wallet.module';
+import { TransactionAddModule } from "./transaction-add/transaction-add.module";
+import { NzIconModule } from "ng-zorro-antd/icon";
 
 registerLocaleData(en);
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,9 +31,12 @@ registerLocaleData(en);
     AuthenticationModule,
     FwpModule,
     HomeModule,
+    WalletModule,
     FormsModule,
     HttpClientModule,
+    TransactionAddModule,
     BrowserAnimationsModule,
+    NzIconModule,
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },

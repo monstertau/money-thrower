@@ -11,6 +11,9 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { NzModalModule } from "ng-zorro-antd/modal";
+import { TopbarTransactionComponent } from './topbar/topbar-transaction/topbar-transaction.component';
+import { TopbarWalletComponent } from './topbar/topbar-wallet/topbar-wallet.component';
 
 
 @NgModule({
@@ -18,8 +21,11 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     HomeComponent,
     TopbarComponent,
     SidebarComponent,
+    TopbarTransactionComponent,
+    TopbarWalletComponent
   ],
   imports: [
+    NzModalModule,
     CommonModule,
     HomeRoutingModule,
     NzLayoutModule,
@@ -30,6 +36,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     NzDropDownModule,
     NzButtonModule,
     NzDividerModule
-  ]
+  ],
+
 })
 export class HomeModule { }
