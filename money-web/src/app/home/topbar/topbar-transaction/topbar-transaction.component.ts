@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import {Component, Input, OnInit, ViewContainerRef} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { CommonService, ViewMode } from 'src/app/services/common.service';
@@ -17,9 +17,10 @@ export class TopbarTransactionComponent implements OnInit {
   currentMode: string = ViewMode.CAT;
   currentMonth!: string;
   viewToolTip: string;
-  private _wallets: WalletView[] = [];
 
-  constructor(private modal: NzModalService, private viewContainerRef: ViewContainerRef, private router: Router, private route: ActivatedRoute, private commonService: CommonService) { 
+  @Input() wallets: WalletView[] = [];
+
+  constructor(private modal: NzModalService, private viewContainerRef: ViewContainerRef, private router: Router, private route: ActivatedRoute, private commonService: CommonService) {
     let mode: string = this.route.snapshot.queryParams['view'] || '';
     switch (mode) {
       case ViewMode.TRANS:
@@ -49,7 +50,7 @@ export class TopbarTransactionComponent implements OnInit {
   }
 
   getCurrentWallet(): WalletView {
-    for (let wallet of this._wallets) {
+    for (let wallet of this.wallets) {
       if (wallet.isCurrent) {
         return wallet;
       }
@@ -79,8 +80,8 @@ export class TopbarTransactionComponent implements OnInit {
           label: 'Save',
           type: 'primary',
           size: 'large',
-          onClick: () => {
-
+          onClick: componentInstance =>{
+              componentInstance!.addTransaction()
           }
         },
       ]

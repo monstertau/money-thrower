@@ -19,6 +19,7 @@ export class TransactionAddComponent implements OnInit {
     @Input() transaction = new TransactionView();
     private readonly destroy$ = new Subject();
     wallets: WalletView[] = [];
+
     @ViewChild('inputElement', {static: false}) inputElement?: ElementRef;
 
     constructor(private walletService: WalletService, private transactionService: TransactionService, private modal: NzModalService, private viewContainerRef: ViewContainerRef) {
@@ -76,7 +77,6 @@ export class TransactionAddComponent implements OnInit {
 
     addTransaction() {
         console.log(this.transaction);
-        // this.transactionService.addTransaction(this.transaction.toTransaction())
     }
 
     onAddCategory() {
@@ -98,14 +98,18 @@ export class TransactionAddComponent implements OnInit {
             nzContent: TransactionAddWalletComponent,
             nzViewContainerRef: this.viewContainerRef,
             nzComponentParams: {
-                wallets: this.wallets
+                wallets: this.wallets,
+                callbackFunc: () => modal.destroy()
             },
             nzWidth: 500,
             nzBodyStyle: {
                 "padding": "0",
             },
             nzFooter: [],
-
+        });
+        const instance = modal.getContentComponent()
+        modal.afterClose.subscribe(result => {
+            this.transaction.wallet = instance.getCurrentWallet()
         });
     }
 
