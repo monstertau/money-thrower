@@ -48,12 +48,12 @@ func (h *CategoryController) GetAll(c *gin.Context) {
 		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get user id: %v", err))
 		return
 	}
-	categorys, err := h.services.CategoryService.GetAll(userId)
+	categories, err := h.services.CategoryService.GetAll(userId)
 	if err != nil {
-		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get list categorys: %v", err))
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get list categories: %v", err))
 		return
 	}
-	c.JSON(http.StatusOK, categorys)
+	c.JSON(http.StatusOK, categories)
 }
 
 // GetById godoc

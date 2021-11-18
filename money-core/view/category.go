@@ -16,19 +16,19 @@ type (
 
 func (f *CategoryForm) ToCategoryModel() *model.Category {
 	return &model.Category{
-		ParentCatId:  f.ParentCatId,
-		CategoryName: f.CategoryName,
-		OwnerId:      f.OwnerId,
-		IsExpense:    f.CategoryIsExpense,
-		Icon:         f.CategoryIcon,
-		Type:         f.CategoryType,
+		ParentCatId: f.ParentCatId,
+		CatName:     f.CategoryName,
+		OwnerId:     f.OwnerId,
+		IsExpense:   f.CategoryIsExpense,
+		Icon:        f.CategoryIcon,
+		Type:        f.CategoryType,
 	}
 }
 
 func ToCategoryView(w *model.Category) *CategoryForm {
 	return &CategoryForm{
 		CategoryId:        w.Id,
-		CategoryName:      w.CategoryName,
+		CategoryName:      w.CatName,
 		OwnerId:           w.OwnerId,
 		ParentCatId:       w.ParentCatId,
 		CategoryIsExpense: w.IsExpense,
