@@ -96,6 +96,8 @@ func main() {
 		MailService:        service.NewMailService(appConfig.MailConfig),
 		WalletService:      service.NewWalletService(validators, repo),
 		TransactionService: service.NewTransactionService(validators, repo),
+		CategoryService: service.NewCategoryService(repo),
+
 	}
 
 	route := gin.Default()
@@ -113,11 +115,13 @@ func main() {
 	dummyController := controller.NewDummyController(serv)
 	walletController := controller.NewWalletController(serv, validators)
 	transactionController := controller.NewTransactionController(serv, validators)
+	categoryController := controller.NewCategoryController(serv)
 	authController.MakeHandler(v1)
 	dummyController.MakeHandler(v1)
 	walletController.MakeHandler(v1)
 	forgotPasswordController.MakeHandler(v1)
 	transactionController.MakeHandler(v1)
+	categoryController.MakeHandler(v1)
 
 	docs.SwaggerInfo.Host = appConfig.SwagConfig.Host
 	docs.SwaggerInfo.Schemes = appConfig.SwagConfig.Schemes

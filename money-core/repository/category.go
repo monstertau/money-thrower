@@ -1,14 +1,17 @@
 package repository
 
 import (
+	"fmt"
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
 	"money-core/model"
+	"money-core/util"
 )
 
 type (
 	CategoryRepoInterface interface {
-		GetById(id string) (*model.Category, error)
+		GetById(id string, userId string) (*model.Category, error)
+		List(userId string) ([]*model.Category, error)
 	}
 	CategoryRepo struct {
 		dbConn *gorm.DB
@@ -19,10 +22,18 @@ func NewCategoryRepo(dbConn *gorm.DB) *CategoryRepo {
 	return &CategoryRepo{dbConn: dbConn}
 }
 
-func (c *CategoryRepo) GetById(id string) (*model.Category, error) {
+func (r *CategoryRepo) GetById(id string, userId string) (*model.Category, error) {
 	category := &model.Category{}
-	if err := c.dbConn.First(category, "id=?", id).Error; err != nil {
+	if err := r.dbConn.First(&category, "id=? AND (owner_id=? OR owner_id=?)", id, userId, util.NilId).Error; err != nil {
 		return nil, errors.Errorf("failed to execute select query: %s", err)
 	}
 	return category, nil
+}
+
+func (r *CategoryRepo) List(userId string) ([]*model.Category, error) {
+	var categories []*model.Category
+	if err := r.dbConn.Find(&categories, "owner_id=? OR owner_id=?", userId, util.NilId).Error; err != nil {
+		return nil, fmt.Errorf("failed to execute select query: %s", err)
+	}
+	return categories, nil
 }

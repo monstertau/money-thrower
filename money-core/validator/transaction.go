@@ -13,7 +13,6 @@ type (
 		ValidateFilterForm(form *view.FilterTransactionForm) error
 		ValidateAddForm(form *view.AddTransactionForm) (bool, error)
 		ValidateEditForm(trans *model.Transaction, form *view.EditTransactionForm) (float64, error)
-
 	}
 	TransactionValidator struct {
 		repo *repository.Repositories
@@ -47,7 +46,7 @@ func (v *TransactionValidator) ValidateAddForm(form *view.AddTransactionForm) (b
 	}
 
 	// cat_id validate
-	cate, err := v.repo.CategoryRepo.GetById(form.CatId)
+	cate, err := v.repo.CategoryRepo.GetById(form.CatId, form.UserId)
 	if err != nil || cate == nil ||
 		(cate.OwnerId != form.UserId && cate.OwnerId != "00000000-0000-0000-0000-000000000000") {
 		return false, errors.Errorf("Invalid cat_id")
@@ -66,14 +65,14 @@ func (v *TransactionValidator) ValidateEditForm(trans *model.Transaction, form *
 
 	var changeAmount = float64(0)
 
-	oldCate, err := v.repo.CategoryRepo.GetById(trans.CatId)
+	oldCate, err := v.repo.CategoryRepo.GetById(trans.CatId, form.UserId)
 	if err != nil {
 		return -1, errors.Errorf("Cannot validate cat_id")
 	}
 	var newCate = &model.Category{}
 	// cat_id validate
 	if form.CatId != "" {
-		newCate, err = v.repo.CategoryRepo.GetById(form.CatId)
+		newCate, err = v.repo.CategoryRepo.GetById(form.CatId, form.UserId)
 		if err != nil || newCate == nil ||
 			(newCate.OwnerId != form.UserId && newCate.OwnerId != "00000000-0000-0000-0000-000000000000") {
 			return -1, errors.Errorf("Invalid cat_id")
