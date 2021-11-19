@@ -51,12 +51,13 @@ export class CategoryView {
     this.id = category.id;
     this.name = category.name;
     this.icon = category.icon;
+    this.isExpense = category.is_expense;
     switch (category.type) {
       case 1:
-        this.type = categoryType.INCOME;
+        this.type = categoryType.OUTCOME;
         break;
       case 2:
-        this.type = categoryType.OUTCOME;
+        this.type = categoryType.INCOME;
         break;
       default:
         this.type = categoryType.OTHERS;

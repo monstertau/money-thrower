@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Transaction2 } from 'src/app/services/transaction.service';
+import { Utils } from 'src/app/util/utils';
+import { TransactionView } from 'src/app/view-model/transactions';
 
 @Component({
   selector: 'app-transaction-detail',
@@ -7,11 +9,12 @@ import { Transaction2 } from 'src/app/services/transaction.service';
   styleUrls: ['./transaction-detail.component.css']
 })
 export class TransactionDetailComponent implements OnInit {
-  @Input() transaction!: Transaction2;
+  @Input() transaction!: TransactionView;
   @Output() closed = new EventEmitter<boolean>();
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.transaction.transactionDate);
   }
 
   closeDetail() {
@@ -22,6 +25,10 @@ export class TransactionDetailComponent implements OnInit {
     if (dialogList.length > 0) {
       dialogList[0].style.marginLeft = '50%';
     }
+  }
+
+  getFormatBalance(balance: number) {
+    return Utils.formatCurrency(balance);
   }
 
 }

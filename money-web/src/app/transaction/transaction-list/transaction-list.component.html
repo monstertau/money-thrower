@@ -2,14 +2,15 @@
     <div class="money-flow">
         <div class="flow">
             <p>Inflow: </p>
-            <p style="margin-left: auto; color: #1890FF">100,000 vnd</p>
+            <p style="margin-left: auto; color: #1890FF">{{getFormatBalance(inflow)}} vnd</p>
         </div>
         <div class="flow">
             <p>Outflow: </p>
-            <p style="margin-left: auto; color: #FF4D4F">-50,000 vnd</p>
+            <p style="margin-left: auto; color: #FF4D4F">- {{getFormatBalance(outflow)}} vnd</p>
         </div>
         <div class="flow">
-            <p class="total-amount">+50,000 vnd</p>
+            <p class="total-amount" *ngIf="total >= 0">+ {{getFormatBalance(total)}} vnd</p>
+            <p class="total-amount" *ngIf="total < 0">{{getFormatBalance(total)}} vnd</p>
         </div>
     </div>
     <div class="view-report">
@@ -17,24 +18,25 @@
     </div>
 </div>
 <div class="transactions" style="overflow: auto; max-height: calc(100vh - 335px);">
-    <div *ngIf="viewMode == 'transaction'; else category">
+    <div *ngIf="viewMode == 'time'; else category">
         <div class="transaction" *ngFor="let transaction of transactions">
             <div class="gap"></div>
             <div class="transaction-item">
                 <div class="top-section">
                     <div class="top-left">
                         <div class="icon">
-                            <img style="width: 30px;" src="https://static.moneylover.me/img/icon/ic_category_all.png"
-                                alt="">
+                            <img nz-image width="30px" height="30px" [nzSrc]="transaction.category.getIcon()"
+                                [nzFallback]="transaction.category.fallbackIcon" alt="">
                         </div>
                         <div class="category-name">
-                            <div style="font-weight: 500;">Restaurant</div>
+                            <div style="font-weight: 500;">{{transaction.category.name}}</div>
                             <div style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);">1 transaction
                             </div>
                         </div>
                     </div>
                     <div class="top-right">
-                        <div style="font-weight: 500; font-size: 16px;">{{transaction.amount}} vnd</div>
+                        <div style="font-weight: 500; font-size: 16px;">{{getFormatBalance(transaction.amount)}}
+                            {{transaction.wallet.currency}}</div>
                     </div>
                 </div>
                 <div style="margin-top: -25px;">
@@ -54,7 +56,9 @@
                             </div>
                         </div>
                         <div class="top-right" style="margin-top: 12px">
-                            <div style="font-weight: 500; color: #FF4D4F;">{{transaction.amount}} vnd</div>
+                            <div [ngClass]="{'is-expense': transaction.category.isExpense, 'not-expense': !transaction.category.isExpense}"
+                                style="font-weight: 500;">{{getFormatBalance(transaction.amount)}}
+                                {{transaction.wallet.currency}}</div>
                         </div>
                     </div>
                 </div>
@@ -72,8 +76,7 @@
                         </div>
                         <div class="category-name" style="margin-top: 7px">
                             <div style="font-size: 12px;">Friday</div>
-                            <div
-                                style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);">
+                            <div style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);">
                                 November 2021</div>
                         </div>
                     </div>
@@ -85,7 +88,8 @@
                     <nz-divider></nz-divider>
                 </div>
                 <div style="margin-top: -25px;">
-                    <div class="bottom-section" style="padding-top: 10px; padding-bottom: 10px;" (click)="selectTransaction('1')">
+                    <div class="bottom-section" style="padding-top: 10px; padding-bottom: 10px;"
+                        (click)="selectTransaction('1')">
                         <div class="top-left">
                             <div class="icon">
                                 <img style="width: 30px;"
@@ -93,7 +97,9 @@
                             </div>
                             <div class="category-name">
                                 <div style="font-weight: 500;">Restaurant</div>
-                                <div style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);  max-width: 150px; word-wrap: break-word;">Note: some note
+                                <div
+                                    style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);  max-width: 150px; word-wrap: break-word;">
+                                    Note: some note
                                 </div>
                             </div>
                         </div>
@@ -101,7 +107,8 @@
                             <div style="font-weight: 500; color: #FF4D4F;">10000 vnd</div>
                         </div>
                     </div>
-                    <div class="bottom-section" style="padding-top: 10px; padding-bottom: 10px;" (click)="selectTransaction('1')">
+                    <div class="bottom-section" style="padding-top: 10px; padding-bottom: 10px;"
+                        (click)="selectTransaction('1')">
                         <div class="top-left">
                             <div class="icon">
                                 <img style="width: 30px;"
@@ -109,7 +116,9 @@
                             </div>
                             <div class="category-name">
                                 <div style="font-weight: 500;">Restaurant</div>
-                                <div style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);  max-width: 150px; word-wrap: break-word;">Note: some note
+                                <div
+                                    style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);  max-width: 150px; word-wrap: break-word;">
+                                    Note: some note
                                 </div>
                             </div>
                         </div>
@@ -117,7 +126,8 @@
                             <div style="font-weight: 500; color: #FF4D4F;">10000 vnd</div>
                         </div>
                     </div>
-                    <div class="bottom-section" style="padding-top: 10px; padding-bottom: 10px;" (click)="selectTransaction('1')">
+                    <div class="bottom-section" style="padding-top: 10px; padding-bottom: 10px;"
+                        (click)="selectTransaction('1')">
                         <div class="top-left">
                             <div class="icon">
                                 <img style="width: 30px;"
@@ -125,7 +135,9 @@
                             </div>
                             <div class="category-name">
                                 <div style="font-weight: 500;">Restaurant</div>
-                                <div style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);  max-width: 150px; word-wrap: break-word;">Note: some note
+                                <div
+                                    style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);  max-width: 150px; word-wrap: break-word;">
+                                    Note: some note
                                 </div>
                             </div>
                         </div>
@@ -146,8 +158,7 @@
                         </div>
                         <div class="category-name" style="margin-top: 7px">
                             <div style="font-size: 12px;">Thursday</div>
-                            <div
-                                style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);">
+                            <div style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);">
                                 November 2021</div>
                         </div>
                     </div>
@@ -159,7 +170,8 @@
                     <nz-divider></nz-divider>
                 </div>
                 <div style="margin-top: -25px;">
-                    <div class="bottom-section" style="padding-top: 10px; padding-bottom: 10px;" (click)="selectTransaction('1')">
+                    <div class="bottom-section" style="padding-top: 10px; padding-bottom: 10px;"
+                        (click)="selectTransaction('1')">
                         <div class="top-left">
                             <div class="icon">
                                 <img style="width: 30px;"
@@ -167,7 +179,9 @@
                             </div>
                             <div class="category-name">
                                 <div style="font-weight: 500;">Restaurant</div>
-                                <div style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);  max-width: 150px; word-wrap: break-word;">Note: some note
+                                <div
+                                    style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);  max-width: 150px; word-wrap: break-word;">
+                                    Note: some note
                                 </div>
                             </div>
                         </div>
@@ -175,7 +189,8 @@
                             <div style="font-weight: 500; color: #FF4D4F;">10000 vnd</div>
                         </div>
                     </div>
-                    <div class="bottom-section" style="padding-top: 10px; padding-bottom: 10px;" (click)="selectTransaction('1')">
+                    <div class="bottom-section" style="padding-top: 10px; padding-bottom: 10px;"
+                        (click)="selectTransaction('1')">
                         <div class="top-left">
                             <div class="icon">
                                 <img style="width: 30px;"
@@ -183,7 +198,9 @@
                             </div>
                             <div class="category-name">
                                 <div style="font-weight: 500;">Restaurant</div>
-                                <div style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);  max-width: 150px; word-wrap: break-word;">Note: some note
+                                <div
+                                    style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);  max-width: 150px; word-wrap: break-word;">
+                                    Note: some note
                                 </div>
                             </div>
                         </div>
@@ -191,7 +208,8 @@
                             <div style="font-weight: 500; color: #FF4D4F;">10000 vnd</div>
                         </div>
                     </div>
-                    <div class="bottom-section" style="padding-top: 10px; padding-bottom: 10px;" (click)="selectTransaction('1')">
+                    <div class="bottom-section" style="padding-top: 10px; padding-bottom: 10px;"
+                        (click)="selectTransaction('1')">
                         <div class="top-left">
                             <div class="icon">
                                 <img style="width: 30px;"
@@ -199,7 +217,9 @@
                             </div>
                             <div class="category-name">
                                 <div style="font-weight: 500;">Restaurant</div>
-                                <div style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);  max-width: 150px; word-wrap: break-word;">Note: some note
+                                <div
+                                    style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);  max-width: 150px; word-wrap: break-word;">
+                                    Note: some note
                                 </div>
                             </div>
                         </div>

@@ -15,8 +15,10 @@ export class TransactionService {
     constructor(private httpService: HttpService) {
     }
 
-    // getTransactions() {
-    // }
+    getTransactions(filter: TransactionRequest) {
+        return this.httpService.post<Transaction2[]>(`${this.route}/filter?limit=${filter.limit}&offset=${filter.offset}`, filter.filter)
+    }
+
     createTransaction(transaction: Transaction) {
 
         return this.httpService.post<Transaction>(this.route, transaction).pipe(
@@ -38,15 +40,31 @@ export class TransactionService {
 }
 
 export interface Transaction2 {
-    transactionId: string;
-    userId: string;
-    walletId: string;
-    catId: string;
+    transaction_id: string;
+    user_id: string;
+    wallet_id: string;
+    cat_id: string;
     amount: number;
     note: string;
-    transactionDate: string;
+    transaction_date: number;
 }
 
 export interface TransactionResponse {
     transactions: Transaction2[];
+}
+
+export interface TransactionFilter {
+    catId: string;
+    endAmount: number;
+    startAmount: number;
+    startDate: number;
+    endDate: number;
+    keyNote: string;
+    walletId: string;
+}
+
+export interface TransactionRequest {
+    filter: TransactionFilter;
+    limit: number;
+    offset: number;
 }

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
 import { TransactionView } from 'src/app/view-model/transactions';
 import { Transaction2 } from 'src/app/services/transaction.service';
+import { Utils } from 'src/app/util/utils';
 
 @Component({
   selector: 'app-transaction-list',
@@ -9,13 +10,17 @@ import { Transaction2 } from 'src/app/services/transaction.service';
   styleUrls: ['./transaction-list.component.css']
 })
 export class TransactionListComponent implements OnInit {
-  @Input() viewMode!: string;
   @Input() transactions!: TransactionView[];
   @Output() selectedTransaction = new EventEmitter<TransactionView>();
-  currentMonth = 'this';
-  constructor(private commonService: CommonService) { }
+  @Input() inflow!: number;
+  @Input() outflow!: number;
+  @Input() total!: number;
+  viewMode!: string;
+  constructor(private commonService: CommonService) {
+  }
 
   ngOnInit(): void {
+    this.commonService.currentViewMode.subscribe(mode => { this.viewMode = mode; })
   }
 
   selectTransaction(id: string) {
@@ -29,6 +34,10 @@ export class TransactionListComponent implements OnInit {
         dialogDetail.hidden = false;
       }, 500);
     }
+  }
+
+  getFormatBalance(balance: number) {
+    return Utils.formatCurrency(balance);
   }
 
 }

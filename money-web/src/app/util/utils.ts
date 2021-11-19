@@ -14,4 +14,8 @@ export class Utils {
     }
     return `${prefix}${result}${list[1] ? `.${list[1]}` : ''}`;
   }
+
+  static formatCurrency(balance: number) {
+    return balance.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+  }
 }

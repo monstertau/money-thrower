@@ -1,6 +1,7 @@
 import {Category, CategoryView} from "./category";
 import {WalletView} from "./wallet";
 import {Wallet} from "../services/wallet.service";
+import { Transaction2 } from "../services/transaction.service";
 
 export interface Transaction {
   id: string;
@@ -28,8 +29,8 @@ export class TransactionView {
     this.category = new CategoryView()
   }
 
-  addTransaction(transaction: Transaction): TransactionView {
-    this.id = transaction.id;
+  addTransaction(transaction: Transaction2): TransactionView {
+    this.id = transaction.transaction_id;
     this.amount = transaction.amount;
     this.note = transaction.note;
     this.transactionDate = new Date(transaction.transaction_date * 1000);

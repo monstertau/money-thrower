@@ -106,6 +106,7 @@ export class TopbarComponent implements OnInit, OnChanges {
       }
       else wallet.isCurrent = false;
     });
+    this.commonService.reloadComponent();
   }
 
   getFormatAmount(value: number): string {

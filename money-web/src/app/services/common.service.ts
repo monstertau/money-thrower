@@ -26,6 +26,8 @@ export class CommonService {
         this.currentWallet = this.wallet.asObservable();
       });
     }
+    this.viewMode = new BehaviorSubject<string>(localStorage.getItem('viewTransaction') || 'category');
+    this.currentViewMode = this.viewMode.asObservable();
   }
 
   setCurrentWallet(id: string) {
@@ -46,6 +48,8 @@ export class CommonService {
 
   changeViewMode(mode: string) {
     this.viewMode.next(mode);
+    localStorage.removeItem('viewTransaction');
+    localStorage.setItem('viewTransaction', mode);
   }
 
   changeMonth(month: string) {
@@ -61,5 +65,5 @@ export class CommonService {
 
 export enum ViewMode {
   CAT = 'category',
-  TRANS = 'transaction'
+  TRANS = 'time'
 }

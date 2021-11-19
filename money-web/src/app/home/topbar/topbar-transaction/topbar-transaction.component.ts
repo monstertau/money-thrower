@@ -25,20 +25,14 @@ export class TopbarTransactionComponent implements OnInit {
     @Input() wallets: WalletView[] = [];
 
     constructor(private transactionService: TransactionService, private notification: NzNotificationService, private modal: NzModalService, private viewContainerRef: ViewContainerRef, private router: Router, private route: ActivatedRoute, private commonService: CommonService) {
-        let mode: string = this.route.snapshot.queryParams['view'] || '';
-        switch (mode) {
+        switch (this.currentMode) {
             case ViewMode.TRANS:
-                this.currentMode = ViewMode.TRANS;
                 this.viewToolTip = "View by " + ViewMode.CAT;
                 break;
             default:
-                this.currentMode = ViewMode.CAT;
-                this.viewToolTip = "View by " + ViewMode.TRANS;
+                this.viewToolTip = "View by transaction";
                 break;
         }
-        this.commonService.currentMonth.subscribe(month => {
-            this.currentMonth = month
-        });
     }
 
     ngOnInit(): void {
