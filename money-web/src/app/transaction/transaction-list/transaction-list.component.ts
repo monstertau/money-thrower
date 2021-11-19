@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
-import { Transaction } from 'src/app/services/transaction.service';
+import { Transaction2 } from 'src/app/services/transaction.service';
 
 @Component({
   selector: 'app-transaction-list',
@@ -9,8 +9,8 @@ import { Transaction } from 'src/app/services/transaction.service';
 })
 export class TransactionListComponent implements OnInit {
   @Input() viewMode!: string;
-  @Input() transactions!: Transaction[];
-  @Output() selectedTransaction = new EventEmitter<Transaction>();
+  @Input() transactions!: Transaction2[];
+  @Output() selectedTransaction = new EventEmitter<Transaction2>();
   currentMonth = 'this';
   constructor(private commonService: CommonService) { }
 

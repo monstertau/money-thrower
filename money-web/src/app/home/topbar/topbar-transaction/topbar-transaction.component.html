@@ -5,6 +5,15 @@
           (click)="changeViewMode()"><i nz-icon nzType="eye" nzTheme="outline"></i></span>
     <span class="topbar-icon" style="margin-right: 50px;" nzTooltipTitle="Search" nz-tooltip
           nzTooltipPlacement="bottom"><i nz-icon nzType="search" nzTheme="outline"></i></span>
-    <button class="transaction-btn" nz-button nzType="primary" (click)="addTransaction()">Add transaction
+    <button class="transaction-btn" nz-button nzType="primary" (click)="showTransactionAddModal()">Add Transaction
     </button>
+    <nz-modal [(nzVisible)]="showAddModal" nzTitle="Add Transaction" nzWidth="848px" nzClosable="false">
+        <div *nzModalContent>
+            <app-transaction-add [transaction]="currentTransaction"></app-transaction-add>
+        </div>
+        <div *nzModalFooter>
+            <button nz-button nzType="default" (click)="handleCancelAdd()">Cancel</button>
+            <button nz-button nzType="primary" (click)="handleSave()" [nzLoading]="transactionAddLoading">Save</button>
+        </div>
+    </nz-modal>
 </div>
