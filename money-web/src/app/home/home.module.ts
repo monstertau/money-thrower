@@ -10,11 +10,14 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { NzImageModule } from 'ng-zorro-antd/image';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { NzModalModule } from "ng-zorro-antd/modal";
+import { NzImageModule } from 'ng-zorro-antd/image';
 import { TopbarTransactionComponent } from './topbar/topbar-transaction/topbar-transaction.component';
 import { TopbarWalletComponent } from './topbar/topbar-wallet/topbar-wallet.component';
+import { NzNotificationModule } from "ng-zorro-antd/notification";
+import { TransactionAddModule } from "../transaction-add/transaction-add.module";
+import { TransactionAddComponent } from "../transaction-add/transaction-add.component";
 
 
 @NgModule({
@@ -23,7 +26,7 @@ import { TopbarWalletComponent } from './topbar/topbar-wallet/topbar-wallet.comp
     TopbarComponent,
     SidebarComponent,
     TopbarTransactionComponent,
-    TopbarWalletComponent
+    TopbarWalletComponent,
   ],
   imports: [
     NzModalModule,
@@ -37,8 +40,12 @@ import { TopbarWalletComponent } from './topbar/topbar-wallet/topbar-wallet.comp
     NzDropDownModule,
     NzButtonModule,
     NzDividerModule,
-    NzImageModule
+    NzNotificationModule,
+    NzImageModule,
+    TransactionAddModule,
+
   ],
 
 })
-export class HomeModule { }
+export class HomeModule {
+}

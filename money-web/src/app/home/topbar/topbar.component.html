@@ -2,24 +2,25 @@
 <div class="topbar">
   <div class="left" (click)="openWalletMenu()" *ngIf="wallets.length >= 0">
     <div class="icon"><img nz-image width="40px" height="40px" [nzSrc]="currentWallet.getIcon()"
-      [nzFallback]="currentWallet.fallBackIcon" alt="" /></div>
+        [nzFallback]="currentWallet.fallBackIcon" alt="" /></div>
     <div class="wallet-info">
       <div class="name">{{currentWallet.name}} <span> <i nz-icon nzType="caret-down" nzTheme="outline"></i></span></div>
       <div class="amount">{{getFormatAmount(currentWallet.balance)}} {{currentWallet.currency}}</div>
     </div>
   </div>
   <div style="margin-left: auto" [ngSwitch]="currentPage">
-    <app-topbar-transaction *ngSwitchCase="'transaction'"></app-topbar-transaction>
+    <app-topbar-transaction *ngSwitchCase="'transaction'" [wallets]="wallets"></app-topbar-transaction>
     <app-topbar-wallet *ngSwitchCase="'wallet'"></app-topbar-wallet>
     <div *ngSwitchDefault="">Other topbar</div>
   </div>
   <div hidden class="wallet-menu">
     <div class="menu-title">Select Wallet</div>
-    <div class="wallet-items" *ngFor="let wallet of wallets">
-      <div (click)="changeCurrentWallet(wallet.id)">
+    <div class="wallet-items">
+      <div *ngFor="let wallet of wallets" (click)="changeCurrentWallet(wallet.id)">
         <nz-divider style="margin-top: 10px; width: 430px;" nzType="horizontal"></nz-divider>
         <div class="left wallet-item">
-          <div class="icon"><img nz-image width="40px" [nzSrc]="wallet.getIcon()" [nzFallback]="wallet.fallBackIcon" alt=""></div>
+          <div class="icon"><img nz-image width="40px" [nzSrc]="wallet.getIcon()" [nzFallback]="wallet.fallBackIcon"
+              alt=""></div>
           <div class="wallet-info">
             <div class="name">{{wallet.name}}
               <div class="item-amount">{{getFormatAmount(wallet.balance)}} {{wallet.currency}}</div>

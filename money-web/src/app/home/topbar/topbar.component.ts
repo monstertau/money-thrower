@@ -1,14 +1,14 @@
-import {Component, ElementRef, HostListener, Input, OnChanges, OnInit, ViewContainerRef, ViewEncapsulation} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {CommonService, ViewMode} from 'src/app/services/common.service';
-import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
-import {TransactionAddComponent} from "../../transaction-add/transaction-add.component";
-import {WalletService} from "../../services/wallet.service";
-import {WalletView} from "../../view-model/wallet";
-import {takeUntil} from "rxjs/operators";
-import {Subject} from "rxjs";
-import {Utils} from "../../util/utils";
-import {TransactionView} from "../../view-model/transactions";
+import { Component, ElementRef, HostListener, Input, OnChanges, OnInit, ViewContainerRef, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CommonService, ViewMode } from 'src/app/services/common.service';
+import { NzModalRef, NzModalService } from "ng-zorro-antd/modal";
+import { TransactionAddComponent } from "../../transaction-add/transaction-add.component";
+import { WalletService } from "../../services/wallet.service";
+import { WalletView } from "../../view-model/wallet";
+import { takeUntil } from "rxjs/operators";
+import { Subject } from "rxjs";
+import { Utils } from "../../util/utils";
+import { TransactionView } from "../../view-model/transactions";
 
 @Component({
   selector: 'app-topbar',
@@ -21,11 +21,11 @@ export class TopbarComponent implements OnInit, OnChanges {
   currentPage!: string;
 
   private readonly destroy$ = new Subject();
-  private _wallets: WalletView[] = [];
+  wallets: WalletView[] = [];
 
-  get wallets() {
-    return this._wallets;
-  }
+  // get wallets() {
+  //   return this._wallets;
+  // }
 
   currentWalletId!: string;
   currentWallet = new WalletView();
@@ -50,7 +50,7 @@ export class TopbarComponent implements OnInit, OnChanges {
     }
   }
 
-  constructor(private walletService: WalletService, private eRef: ElementRef, private commonService: CommonService) {}
+  constructor(private walletService: WalletService, private eRef: ElementRef, private commonService: CommonService) { }
 
   ngOnInit(): void {
     this.commonService.currentPage.subscribe(page => { this.currentPage = page; });
@@ -61,12 +61,15 @@ export class TopbarComponent implements OnInit, OnChanges {
       .subscribe(
         (res) => {
           res.forEach(element => {
-            this._wallets.push(new WalletView().addWallet(element));
+            this.wallets.push(new WalletView().addWallet(element));
           });
-          let current = this._wallets.find(wallet => wallet.id === this.currentWalletId)
-          if (current) {
-            this.currentWallet = current;
-          }
+          this.wallets.forEach(wallet => {
+            if (wallet.id === this.currentWalletId) {
+              wallet.isCurrent = true;
+              this.currentWallet = wallet;
+            }
+            else wallet.isCurrent = false;
+          });
         },
         (err) => {
           console.log(err)
@@ -96,7 +99,13 @@ export class TopbarComponent implements OnInit, OnChanges {
 
   changeCurrentWallet(id: string) {
     this.commonService.changeWallet(id);
-    this.currentWallet = this.wallets.find(wallet => wallet.id === id) || this.wallets[0];
+    this.wallets.forEach(wallet => {
+      if (wallet.id === id) {
+        wallet.isCurrent = true;
+        this.currentWallet = wallet;
+      }
+      else wallet.isCurrent = false;
+    });
   }
 
   getFormatAmount(value: number): string {

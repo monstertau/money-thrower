@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewContainerRef} from '@angular/core';
 import {TransactionService} from "../services/transaction.service";
 import {TransactionView} from "../view-model/transactions";
 import {Utils} from "../util/utils";
@@ -9,6 +9,8 @@ import {WalletService} from "../services/wallet.service";
 import {takeUntil} from "rxjs/operators";
 import {WalletView} from "../view-model/wallet";
 import {Subject} from "rxjs";
+import {CategoryService} from "../services/category.service";
+import {CategoryView} from "../view-model/category";
 
 @Component({
     selector: 'app-transaction-add',
@@ -19,40 +21,11 @@ export class TransactionAddComponent implements OnInit {
     @Input() transaction = new TransactionView();
     private readonly destroy$ = new Subject();
     wallets: WalletView[] = [];
+    categories: CategoryView[] = [];
+    hasChooseCategory: boolean = false;
     @ViewChild('inputElement', {static: false}) inputElement?: ElementRef;
 
-    constructor(private walletService: WalletService, private transactionService: TransactionService, private modal: NzModalService, private viewContainerRef: ViewContainerRef) {
-    }
-
-    onChangeAmount(value: string): void {
-        let res = value.replace(/\D/g, "");
-
-        if (res === null || res.length <= 0) {
-            this.transaction.amount = 0;
-            this.inputElement!.nativeElement.value = this.getFormatAmount();
-            return;
-        }
-        let numberAmount = parseInt(res);
-        if (numberAmount < 200000000000) {
-            this.transaction.amount = numberAmount
-        }
-        this.inputElement!.nativeElement.value = this.getFormatAmount();
-        console.log(this.transaction);
-    }
-
-    getFormatAmount(): string {
-        return Utils.formatNumber(this.transaction.amount.toString())
-    }
-
-    onChangeNote(value: string): void {
-        this.transaction.note = value;
-        console.log(this.transaction);
-    }
-
-
-    onChangeDate(result: Date): void {
-        this.transaction.transactionDate = result;
-        console.log(this.transaction);
+    constructor(private categoryService: CategoryService, private walletService: WalletService, private modal: NzModalService, private viewContainerRef: ViewContainerRef) {
     }
 
     ngOnInit(): void {
@@ -72,11 +45,44 @@ export class TransactionAddComponent implements OnInit {
                     console.log(err)
                 }
             )
+        this.categoryService.getAllCategory().subscribe((res) => {
+                res.forEach(element => {
+                    let categoryView = new CategoryView().addCategory(element)
+                    this.categories.push(categoryView);
+                });
+
+            },
+            (err) => {
+                console.log(err)
+            })
     }
 
-    addTransaction() {
-        console.log(this.transaction);
-        // this.transactionService.addTransaction(this.transaction.toTransaction())
+    onChangeAmount(value: string): void {
+        let res = value.replace(/\D/g, "");
+
+        if (res === null || res.length <= 0) {
+            this.transaction.amount = 0;
+            this.inputElement!.nativeElement.value = this.getFormatAmount();
+            return;
+        }
+        let numberAmount = parseInt(res);
+        if (numberAmount < 200000000000) {
+            this.transaction.amount = numberAmount
+        }
+        this.inputElement!.nativeElement.value = this.getFormatAmount();
+    }
+
+    getFormatAmount(): string {
+        return Utils.formatNumber(this.transaction.amount.toString())
+    }
+
+    onChangeNote(value: string): void {
+        this.transaction.note = value;
+    }
+
+
+    onChangeDate(result: Date): void {
+        this.transaction.transactionDate = result;
     }
 
     onAddCategory() {
@@ -85,9 +91,19 @@ export class TransactionAddComponent implements OnInit {
             nzClassName: "add-transaction-category-modal",
             nzContent: TransactionAddCategoryComponent,
             nzViewContainerRef: this.viewContainerRef,
-            nzComponentParams: {},
+            nzComponentParams: {
+                categories: this.categories,
+                callbackFunc: (hasChooseCategory: boolean) => {
+                    this.hasChooseCategory = hasChooseCategory
+                    modal.destroy()
+                }
+            },
             nzWidth: 500,
             nzFooter: []
+        });
+        const instance = modal.getContentComponent()
+        modal.afterClose.subscribe(result => {
+            this.transaction.category = instance.getCurrentCategory()
         });
     }
 
@@ -98,14 +114,18 @@ export class TransactionAddComponent implements OnInit {
             nzContent: TransactionAddWalletComponent,
             nzViewContainerRef: this.viewContainerRef,
             nzComponentParams: {
-                wallets: this.wallets
+                wallets: this.wallets,
+                callbackFunc: () => modal.destroy()
             },
             nzWidth: 500,
             nzBodyStyle: {
                 "padding": "0",
             },
             nzFooter: [],
-
+        });
+        const instance = modal.getContentComponent()
+        modal.afterClose.subscribe(result => {
+            this.transaction.wallet = instance.getCurrentWallet()
         });
     }
 

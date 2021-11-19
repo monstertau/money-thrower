@@ -1,7 +1,7 @@
 <div class="wrapper">
     <div class="wallet-title">Included in Total</div>
     <div class="wallet-items" *ngFor="let wallet of wallets">
-        <div class="wallet-item" [style.background-color]="wallet.isCurrent? 'rgba(45,184,76,.08)' : ''">
+        <div class="wallet-item" (click)="onClickWallet(wallet.id)" [style.background-color]="wallet.isCurrent? 'rgba(45,184,76,.08)' : ''">
             <div nz-row nzJustify="space-between">
                 <div class="icon" nz-col nzSpan="2"><img style="width: 40px;"
                                                          src="/assets/catalogs/{{wallet.icon}}.png" alt=""></div>

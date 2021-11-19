@@ -1,10 +1,19 @@
 <div class="right">
     <span class="topbar-icon" nzTooltipTitle="Jump to today" nzTooltipPlacement="bottom" nz-tooltip
-      (click)="jumpToToday()"><i nz-icon nzType="calendar" nzTheme="outline"></i></span>
+          (click)="jumpToToday()"><i nz-icon nzType="calendar" nzTheme="outline"></i></span>
     <span class="topbar-icon" [nzTooltipTitle]="viewToolTip" nzTooltipPlacement="bottom" nz-tooltip
-      (click)="changeViewMode()"><i nz-icon nzType="eye" nzTheme="outline"></i></span>
+          (click)="changeViewMode()"><i nz-icon nzType="eye" nzTheme="outline"></i></span>
     <span class="topbar-icon" style="margin-right: 50px;" nzTooltipTitle="Search" nz-tooltip
-      nzTooltipPlacement="bottom"><i nz-icon nzType="search" nzTheme="outline"></i></span>
-    <button class="transaction-btn" nz-button nzType="primary" (click)="addTransaction()">Add transaction
+          nzTooltipPlacement="bottom"><i nz-icon nzType="search" nzTheme="outline"></i></span>
+    <button class="transaction-btn" nz-button nzType="primary" (click)="showTransactionAddModal()">Add Transaction
     </button>
-  </div>
+    <nz-modal [(nzVisible)]="showAddModal" nzTitle="Add Transaction" nzWidth="848px" nzClosable="false">
+        <div *nzModalContent>
+            <app-transaction-add [transaction]="currentTransaction"></app-transaction-add>
+        </div>
+        <div *nzModalFooter>
+            <button nz-button nzType="default" (click)="handleCancelAdd()">Cancel</button>
+            <button nz-button nzType="primary" (click)="handleSave()" [nzLoading]="transactionAddLoading">Save</button>
+        </div>
+    </nz-modal>
+</div>

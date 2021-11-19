@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
 import { TransactionView } from 'src/app/view-model/transactions';
+import { Transaction2 } from 'src/app/services/transaction.service';
 
 @Component({
   selector: 'app-transaction-list',

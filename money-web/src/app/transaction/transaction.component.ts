@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TransactionService, Transaction } from 'src/app/services/transaction.service';
+import { TransactionService, Transaction2 } from 'src/app/services/transaction.service';
 import { CommonService } from 'src/app/services/common.service';
 import { TransactionView } from '../view-model/transactions';
 
@@ -17,6 +17,7 @@ export class TransactionComponent implements OnInit {
 
   viewMode!: string;
 
+  transactions: TransactionView[] = [];
   selectedTransaction!: TransactionView;
   selected: boolean = false;
 

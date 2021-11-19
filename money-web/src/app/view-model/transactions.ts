@@ -8,7 +8,7 @@ export interface Transaction {
   cat_id: string;
   amount: number;
   note: string;
-  timestamp: number;
+  transaction_date: number;
 }
 
 export class TransactionView {
@@ -32,7 +32,7 @@ export class TransactionView {
     this.id = transaction.id;
     this.amount = transaction.amount;
     this.note = transaction.note;
-    this.transactionDate = new Date(transaction.timestamp * 1000);
+    this.transactionDate = new Date(transaction.transaction_date * 1000);
     return this;
   }
 
@@ -58,7 +58,7 @@ export class TransactionView {
       cat_id: this.category.id,
       amount: this.amount,
       note: this.note,
-      timestamp: this.transactionDate.getTime(),
+      transaction_date: this.transactionDate.getTime(),
     }
   }
 }
