@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TransactionService, Transaction } from 'src/app/services/transaction.service';
+import { TransactionService, Transaction2 } from 'src/app/services/transaction.service';
 import { CommonService } from 'src/app/services/common.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class TransactionComponent implements OnInit {
     private commonService: CommonService,) {
       this.commonService.currentViewMode.subscribe(mode => { this.viewMode = mode; });
   }
-  sampleTransactions: Transaction[] = [
+  sampleTransactions: Transaction2[] = [
     {
       transactionId: "1",
       catId: "1",
@@ -72,13 +72,13 @@ export class TransactionComponent implements OnInit {
 
   viewMode!: string;
 
-  selectedTransaction!: Transaction;
+  selectedTransaction!: Transaction2;
   selected: boolean = false;
 
   ngOnInit(): void {
   }
 
-  onTransactionSelected(transaction: Transaction) {
+  onTransactionSelected(transaction: Transaction2) {
     this.selectedTransaction = transaction;
     this.selected = true;
   }

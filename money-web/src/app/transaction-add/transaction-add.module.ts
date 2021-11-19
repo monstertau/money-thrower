@@ -10,24 +10,31 @@ import { TransactionAddCategoryComponent } from './transaction-add-category/tran
 import { TransactionAddWalletComponent } from './transaction-add-wallet/transaction-add-wallet.component';
 import {NzDividerModule} from "ng-zorro-antd/divider";
 import {BrowserModule} from "@angular/platform-browser";
+import {NzTabsModule} from "ng-zorro-antd/tabs";
+import {NzListModule} from "ng-zorro-antd/list";
 
 
 @NgModule({
-  declarations: [
-    TransactionAddComponent,
-    TransactionAddCategoryComponent,
-    TransactionAddWalletComponent,
-  ],
-  imports: [
-    NzIconModule,
-    NzButtonModule,
-    NzGridModule,
-    NzInputModule,
-    FormsModule,
-    NzDatePickerModule,
-    NzDividerModule,
-    BrowserModule
-  ]
+    declarations: [
+        TransactionAddComponent,
+        TransactionAddCategoryComponent,
+        TransactionAddWalletComponent,
+    ],
+    exports: [
+        TransactionAddComponent
+    ],
+    imports: [
+        NzIconModule,
+        NzButtonModule,
+        NzGridModule,
+        NzInputModule,
+        FormsModule,
+        NzDatePickerModule,
+        NzDividerModule,
+        BrowserModule,
+        NzTabsModule,
+        NzListModule
+    ]
 })
 export class TransactionAddModule {
 }

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Transaction } from 'src/app/services/transaction.service';
+import { Transaction2 } from 'src/app/services/transaction.service';
 
 @Component({
   selector: 'app-transaction-detail',
@@ -7,7 +7,7 @@ import { Transaction } from 'src/app/services/transaction.service';
   styleUrls: ['./transaction-detail.component.css']
 })
 export class TransactionDetailComponent implements OnInit {
-  @Input() transaction!: Transaction;
+  @Input() transaction!: Transaction2;
   @Output() closed = new EventEmitter<boolean>();
   constructor() { }
 

@@ -81,11 +81,11 @@
     margin-top: -20px;
 }
 
-.wallet-item:hover {
+.category-item:hover {
     background-color: #ecffc0;
 }
 
-.wallet-item {
+.category-item {
     margin-top: -15px;
     padding: 0px 20px;
 }
@@ -96,7 +96,7 @@
     font-size: 12px;
 }
 
-.selected-wallet {
+.selected-category {
     margin-left: auto;
     color: #a0d911;
     font-weight: 600;
