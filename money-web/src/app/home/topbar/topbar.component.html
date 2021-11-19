@@ -1,10 +1,11 @@
 <!-- <p>topbar works!</p> -->
 <div class="topbar">
   <div class="left" (click)="openWalletMenu()" *ngIf="wallets.length >= 0">
-    <div class="icon"><img style="width: 40px;" src="/assets/catalogs/{{wallets[0].icon}}.png" alt=""></div>
+    <div class="icon"><img nz-image width="40px" height="40px" [nzSrc]="currentWallet.getIcon()"
+      [nzFallback]="currentWallet.fallBackIcon" alt="" /></div>
     <div class="wallet-info">
-      <div class="name">{{wallets[0].name}} <span> <i nz-icon nzType="caret-down" nzTheme="outline"></i></span></div>
-      <div class="amount">{{getFormatAmount(wallets[0].balance)}} {{wallets[0].currency}}</div>
+      <div class="name">{{currentWallet.name}} <span> <i nz-icon nzType="caret-down" nzTheme="outline"></i></span></div>
+      <div class="amount">{{getFormatAmount(currentWallet.balance)}} {{currentWallet.currency}}</div>
     </div>
   </div>
   <div style="margin-left: auto" [ngSwitch]="currentPage">
@@ -15,10 +16,10 @@
   <div hidden class="wallet-menu">
     <div class="menu-title">Select Wallet</div>
     <div class="wallet-items" *ngFor="let wallet of wallets">
-      <div>
+      <div (click)="changeCurrentWallet(wallet.id)">
         <nz-divider style="margin-top: 10px; width: 430px;" nzType="horizontal"></nz-divider>
         <div class="left wallet-item">
-          <div class="icon"><img style="width: 40px;" src="/assets/catalogs/{{wallet.icon}}.png" alt=""></div>
+          <div class="icon"><img nz-image width="40px" [nzSrc]="wallet.getIcon()" [nzFallback]="wallet.fallBackIcon" alt=""></div>
           <div class="wallet-info">
             <div class="name">{{wallet.name}}
               <div class="item-amount">{{getFormatAmount(wallet.balance)}} {{wallet.currency}}</div>

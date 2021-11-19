@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
-import { Transaction } from 'src/app/services/transaction.service';
+import { TransactionView } from 'src/app/view-model/transactions';
 
 @Component({
   selector: 'app-transaction-list',
@@ -9,8 +9,8 @@ import { Transaction } from 'src/app/services/transaction.service';
 })
 export class TransactionListComponent implements OnInit {
   @Input() viewMode!: string;
-  @Input() transactions!: Transaction[];
-  @Output() selectedTransaction = new EventEmitter<Transaction>();
+  @Input() transactions!: TransactionView[];
+  @Output() selectedTransaction = new EventEmitter<TransactionView>();
   currentMonth = 'this';
   constructor(private commonService: CommonService) { }
 
@@ -18,7 +18,7 @@ export class TransactionListComponent implements OnInit {
   }
 
   selectTransaction(id: string) {
-    let transaction = this.transactions.find(transaction => transaction.transactionId === id);
+    let transaction = this.transactions.find(transaction => transaction.id === id);
     this.selectedTransaction.emit(transaction);
     let dialog = document.getElementsByClassName('list-transaction') as HTMLCollectionOf<HTMLElement>;
     let dialogDetail = document.getElementById('transaction-detail') as HTMLElement;

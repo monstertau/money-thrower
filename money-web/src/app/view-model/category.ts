@@ -15,13 +15,15 @@ export class CategoryView {
   id: string;
   type: string;
   name: string;
-  icon: string
+  icon: string;
+  falbackIcon: string;
 
   constructor() {
     this.id = "";
     this.type = categoryType.OTHERS;
     this.name = "Others"
     this.icon = "null"
+    this.falbackIcon = 'assets/catalogs/null'
   }
 
   getTypeNumber(): number {
@@ -33,6 +35,10 @@ export class CategoryView {
       default:
         return 2;
     }
+  }
+
+  getIcon() {
+    return `assets/catalogs/${this.icon}.png`
   }
 
   addCategory(category: Category): CategoryView {

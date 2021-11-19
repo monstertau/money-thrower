@@ -27,6 +27,9 @@ export class TopbarComponent implements OnInit, OnChanges {
     return this._wallets;
   }
 
+  currentWalletId!: string;
+  currentWallet = new WalletView();
+
 
   @HostListener('document:click', ['$event'])
   clickout(event: any) {
@@ -51,13 +54,19 @@ export class TopbarComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.commonService.currentPage.subscribe(page => { this.currentPage = page; });
+    this.commonService.currentWallet.pipe(takeUntil(this.destroy$)).subscribe(id => {
+      this.currentWalletId = id;
+    })
     this.walletService.getWalletPaging(0, 100).pipe(takeUntil(this.destroy$))
       .subscribe(
         (res) => {
           res.forEach(element => {
             this._wallets.push(new WalletView().addWallet(element));
           });
-          this._wallets[0].isCurrent = true;
+          let current = this._wallets.find(wallet => wallet.id === this.currentWalletId)
+          if (current) {
+            this.currentWallet = current;
+          }
         },
         (err) => {
           console.log(err)
@@ -83,6 +92,11 @@ export class TopbarComponent implements OnInit, OnChanges {
     this.isWalletMenuOpen = !this.isWalletMenuOpen;
     let dialog = document.getElementsByClassName('wallet-menu') as HTMLCollectionOf<HTMLElement>;
     dialog[0].hidden = !this.isWalletMenuOpen;
+  }
+
+  changeCurrentWallet(id: string) {
+    this.commonService.changeWallet(id);
+    this.currentWallet = this.wallets.find(wallet => wallet.id === id) || this.wallets[0];
   }
 
   getFormatAmount(value: number): string {

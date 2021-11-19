@@ -10,6 +10,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzImageModule } from 'ng-zorro-antd/image';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { NzModalModule } from "ng-zorro-antd/modal";
 import { TopbarTransactionComponent } from './topbar/topbar-transaction/topbar-transaction.component';
@@ -35,7 +36,8 @@ import { TopbarWalletComponent } from './topbar/topbar-wallet/topbar-wallet.comp
     NzMenuModule,
     NzDropDownModule,
     NzButtonModule,
-    NzDividerModule
+    NzDividerModule,
+    NzImageModule
   ],
 
 })
