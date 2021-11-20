@@ -1,13 +1,15 @@
 <div class="wrapper">
     <div class="upper-row" nz-row nzJustify="space-between">
         <div class="input-box" nz-col [nzSpan]="7">
-            <app-input-navigation inputName="Wallet" [inputIcon]="this.transaction.wallet.icon"
+            <app-input-navigation inputName="Wallet"
+                                  [inputIcon]="'/assets/catalogs/'+this.transaction.wallet.icon+'.png'"
                                   [navigationName]="this.transaction.wallet.name"
                                   (click)="onAddWallet()"
                                   placeholder="Choose Wallet"></app-input-navigation>
         </div>
         <div class="input-box" nz-col [nzSpan]="8">
-            <app-input-navigation inputName="Category" [inputIcon]="this.transaction.category.icon"
+            <app-input-navigation inputName="Category"
+                                  [inputIcon]="'/assets/catalogs/'+this.transaction.category.icon+'.png'"
                                   [hasChosen]="this.transaction.category.isCurrent"
                                   [navigationName]="this.transaction.category.name"
                                   (click)="onAddCategory()"
@@ -24,7 +26,7 @@
         </div>
 
         <div class="input-box" nz-col [nzSpan]="16">
-            <app-input-text inputName="Note" [textModel]="transaction.note"
+            <app-input-text inputName="Note" [textModel]="transaction.note" placeholder="Note"
                             (textModelChange)="onChangeNote($event)"></app-input-text>
         </div>
     </div>

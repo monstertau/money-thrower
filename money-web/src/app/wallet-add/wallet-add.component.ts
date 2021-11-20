@@ -11,16 +11,35 @@ import {WalletView} from "../view-model/wallet";
     styleUrls: ['./wallet-add.component.css']
 })
 export class WalletAddComponent implements OnInit {
-    @Input() wallet!:WalletView;
+    @Input() wallet!: WalletView;
 
     constructor(private walletService: WalletService, private notification: NzNotificationService) {
     }
 
     ngOnInit(): void {
     }
+
     onChangeWalletName(value: string): void {
         this.wallet.name = value;
     }
+
+    onAddCurrency(): void {
+        console.log("onAddCurrency works")
+
+    }
+    onAddIcon(): void{
+        console.log("onAddIcon works")
+    }
+
+    getCurrencyName(code: string): string {
+        for (let curItem of this.CurrencyList) {
+            if (curItem.code === code) {
+                return curItem.text;
+            }
+        }
+        return "";
+    }
+
     CurrencyList: DropDownList[] = [
         {code: "AFN", text: "Afghanistan Afghanis – AFN"},
         {code: "ALL", text: "Albania Leke – ALL"},

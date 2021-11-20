@@ -8,6 +8,7 @@ import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} f
 export class InputTextComponent implements OnInit {
     @Input() inputName!: string;
     @Input() textModel: string = "";
+    @Input() placeholder: string = "";
     @Output() textModelChange = new EventEmitter<string>();
 
     constructor() {
