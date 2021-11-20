@@ -57,25 +57,6 @@ export class TransactionAddComponent implements OnInit {
             })
     }
 
-    onChangeAmount(value: string): void {
-        let res = value.replace(/\D/g, "");
-
-        if (res === null || res.length <= 0) {
-            this.transaction.amount = 0;
-            this.inputElement!.nativeElement.value = this.getFormatAmount();
-            return;
-        }
-        let numberAmount = parseInt(res);
-        if (numberAmount < 200000000000) {
-            this.transaction.amount = numberAmount
-        }
-        this.inputElement!.nativeElement.value = this.getFormatAmount();
-    }
-
-    getFormatAmount(): string {
-        return Utils.formatNumber(this.transaction.amount.toString())
-    }
-
     onChangeNote(value: string): void {
         this.transaction.note = value;
     }

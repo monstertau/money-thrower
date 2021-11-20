@@ -4,7 +4,7 @@ import { FwpComponent } from './fwp/fwp.component';
 import { AuthGuard } from './guards/auth.guard';
 import { HomeComponent } from './home/home.component';
 import { WalletComponent } from './wallet/wallet.component';
-import { WalletAddComponent } from "./wallet/wallet-add/wallet-add.component";
+import { WalletAddComponent } from "./wallet-add/wallet-add.component";
 import { ChangePassComponent } from './authentication/change-pass/change-pass.component';
 import { LoginComponent } from './authentication/login/login.component';
 import { TransactionComponent } from './transaction/transaction.component';

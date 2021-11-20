@@ -1,0 +1,20 @@
+<div class="wrapper">
+    <div class="upper-row" nz-row nzJustify="space-between">
+        <div class="input-box" nz-col [nzSpan]="6">
+            <p>top-left</p>
+        </div>
+        <div class="input-box" nz-col [nzSpan]="16">
+            <app-input-text inputName="Wallet Name" [textModel]="wallet.name"
+                            (textModelChange)="onChangeWalletName($event)"></app-input-text>
+        </div>
+    </div>
+    <div class="lower-row" nz-row nzJustify="space-between">
+        <div class="input-box" nz-col [nzSpan]="14">
+            <p>bot-left</p>
+        </div>
+
+        <div class="input-box" nz-col [nzSpan]="8">
+            <p>bot-right</p>
+        </div>
+    </div>
+</div>

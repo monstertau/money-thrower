@@ -20,3 +20,9 @@
     height: 24px;
     width: 24px;
 }
+
+.input-content {
+    display: flex;
+    margin-bottom: 4px;
+    position: relative;
+}
