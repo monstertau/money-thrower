@@ -25,40 +25,40 @@
                 <div class="top-section">
                     <div class="top-left">
                         <div class="icon">
-                            <img nz-image width="30px" height="30px" [nzSrc]="transaction.category.getIcon()"
-                                [nzFallback]="transaction.category.fallbackIcon" alt="">
+                            <img nz-image width="30px" height="30px" [nzSrc]="transaction[0].category.getIcon()"
+                                [nzFallback]="transaction[0].category.fallbackIcon" alt="">
                         </div>
                         <div class="category-name">
-                            <div style="font-weight: 500;">{{transaction.category.name}}</div>
-                            <div style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);">1 transaction
+                            <div style="font-weight: 500;">{{transaction[0].category.name}}</div>
+                            <div style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);">{{transaction.length}} transaction
                             </div>
                         </div>
                     </div>
                     <div class="top-right">
-                        <div style="font-weight: 500; font-size: 16px;">{{getFormatBalance(transaction.amount)}}
-                            {{transaction.wallet.currency}}</div>
+                        <div style="font-weight: 500; font-size: 16px;">{{getFormatBalance(calculateTotalAmount(transaction))}}
+                            {{transaction[0].wallet.currency}}</div>
                     </div>
                 </div>
                 <div style="margin-top: -25px;">
                     <nz-divider></nz-divider>
                 </div>
                 <div style="margin-top: -25px;">
-                    <div class="bottom-section" (click)="selectTransaction(transaction.id)">
+                    <div class="bottom-section" *ngFor="let item of transaction" (click)="selectTransaction(item)">
                         <div class="top-left">
                             <div style="font-size: 30px;">
                                 11
                             </div>
                             <div class="category-name" style="margin-top: 7px">
                                 <div style="font-size: 12px;">Thursday, November 2021</div>
-                                <div *ngIf="transaction.note"
+                                <div *ngIf="item.note"
                                     style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54); max-width: 150px; word-wrap: break-word; padding-bottom: 5px;">
-                                    Note: {{transaction.note}}</div>
+                                    Note: {{item.note}}</div>
                             </div>
                         </div>
                         <div class="top-right" style="margin-top: 12px">
-                            <div [ngClass]="{'is-expense': transaction.category.isExpense, 'not-expense': !transaction.category.isExpense}"
-                                style="font-weight: 500;">{{getFormatBalance(transaction.amount)}}
-                                {{transaction.wallet.currency}}</div>
+                            <div [ngClass]="{'is-expense': item.category.isExpense, 'not-expense': !item.category.isExpense}"
+                                style="font-weight: 500;">{{getFormatBalance(item.amount)}}
+                                {{item.wallet.currency}}</div>
                         </div>
                     </div>
                 </div>
@@ -88,8 +88,7 @@
                     <nz-divider></nz-divider>
                 </div>
                 <div style="margin-top: -25px;">
-                    <div class="bottom-section" style="padding-top: 10px; padding-bottom: 10px;"
-                        (click)="selectTransaction('1')">
+                    <div class="bottom-section" style="padding-top: 10px; padding-bottom: 10px;">
                         <div class="top-left">
                             <div class="icon">
                                 <img style="width: 30px;"
@@ -108,7 +107,7 @@
                         </div>
                     </div>
                     <div class="bottom-section" style="padding-top: 10px; padding-bottom: 10px;"
-                        (click)="selectTransaction('1')">
+                        >
                         <div class="top-left">
                             <div class="icon">
                                 <img style="width: 30px;"
@@ -127,7 +126,7 @@
                         </div>
                     </div>
                     <div class="bottom-section" style="padding-top: 10px; padding-bottom: 10px;"
-                        (click)="selectTransaction('1')">
+                        >
                         <div class="top-left">
                             <div class="icon">
                                 <img style="width: 30px;"
@@ -171,7 +170,7 @@
                 </div>
                 <div style="margin-top: -25px;">
                     <div class="bottom-section" style="padding-top: 10px; padding-bottom: 10px;"
-                        (click)="selectTransaction('1')">
+                        >
                         <div class="top-left">
                             <div class="icon">
                                 <img style="width: 30px;"
@@ -190,7 +189,7 @@
                         </div>
                     </div>
                     <div class="bottom-section" style="padding-top: 10px; padding-bottom: 10px;"
-                        (click)="selectTransaction('1')">
+                        >
                         <div class="top-left">
                             <div class="icon">
                                 <img style="width: 30px;"
@@ -209,7 +208,7 @@
                         </div>
                     </div>
                     <div class="bottom-section" style="padding-top: 10px; padding-bottom: 10px;"
-                        (click)="selectTransaction('1')">
+                        >
                         <div class="top-left">
                             <div class="icon">
                                 <img style="width: 30px;"

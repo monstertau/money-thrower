@@ -10,7 +10,7 @@ import { Utils } from 'src/app/util/utils';
   styleUrls: ['./transaction-list.component.css']
 })
 export class TransactionListComponent implements OnInit {
-  @Input() transactions!: TransactionView[];
+  @Input() transactions!: TransactionView[][];
   @Output() selectedTransaction = new EventEmitter<TransactionView>();
   @Input() inflow!: number;
   @Input() outflow!: number;
@@ -23,8 +23,7 @@ export class TransactionListComponent implements OnInit {
     this.commonService.currentViewMode.subscribe(mode => { this.viewMode = mode; })
   }
 
-  selectTransaction(id: string) {
-    let transaction = this.transactions.find(transaction => transaction.id === id);
+  selectTransaction(transaction: TransactionView) {
     this.selectedTransaction.emit(transaction);
     let dialog = document.getElementsByClassName('list-transaction') as HTMLCollectionOf<HTMLElement>;
     let dialogDetail = document.getElementById('transaction-detail') as HTMLElement;
@@ -36,8 +35,19 @@ export class TransactionListComponent implements OnInit {
     }
   }
 
+  calculateTotalAmount(transaction: TransactionView[]) {
+    let total = 0;
+    transaction.forEach(element => {
+      if (element.category.isExpense) total -= element.amount;
+      else total += element.amount;
+    });
+    return total;
+  }
+
   getFormatBalance(balance: number) {
-    return Utils.formatCurrency(balance);
+    if (balance)
+      return Utils.formatCurrency(balance);
+    return '0';
   }
 
 }

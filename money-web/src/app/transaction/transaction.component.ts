@@ -4,6 +4,7 @@ import { CommonService } from 'src/app/services/common.service';
 import { TransactionView } from '../view-model/transactions';
 import { CategoryService } from '../services/category.service';
 import { WalletService } from '../services/wallet.service';
+import { Category, CategoryView } from '../view-model/category';
 
 @Component({
   selector: 'app-transaction',
@@ -18,24 +19,28 @@ export class TransactionComponent implements OnInit {
   selected: boolean = false;
   currentWalletId!: string;
   filter: TransactionFilter = {
-    catId: '',
-    walletId: '',
-    endAmount: 0,
-    startAmount: 0,
-    startDate: 0,
-    endDate: 0,
-    keyNote: '',
+    cat_id: '',
+    wallet_id: '',
+    end_amount: 0,
+    start_amount: 0,
+    start_date: 0,
+    end_date: 0,
+    key_note: '',
   };
   inflow: number = 0;
   outflow: number = 0;
   total: number = 0;
+
+  transactionByCategory: TransactionView[][] = [];
+  categoryList: string[] = [];
+  categories!: Category[];
 
   constructor(private transactionService: TransactionService,
     private categoryService: CategoryService,
     private walletService: WalletService,
     private commonService: CommonService,) {
     this.commonService.currentWallet.subscribe(wallet => { this.currentWalletId = wallet; });
-    this.filter.walletId = this.currentWalletId;
+    this.filter.wallet_id = this.currentWalletId;
   }
 
   ngOnInit(): void {
@@ -47,36 +52,55 @@ export class TransactionComponent implements OnInit {
     this.transactionService.getTransactions(req).subscribe(transactions => {
       this.data = transactions;
       transactions.forEach(transaction => {
-        this.transactions.push(new TransactionView().addTransaction(transaction));
+        if (!this.categoryList.includes(transaction.cat_id)) this.categoryList.push(transaction.cat_id);
       })
-      this.getCategory();
-      this.getWallet();
+      this.getTransactionByCategory();
     });
   }
 
-  getWallet() {
+  getWallet(transaction: TransactionView) {
     this.walletService.getWalletById(this.currentWalletId).subscribe(
       data => {
-        for (let transaction of this.transactions) {
-          transaction.addWallet(data);
-        }
+        transaction.addWallet(data);
       }
     );
   }
 
-  getCategory() {
-    for (let i = 0; i < this.data.length; i++) {
-      this.categoryService.getCategoryById(this.data[i].cat_id).subscribe(data => {
-        this.transactions[i].addCategory(data);
-        if (data.is_expense) this.outflow += this.transactions[i].amount;
-        else this.inflow += this.transactions[i].amount;
-        this.total = this.inflow - this.outflow;
+  getCategory(transaction: TransactionView) {
+    this.categoryService.getCategoryById(transaction.category.id).subscribe(data => {
+      transaction.addCategory(data);
+      if (data.is_expense) this.outflow += transaction.amount;
+      else this.inflow += transaction.amount;
+      this.total = this.inflow - this.outflow;
+    })
+  }
+
+  getTransactionByCategory() {
+    this.categoryList.forEach(category => {
+      this.filter.cat_id = category;
+      let req: TransactionRequest = {
+        filter: this.filter,
+        limit: 0,
+        offset: 0,
+      }
+      let items: TransactionView[] = [];
+      this.transactionService.getTransactions(req).subscribe(transactions => {
+        items = [];
+        transactions.forEach(transaction => {
+          let transactionView: TransactionView = new TransactionView().addTransaction(transaction);
+          transactionView.category.id = transaction.cat_id;
+          this.getCategory(transactionView);
+          this.getWallet(transactionView);
+          items.push(transactionView);
+        })
+        this.transactionByCategory.push(items);
       })
-    }
+    })
+    console.log(this.transactionByCategory);
   }
 
   onTransactionSelected(transaction: TransactionView) {
-    this.selectedTransaction = transaction;
+    this.selectedTransaction = transaction
     this.selected = true;
   }
 
