@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"money-core/config"
 )
 
@@ -20,7 +21,9 @@ func GetDBConn(config *config.DatabaseConfig) (*gorm.DB, error) {
 	// initialize ORM wrapper
 	dbConn, err := gorm.Open(postgres.New(postgres.Config{
 		Conn: conn,
-	}), &gorm.Config{})
+	}), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Info),
+	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to create an ORM wrapper: %s", err)
 	}
