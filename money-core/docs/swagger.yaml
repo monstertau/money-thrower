@@ -574,14 +574,6 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/view.FilterTransactionForm'
-      - description: limit of list transactions want to specify, default 10
-        in: query
-        name: limit
-        type: integer
-      - description: offset of list transactions want to specify, default 0
-        in: query
-        name: offset
-        type: integer
       produces:
       - application/json
       responses:

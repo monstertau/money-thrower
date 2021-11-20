@@ -27,7 +27,7 @@ func (v *TransactionValidator) ValidateFilterForm(form *view.FilterTransactionFo
 	if form.StartAmount > form.EndAmount || form.EndAmount < 0 {
 		return errors.New("start amount should smaller than end amount")
 	}
-	if time.Unix(form.StartDate, 0).After(time.Unix(form.EndDate, 0)) {
+	if time.Unix(form.StartDate/1000, 0).After(time.Unix(form.EndDate/1000, 0)) {
 		return errors.New("start date should before end date")
 	}
 	return nil

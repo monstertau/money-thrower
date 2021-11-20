@@ -5,6 +5,7 @@ import (
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
 	"money-core/model"
+	"money-core/util"
 	"money-core/view"
 	"time"
 )
@@ -13,7 +14,7 @@ type (
 	TransactionRepoInterface interface {
 		GetById(userId string, id string) (*model.Transaction, error)
 		DeleteById(userId string, id string) error
-		GetFilteredList(userId string, limit int, offset int, form *view.FilterTransactionForm) ([]*model.Transaction, error)
+		GetFilteredList(userId string, form *view.FilterTransactionForm) ([]*model.Transaction, error)
 		Create(form *view.AddTransactionForm) (*model.Transaction, error)
 		Edit(form *view.EditTransactionForm) error
 	}
@@ -42,10 +43,12 @@ func (r *TransactionRepo) DeleteById(userId string, id string) error {
 	return nil
 }
 
-func (r *TransactionRepo) GetFilteredList(userId string, limit int, offset int, form *view.FilterTransactionForm) ([]*model.Transaction, error) {
+func (r *TransactionRepo) GetFilteredList(userId string, form *view.FilterTransactionForm) ([]*model.Transaction, error) {
+	startDate := util.NormalizeTimeAsMilliseconds(form.StartDate)
+	endDate := util.NormalizeTimeAsMilliseconds(form.EndDate)
 	var filteredList []*model.Transaction
 
-	tx := r.dbConn.Limit(limit).Offset(offset).Where("user_id = ?", userId)
+	tx := r.dbConn.Where("user_id = ?", userId)
 	if form.WalletId != "" {
 		tx.Where("wallet_id = ?", form.WalletId)
 	}
@@ -53,7 +56,7 @@ func (r *TransactionRepo) GetFilteredList(userId string, limit int, offset int, 
 		tx.Where("cat_id = ?", form.CatId)
 	}
 	if form.StartDate != 0 || form.EndDate != 0 {
-		tx.Where("transaction_date BETWEEN ? AND ?", time.Unix(form.StartDate, 0), time.Unix(form.EndDate, 0))
+		tx.Where("transaction_date BETWEEN ? AND ?", time.Unix(0, startDate*int64(time.Millisecond)), time.Unix(0, endDate*int64(time.Millisecond)))
 	}
 	if form.StartAmount != 0 || form.EndAmount != 0 {
 		tx.Where("amount BETWEEN ? AND ?", form.StartAmount, form.EndAmount)
