@@ -1,0 +1,22 @@
+.input-name {
+    font-size: 12px;
+    padding-bottom: 3px;
+    color: rgba(0, 0, 0, .54);
+}
+
+.input-text {
+    float: left;
+    font-size: 17px;
+    padding-left: 12px;
+}
+
+.left-arrow {
+    font-size: 12px;
+    font-weight: 1000;
+    margin-top: 8px;
+}
+
+.input-picture {
+    height: 24px;
+    width: 24px;
+}

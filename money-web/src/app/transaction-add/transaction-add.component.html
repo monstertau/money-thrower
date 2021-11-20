@@ -1,76 +1,31 @@
 <div class="wrapper">
     <div class="upper-row" nz-row nzJustify="space-between">
-        <div class="input-box" nz-col [nzSpan]="7" (click)="onAddWallet()">
-            <div class="input-name">
-                Wallet
-            </div>
-            <div class="input-content" nz-row>
-                <div class="input-picture" nz-col nzSpan="2">
-                    <i nz-icon>
-                        <img src="/assets/catalogs/{{this.transaction.wallet.icon}}.png" alt="image"
-                             style="width: 24px;height: 24px">
-                    </i>
-                </div>
-                <div class="input-text" nz-col nzSpan="21">
-                    {{this.transaction.wallet.name}}
-                </div>
-                <div class="left-arrow" nz-col nzSpan="1">
-                    <i nz-icon nzType="right" nzTheme="outline"></i>
-                </div>
-            </div>
+        <div class="input-box" nz-col [nzSpan]="7">
+            <app-input-navigation inputName="Wallet" [inputIcon]="this.transaction.wallet.icon"
+                                  [navigationName]="this.transaction.wallet.name"
+                                  (click)="onAddWallet()"
+                                  placeholder="Choose Wallet"></app-input-navigation>
         </div>
-        <div class="input-box" nz-col [nzSpan]="8" (click)="onAddCategory()">
-            <div class="input-name">
-                Category
-            </div>
-            <div class="input-content" nz-row>
-                <div class="input-picture" nz-col nzSpan="2">
-                    <i nz-icon>
-                        <img src="/assets/catalogs/{{this.transaction.category.icon}}.png" alt="image"
-                             style="width: 24px;height: 24px">
-                    </i>
-                </div>
-                <div class="input-text" nz-col nzSpan="21" [style.color]="this.transaction.category.isCurrent?'black':'rgba(0,0,0,.26)'">
-                    {{this.transaction.category.isCurrent ? this.transaction.category.name : "Choose Category"}}
-                </div>
-                <div class="left-arrow" nz-col nzSpan="1">
-                    <i nz-icon nzType="right" nzTheme="outline"></i>
-                </div>
-            </div>
+        <div class="input-box" nz-col [nzSpan]="8">
+            <app-input-navigation inputName="Category" [inputIcon]="this.transaction.category.icon"
+                                  [hasChosen]="this.transaction.category.isCurrent"
+                                  [navigationName]="this.transaction.category.name"
+                                  (click)="onAddCategory()"
+                                  placeholder="Choose Category"></app-input-navigation>
         </div>
         <div class="input-box" nz-col [nzSpan]="7">
-            <div class="input-name">
-                Amount
-            </div>
-            <div class="input-amount">
-                <input #inputElement type="text" [ngModel]="getFormatAmount()" nz-input
-                       nzBorderless nzSize="large"
-                       (ngModelChange)="onChangeAmount($event)"/>
-            </div>
+            <app-input-number inputName="Amount" [(inputValue)]="this.transaction.amount"></app-input-number>
         </div>
     </div>
     <div class="lower-row" nz-row nzJustify="space-between">
         <div class="input-box" nz-col [nzSpan]="7">
-            <div class="input-name">
-                Date
-            </div>
-            <div class="input-date">
-                <nz-date-picker style="padding: 0" nzBorderless nzSize="large" nzFormat="dd/MM/yyyy"
-                                nzInputReadOnly="true" nzSuffixIcon="" nzAllowClear="false"
-                                [(ngModel)]="transaction.transactionDate"
-                                (ngModelChange)="onChangeDate($event)"></nz-date-picker>
-            </div>
+            <app-input-date inputFormat="dd/MM/yyyy" inputName="Date" [transactionDate]="transaction.transactionDate"
+                            (transactionDateChange)="onChangeDate($event)"></app-input-date>
         </div>
 
         <div class="input-box" nz-col [nzSpan]="16">
-            <div class="input-name">
-                Note
-            </div>
-            <div class="input-note">
-                <input type="text" placeholder="Note" [ngModel]="transaction.note"
-                       (ngModelChange)="onChangeNote($event)" nz-input
-                       nzBorderless nzSize="large"/>
-            </div>
+            <app-input-text inputName="Note" [textModel]="transaction.note"
+                            (textModelChange)="onChangeNote($event)"></app-input-text>
         </div>
     </div>
 </div>

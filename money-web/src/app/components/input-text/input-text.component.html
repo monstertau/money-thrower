@@ -1,0 +1,8 @@
+<div class="input-name">
+    {{inputName}}
+</div>
+<div class="input-note">
+    <input type="text" placeholder="Note" [ngModel]="textModel"
+           (ngModelChange)="textModelChange=$event" nz-input
+           nzBorderless nzSize="large"/>
+</div>
