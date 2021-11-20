@@ -15,8 +15,14 @@ export class TransactionService {
     constructor(private httpService: HttpService) {
     }
 
-    // getTransactions() {
-    // }
+    getTransactions(filter: TransactionFilter) {
+        return this.httpService.post<Transaction2[]>(`${this.route}/filter`, filter)
+    }
+
+    getTransactionById(id: string) {
+        return this.httpService.get<Transaction2>(`${this.route}/${id}`);
+    }
+
     createTransaction(transaction: Transaction) {
 
         return this.httpService.post<Transaction>(this.route, transaction).pipe(
@@ -38,15 +44,26 @@ export class TransactionService {
 }
 
 export interface Transaction2 {
-    transactionId: string;
-    userId: string;
-    walletId: string;
-    catId: string;
+    transaction_id: string;
+    user_id: string;
+    wallet_id: string;
+    cat_id: string;
     amount: number;
     note: string;
-    transactionDate: string;
+    transaction_date: number;
 }
 
 export interface TransactionResponse {
     transactions: Transaction2[];
 }
+
+export interface TransactionFilter {
+    cat_id: string;
+    end_amount: number;
+    start_amount: number;
+    start_date: number;
+    end_date: number;
+    key_note: string;
+    wallet_id: string;
+}
+

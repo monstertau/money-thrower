@@ -20,6 +20,7 @@ export class CategoryView {
     icon: string;
     isExpense: boolean;
     isCurrent: boolean;
+    fallbackIcon: string;
 
     constructor() {
         this.id = "";
@@ -28,6 +29,7 @@ export class CategoryView {
         this.icon = "null";
         this.isExpense = true;
         this.isCurrent = false;
+        this.fallbackIcon = 'assets/catalogs/null'
     }
 
     getTypeNumber(): number {
@@ -41,24 +43,28 @@ export class CategoryView {
         }
     }
 
-    addCategory(category: Category): CategoryView {
-        this.id = category.id;
-        this.name = category.name;
-        this.icon = category.icon;
-        this.isExpense = category.is_expense;
-        switch (category.type) {
-            case 1:
-                this.type = categoryType.OUTCOME;
-                break;
-            case 2:
-                this.type = categoryType.INCOME;
-                break;
-            default:
-                this.type = categoryType.OTHERS;
-                break;
-        }
-        return this;
+  getIcon() {
+    return `assets/catalogs/${this.icon}.png`
+  }
+
+  addCategory(category: Category): CategoryView {
+    this.id = category.id;
+    this.name = category.name;
+    this.icon = category.icon;
+    this.isExpense = category.is_expense;
+    switch (category.type) {
+      case 1:
+        this.type = categoryType.OUTCOME;
+        break;
+      case 2:
+        this.type = categoryType.INCOME;
+        break;
+      default:
+        this.type = categoryType.OTHERS;
+        break;
     }
+    return this;
+  }
 
     toCategory(): Category {
         return {

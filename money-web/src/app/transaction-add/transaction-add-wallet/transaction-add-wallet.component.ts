@@ -4,6 +4,7 @@ import {WalletView} from "../../view-model/wallet";
 import {takeUntil} from "rxjs/operators";
 import {Subject} from "rxjs";
 import {Utils} from "../../util/utils";
+import { CommonService } from 'src/app/services/common.service';
 
 @Component({
     selector: 'app-transaction-add-wallet',
@@ -15,7 +16,7 @@ export class TransactionAddWalletComponent implements OnInit {
     @Output() walletsChange = new EventEmitter<WalletView[]>();
     @Input() callbackFunc!: Function;
 
-    constructor() {
+    constructor(private commonService: CommonService) {
 
     }
 
@@ -41,6 +42,7 @@ export class TransactionAddWalletComponent implements OnInit {
             }
             if (wallet.id === id) {
                 wallet.isCurrent = true;
+                this.commonService.changeWallet(id);
             }
         }
         this.walletsChange.emit(this.wallets)

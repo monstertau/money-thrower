@@ -16,4 +16,8 @@ export class CategoryService {
     getAllCategory() {
         return this.httpService.get<Category[]>(this.route)
     }
+
+    getCategoryById(id: string) {
+        return this.httpService.get<Category>(`${this.route}/${id}`);
+    }
 }
