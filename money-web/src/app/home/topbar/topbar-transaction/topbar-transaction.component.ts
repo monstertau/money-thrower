@@ -79,7 +79,7 @@ export class TopbarTransactionComponent implements OnInit {
                     this.transactionAddLoading = false;
                     this.showAddModal = false;
                     this.currentTransaction = new TransactionView().addWalletView(this.getCurrentWallet())
-                    window.location.reload()
+                    this.commonService.reloadComponent();
                 }, 1000)
 
             })

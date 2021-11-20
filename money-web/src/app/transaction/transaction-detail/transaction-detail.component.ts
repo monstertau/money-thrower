@@ -27,6 +27,10 @@ export class TransactionDetailComponent implements OnInit {
     }
   }
 
+  getDate(date: string) {
+    return Utils.getDate(date);
+  }
+
   getFormatBalance(balance: number) {
     return Utils.formatCurrency(balance);
   }

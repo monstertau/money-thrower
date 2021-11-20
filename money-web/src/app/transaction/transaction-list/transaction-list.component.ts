@@ -11,6 +11,7 @@ import { Utils } from 'src/app/util/utils';
 })
 export class TransactionListComponent implements OnInit {
   @Input() transactions!: TransactionView[][];
+  @Input() transactionsByTime!: TransactionView[][];
   @Output() selectedTransaction = new EventEmitter<TransactionView>();
   @Input() inflow!: number;
   @Input() outflow!: number;
@@ -42,6 +43,10 @@ export class TransactionListComponent implements OnInit {
       else total += element.amount;
     });
     return total;
+  }
+
+  getDate(date: string) {
+    return Utils.getDate(date);
   }
 
   getFormatBalance(balance: number) {

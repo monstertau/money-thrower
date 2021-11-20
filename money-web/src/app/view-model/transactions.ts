@@ -33,7 +33,7 @@ export class TransactionView {
     this.id = transaction.transaction_id;
     this.amount = transaction.amount;
     this.note = transaction.note;
-    this.transactionDate = new Date(transaction.transaction_date * 1000);
+    this.transactionDate = new Date(transaction.transaction_date);
     return this;
   }
 

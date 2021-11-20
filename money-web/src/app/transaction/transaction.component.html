@@ -3,19 +3,19 @@
         <nz-tabset nzCentered [nzSelectedIndex]="1">
             <nz-tab class="tabs" (nzClick)="onMonthChange('last')" nzTitle="LAST MONTH">
                 <ng-template nz-tab>
-                    <app-transaction-list [transactions]="transactionByCategory"
+                    <app-transaction-list [transactions]="transactionByCategory" [transactionsByTime]="transactionByTime" [inflow]="inflow/2" [outflow]="outflow/2" [total]="total/2"
                         (selectedTransaction)="onTransactionSelected($event)"></app-transaction-list>
                 </ng-template>
             </nz-tab>
             <nz-tab class="tabs" (nzClick)="onMonthChange('this')" nzTitle="THIS MONTH">
                 <ng-template nz-tab>
-                    <app-transaction-list [transactions]="transactionByCategory" [inflow]="inflow" [outflow]="outflow" [total]="total"
+                    <app-transaction-list [transactions]="transactionByCategory" [transactionsByTime]="transactionByTime" [inflow]="inflow/2" [outflow]="outflow/2" [total]="total/2"
                         (selectedTransaction)="onTransactionSelected($event)"></app-transaction-list>
                 </ng-template>
             </nz-tab>
             <nz-tab class="tabs" (nzClick)="onMonthChange('future')" nzTitle="FUTURE">
                 <ng-template nz-tab>
-                    <app-transaction-list [transactions]="transactionByCategory"
+                    <app-transaction-list [transactions]="transactionByCategory" [transactionsByTime]="transactionByTime" [inflow]="inflow/2" [outflow]="outflow/2" [total]="total/2"
                         (selectedTransaction)="onTransactionSelected($event)"></app-transaction-list>
                 </ng-template>
             </nz-tab>

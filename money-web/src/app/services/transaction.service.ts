@@ -15,8 +15,8 @@ export class TransactionService {
     constructor(private httpService: HttpService) {
     }
 
-    getTransactions(filter: TransactionRequest) {
-        return this.httpService.post<Transaction2[]>(`${this.route}/filter?limit=${filter.limit}&offset=${filter.offset}`, filter.filter)
+    getTransactions(filter: TransactionFilter) {
+        return this.httpService.post<Transaction2[]>(`${this.route}/filter`, filter)
     }
 
     getTransactionById(id: string) {
@@ -67,8 +67,3 @@ export interface TransactionFilter {
     wallet_id: string;
 }
 
-export interface TransactionRequest {
-    filter: TransactionFilter;
-    limit: number;
-    offset: number;
-}
