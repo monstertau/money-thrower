@@ -14,6 +14,7 @@ import { Utils } from '../util/utils';
 })
 export class TransactionComponent implements OnInit {
 
+  isLoading: boolean = true;
   transactions: TransactionView[] = [];
   selectedTransaction!: TransactionView;
   selected: boolean = false;
@@ -29,12 +30,10 @@ export class TransactionComponent implements OnInit {
   };
   inflow: number = 0;
   outflow: number = 0;
-  total: number = 0;
 
   transactionByCategory: TransactionView[][] = [];
   categoryList: string[] = [];
 
-  selectedMonth!: string;
   transactionByTime: TransactionView[][] = [];
   currentMonth = new Date().getMonth() + 1;
   currentYear = new Date().getFullYear();
@@ -45,7 +44,6 @@ export class TransactionComponent implements OnInit {
     private walletService: WalletService,
     private commonService: CommonService,) {
     this.commonService.currentWallet.subscribe(wallet => { this.currentWalletId = wallet; });
-    this.commonService.currentMonth.subscribe(month => { this.selectedMonth = month; });
     this.filter.wallet_id = this.currentWalletId;
   }
 
@@ -59,18 +57,24 @@ export class TransactionComponent implements OnInit {
     this.transactionByTime = [];
     this.inflow = 0;
     this.outflow = 0;
-    this.total = 0;
     let dateRange = Utils.getDateRange(this.currentYear, this.currentMonth, this.dateNum);
+    this.filter.cat_id = '';
     this.filter.start_date = dateRange.startDate;
     this.filter.end_date = dateRange.endDate;
-
+    this.isLoading = true;
     this.transactionService.getTransactions(this.filter).subscribe(transactions => {
       transactions.forEach(transaction => {
-        console.log(transaction)
         if (!this.categoryList.includes(transaction.cat_id)) this.categoryList.push(transaction.cat_id);
       })
       this.getTransactionByCategory();
-    });
+    }, (err) => {
+      console.log(err)
+    },
+      () => {
+        setTimeout(() => {
+        this.isLoading = false;
+        }, 500);
+      });
     this.getTransactionByTime();
   }
 
@@ -85,10 +89,14 @@ export class TransactionComponent implements OnInit {
   getCategory(transaction: TransactionView) {
     this.categoryService.getCategoryById(transaction.category.id).subscribe(data => {
       transaction.addCategory(data);
+      this.calculateFlow(transaction);
     })
   }
 
   getTransactionByCategory() {
+    let dateRange = Utils.getDateRange(this.currentYear, this.currentMonth, this.dateNum);
+    this.filter.start_date = dateRange.startDate;
+    this.filter.end_date = dateRange.endDate;
     this.categoryList.forEach(category => {
       this.filter.cat_id = category;
       let items: TransactionView[] = [];
@@ -105,10 +113,11 @@ export class TransactionComponent implements OnInit {
       })
     })
   }
+
   getTransactionByTime() {
-    for (let i = 0; i < this.dateNum; i++) {
-      this.filter.start_date = new Date(`${this.currentYear}/${this.currentMonth}/${i + 1} 00:00:00`).getTime();
-      this.filter.end_date = new Date(`${this.currentYear}/${this.currentMonth}/${i + 1} 23:59:59`).getTime();
+    for (let i = this.dateNum - 1; i >= 0; i--) {
+      this.filter.start_date = new Date(`${this.currentYear}/${this.currentMonth}/${i + 1} 00:00:00 +0000`).getTime();
+      this.filter.end_date = new Date(`${this.currentYear}/${this.currentMonth}/${i + 1} 23:59:59 +0000`).getTime();
       this.filter.cat_id = '';
       let items: TransactionView[] = [];
       this.transactionService.getTransactions(this.filter).subscribe(transactions => {
@@ -126,7 +135,11 @@ export class TransactionComponent implements OnInit {
           this.transactionByTime.push(items);
       })
     }
-    console.log(this.transactionByTime);
+  }
+
+  calculateFlow(transaction: TransactionView) {
+    if (!transaction.category.isExpense) this.inflow += transaction.amount;
+    else this.outflow += transaction.amount;
   }
 
   onTransactionSelected(transaction: TransactionView) {
@@ -143,7 +156,7 @@ export class TransactionComponent implements OnInit {
     if (month == 'future') {
       this.onFutureChange();
     }
-    if (month == 'last') {
+    else if (month == 'last') {
       this.onLastChange();
     }
     else this.onCurrentChange();
@@ -151,8 +164,7 @@ export class TransactionComponent implements OnInit {
 
   onCurrentChange() {
     this.currentMonth = new Date().getMonth() + 1;
-    this.transactionByTime = [];
-    this.transactionByCategory = [];
+    this.dateNum = new Date(this.currentYear, this.currentMonth, 0).getDate();
     this.getTransaction();
   }
 
@@ -162,7 +174,10 @@ export class TransactionComponent implements OnInit {
       this.currentMonth = 1;
       this.currentYear += 1;
       this.dateNum = new Date(this.currentYear, this.currentMonth, 0).getDate();
-    } else { this.currentMonth += 2; this.dateNum = new Date(this.currentYear, this.currentMonth, 0).getDate(); }
+    } else {
+      this.currentMonth += 1;
+      this.dateNum = new Date(this.currentYear, this.currentMonth, 0).getDate();
+    }
     this.getTransaction();
   }
 

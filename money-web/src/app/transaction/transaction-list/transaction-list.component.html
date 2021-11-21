@@ -1,5 +1,8 @@
-<div>
-    <div class="money-flow">
+<ng-template #indicatorTemplate><i nz-icon nzType="loading" style="font-size: 50px"></i></ng-template>
+<nz-spin *ngIf="isLoading" style="top: 30%; left: 50%; transform: translate(-50%, -50%);"
+    [nzIndicator]="indicatorTemplate"></nz-spin>
+<div *ngIf="transactions.length && transactionsByTime.length">
+    <div class="money-flow" >
         <div class="flow">
             <p>Inflow: </p>
             <p style="margin-left: auto; color: #1890FF">{{getFormatBalance(inflow)}} vnd</p>
@@ -9,8 +12,8 @@
             <p style="margin-left: auto; color: #FF4D4F">- {{getFormatBalance(outflow)}} vnd</p>
         </div>
         <div class="flow">
-            <p class="total-amount" *ngIf="total >= 0">+ {{getFormatBalance(total)}} vnd</p>
-            <p class="total-amount" *ngIf="total < 0">{{getFormatBalance(total)}} vnd</p>
+            <p class="total-amount" *ngIf="(inflow - outflow) >= 0">+ {{getFormatBalance(inflow - outflow)}} vnd</p>
+            <p class="total-amount" *ngIf="(inflow - outflow) < 0">{{getFormatBalance(inflow - outflow)}} vnd</p>
         </div>
     </div>
     <div class="view-report">
