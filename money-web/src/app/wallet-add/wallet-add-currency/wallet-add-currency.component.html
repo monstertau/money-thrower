@@ -1,0 +1,21 @@
+<div nz-row nzJustify="space-between">
+    <div class="currency-pick" *ngFor="let currency of CurrencyList"
+         nz-col [nzSpan]="12" (click)="fallbackFunc(currency.code)">
+        <div nz-row nzJustify="space-between">
+            <i nz-col [nzSpan]="3" nz-icon class="icon-currency">
+                <img src="/assets/currencies/{{currency.icon_path}}.png" alt="image"
+                     style="width: 40px;height: 40px;">
+            </i>
+            <div nz-col [nzSpan]="19">
+                <div class="currency-text">
+                    {{currency.text}}
+                </div>
+                <div class="currency-code">
+                    {{currency.code}}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+

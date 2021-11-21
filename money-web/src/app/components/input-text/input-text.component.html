@@ -3,6 +3,6 @@
 </div>
 <div class="input-note">
     <input type="text" [placeholder]="placeholder" [ngModel]="textModel"
-           (ngModelChange)="textModelChange=$event" nz-input
+           (ngModelChange)="onChangeText($event)" nz-input
            nzBorderless nzSize="large"/>
 </div>

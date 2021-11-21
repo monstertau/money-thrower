@@ -6,11 +6,16 @@ import {InputTextModule} from "../components/input-text/input-text.module";
 import {InputNumberModule} from "../components/input-number/input-number.module";
 import {InputNavigationModule} from "../components/input-navigation/input-navigation.module";
 import {InputIconModule} from "../components/input-icon/input-icon.module";
+import { WalletAddIconComponent } from './wallet-add-icon/wallet-add-icon.component';
+import { WalletAddCurrencyComponent } from './wallet-add-currency/wallet-add-currency.component';
+import {NzIconModule} from "ng-zorro-antd/icon";
 
 
 @NgModule({
     declarations: [
         WalletAddComponent,
+        WalletAddIconComponent,
+        WalletAddCurrencyComponent,
     ],
     exports: [
         WalletAddComponent
@@ -21,7 +26,8 @@ import {InputIconModule} from "../components/input-icon/input-icon.module";
         InputTextModule,
         InputNumberModule,
         InputNavigationModule,
-        InputIconModule
+        InputIconModule,
+        NzIconModule
     ]
 })
 export class WalletAddModule { }

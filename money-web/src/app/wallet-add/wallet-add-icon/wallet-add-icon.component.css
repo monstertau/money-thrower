@@ -1,0 +1,7 @@
+.icon-pick:hover {
+    background-color: rgba(45, 184, 76, .20);
+}
+
+.icon-pick {
+    cursor: pointer;
+}
