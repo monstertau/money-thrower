@@ -32,3 +32,45 @@ func randSeq(n int) string {
 }
 
 var NilId = "00000000-0000-0000-0000-000000000000"
+
+// NormalizeTimeAsNs converts UTC time (seconds, milliseconds, nanoseconds) into nano seconds
+func NormalizeTimeAsNs(timestamp int64) int64 {
+	if timestamp > 1999999999999999 { // Nanoseconds
+		return timestamp
+	}
+	if timestamp > 1999999999999 { // Microseconds
+		return timestamp * int64(time.Microsecond)
+	}
+	if timestamp > 1999999999 { // Milliseconds
+		return timestamp * int64(time.Millisecond)
+	}
+	return timestamp * int64(time.Second) // Seconds
+}
+
+// NormalizeTimeAsSeconds converts UTC time (seconds, milliseconds, nanoseconds) into seconds
+func NormalizeTimeAsSeconds(timestamp int64) int64 {
+	if timestamp > 1999999999999999 { // Nanoseconds
+		return timestamp / int64(1000000000)
+	}
+	if timestamp > 1999999999999 { // Microseconds
+		return timestamp / int64(1000000)
+	}
+	if timestamp > 1999999999 { // Milliseconds
+		return timestamp / int64(1000)
+	}
+	return timestamp // Seconds
+}
+
+// NormalizeTimeAsMilliseconds converts UTC time (seconds, milliseconds, nanoseconds) into milliseconds
+func NormalizeTimeAsMilliseconds(timestamp int64) int64 {
+	if timestamp > 1999999999999999 { // Nanoseconds
+		return timestamp / int64(1000000)
+	}
+	if timestamp > 1999999999999 { // Microseconds
+		return timestamp / int64(1000)
+	}
+	if timestamp > 1999999999 { // Milliseconds
+		return timestamp
+	}
+	return timestamp * int64(1000) // Seconds
+}

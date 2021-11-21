@@ -2,6 +2,7 @@ package view
 
 import (
 	"money-core/model"
+	"money-core/util"
 	"time"
 )
 
@@ -54,27 +55,29 @@ func ToTransactionForm(t *model.Transaction) *TransactionForm {
 		CatId:           t.CatId,
 		Amount:          t.Amount,
 		Note:            t.Note,
-		TransactionDate: t.TransactionDate.Unix(),
+		TransactionDate: util.NormalizeTimeAsMilliseconds(t.TransactionDate.Unix()),
 	}
 }
 
 func (f *AddTransactionForm) ToTransactionModel() *model.Transaction {
+	transactionDate := util.NormalizeTimeAsMilliseconds(f.TransactionDate)
 	return &model.Transaction{
 		UserId:          f.UserId,
 		WalletId:        f.WalletId,
 		CatId:           f.CatId,
 		Amount:          f.Amount,
 		Note:            f.Note,
-		TransactionDate: time.Unix(f.TransactionDate, 0),
+		TransactionDate: time.Unix(0, transactionDate*int64(time.Millisecond)),
 	}
 }
 func (f *EditTransactionForm) ToTransactionModel() *model.Transaction {
+	transactionDate := util.NormalizeTimeAsMilliseconds(f.TransactionDate)
 	return &model.Transaction{
 		Id:              f.TransactionId,
 		UserId:          f.UserId,
 		CatId:           f.CatId,
 		Amount:          f.Amount,
 		Note:            f.Note,
-		TransactionDate: time.Unix(f.TransactionDate, 0),
+		TransactionDate: time.Unix(0, transactionDate*int64(time.Millisecond)),
 	}
 }

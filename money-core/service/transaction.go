@@ -13,7 +13,7 @@ type (
 	TransactionServiceInterface interface {
 		GetById(userId string, id string) (*view.TransactionForm, error)
 		DeleteById(userId string, id string) error
-		GetFilteredList(userId string, limit int, offset int, form *view.FilterTransactionForm) ([]*view.TransactionForm, error)
+		GetFilteredList(userId string, form *view.FilterTransactionForm) ([]*view.TransactionForm, error)
 		GetTransactions(userId string, form *view.EditTransactionForm) (*model.Transaction, error)
 		AddTransactions(form *view.AddTransactionForm, isExpense bool) (*view.AddTransactionForm, error)
 		EditTransactions(form *view.EditTransactionForm, walletId string, newAmount float64) (*view.EditTransactionForm, error)
@@ -47,9 +47,9 @@ func (s TransactionService) DeleteById(userId string, id string) error {
 	return nil
 }
 
-func (s TransactionService) GetFilteredList(userId string, limit int, offset int, form *view.FilterTransactionForm) ([]*view.TransactionForm, error) {
+func (s TransactionService) GetFilteredList(userId string, form *view.FilterTransactionForm) ([]*view.TransactionForm, error) {
 	transactionForms := make([]*view.TransactionForm, 0)
-	transactions, err := s.repositories.TransactionRepo.GetFilteredList(userId, limit, offset, form)
+	transactions, err := s.repositories.TransactionRepo.GetFilteredList(userId, form)
 	if err != nil {
 		return make([]*view.TransactionForm, 0), errors.Errorf("error in find transactions: %v", err)
 	}

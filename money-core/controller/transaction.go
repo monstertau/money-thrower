@@ -8,7 +8,6 @@ import (
 	"money-core/validator"
 	"money-core/view"
 	"net/http"
-	"strconv"
 )
 
 type TransactionController struct {
@@ -193,8 +192,6 @@ func (h *TransactionController) DeleteById(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param create body view.FilterTransactionForm true "Get filtered transaction list"
-// @Param limit query int false "limit of list transactions want to specify, default 10"
-// @Param offset query int false "offset of list transactions want to specify, default 0"
 // @Security JWT
 // @Success 200 {object} view.TransactionForm
 // @Failure 400 {object} AppError
@@ -211,25 +208,12 @@ func (h *TransactionController) GetFilteredList(c *gin.Context) {
 		ReportError(c, http.StatusBadRequest, fmt.Sprintf("invalid filter transactions form: %v", err))
 		return
 	}
-	offset, _ := strconv.Atoi(c.Query("offset"))
-	if offset < 0 {
-		ReportError(c, http.StatusBadRequest, fmt.Sprintf("expect 'offset' query param to be non-negative number"))
-		return
-	}
-	limit, _ := strconv.Atoi(c.Query("limit"))
-	if limit < 0 {
-		ReportError(c, http.StatusBadRequest, fmt.Sprintf("expect 'limit' query param to be non-negative number"))
-		return
-	}
-	if limit == 0 {
-		limit = 10 // Default limit
-	}
 	userId, err := h.services.JWTService.GetUserId(c)
 	if err != nil {
 		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get user id: %v", err))
 		return
 	}
-	transactions, err := h.services.TransactionService.GetFilteredList(userId, limit, offset, filterForm)
+	transactions, err := h.services.TransactionService.GetFilteredList(userId, filterForm)
 	if err != nil {
 		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get filtered list transactions: %v", err))
 		return

@@ -537,18 +537,6 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/view.FilterTransactionForm"
                         }
-                    },
-                    {
-                        "type": "integer",
-                        "description": "limit of list transactions want to specify, default 10",
-                        "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "offset of list transactions want to specify, default 0",
-                        "name": "offset",
-                        "in": "query"
                     }
                 ],
                 "responses": {
