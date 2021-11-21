@@ -25,6 +25,12 @@
                 <span>Wallets</span>
             </a>
         </li>
+        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Category' : ''" (click)="selectPage('category')">
+            <a [routerLink]="['/category']">
+                <i nz-icon nzType="gold"></i>
+                <span>Category</span>
+            </a>
+        </li>
         <div style="flex: 1;"></div>
 
         <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Store' : ''">

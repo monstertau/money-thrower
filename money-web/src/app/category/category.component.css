@@ -1,0 +1,51 @@
+.list-transaction {
+    width: 40%;
+    margin-left: 50%;
+    margin-top: 1%;
+    transform: translate(-50%, -50%);
+    transition: margin-left 0.5s;
+}
+
+#transaction-detail {
+    position: absolute;
+    width: 49%;
+    left: 50%;
+    top: 80px;
+    /* height: 238px; */
+
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.043);
+}
+
+.ant-tabs {
+    position: absolute;
+    background-color: white;
+    width: 100%;
+    border-radius: 20px;
+    box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.043);
+}
+
+.ant-spin {
+    background-color: #f1f2f6;
+}
+.category-info .name {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 9px 0 11px 8px;
+}
+
+.selected-category {
+    color: #a0d911;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.category-item {
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    padding: 8px 16px;
+}
+.category-item:hover {
+    background-color: rgba(45,184,76,.20);
+}

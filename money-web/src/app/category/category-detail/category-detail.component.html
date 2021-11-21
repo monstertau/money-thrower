@@ -1,0 +1,57 @@
+<div class="content">
+    <div class="dialog">
+        <div class="header">
+            Included in total
+        </div>
+        <div class="categories">
+            <div *ngFor="let item of data; let i = index" style="width: 100%;" (click)="selectCategory(item.id)">
+                <div class="category-item">
+                    <img nz-image width="40px" height="40px" [nzSrc]="item.getIcon()" [nzFallback]="item.fallbackIcon"
+                        alt="" />
+                    <div style="margin-left: 20px;">
+                        <div class="name">{{item.name}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="load-all">
+                <nz-divider nzType="horizontal"></nz-divider>
+                <div *ngIf="isListLoading" style="width: 100%;">
+                    <div class="category-item" style="position: relative; height: 80px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="dialog-detail" hidden>
+        <div *ngIf="!isDetailLoading">
+            <div class="title">
+                <i class="close-icon" nz-icon nzType="close" nzTheme="outline" (click)="hideCategoryDetail()"></i>
+                <span style="margin-left: 30px; font-weight: 500; font-size: 20px; line-height: 28px;"> Category
+                    details</span>
+            </div>
+            <nz-divider nzType="horizontal"></nz-divider>
+            <div class="category-detail">
+                <img nz-image width="60px" height="60px" [nzSrc]="selectedCategory.getIcon()"
+                    [nzFallback]="selectedCategory.fallbackIcon" alt="" />
+                <div style="margin-left: 30px;">
+                    <div style="font-size: 24px;">{{selectedCategory.name}}</div>
+                </div>
+            </div>
+            <nz-divider nzType="horizontal"></nz-divider>
+            <div class="user-info"><span style="margin-left: 10px; font-weight: 500; color: rgba(0, 0, 0, 0.54);">
+                    Users</span>
+                <div style="display: flex; margin-top: 10px;">
+                    <img style="width: 50px;" src="https://static.moneylover.me/img/icon/ic_category_all.png" alt="">
+                    <div style="margin-left: 30px;">
+                        <div style="font-size: 14px; font-weight: 600;">currentUser.username <span
+                                class="owner-tag">Owner</span></div>
+                        <div class="wallet-currency">{{currentUser.email}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="isDetailLoading" style="position: relative; height: 400px;">
+        </div>
+    </div>
+    
+</div>
