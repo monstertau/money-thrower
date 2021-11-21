@@ -15,6 +15,8 @@ import { NzFormModule } from "ng-zorro-antd/form";
 import { NzInputNumberModule } from "ng-zorro-antd/input-number";
 import { NzSelectModule } from "ng-zorro-antd/select";
 import { LoadingSpinnerComponent } from '../components/loading-spinner/loading-spinner.component';
+import {NzModalModule} from "ng-zorro-antd/modal";
+import {WalletAddModule} from "../wallet-add/wallet-add.module";
 
 
 @NgModule({
@@ -23,19 +25,21 @@ import { LoadingSpinnerComponent } from '../components/loading-spinner/loading-s
     WalletDetailComponent,
     LoadingSpinnerComponent
   ],
-  imports: [
-    CommonModule,
-    WalletRoutingModule,
-    NzIconModule,
-    NzButtonModule,
-    NzDividerModule,
-    NzCheckboxModule,
-    ReactiveFormsModule,
-    FormsModule,
-    NzFormModule,
-    NzInputNumberModule,
-    NzSelectModule,
-    NzImageModule
-  ]
+    imports: [
+        CommonModule,
+        WalletRoutingModule,
+        NzIconModule,
+        NzButtonModule,
+        NzDividerModule,
+        NzCheckboxModule,
+        ReactiveFormsModule,
+        FormsModule,
+        NzFormModule,
+        NzInputNumberModule,
+        NzSelectModule,
+        NzImageModule,
+        NzModalModule,
+        WalletAddModule
+    ]
 })
 export class WalletModule { }
