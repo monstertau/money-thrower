@@ -12,11 +12,11 @@ export class WalletView {
 
   constructor() {
     this.id = "";
-    this.name = "My Wallet";
+    this.name = "";
     this.balance = 0;
     this.currency = "VND";
     this.icon = "wallet_icon";
-    this.type = 0;
+    this.type = 1;
     this.isCurrent = false;
     this.fallBackIcon = 'assets/catalogs/wallet_icon.png';
   }

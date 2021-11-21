@@ -1,0 +1,23 @@
+<div class="wrapper">
+    <div class="upper-row" nz-row nzJustify="space-between">
+        <div class="input-box" nz-col [nzSpan]="6">
+            <app-input-icon [inputIcon]="'/assets/catalogs/'+wallet.icon+'.png'" (click)="onAddIcon()"></app-input-icon>
+        </div>
+        <div class="input-box" nz-col [nzSpan]="17">
+            <app-input-text inputName="Wallet Name" [textModel]="wallet.name" placeholder="Your Wallet Name?"
+                            (textModelChange)="onChangeWalletName($event)"></app-input-text>
+        </div>
+    </div>
+    <div class="lower-row" nz-row nzJustify="space-between">
+        <div class="input-box" nz-col [nzSpan]="14">
+            <app-input-navigation inputName="Currency" [inputIcon]="'/assets/currencies/'+'curr_vietnam'+'.png'"
+                                  [navigationName]="getCurrencyName(wallet.currency)"
+                                  (click)="onAddCurrency()"
+                                  placeholder="Select Currency"></app-input-navigation>
+        </div>
+
+        <div class="input-box" nz-col [nzSpan]="9">
+            <app-input-number inputName="Initial Value" [(inputValue)]="wallet.balance"></app-input-number>
+        </div>
+    </div>
+</div>

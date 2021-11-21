@@ -1,0 +1,8 @@
+<div class="input-name">
+    {{inputName}}
+</div>
+<div class="input-amount">
+    <input #inputElement type="text" [ngModel]="getFormatAmount()" nz-input
+           nzBorderless nzSize="large"
+           (ngModelChange)="onChangeAmount($event)"/>
+</div>

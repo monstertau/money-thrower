@@ -1,0 +1,18 @@
+<div class="input-name">
+    {{inputName}}
+</div>
+<div class="input-content" nz-row>
+    <div class="input-picture" nz-col nzSpan="2" *ngIf="inputIcon !== null">
+        <i nz-icon>
+            <img src="{{inputIcon}}" alt="image"
+                 style="width: 24px;height: 24px">
+        </i>
+    </div>
+    <div class="input-text" nz-col nzSpan="21"
+         [style.color]="this.hasChosen?'black':'rgba(0,0,0,.26)'">
+        {{hasChosen ? navigationName : placeholder}}
+    </div>
+    <div class="left-arrow" nz-col nzSpan="1">
+        <i nz-icon nzType="right" nzTheme="outline"></i>
+    </div>
+</div>

@@ -1,7 +1,9 @@
-
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { HttpService } from './http.service';
+import {Injectable} from '@angular/core';
+import {Observable, throwError} from 'rxjs';
+import {HttpService} from './http.service';
+import {Transaction} from "../view-model/transactions";
+import {catchError} from "rxjs/operators";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Injectable({
     providedIn: 'root'
@@ -12,23 +14,37 @@ export class WalletService {
     constructor(private httpService: HttpService) {
     }
 
-    addWallet(data: WalletRequest) {
-        return new Observable<string>((observable) => {
-            this.httpService.post<WalletResponse>('wallet', data).subscribe((response: WalletResponse) => {
-                if (!response) {
-                    observable.next('FAIL');
+    addWallet(wallet: Wallet) {
+        return this.httpService.post<Wallet>(this.route, wallet).pipe(
+            catchError((error: HttpErrorResponse) => {
+                if (error.error instanceof Error) {
+                    // A client-side or network error occurred. Handle it accordingly.
+                    console.error('An error occurred:', error.error.message);
                 } else {
-                    console.log(response)
-                    observable.next('SUCCESS');
+                    // The backend returned an unsuccessful response code.
+                    // The response body may contain clues as to what went wrong,
+                    console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
                 }
-            }, (error) => {
-                observable.error(error);
-            });
-            return {
-                unsubscribe() {
+                return throwError(error);
+            })
+        );
+
+    }
+
+    editWallet(wallet: Wallet) {
+        return this.httpService.put<Wallet>(this.route, wallet).pipe(
+            catchError((error: HttpErrorResponse) => {
+                if (error.error instanceof Error) {
+                    // A client-side or network error occurred. Handle it accordingly.
+                    console.error('An error occurred:', error.error.message);
+                } else {
+                    // The backend returned an unsuccessful response code.
+                    // The response body may contain clues as to what went wrong,
+                    console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
                 }
-            };
-        })
+                return throwError(error);
+            })
+        );
     }
 
     getWalletPaging(offset: number = 0, limit: number = 10) {
