@@ -121,7 +121,7 @@ export class Utils {
   }
 
   static getDateRange(year: number, month: number, dateNum: number): DateRange {
-    return { startDate: new Date(`${year}/${month}/1 00:00:00`).getTime(), endDate: new Date(`${year}/${month}/${dateNum} 23:59:59`).getTime() };
+    return { startDate: new Date(`${year}/${month}/1 00:00:00 +0000`).getTime(), endDate: new Date(`${year}/${month}/${dateNum} 23:59:59 +0000`).getTime() };
   }
 }
 

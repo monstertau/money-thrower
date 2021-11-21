@@ -9,10 +9,9 @@
 #transaction-detail {
     position: absolute;
     width: 49%;
-    /* height: 763px; */
     left: 50%;
     top: 80px;
-    height: 238px;
+    /* height: 238px; */
 
     background: #ffffff;
     border-radius: 20px;

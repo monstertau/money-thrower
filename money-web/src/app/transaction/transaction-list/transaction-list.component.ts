@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
 import { TransactionView } from 'src/app/view-model/transactions';
-import { Transaction2 } from 'src/app/services/transaction.service';
 import { Utils } from 'src/app/util/utils';
 
 @Component({
@@ -15,13 +14,12 @@ export class TransactionListComponent implements OnInit {
   @Output() selectedTransaction = new EventEmitter<TransactionView>();
   @Input() inflow!: number;
   @Input() outflow!: number;
-  @Input() total!: number;
   viewMode!: string;
   constructor(private commonService: CommonService) {
   }
 
   ngOnInit(): void {
-    this.commonService.currentViewMode.subscribe(mode => { this.viewMode = mode; })
+    this.commonService.currentViewMode.subscribe(mode => { this.viewMode = mode; });
   }
 
   selectTransaction(transaction: TransactionView) {
