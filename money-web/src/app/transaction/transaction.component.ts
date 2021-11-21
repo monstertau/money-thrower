@@ -14,6 +14,7 @@ import { Utils } from '../util/utils';
 })
 export class TransactionComponent implements OnInit {
 
+  isLoading: boolean = true;
   transactions: TransactionView[] = [];
   selectedTransaction!: TransactionView;
   selected: boolean = false;
@@ -60,13 +61,20 @@ export class TransactionComponent implements OnInit {
     this.filter.cat_id = '';
     this.filter.start_date = dateRange.startDate;
     this.filter.end_date = dateRange.endDate;
-
+    this.isLoading = true;
     this.transactionService.getTransactions(this.filter).subscribe(transactions => {
       transactions.forEach(transaction => {
         if (!this.categoryList.includes(transaction.cat_id)) this.categoryList.push(transaction.cat_id);
       })
       this.getTransactionByCategory();
-    });
+    }, (err) => {
+      console.log(err)
+    },
+      () => {
+        setTimeout(() => {
+        this.isLoading = false;
+        }, 500);
+      });
     this.getTransactionByTime();
   }
 

@@ -15,6 +15,7 @@ export class TransactionListComponent implements OnInit {
   @Input() inflow!: number;
   @Input() outflow!: number;
   viewMode!: string;
+  @Input() isLoading: boolean = true;
   constructor(private commonService: CommonService) {
   }
 
