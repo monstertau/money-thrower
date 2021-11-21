@@ -6,12 +6,16 @@ import {NzGridModule} from "ng-zorro-antd/grid";
 import {NzInputModule} from "ng-zorro-antd/input";
 import {FormsModule} from "@angular/forms";
 import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
-import { TransactionAddCategoryComponent } from './transaction-add-category/transaction-add-category.component';
-import { TransactionAddWalletComponent } from './transaction-add-wallet/transaction-add-wallet.component';
+import {TransactionAddCategoryComponent} from './transaction-add-category/transaction-add-category.component';
+import {TransactionAddWalletComponent} from './transaction-add-wallet/transaction-add-wallet.component';
 import {NzDividerModule} from "ng-zorro-antd/divider";
 import {BrowserModule} from "@angular/platform-browser";
 import {NzTabsModule} from "ng-zorro-antd/tabs";
 import {NzListModule} from "ng-zorro-antd/list";
+import {InputNavigationModule} from "../components/input-navigation/input-navigation.module";
+import {InputTextModule} from "../components/input-text/input-text.module";
+import {InputDateModule} from "../components/input-date/input-date.module";
+import {InputNumberModule} from "../components/input-number/input-number.module";
 
 
 @NgModule({
@@ -33,7 +37,11 @@ import {NzListModule} from "ng-zorro-antd/list";
         NzDividerModule,
         BrowserModule,
         NzTabsModule,
-        NzListModule
+        NzListModule,
+        InputNavigationModule,
+        InputTextModule,
+        InputDateModule,
+        InputNumberModule
     ]
 })
 export class TransactionAddModule {

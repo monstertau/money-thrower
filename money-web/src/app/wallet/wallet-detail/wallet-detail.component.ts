@@ -14,7 +14,7 @@ import { WalletView } from 'src/app/view-model/wallet';
 })
 export class WalletDetailComponent implements OnInit, OnDestroy {
 
-    @Output() editWallet = new EventEmitter<string>();
+    @Output() editWallet = new EventEmitter<WalletView>();
     walletList: WalletView[] = [];
     data: WalletView[] = [];
 
@@ -55,7 +55,7 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
     }
 
     editWalletDetail() {
-        this.editWallet.emit();
+        this.editWallet.emit(this.selectedWallet);
     }
 
     loadWalletList() {
@@ -122,7 +122,7 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
     formatCurrency(balance: number) {
         return balance.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
     }
-    
+
     ngOnDestroy() {
         this.destroy$.next();
         this.destroy$.complete();

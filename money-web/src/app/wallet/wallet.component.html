@@ -1,12 +1,14 @@
 <div>
-    <div class="top-bar">
-        <div class="right">
-            <button class="add-btn" nz-button nzType="primary" (click)="addWallet()">ADD WALLET</button>
-        </div>
-    </div>
     <div class="data">
-        <app-wallet-detail (editWallet)="editWallet()"></app-wallet-detail>
-        <app-wallet-add *ngIf="add_edit_wallet_dialog" (closeAddDialog)="closeAddWallet()" [isAddForm]="add_wallet"
-                        [isEditForm]="edit_wallet"></app-wallet-add>
+        <app-wallet-detail (editWallet)="onClickEdit($event)"></app-wallet-detail>
     </div>
+    <nz-modal [(nzVisible)]="showAddModal" nzTitle="Add Wallet" nzWidth="496px" nzClosable="false">
+        <div *nzModalContent>
+            <app-wallet-add [wallet]="this.currentWallet"></app-wallet-add>
+        </div>
+        <div *nzModalFooter>
+            <button nz-button nzType="default" (click)="handleCancelAdd()">Cancel</button>
+            <button nz-button nzType="primary" (click)="handleSave()" [nzLoading]="walletAddLoading">Save</button>
+        </div>
+    </nz-modal>
 </div>
