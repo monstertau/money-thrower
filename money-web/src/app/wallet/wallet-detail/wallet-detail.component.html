@@ -6,7 +6,7 @@
         <div class="wallets">
             <div *ngFor="let item of data; let i = index" style="width: 100%;" (click)="selectWallet(item.id)">
                 <div class="wallet-item">
-                    <img nz-image width="40px" height="40px" [nzSrc]="getIcon(item.icon)" [nzFallback]="fallbackIcon"
+                    <img nz-image width="40px" height="40px" [nzSrc]="item.getIcon()" [nzFallback]="item.fallBackIcon"
                         alt="" />
                     <div style="margin-left: 20px;">
                         <div class="name">{{item.name}}</div>
@@ -45,8 +45,8 @@
             </div>
             <nz-divider nzType="horizontal"></nz-divider>
             <div class="wallet-detail">
-                <img nz-image width="60px" height="60px" [nzSrc]="getIcon(selectedWallet.icon)"
-                    [nzFallback]="fallbackIcon" alt="" />
+                <img nz-image width="60px" height="60px" [nzSrc]="selectedWallet.getIcon()"
+                    [nzFallback]="selectedWallet.fallBackIcon" alt="" />
                 <div style="margin-left: 30px;">
                     <div style="font-size: 24px;">{{selectedWallet.name}}</div>
                     <div class="wallet-currency">{{selectedWallet.currency}}</div>

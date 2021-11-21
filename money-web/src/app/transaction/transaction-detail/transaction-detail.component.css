@@ -70,3 +70,11 @@
 .note-right {
     text-align: right;
 }
+
+.is-expense {
+    color: #FF4D4F
+}
+
+.not-expense {
+    color: #1890FF
+}

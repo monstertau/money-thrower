@@ -11,16 +11,23 @@
 <nz-divider nzType="horizontal"></nz-divider>
 <div class="details">
     <div class="detail-left">
-        <img style="width: 40px; height: 40px;" src="https://static.moneylover.me/img/icon/ic_category_all.png" alt="">
+        <img nz-image width="40px" height="40px" [nzSrc]="transaction.category.getIcon()"
+            [nzFallback]="transaction.category.fallbackIcon" alt="">
         <div class="detail-text">
-            <div style="font-weight: 500; font-size: 24px; line-height: 28px;">Restaurant</div>
-            <div style="font-size: 12px;">Wallet: Mr.Broke</div>
-            <div style="color: rgba(0, 0, 0, 0.54); font-size: 12px;">Thursday, 11/11/2021</div>
+            <div style="font-weight: 500; font-size: 24px; line-height: 28px;">{{transaction.category.name}}</div>
+            <div style="font-size: 12px;">{{transaction.wallet.name}}</div>
+            <div style="color: rgba(0, 0, 0, 0.54); font-size: 12px;">
+                {{getDate(transaction.transactionDate.toString()).weekDay}},
+                {{getDate(transaction.transactionDate.toString()).date}}/{{getDate(transaction.transactionDate.toString()).month_num}}/{{getDate(transaction.transactionDate.toString()).year}}
+            </div>
             <nz-divider nzType="horizontal" style="margin-top: 10px;"></nz-divider>
         </div>
     </div>
     <div class="detail-right">
-        <div class="amount-right">-{{transaction.amount}} vnd</div>
+        <div *ngIf="transaction.category.isExpense" class="amount-right is-expense">
+            -{{getFormatBalance(transaction.amount)}} {{transaction.wallet.currency}}</div>
+        <div *ngIf="!transaction.category.isExpense" class="amount-right not-expense">
+            +{{getFormatBalance(transaction.amount)}} {{transaction.wallet.currency}}</div>
         <div *ngIf="transaction.note" class="note-right">Note: {{transaction.note}}</div>
     </div>
 </div>

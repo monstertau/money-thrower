@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService, UserDetail } from 'src/app/services/auth.service';
 import { Wallet, WalletService } from 'src/app/services/wallet.service';
+import { WalletView } from 'src/app/view-model/wallet';
 
 
 @Component({
@@ -14,17 +15,10 @@ import { Wallet, WalletService } from 'src/app/services/wallet.service';
 export class WalletDetailComponent implements OnInit, OnDestroy {
 
     @Output() editWallet = new EventEmitter<string>();
-    walletList: Wallet[] = [];
-    data: Wallet[] = [];
+    walletList: WalletView[] = [];
+    data: WalletView[] = [];
 
-    selectedWallet: Wallet = {
-        id: "",
-        name: "",
-        type: 0,
-        currency: "",
-        balance: 0,
-        icon: ""
-    };
+    selectedWallet = new WalletView();
 
     private readonly destroy$ = new Subject();
 
@@ -74,7 +68,7 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
                         this.canLoadMore = false;
                     }
                     res.forEach(element => {
-                        this.walletList.push(element);
+                        this.walletList.push(new WalletView().addWallet(element));
                     });
                 },
                 (err) => {
@@ -92,7 +86,7 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe(
                 (res) => {
-                    this.selectedWallet = res;
+                    this.selectedWallet = new WalletView().addWallet(res);
                 },
                 (err) => {
                     console.log(err)
@@ -128,11 +122,7 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
     formatCurrency(balance: number) {
         return balance.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
     }
-
-    getIcon(icon: string) {
-        return "assets/catalogs/" + icon + ".png";
-    }
-
+    
     ngOnDestroy() {
         this.destroy$.next();
         this.destroy$.complete();

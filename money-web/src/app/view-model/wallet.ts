@@ -8,6 +8,7 @@ export class WalletView {
   icon: string;
   type: number;
   isCurrent: boolean;
+  fallBackIcon: string;
 
   constructor() {
     this.id = "";
@@ -17,6 +18,11 @@ export class WalletView {
     this.icon = "wallet_icon";
     this.type = 0;
     this.isCurrent = false;
+    this.fallBackIcon = 'assets/catalogs/wallet_icon.png';
+  }
+
+  getIcon() {
+    return `assets/catalogs/${this.icon}.png`;
   }
 
   addWallet(wallet: Wallet): WalletView {

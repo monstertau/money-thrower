@@ -86,3 +86,11 @@
 ::-webkit-scrollbar-thumb:hover {
     background: #8888;
 }
+
+.is-expense {
+    color: #FF4D4F
+}
+
+.not-expense {
+    color: #1890FF
+}

@@ -3,25 +3,29 @@
         <nz-tabset nzCentered [nzSelectedIndex]="1">
             <nz-tab class="tabs" (nzClick)="onMonthChange('last')" nzTitle="LAST MONTH">
                 <ng-template nz-tab>
-                    <app-transaction-list [viewMode]="viewMode" [transactions]="sampleTransactions"
+                    <app-transaction-list [transactions]="transactionByCategory" [isLoading]="isLoading"
+                        [transactionsByTime]="transactionByTime" [inflow]="inflow/2" [outflow]="outflow/2"
                         (selectedTransaction)="onTransactionSelected($event)"></app-transaction-list>
                 </ng-template>
             </nz-tab>
             <nz-tab class="tabs" (nzClick)="onMonthChange('this')" nzTitle="THIS MONTH">
                 <ng-template nz-tab>
-                    <app-transaction-list [viewMode]="viewMode" [transactions]="sampleTransactions"
+                    <app-transaction-list [transactions]="transactionByCategory" [isLoading]="isLoading"
+                        [transactionsByTime]="transactionByTime" [inflow]="inflow/2" [outflow]="outflow/2"
                         (selectedTransaction)="onTransactionSelected($event)"></app-transaction-list>
                 </ng-template>
             </nz-tab>
             <nz-tab class="tabs" (nzClick)="onMonthChange('future')" nzTitle="FUTURE">
                 <ng-template nz-tab>
-                    <app-transaction-list [viewMode]="viewMode" [transactions]="sampleTransactions"
+                    <app-transaction-list [transactions]="transactionByCategory" [isLoading]="isLoading"
+                        [transactionsByTime]="transactionByTime" [inflow]="inflow/2" [outflow]="outflow/2"
                         (selectedTransaction)="onTransactionSelected($event)"></app-transaction-list>
                 </ng-template>
             </nz-tab>
         </nz-tabset>
     </div>
     <div id="transaction-detail" hidden>
-        <app-transaction-detail *ngIf="selected" [transaction]="selectedTransaction" (closed)="onTransactionDetailClose($event)"></app-transaction-detail>
+        <app-transaction-detail *ngIf="selected" (closed)="onTransactionDetailClose($event)"
+            [transaction]="selectedTransaction"></app-transaction-detail>
     </div>
 </div>
