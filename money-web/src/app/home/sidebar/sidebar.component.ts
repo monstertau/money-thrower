@@ -49,8 +49,9 @@ export class SidebarComponent implements OnInit {
                     // reset
                     this.LogoutLoading = false;
                     this.showLogoutModal = false;
+                    localStorage.removeItem('currentUser');
+                    window.location.href = 'login';
                 }, 1000)
-                window.location.href = 'login';
             })
             .catch(error => {
                 this.LogoutLoading = false;
