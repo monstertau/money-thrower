@@ -1,10 +1,12 @@
-import { Component, OnDestroy, OnInit, EventEmitter, Output } from '@angular/core';
+import {Component, OnDestroy, OnInit, EventEmitter, Output} from '@angular/core';
 import jwtDecode from 'jwt-decode';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { AuthService, UserDetail } from 'src/app/services/auth.service';
-import { Wallet, WalletService } from 'src/app/services/wallet.service';
-import { WalletView } from 'src/app/view-model/wallet';
+import {NzNotificationService} from 'ng-zorro-antd/notification';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
+import {AuthService, UserDetail} from 'src/app/services/auth.service';
+import {CommonService} from 'src/app/services/common.service';
+import {Wallet, WalletService} from 'src/app/services/wallet.service';
+import {WalletView} from 'src/app/view-model/wallet';
 
 
 @Component({
@@ -32,6 +34,10 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
 
     isDetailLoading: boolean = true;
 
+    walletDeleteLoading: boolean = false;
+
+    showDeleteModal: boolean = false;
+
     canLoadMore: boolean = true;
 
     fallbackIcon = 'assets/catalogs/wallet_icon.png';
@@ -40,7 +46,7 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
         return this.walletList.length <= 0
     }
 
-    constructor(private walletService: WalletService, private authService: AuthService) {
+    constructor(private walletService: WalletService, private authService: AuthService, private notification: NzNotificationService, private commonService: CommonService) {
         this.currentUser = jwtDecode(this.authService.userDetail.token);
     }
 
@@ -121,6 +127,53 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
 
     formatCurrency(balance: number) {
         return balance.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    }
+
+    showWalletDeleteModal() {
+        this.showDeleteModal = true;
+    }
+
+    handleCancelDelete() {
+        this.showDeleteModal = false;
+    }
+
+    handleDelete() {
+        this.walletDeleteLoading = true;
+        this.deleteWallet()
+            .then(() => {
+                setTimeout(() => {
+                    // reset
+                    this.walletDeleteLoading = false;
+                    this.showDeleteModal = false;
+                    this.commonService.reloadComponent();
+                }, 1000)
+
+            })
+            .catch(error => {
+                this.walletDeleteLoading = false;
+                this.showErrorMessage(error.toString())
+            })
+    }
+
+    async deleteWallet() {
+        let error = null;
+        this.walletService.deleteWallet(this.selectedWallet.id).subscribe(
+            result => {
+                console.log(result);
+            },
+            err => {
+                console.log(err);
+                error = new Error("Something wrong. please")
+            }
+        )
+        if (error !== null) {
+            throw error
+        }
+
+    }
+
+    showErrorMessage(message: string) {
+        this.notification.error('Error', message);
     }
 
     ngOnDestroy() {

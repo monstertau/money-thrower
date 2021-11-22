@@ -7,7 +7,7 @@
             <div *ngFor="let item of data; let i = index" style="width: 100%;" (click)="selectWallet(item.id)">
                 <div class="wallet-item">
                     <img nz-image width="40px" height="40px" [nzSrc]="item.getIcon()" [nzFallback]="item.fallBackIcon"
-                        alt="" />
+                         alt=""/>
                     <div style="margin-left: 20px;">
                         <div class="name">{{item.name}}</div>
                         <div class="item-amount">Balance: {{formatCurrency(item.balance)}} {{item.currency}}</div>
@@ -23,7 +23,7 @@
                 </div>
                 <div *ngIf="!isListLoading && canLoadMore" style="width: 100%;" (click)="loadMore()">
                     <div class="load-more"
-                        style="height: 24px ;display:flex; align-items:center; justify-content: center; cursor: pointer;">
+                         style="height: 24px ;display:flex; align-items:center; justify-content: center; cursor: pointer;">
                         <i nz-icon nzType="caret-down" nzTheme="outline"></i>
                     </div>
                 </div>
@@ -37,16 +37,30 @@
                 <span style="margin-left: 30px; font-weight: 500; font-size: 20px; line-height: 28px;"> Wallet
                     details</span>
                 <div class="btn-modify">
-                    <button class="btn-delete" nz-button nzType="text" nzDanger><span style="font-weight: 550;">
+                    <button class="btn-delete" nz-button nzType="text" nzDanger (click)="showWalletDeleteModal()"><span
+                        style="font-weight: 550;">
                             DELETE</span></button>
+                    <nz-modal [(nzVisible)]="showDeleteModal" nzTitle="Delete Wallet" nzWidth="496px"
+                              nzClosable="false">
+                        <div *nzModalContent>
+                            <span>Are you sure want to delete this wallet?</span>
+                        </div>
+                        <div *nzModalFooter>
+                            <button nz-button nzType="default" (click)="handleCancelDelete()">Cancel</button>
+                            <button nz-button nzType="primary" (click)="handleDelete()"
+                                    [nzLoading]="walletDeleteLoading">
+                                Delete
+                            </button>
+                        </div>
+                    </nz-modal>
                     <button class="btn-edit" nz-button nzType="text" (click)="editWalletDetail()"><span
-                            style="font-weight: 550;"> EDIT</span></button>
+                        style="font-weight: 550;"> EDIT</span></button>
                 </div>
             </div>
             <nz-divider nzType="horizontal"></nz-divider>
             <div class="wallet-detail">
                 <img nz-image width="60px" height="60px" [nzSrc]="selectedWallet.getIcon()"
-                    [nzFallback]="selectedWallet.fallBackIcon" alt="" />
+                     [nzFallback]="selectedWallet.fallBackIcon" alt=""/>
                 <div style="margin-left: 30px;">
                     <div style="font-size: 24px;">{{selectedWallet.name}}</div>
                     <div class="wallet-currency">{{selectedWallet.currency}}</div>
@@ -59,7 +73,7 @@
                     <img style="width: 50px;" src="https://static.moneylover.me/img/icon/ic_category_all.png" alt="">
                     <div style="margin-left: 30px;">
                         <div style="font-size: 14px; font-weight: 600;">currentUser.username <span
-                                class="owner-tag">Owner</span></div>
+                            class="owner-tag">Owner</span></div>
                         <div class="wallet-currency">{{currentUser.email}}</div>
                     </div>
                 </div>

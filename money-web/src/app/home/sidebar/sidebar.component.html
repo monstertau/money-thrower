@@ -6,20 +6,24 @@
     </div>
     <ul nz-menu [nzInlineCollapsed]="isCollapsed" nzMode="inline" class="sider-menu"
         style="display: flex; flex-direction: column; height: calc(100% - 32px);">
-        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Transactions' : ''" (click)="selectPage('transaction')">
+        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Transactions' : ''"
+            (click)="selectPage('transaction')">
             <a [routerLink]="['/']"><i nz-icon nzType="book"></i>
                 <span>Transactions</span>
             </a>
         </li>
-        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Report' : ''" (click)="selectPage('report')">
+        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Report' : ''"
+            (click)="selectPage('report')">
             <i nz-icon nzType="file-text"></i>
             <span>Report</span>
         </li>
-        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Budget' : ''" (click)="selectPage('budget')">
+        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Budget' : ''"
+            (click)="selectPage('budget')">
             <i nz-icon nzType="container"></i>
             <span>Budget</span>
         </li>
-        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Wallets' : ''" (click)="selectPage('wallet')">
+        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Wallets' : ''"
+            (click)="selectPage('wallet')">
             <a [routerLink]="['/wallet']">
                 <i nz-icon nzType="wallet"></i>
                 <span>Wallets</span>
@@ -40,6 +44,24 @@
         <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Help' : ''">
             <i nz-icon nzType="info-circle"></i>
             <span>Help</span>
+        </li>
+        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Logout' : ''"
+            (click)="showLogoutDialogModal()">
+            <i nz-icon nzType="logout"></i>
+            <span>Logout</span>
+            <nz-modal [(nzVisible)]="showLogoutModal" nzTitle="Logout" nzWidth="496px"
+                      nzClosable="false">
+                <div *nzModalContent>
+                    <span>Do you want to log out?</span>
+                </div>
+                <div *nzModalFooter>
+                    <button nz-button nzType="default" (click)="handleCancelLogout()">Cancel</button>
+                    <button nz-button nzType="primary" (click)="handleLogout()"
+                            [nzLoading]="LogoutLoading">
+                        Logout
+                    </button>
+                </div>
+            </nz-modal>
         </li>
     </ul>
 
