@@ -25,7 +25,7 @@ export class HttpService {
     return this.http.put<T>(this.baseUrl + route, data, httpOptions);
   }
 
-  delete<T>(route: string, id: number, httpOptions?: object): Observable<T> {
+  delete<T>(route: string, id: string, httpOptions?: object): Observable<T> {
     const url = `${route}/${id}`;
     return this.http.delete<T>(this.baseUrl + url, httpOptions);
   }

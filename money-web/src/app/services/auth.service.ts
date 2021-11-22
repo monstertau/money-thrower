@@ -1,5 +1,7 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, observable, Observable } from 'rxjs';
+import { BehaviorSubject, observable, Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { HttpService } from './http.service';
 
 @Injectable({
@@ -62,6 +64,23 @@ export class AuthService {
       return { unsubscribe() { } };
     });
   }
+
+    logout(data: any) {
+        return this.httpService.post<LogoutResponse>('auth/logout', data).pipe(
+            catchError((error: HttpErrorResponse) => {
+                if (error.error instanceof Error) {
+                    // A client-side or network error occurred. Handle it accordingly.
+                    console.error('An error occurred:', error.error.message);
+                } else {
+                    // The backend returned an unsuccessful response code.
+                    // The response body may contain clues as to what went wrong,
+                    console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
+                }
+                return throwError(error);
+            })
+        );
+    }
+
   mailConfirm(data: MailConfirmRequest){
     return new Observable<string>((observable) => {
       this.httpService.post<MailConfirmResponse>('password/forgot', data).subscribe((response: MailConfirmResponse) => {
@@ -128,6 +147,9 @@ export interface LoginRequest {
 export interface LoginResponse {
   token: string;
 }
+
+export interface LogoutResponse {}
+
 export interface MailConfirmRequest {
   email: string;
 }
@@ -136,7 +158,7 @@ export interface MailConfirmResponse{
 }
 export interface CheckTokenAndMailRequest{
   email: string;
-  token: string;  
+  token: string;
 }
 export interface CheckTokenAndMailResponse{
   token: string;
