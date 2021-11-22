@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {Wallet} from "./wallet.service";
 import {HttpService} from "./http.service";
 import {Category} from "../view-model/category";
 
