@@ -3,8 +3,21 @@
     <span style="margin-left: 30px; font-weight: 500; font-size: 20px; line-height: 28px;"> Transaction
         details</span>
     <div class="btn-modify">
-        <button class="btn-delete" nz-button nzType="text" nzDanger><span style="font-weight: 550;">
+        <button class="btn-delete" nz-button nzType="text" nzDanger (click)="showTransactionDeleteModal()"><span style="font-weight: 550;">
                 DELETE</span></button>
+        <nz-modal [(nzVisible)]="showDeleteModal" nzTitle="Delete Transaction" nzWidth="496px"
+                  nzClosable="false">
+            <div *nzModalContent>
+                <span>Are you sure want to delete this transaction?</span>
+            </div>
+            <div *nzModalFooter>
+                <button nz-button nzType="default" (click)="handleCancelDelete()">Cancel</button>
+                <button nz-button nzType="primary" (click)="handleDelete()"
+                        [nzLoading]="transactionDeleteLoading">
+                    Delete
+                </button>
+            </div>
+        </nz-modal>
         <button class="btn-edit" nz-button nzType="text"><span style="font-weight: 550;"> EDIT</span></button>
     </div>
 </div>
