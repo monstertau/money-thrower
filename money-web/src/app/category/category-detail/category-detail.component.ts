@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService, UserDetail } from 'src/app/services/auth.service';
 import { CategoryService } from 'src/app/services/category.service';
+import { CommonService } from 'src/app/services/common.service';
 import { Utils } from 'src/app/util/utils';
 import { CategoryView } from 'src/app/view-model/category';
 
@@ -15,8 +16,19 @@ import { CategoryView } from 'src/app/view-model/category';
 })
 export class CategoryDetailComponent implements OnInit, OnDestroy {
 
+
+  categoryViewMode !: string;
   categoryList: CategoryView[] = [];
   data: CategoryView[] =[];
+
+  categoryListDL: CategoryView[] = [];
+  dataDL: CategoryView[] = [];
+
+  categoryListIN: CategoryView[] = [];
+  dataIN: CategoryView[] = [];
+
+  categoryListOUT: CategoryView[] = [];
+  dataOUT: CategoryView[] = [];
 
   selectedCategory = new CategoryView();
 
@@ -37,8 +49,9 @@ export class CategoryDetailComponent implements OnInit, OnDestroy {
 } 
 
 
-  constructor(private categoryService: CategoryService, private authService: AuthService) {
+  constructor(private categoryService: CategoryService, private authService: AuthService, private commonService: CommonService) {
     this.currentUser = jwtDecode(this.authService.userDetail.token);
+
   }
 
 
@@ -46,6 +59,11 @@ export class CategoryDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadCategoryList();
     this.data = this.categoryList;
+    this.dataDL = this.categoryListDL;
+    this.dataIN = this.categoryListIN;
+    this.dataOUT = this.categoryListOUT;
+    this.commonService.currentCategoryViewMode.subscribe(mode => { this.categoryViewMode = mode; });
+    console.log(this.categoryViewMode);
   }
 
   loadCategoryList() {
@@ -57,9 +75,73 @@ export class CategoryDetailComponent implements OnInit, OnDestroy {
                 if (!res || res.length <= 0) {
                     this.canLoadMore = false;
                 }
+                console.log(res);
                 res.forEach(element => {
                     this.categoryList.push(new CategoryView().addCategory(element));
                 });
+            },
+            (err) => {
+                console.log(err)
+            },
+            () => {
+                this.isListLoading = false;
+            }
+        )
+        this.categoryService.getAllCategory()
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+            (res) => {
+                if (!res || res.length <= 0) {
+                    this.canLoadMore = false;
+                }
+                res.forEach(element => {
+                  if(element.type ==0){
+                    this.categoryListDL.push(new CategoryView().addCategory(element));
+                  }
+                });
+
+            },
+            (err) => {
+                console.log(err)
+            },
+            () => {
+                this.isListLoading = false;
+            }
+        )
+        this.categoryService.getAllCategory()
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+            (res) => {
+                if (!res || res.length <= 0) {
+                    this.canLoadMore = false;
+                }
+                res.forEach(element => {
+                  if(element.type ==1){
+                    this.categoryListOUT.push(new CategoryView().addCategory(element));
+                  }
+                });
+
+            },
+            (err) => {
+                console.log(err)
+            },
+            () => {
+                this.isListLoading = false;
+            }
+        )
+        this.categoryService.getAllCategory()
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+            (res) => {
+                if (!res || res.length <= 0) {
+                    this.canLoadMore = false;
+                }
+                res.forEach(element => {
+                  if(element.type ==2){
+                    this.categoryListIN.push(new CategoryView().addCategory(element));
+                  }
+                });
+
             },
             (err) => {
                 console.log(err)

@@ -18,6 +18,7 @@ import {NzNotificationModule} from "ng-zorro-antd/notification";
 import {TransactionAddModule} from "../transaction-add/transaction-add.module";
 import {TopbarWalletComponent} from "./topbar/topbar-wallet/topbar-wallet.component";
 import {WalletAddModule} from "../wallet-add/wallet-add.module";
+import { TopbarCategoryComponent } from './topbar/topbar-category/topbar-category.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import {WalletAddModule} from "../wallet-add/wallet-add.module";
         SidebarComponent,
         TopbarTransactionComponent,
         TopbarWalletComponent,
+        TopbarCategoryComponent
     ],
     imports: [
         NzModalModule,
