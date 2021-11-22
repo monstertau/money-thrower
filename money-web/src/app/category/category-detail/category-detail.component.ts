@@ -1,14 +1,10 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-=======
+
 import { Component, OnDestroy, OnInit, EventEmitter, Output } from '@angular/core';
->>>>>>> 9a8fdba3 (update category component)
+
 import jwtDecode from 'jwt-decode';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService, UserDetail } from 'src/app/services/auth.service';
-<<<<<<< HEAD
 import { CategoryService } from 'src/app/services/category.service';
 import { CommonService } from 'src/app/services/common.service';
 import { Utils } from 'src/app/util/utils';
@@ -202,45 +198,4 @@ export class CategoryDetailComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
-
-=======
-import { Wallet, WalletService } from 'src/app/services/wallet.service';
-
-=======
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Category } from 'src/app/services/category.service';
-import { Transaction } from 'src/app/services/transaction.service';
->>>>>>> de60674d (reconstruct category component)
-
-@Component({
-  selector: 'app-category-detail',
-  templateUrl: './category-detail.component.html',
-  styleUrls: ['./category-detail.component.css']
-})
-export class CategoryDetailComponent implements OnInit {
-  @Input() category!: Category;
-  @Output() closed = new EventEmitter<boolean>();
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-  closeDetail() {
-    this.closed.emit(true);
-    let dialog = document.getElementById('category-detail') as HTMLElement;
-    dialog.hidden = true;
-    let dialogList = document.getElementsByClassName('list-category') as HTMLCollectionOf<HTMLElement>;
-    if (dialogList.length > 0) {
-      dialogList[0].style.marginLeft = '50%';
-    }
-  }
-
-<<<<<<< HEAD
-    ngOnDestroy() {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
->>>>>>> 9a8fdba3 (update category component)
-=======
->>>>>>> de60674d (reconstruct category component)
 }

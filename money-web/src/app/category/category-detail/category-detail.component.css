@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 .content {
     display: flex;
 }
@@ -10,10 +9,6 @@
     transform: translate(-50%, -50%);
     transition: margin-left 0.5s;
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> 9a8fdba3 (update category component)
 .header {
     background: #e5e5e5;
     border-radius: 20px 20px 0px 0px;
@@ -25,11 +20,7 @@
     box-sizing: border-box;
 }
 
-<<<<<<< HEAD
 .categories {
-=======
-.wallets {
->>>>>>> 9a8fdba3 (update category component)
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -70,20 +61,12 @@
     background: #8888;
 }
 
-<<<<<<< HEAD
 .category-item:hover {
-=======
-.wallet-item:hover {
->>>>>>> 9a8fdba3 (update category component)
     background-color: #ecffc0;
     cursor: pointer;
 }
 
-<<<<<<< HEAD
 .category-item {
-=======
-.wallet-item {
->>>>>>> 9a8fdba3 (update category component)
     display: flex;
     padding: 20px;
 }
@@ -96,22 +79,14 @@
     color: rgba(0, 0, 0, 0.54);
 }
 
-<<<<<<< HEAD
 .load-all {
-=======
-.load-more {
->>>>>>> 9a8fdba3 (update category component)
     text-align: center;
     width: 100%;
     padding: 10px;
     color: #52c41a;
 }
 
-<<<<<<< HEAD
 .load-all:hover {
-=======
-.load-more:hover {
->>>>>>> 9a8fdba3 (update category component)
     cursor: pointer;
 }
 
@@ -133,6 +108,8 @@
 
 =======
 >>>>>>> de60674d (reconstruct category component)
+=======
+>>>>>>> de60674de52a5db61c6fb13b5759f9e2b592d745
 .title {
     display: flex;
     padding: 7px 20px;
@@ -177,16 +154,7 @@
     background-color: #e6f6e9;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 .category-detail {
-=======
-.wallet-detail {
->>>>>>> 9a8fdba3 (update category component)
-=======
-.details {
-    padding: 15px;
->>>>>>> de60674d (reconstruct category component)
     display: flex;
 }
 
