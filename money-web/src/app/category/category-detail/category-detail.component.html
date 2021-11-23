@@ -93,40 +93,75 @@
                  </div>
              </div>
         </div>
+        <div *ngIf="categoryViewMode == 'custom'">
+            <div class="header">
+                Custom categories
+             </div>
+             <div class="categories">
+                 <div *ngFor="let item of dataCUS; let i = index" style="width: 100%;" (click)="selectCategory(item.id)">
+                     <div class="category-item">
+                         <img nz-image width="40px" height="40px" [nzSrc]="item.getIcon()" [nzFallback]="item.fallbackIcon"
+                             alt="" />
+                         <div style="margin-left: 20px;">
+                             <div class="name">{{item.name}}</div>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="load-all">
+                     <nz-divider nzType="horizontal"></nz-divider>
+                     <div *ngIf="isListLoading" style="width: 100%;">
+                         <div class="category-item" style="position: relative; height: 80px;">
+                         </div>
+                     </div>
+                 </div>
+             </div>
+        </div>
     </div>
     <div id="dialog-detail" hidden>
         <div *ngIf="!isDetailLoading">
-            <div class="title">
-                <i class="close-icon" nz-icon nzType="close" nzTheme="outline" (click)="hideCategoryDetail()"></i>
-                <span style="margin-left: 30px; font-weight: 500; font-size: 20px; line-height: 28px;"> Category
-                    details</span>
-            </div>
-            <!-- <nz-divider nzType="horizontal"></nz-divider> -->
-            <div class="category-detail">
-                <img nz-image width="60px" height="60px" [nzSrc]="selectedCategory.getIcon()"
-                    [nzFallback]="selectedCategory.fallbackIcon" alt="" />
-                <div style="margin-left: 30px;">
-                    <div style="font-size: 24px;">{{selectedCategory.name}}</div>
-                    <div *ngIf="selectedCategory.isExpense" style="font-size: 10px; font-weight: 700; color: rgba(255,255,255,.87);text-align: center; margin-left: 2px; border: 2px solid; border-radius: 12px;background-color:#1890FF;width: 60px;">INCOME</div>
-                    <div *ngIf="!selectedCategory.isExpense" style="font-size: 10px; font-weight: 700; color: rgba(255,255,255,.87);text-align: center; margin-left: 2px; border: 2px solid; border-radius: 12px;background-color:#FF4D4F;width: 60px;">EXPENSE</div>
-                </div>
-
-            </div>
-            <!-- <nz-divider nzType="horizontal"></nz-divider> -->
-            <!-- <div class="user-info"><span style="margin-left: 10px; font-weight: 500; color: rgba(0, 0, 0, 0.54);">
-                    Users</span>
-                <div style="display: flex; margin-top: 10px;">
-                    <img style="width: 50px;" src="https://static.moneylover.me/img/icon/ic_category_all.png" alt="">
-                    <div style="margin-left: 30px;">
-                        <div style="font-size: 14px; font-weight: 600;">currentUser.username <span
-                                class="owner-tag">Owner</span></div>
-                        <div class="wallet-currency">{{currentUser.email}}</div>
+            <div *ngIf ="selectedCategory.isCustom">
+                <div class="title">
+                    <i class="close-icon" nz-icon nzType="close" nzTheme="outline" (click)="hideCategoryDetail()"></i>
+                    <span style="margin-left: 30px; font-weight: 500; font-size: 20px; line-height: 28px;"> Category
+                        details</span>
+                    <div class="btn-modify">
+                        <button class="btn-delete" nz-button nzType="text" nzDanger ><span
+                            style="font-weight: 550;">
+                                    DELETE</span></button>
+                        <button class="btn-edit" nz-button nzType="text"><span
+                            style="font-weight: 550;"> EDIT</span></button>
                     </div>
                 </div>
-            </div> -->
+                <!-- <nz-divider nzType="horizontal"></nz-divider> -->
+                <div class="category-detail">
+                    <img nz-image width="60px" height="60px" [nzSrc]="selectedCategory.getIcon()"
+                        [nzFallback]="selectedCategory.fallbackIcon" alt="" />
+                    <div style="margin-left: 30px;">
+                        <div style="font-size: 24px;">{{selectedCategory.name}}</div>
+                        <div *ngIf="selectedCategory.isExpense" style="font-size: 10px; font-weight: 700; color: rgba(255,255,255,.87);text-align: center; margin-left: 2px; border: 2px solid; border-radius: 12px;background-color:#1890FF;width: 60px;">INCOME</div>
+                        <div *ngIf="!selectedCategory.isExpense" style="font-size: 10px; font-weight: 700; color: rgba(255,255,255,.87);text-align: center; margin-left: 2px; border: 2px solid; border-radius: 12px;background-color:#FF4D4F;width: 60px;">EXPENSE</div>
+                    </div>
+
+                </div>
+            </div>
+            <div *ngIf ="!selectedCategory.isCustom">
+                <div class="title">
+                    <i class="close-icon" nz-icon nzType="close" nzTheme="outline" (click)="hideCategoryDetail()"></i>
+                    <span style="margin-left: 30px; font-weight: 500; font-size: 20px; line-height: 28px;"> Category
+                        details</span>
+                </div>
+                <div class="category-detail">
+                    <img nz-image width="60px" height="60px" [nzSrc]="selectedCategory.getIcon()"
+                        [nzFallback]="selectedCategory.fallbackIcon" alt="" />
+                    <div style="margin-left: 30px;">
+                        <div style="font-size: 24px;">{{selectedCategory.name}}</div>
+                        <div *ngIf="selectedCategory.isExpense" style="font-size: 10px; font-weight: 700; color: rgba(255,255,255,.87);text-align: center; margin-left: 2px; border: 2px solid; border-radius: 12px;background-color:#1890FF;width: 60px;">INCOME</div>
+                        <div *ngIf="!selectedCategory.isExpense" style="font-size: 10px; font-weight: 700; color: rgba(255,255,255,.87);text-align: center; margin-left: 2px; border: 2px solid; border-radius: 12px;background-color:#FF4D4F;width: 60px;">EXPENSE</div>
+                    </div>
+
+                </div>
+            </div>           
         </div>
-        <!-- <div *ngIf="isDetailLoading" style="position: relative; height: 400px;">
-        </div> -->
     </div>
 
 </div>

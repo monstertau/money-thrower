@@ -30,6 +30,9 @@ export class CategoryDetailComponent implements OnInit, OnDestroy {
   categoryListOUT: CategoryView[] = [];
   dataOUT: CategoryView[] = [];
 
+  categoryListCUS: CategoryView[] = [];
+  dataCUS: CategoryView[] = [];
+
   selectedCategory = new CategoryView();
 
   private readonly destroy$ = new Subject();
@@ -62,6 +65,7 @@ export class CategoryDetailComponent implements OnInit, OnDestroy {
     this.dataDL = this.categoryListDL;
     this.dataIN = this.categoryListIN;
     this.dataOUT = this.categoryListOUT;
+    this.dataCUS = this.categoryListCUS;
     this.commonService.currentCategoryViewMode.subscribe(mode => { this.categoryViewMode = mode; });
     console.log(this.categoryViewMode);
   }
@@ -150,6 +154,28 @@ export class CategoryDetailComponent implements OnInit, OnDestroy {
                 this.isListLoading = false;
             }
         )
+        this.categoryService.getAllCategory()
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+            (res) => {
+                if (!res || res.length <= 0) {
+                    this.canLoadMore = false;
+                }
+                res.forEach(element => {
+                  if(element.owner_id !== "00000000-0000-0000-0000-000000000000"){
+                  // if(element.owner_id !== "00000000-0000-0000-0000-000000000000" || element.id === "ac41e612-2c4a-4003-96cc-a1fa3529bb86"){
+                    this.categoryListCUS.push(new CategoryView().addCategory(element));
+                  }
+                });
+
+            },
+            (err) => {
+                console.log(err)
+            },
+            () => {
+                this.isListLoading = false;
+            }
+        )
 }
 
 
@@ -160,6 +186,9 @@ export class CategoryDetailComponent implements OnInit, OnDestroy {
         .subscribe(
             (res) => {
                 this.selectedCategory = new CategoryView().addCategory(res);
+                console.log(res);
+                console.log(res.owner_id);
+                console.log(res.id);
             },
             (err) => {
                 console.log(err)
@@ -168,6 +197,8 @@ export class CategoryDetailComponent implements OnInit, OnDestroy {
                 this.isDetailLoading = false;
             }
         )
+        //console.log(this.selectedCategory.ownerId);
+        //console.log(this.selectedCategory.id);
 }
 
   selectCategory(id: string) {
@@ -181,6 +212,7 @@ export class CategoryDetailComponent implements OnInit, OnDestroy {
     }
 
     this.loadCategoryDetail(id);
+    
 }
 
   hideCategoryDetail() {
