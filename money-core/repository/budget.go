@@ -35,7 +35,7 @@ func (r *BudgetRepo) SyncBudgetStatus(userId string) error {
 	if err := t.Update("status", 0).Error; err != nil {
 		return fmt.Errorf("failed to sync budget status: %s", err)
 	}
-	
+
 	return nil
 }
 

@@ -7,6 +7,6 @@ type Services struct {
 	MailService        MailServiceInterface
 	WalletService      WalletServiceInterface
 	TransactionService TransactionServiceInterface
-	CategoryService CategoryServiceInterface
-
+	CategoryService    CategoryServiceInterface
+	BudgetService      BudgetServiceInterface
 }
