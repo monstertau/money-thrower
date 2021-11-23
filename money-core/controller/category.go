@@ -6,6 +6,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"money-core/service"
 	"money-core/validator"
+	"money-core/view"
 	"net/http"
 	"strconv"
 )
@@ -29,6 +30,9 @@ func (h *CategoryController) MakeHandler(g *gin.RouterGroup) {
 	{
 		group.GET("", h.GetAll)
 		group.GET("/:id", h.GetById)
+		group.POST("", h.Create)
+		group.PUT("", h.Update)
+		group.DELETE("/:id", h.DeleteById)
 	}
 }
 
@@ -101,4 +105,107 @@ func (h *CategoryController) GetById(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, category)
+}
+
+// Create godoc
+// @Summary Add a new category
+// @Description Add a new category
+// @Tags category
+// @Accept json
+// @Produce json
+// @Param create body view.CategoryForm true "Create category"
+// @Security JWT
+// @Success 200 {object} view.CategoryForm
+// @Failure 400 {object} AppError
+// @Failure 500 {object} AppError
+// @Router /category [post]
+func (h *CategoryController) Create(c *gin.Context) {
+	var createForm *view.CategoryForm
+	if err := c.ShouldBindJSON(&createForm); err != nil {
+		h.logger.Infof("Invalid form: %v ", err.Error())
+		ReportError(c, http.StatusBadRequest, fmt.Sprintf("invalid input in parse json format: %v", err))
+		return
+	}
+	//if err := h.validator.CategoryValidator.ValidateCategoryForm(createForm); err != nil {
+	//	ReportError(c, http.StatusBadRequest, fmt.Sprintf("invalid add category form: %v", err))
+	//	return
+	//}
+	userId, err := h.services.JWTService.GetUserId(c)
+	if err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get user id: %v", err))
+		return
+	}
+	created, err := h.services.CategoryService.Create(userId, createForm)
+	if err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant add category: %v", err))
+		return
+	}
+	c.JSON(http.StatusCreated, created)
+}
+
+// Update godoc
+// @Summary Edit info of a category
+// @Description Edit info of a category
+// @Tags category
+// @Accept json
+// @Produce json
+// @Param update body view.CategoryForm true "Update category"
+// @Security JWT
+// @Success 200 {object} view.CategoryForm
+// @Failure 400 {object} AppError
+// @Failure 500 {object} AppError
+// @Router /category [put]
+func (h *CategoryController) Update(c *gin.Context) {
+	var updateForm *view.CategoryForm
+	if err := c.ShouldBindJSON(&updateForm); err != nil {
+		h.logger.Infof("Invalid form: %v ", err.Error())
+		ReportError(c, http.StatusBadRequest, fmt.Sprintf("invalid input in parse json format: %v", err))
+		return
+	}
+	//if err := h.validator.CategoryValidator.ValidateCategoryForm(updateForm); err != nil {
+	//	ReportError(c, http.StatusBadRequest, fmt.Sprintf("invalid update category form: %v", err))
+	//	return
+	//}
+	userId, err := h.services.JWTService.GetUserId(c)
+	if err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get user id: %v", err))
+		return
+	}
+	if err = h.services.CategoryService.Update(userId, updateForm); err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant update category: %v", err))
+		return
+	}
+	c.JSON(http.StatusOK, updateForm)
+}
+
+// DeleteById godoc
+// @Summary Delete specific category by id
+// @Description Return result detail
+// @Tags category
+// @Accept  json
+// @Produce  json
+// @Security JWT
+// @Param id path string true "category id"
+// @Success 200 {object} string
+// @Failure 400 {object} AppError
+// @Failure 500 {object} AppError
+// @Router /category/{id} [delete]
+func (h *CategoryController) DeleteById(c *gin.Context) {
+	//check cate co owner moi xoa duoc
+	categoryId := c.Param("id")
+	if len(categoryId) == 0 {
+		ReportError(c, http.StatusBadRequest, fmt.Sprintf("cant found category id in request"))
+		return
+	}
+	userId, err := h.services.JWTService.GetUserId(c)
+	if err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get user id: %v", err))
+		return
+	}
+	err = h.services.CategoryService.DeleteById(userId, categoryId)
+	if err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant delete category: %v", err))
+		return
+	}
+	c.JSON(http.StatusOK, categoryId)
 }
