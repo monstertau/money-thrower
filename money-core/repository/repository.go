@@ -6,4 +6,5 @@ type Repositories struct {
 	WalletRepo      WalletRepoInterface
 	TransactionRepo TransactionRepoInterface
 	CategoryRepo    CategoryRepoInterface
+	BudgetRepo      BudgetRepoInterface
 }
