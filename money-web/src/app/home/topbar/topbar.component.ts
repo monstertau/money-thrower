@@ -19,7 +19,6 @@ export class TopbarComponent implements OnInit, OnChanges {
   @Input() sidebarCollapse = false;
   @Input() currentPage!: string;
   isWalletMenuOpen = false;
-  // currentPage!: string;
 
   private readonly destroy$ = new Subject();
   wallets: WalletView[] = [];
@@ -54,7 +53,6 @@ export class TopbarComponent implements OnInit, OnChanges {
   constructor(private walletService: WalletService, private eRef: ElementRef, private commonService: CommonService) { }
 
   ngOnInit(): void {
-    // this.commonService.currentPage.subscribe(page => { this.currentPage = page; });
     this.commonService.currentWallet.pipe(takeUntil(this.destroy$)).subscribe(id => {
       this.currentWalletId = id;
     })
