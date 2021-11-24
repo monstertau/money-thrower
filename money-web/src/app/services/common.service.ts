@@ -87,5 +87,6 @@ export enum CategoryViewMode {
   ALL = 'all',
   IN = 'income',
   OUT = 'outcome',
-  DL = 'debt or loan'
+  DL = 'debt or loan',
+  CUS = 'custom'
 }

@@ -28,14 +28,17 @@ export class TopbarCategoryComponent implements OnInit {
                 this.viewToolTip = CategoryViewMode.DL + "categories";
                 break;
             case CategoryViewMode.OUT:
-                this.viewToolTip = CategoryViewMode.ALL + "categories";
+                this.viewToolTip = CategoryViewMode.CUS + "categories";
                 break;
             case CategoryViewMode.DL:
                 this.viewToolTip = CategoryViewMode.IN + "categories";
                 break;
             case CategoryViewMode.IN:
                 this.viewToolTip = CategoryViewMode.OUT + "categories";
-                break;                
+                break;
+            case CategoryViewMode.CUS:
+                this.viewToolTip = CategoryViewMode.ALL + "categories";     
+                break;           
             default:
                 this.viewToolTip = "All categories";
                 break;
@@ -52,7 +55,7 @@ export class TopbarCategoryComponent implements OnInit {
     }
 
     changeCategoryViewMode() {
-        if (this.currentMode === CategoryViewMode.OUT) {
+        if (this.currentMode === CategoryViewMode.CUS) {
             this.currentMode = CategoryViewMode.ALL;
             this.viewToolTip = "Debt or Loan categories";
             this.commonService.changeCategoryViewMode(this.currentMode);
@@ -66,8 +69,13 @@ export class TopbarCategoryComponent implements OnInit {
             this.viewToolTip = "Outcome categories";
             this.commonService.changeCategoryViewMode(this.currentMode);
         }
-        else {
+        else if(this.currentMode === CategoryViewMode.IN){
             this.currentMode = CategoryViewMode.OUT;
+            this.viewToolTip = "Custom categories";
+            this.commonService.changeCategoryViewMode(this.currentMode);
+        }
+        else {
+            this.currentMode = CategoryViewMode.CUS;
             this.viewToolTip = "All categories";
             this.commonService.changeCategoryViewMode(this.currentMode);
         }
