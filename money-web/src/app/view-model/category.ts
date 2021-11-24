@@ -57,9 +57,6 @@ export class CategoryView {
     this.name = category.name;
     this.icon = category.icon;
     this.ownerId = category.owner_id;
-    // if (category.id === "ac41e612-2c4a-4003-96cc-a1fa3529bb86"){
-    //   this.ownerId = "1";
-    // }
     this.isExpense = category.is_expense;
     if(this.ownerId === "00000000-0000-0000-0000-000000000000") this.isCustom = false;
     else this.isCustom = true;
