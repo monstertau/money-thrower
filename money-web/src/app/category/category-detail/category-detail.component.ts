@@ -78,7 +78,7 @@ export class CategoryDetailComponent implements OnInit, OnDestroy {
                 if (!res || res.length <= 0) {
                     this.canLoadMore = false;
                 }
-                console.log(res);
+                //console.log(res);
                 res.forEach(element => {
                     this.categoryList.push(new CategoryView().addCategory(element));
                 });
