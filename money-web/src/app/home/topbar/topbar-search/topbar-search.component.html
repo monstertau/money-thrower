@@ -1,0 +1,60 @@
+<div class="wrapper">
+    <div>
+        <span (click)="back()"><i nz-icon nzType="arrow-left" class="back-icon" nzTheme="outline"></i></span>
+        <span style="font-size: 24px; font-weight: bold; margin-left: 20px;">Search for transaction</span>
+        <span class="reset" (click)="reset()">Reset</span>
+    </div>
+    <div class="filters">
+        <div class="filters-top">
+            <div class="input-box" (click)="onAddWallet()">
+                <div class="input-name">
+                    Wallet
+                </div>
+                <div class="input-bottom">
+                    <img nz-image [src]="selectedWallet.getIcon()" [nzFallback]="selectedWallet.fallBackIcon" alt=""
+                        width="24px" height="24px">
+                    <div class="name">{{selectedWallet.name}}</div>
+                    <span class="more-icon"><i nz-icon nzType="right" nzTheme="outline"></i></span>
+                </div>
+            </div>
+            <div class="input-box" style="margin-left: 20px;" (click)="onAddCategory()">
+                <div class="input-name">
+                    Category
+                </div>
+                <div class="input-bottom">
+                    <img nz-image [src]="selectedCategory.getIcon()" [nzFallback]="selectedCategory.fallbackIcon" alt=""
+                        width="24px" height="24px">
+                    <div class="name" *ngIf="selectedCategory.id">{{selectedCategory.name}}</div>
+                    <div class="name" *ngIf="!selectedCategory.id">All categories</div>
+                    <span class="more-icon"><i nz-icon nzType="right" nzTheme="outline"></i></span>
+                </div>
+            </div>
+            <div style="width: 50%; margin-left: 20px;">
+                <span class="input-name">Amount</span>
+                <nz-slider nzRange [nzMin]="10000" [nzMax]="10000000" [nzStep]="1" [(ngModel)]="rangeValue" (ngModelChange)="onChange($event)"></nz-slider>
+                <div style="display: flex; margin-top: -12px">
+                    <nz-input-number class="input-range" [(ngModel)]="start" type="number"></nz-input-number>
+                    <nz-input-number class="input-range" [(ngModel)]="end" type="number" style="margin-left: auto;"></nz-input-number>
+                </div>
+            </div>
+        </div>
+        <div class="filters-bottom">
+            <div class="input-box" (click)="onAddDateRange()">
+                <div class="input-name">Date</div>
+                <div class="input-bottom">
+                    <div class="placeholder" *ngIf="!selectedTimeRange">Select time range</div>
+                    <div class="timerange" *ngIf="selectedTimeRange">{{selectedTimeRange}}</div>
+                    <span class="more-icon"><i nz-icon nzType="right" nzTheme="outline"></i></span>
+                </div>
+            </div>
+            <div class="input-box" style="margin-left: 20px;">
+                <div class="input-name">Note</div>
+                <div style="margin-top: 10px">
+                    <input type="text" [(ngModel)]="note" [placeholder]="'Note'" nz-input nzBorderless nzSize="large" />
+                </div>
+            </div>
+            <button class="search-bth" nz-button nzType="primary" (click)="search()"><i nz-icon nzType="search" nzTheme="outline"></i>Search
+            </button>
+        </div>
+    </div>
+</div>

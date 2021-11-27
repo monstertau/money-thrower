@@ -34,7 +34,7 @@ export class CategoryView {
         this.isExpense = true;
         this.isCurrent = false;
         this.isCustom = false;
-        this.fallbackIcon = 'assets/catalogs/null'
+        this.fallbackIcon = 'assets/catalogs/null.png'
     }
 
     getTypeNumber(): number {

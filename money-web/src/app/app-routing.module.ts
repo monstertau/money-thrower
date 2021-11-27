@@ -10,48 +10,54 @@ import { LoginComponent } from './authentication/login/login.component';
 import { TransactionComponent } from './transaction/transaction.component';
 import { LoginGuard } from './guards/login.guard';
 import { CategoryComponent } from './category/category.component';
+import { SearchComponent } from './search/search.component';
 
 const routes: Routes = [
-  {
-    path: 'login', component: LoginComponent,
-    canActivate: [LoginGuard],
-    loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
-  },
-  {
-    path: '', component: HomeComponent,
-    children: [
-      {
-        path: '',
-        component: TransactionComponent,
-        canLoad: [AuthGuard],
-        loadChildren: () => import('./transaction/transaction.module').then(m => m.TransactionModule)
-      },
-      {
-        path: 'wallet',
-        component: WalletComponent,
-        canLoad: [AuthGuard],
-        loadChildren: () => import('./wallet/wallet.module').then(m => m.WalletModule)
-      },
-      {
-        path: 'category',
-        component: CategoryComponent,
-        canLoad: [AuthGuard],
-        loadChildren: () => import('./category/category.module').then(m => m.CategoryModule)
-      }
-    ],
-  },
-  { path: 'forgot-password', component: FwpComponent },
-  // { path: 'forgot-password/:**',component:FwpComponent},
-  { path: 'change-password', component: ChangePassComponent },
-  {
-    path: 'add_wallet', component: WalletAddComponent,
-    canActivate: [AuthGuard],
-  },
-  { path: '**', redirectTo: '/login', pathMatch: 'full' },
+    {
+        path: 'login', component: LoginComponent,
+        canActivate: [LoginGuard],
+        loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
+    },
+    {
+        path: '', component: HomeComponent,
+        children: [
+            {
+                path: '',
+                component: TransactionComponent,
+                canLoad: [AuthGuard],
+                loadChildren: () => import('./transaction/transaction.module').then(m => m.TransactionModule)
+            },
+            {
+                path: 'wallet',
+                component: WalletComponent,
+                canLoad: [AuthGuard],
+                loadChildren: () => import('./wallet/wallet.module').then(m => m.WalletModule)
+            },
+            {
+                path: 'category',
+                component: CategoryComponent,
+                canLoad: [AuthGuard],
+                loadChildren: () => import('./category/category.module').then(m => m.CategoryModule)
+            },
+            {
+                path: 'search',
+                component: SearchComponent,
+                loadChildren: () => import('./search/search.module').then(m => m.SearchModule)
+            }
+        ],
+    },
+    { path: 'forgot-password', component: FwpComponent },
+    // { path: 'forgot-password/:**',component:FwpComponent},
+    { path: 'change-password', component: ChangePassComponent },
+    {
+        path: 'add_wallet', component: WalletAddComponent,
+        canActivate: [AuthGuard],
+    },
+    { path: '**', redirectTo: '/login', pathMatch: 'full' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
 })
 export class AppRoutingModule { }
