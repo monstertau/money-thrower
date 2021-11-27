@@ -58,12 +58,9 @@ func (r *CategoryRepo) Update(form *view.CategoryForm) error {
 }
 
 func (r *CategoryRepo) DeleteById(id string, userId string) error {
-	var category model.Category
-	category.Id = id
-	category.Id = userId
-	err := r.dbConn.Delete(category).RowsAffected
-	if err == 0 {
-		return errors.Errorf("failed to execute delete query, the inputed id may be common category: %s", id)
+	category := &model.Category{}
+	if result := r.dbConn.Delete(&category, "id=? AND owner_id=?", id, userId); result.Error != nil || result.RowsAffected != 1 {
+		return errors.Errorf("failed to execute delete query: %v", result.Error)
 	}
 	return nil
 }

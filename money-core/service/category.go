@@ -3,6 +3,7 @@ package service
 import (
 	"github.com/pkg/errors"
 	"money-core/repository"
+	"money-core/util"
 	"money-core/view"
 )
 
@@ -46,38 +47,42 @@ func (s *CategoryService) GetById(userId string, id string) (*view.CategoryForm,
 	return view.ToCategoryView(category), nil
 }
 func (s *CategoryService) Create(userId string, form *view.CategoryForm) (*view.CategoryForm, error) {
-	//todo: check cat name exist or not to allow action
 	form.OwnerId = userId
 	category, err := s.repositories.CategoryRepo.Create(form)
 	if err != nil {
 		return nil, errors.Errorf("error in create category: %v", err)
 	}
-	//TODO: after create, need to add init transaction for balance > 0
 	form.CategoryId = category.Id
 	return form, nil
 }
 
 func (s *CategoryService) Update(userId string, form *view.CategoryForm) error {
-	//todo: check cat name exist or not to allow action
 	form.OwnerId = userId
-	_, err := s.repositories.CategoryRepo.GetById(form.CategoryId, userId)
+	gotData, err := s.repositories.CategoryRepo.GetById(form.CategoryId, userId)
 
 	if err != nil {
 		return errors.Errorf("error in find category: %v", err)
+	}
+	if gotData.OwnerId == util.NilId {
+		return errors.Errorf("cant modify default category: %v", gotData.CatName)
 	}
 
 	err = s.repositories.CategoryRepo.Update(form)
 	if err != nil {
 		return errors.Errorf("error in update category: %v", err)
 	}
-	//if form.OwnerId == util.NilId {
-	//	return errors.Errorf("Cannot update common category!")
-	//}
-	//TODO: after create, need to add init transaction for balance > 0
 	return nil
 }
 func (s *CategoryService) DeleteById(userId string, id string) error {
-	err := s.repositories.CategoryRepo.DeleteById(id, userId)
+	gotData, err := s.repositories.CategoryRepo.GetById(id, userId)
+
+	if err != nil {
+		return errors.Errorf("error in find category: %v", err)
+	}
+	if gotData.OwnerId == util.NilId {
+		return errors.Errorf("cant delete default category: %v", gotData.CatName)
+	}
+	err = s.repositories.CategoryRepo.DeleteById(id, userId)
 	if err != nil {
 		return errors.Errorf("error in delete category: %v", err)
 	}
