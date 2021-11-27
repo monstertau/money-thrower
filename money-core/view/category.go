@@ -6,7 +6,7 @@ type (
 	CategoryForm struct {
 		CategoryId        string `json:"id" example:"id"`
 		OwnerId           string `json:"owner_id,omitempty" swaggerignore:"true"`
-		CategoryName      string `json:"name" example:"Food"`
+		CategoryName      string `json:"cat_name" example:"Food"`
 		ParentCatId       string `json:"parent_cat_id" example:"id"`
 		CategoryIsExpense bool   `json:"is_expense" example:"0"`
 		CategoryIcon      string `json:"icon" example:"tool"`

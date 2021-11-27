@@ -34,6 +34,9 @@ definitions:
     type: object
   view.CategoryForm:
     properties:
+      cat_name:
+        example: Food
+        type: string
       icon:
         example: tool
         type: string
@@ -43,9 +46,6 @@ definitions:
       is_expense:
         example: false
         type: boolean
-      name:
-        example: Food
-        type: string
       parent_cat_id:
         example: id
         type: string
@@ -300,7 +300,99 @@ paths:
       summary: Get list category with paging
       tags:
       - category
+    post:
+      consumes:
+      - application/json
+      description: Add a new category
+      parameters:
+      - description: Create category
+        in: body
+        name: create
+        required: true
+        schema:
+          $ref: '#/definitions/view.CategoryForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.CategoryForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Add a new category
+      tags:
+      - category
+    put:
+      consumes:
+      - application/json
+      description: Edit info of a category
+      parameters:
+      - description: Update category
+        in: body
+        name: update
+        required: true
+        schema:
+          $ref: '#/definitions/view.CategoryForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.CategoryForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Edit info of a category
+      tags:
+      - category
   /category/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Return result detail
+      parameters:
+      - description: category id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Delete specific category by id
+      tags:
+      - category
     get:
       consumes:
       - application/json
