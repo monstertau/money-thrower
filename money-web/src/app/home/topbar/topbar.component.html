@@ -1,62 +1,37 @@
 <!-- <p>topbar works!</p> -->
 <div class="topbar">
-    <div class="left" (click)="openWalletMenu()">
-        <div class="icon"><img style="width: 40px;" src="https://static.moneylover.me/img/icon/ic_category_all.png"
-                alt=""></div>
-        <div class="wallet-info">
-            <div class="name">Total <span> <i nz-icon nzType="caret-down" nzTheme="outline"></i></span></div>
-            <div class="amount">100000000VND</div>
-        </div>
+  <div class="left" (click)="openWalletMenu()" *ngIf="wallets.length >= 0">
+    <div class="icon"><img nz-image width="40px" height="40px" [nzSrc]="currentWallet.getIcon()"
+        [nzFallback]="currentWallet.fallBackIcon" alt="" /></div>
+    <div class="wallet-info">
+      <div class="name">{{currentWallet.name}} <span> <i nz-icon nzType="caret-down" nzTheme="outline"></i></span></div>
+      <div class="amount">{{getFormatAmount(currentWallet.balance)}} {{currentWallet.currency}}</div>
     </div>
-    <div class="right">
-        <span class="topbar-icon" nzTooltipTitle="Jump to today" nzTooltipPlacement="bottom" nz-tooltip (click)="jumpToToday()"><i nz-icon
-                nzType="calendar" nzTheme="outline"></i></span>
-        <span class="topbar-icon" [nzTooltipTitle]="viewToolTip" nzTooltipPlacement="bottom" nz-tooltip (click)="changeViewMode()"><i nz-icon
-                nzType="eye" nzTheme="outline"></i></span>
-        <span class="topbar-icon" style="margin-right: 50px;" nzTooltipTitle="Search" nz-tooltip
-            nzTooltipPlacement="bottom"><i nz-icon nzType="search" nzTheme="outline"></i></span>
-        <button class="transaction-btn" nz-button nzType="primary">Add transaction</button>
-    </div>
-    <div hidden class="wallet-menu">
-        <div class="menu-title">Select Wallet</div>
-        <div class="wallet-items">
-            <div>
-                <nz-divider style="margin-top: 10px; width: 430px;" nzType="horizontal"></nz-divider>
-                <div class="left wallet-item">
-                    <div class="icon"><img style="width: 40px;"
-                            src="https://static.moneylover.me/img/icon/ic_category_all.png" alt=""></div>
-                    <div class="wallet-info">
-                        <div class="name">Total
-                            <div class="item-amount">100000000VND</div>
-                        </div>
-                    </div>
-                    <div class="selected-wallet"><span><i nz-icon nzType="check" nzTheme="outline"></i></span></div>
-                </div>
-            </div>
-            <div>
-                <nz-divider style="margin-top: 10px; width: 430px;" nzType="horizontal"></nz-divider>
-                <div class="left wallet-item">
-                    <div class="icon"><img style="width: 40px;"
-                            src="https://static.moneylover.me/img/icon/ic_category_all.png" alt=""></div>
-                    <div class="wallet-info">
-                        <div class="name">Total
-                            <div class="item-amount">100000000VND</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <nz-divider style="margin-top: 10px; width: 430px;" nzType="horizontal"></nz-divider>
-                <div class="left wallet-item">
-                    <div class="icon"><img style="width: 40px;"
-                            src="https://static.moneylover.me/img/icon/ic_category_all.png" alt=""></div>
-                    <div class="wallet-info">
-                        <div class="name">Total
-                            <div class="item-amount">100000000VND</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+  </div>
+  <div style="margin-left: auto" [ngSwitch]="currentPage">
+    <app-topbar-transaction *ngSwitchCase="'transaction'" [wallets]="wallets"></app-topbar-transaction>
+    <app-topbar-wallet *ngSwitchCase="'wallet'"></app-topbar-wallet>
+    <app-topbar-category *ngSwitchCase="'category'"></app-topbar-category>
+    <div *ngSwitchDefault="">Other topbar</div>
+  </div>
+  <div hidden class="wallet-menu">
+    <div class="menu-title">Select Wallet</div>
+    <div class="wallet-items">
+      <div *ngFor="let wallet of wallets" (click)="changeCurrentWallet(wallet.id)">
         <nz-divider style="margin-top: 10px; width: 430px;" nzType="horizontal"></nz-divider>
+        <div class="left wallet-item">
+          <div class="icon"><img nz-image width="40px" [nzSrc]="wallet.getIcon()" [nzFallback]="wallet.fallBackIcon"
+              alt=""></div>
+          <div class="wallet-info">
+            <div class="name">{{wallet.name}}
+              <div class="item-amount">{{getFormatAmount(wallet.balance)}} {{wallet.currency}}</div>
+            </div>
+          </div>
+          <div class="selected-wallet"><span><i *ngIf="wallet.isCurrent" nz-icon nzType="check"
+                nzTheme="outline"></i></span></div>
+        </div>
+      </div>
     </div>
+    <nz-divider style="margin-top: 10px; width: 430px;" nzType="horizontal"></nz-divider>
+  </div>
+</div>

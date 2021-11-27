@@ -4,11 +4,12 @@ import { FwpComponent } from './fwp/fwp.component';
 import { AuthGuard } from './guards/auth.guard';
 import { HomeComponent } from './home/home.component';
 import { WalletComponent } from './wallet/wallet.component';
-import { WalletAddComponent } from "./wallet/wallet-add/wallet-add.component";
+import { WalletAddComponent } from "./wallet-add/wallet-add.component";
 import { ChangePassComponent } from './authentication/change-pass/change-pass.component';
 import { LoginComponent } from './authentication/login/login.component';
 import { TransactionComponent } from './transaction/transaction.component';
 import { LoginGuard } from './guards/login.guard';
+import { CategoryComponent } from './category/category.component';
 
 const routes: Routes = [
   {
@@ -24,17 +25,24 @@ const routes: Routes = [
         component: TransactionComponent,
         canLoad: [AuthGuard],
         loadChildren: () => import('./transaction/transaction.module').then(m => m.TransactionModule)
+      },
+      {
+        path: 'wallet',
+        component: WalletComponent,
+        canLoad: [AuthGuard],
+        loadChildren: () => import('./wallet/wallet.module').then(m => m.WalletModule)
+      },
+      {
+        path: 'category',
+        component: CategoryComponent,
+        canLoad: [AuthGuard],
+        loadChildren: () => import('./category/category.module').then(m => m.CategoryModule)
       }
     ],
   },
   { path: 'forgot-password', component: FwpComponent },
   // { path: 'forgot-password/:**',component:FwpComponent},
   { path: 'change-password', component: ChangePassComponent },
-  {
-    path: 'my-wallets', component: WalletComponent,
-    canActivate: [AuthGuard],
-    loadChildren: () => import('./wallet/wallet.module').then(m => m.WalletModule)
-  },
   {
     path: 'add_wallet', component: WalletAddComponent,
     canActivate: [AuthGuard],

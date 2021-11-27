@@ -1,0 +1,9 @@
+<div class="input-name">
+    {{inputName}}
+</div>
+<div class="input-date">
+    <nz-date-picker style="padding: 0" nzBorderless nzSize="large" [nzFormat]="inputFormat"
+                    nzInputReadOnly="true" nzSuffixIcon="" nzAllowClear="false"
+                    [(ngModel)]="transactionDate"
+                    (ngModelChange)="transactionDateChange=$event"></nz-date-picker>
+</div>

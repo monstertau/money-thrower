@@ -4,60 +4,98 @@
             Included in total
         </div>
         <div class="wallets">
-            <div *ngFor="let item of walletList; let i = index" style="width: 100%;" (click)="selectWallet(item.id)">
+            <div *ngFor="let item of data; let i = index" style="width: 100%;" (click)="selectWallet(item.id)">
                 <div class="wallet-item">
-                    <div class="icon"><img style="width: 40px;"
-                            src="https://static.moneylover.me/img/icon/ic_category_all.png" alt=""></div>
+                    <img nz-image width="40px" height="40px" [nzSrc]="item.getIcon()" [nzFallback]="item.fallBackIcon"
+                         alt=""/>
                     <div style="margin-left: 20px;">
                         <div class="name">{{item.name}}</div>
-                        <div class="item-amount">Balance: {{item.balance}} {{item.currency}}</div>
+                        <div class="item-amount">Balance: {{formatCurrency(item.balance)}} {{item.currency}}</div>
                     </div>
-                    <!-- <div class="selected-wallet"><span><i nz-icon nzType="check" nzTheme="outline"></i></span></div> -->
+                </div>
+            </div>
+            <div class="load-more">
+                <nz-divider *ngIf="canLoadMore" nzType="horizontal"></nz-divider>
+                <div *ngIf="isListLoading" style="width: 100%;">
+                    <div class="wallet-item" style="position: relative; height: 80px;">
+                        <app-loading-spinner [isSmall]="true"></app-loading-spinner>
+                    </div>
+                </div>
+                <div *ngIf="!isListLoading && canLoadMore" style="width: 100%;" (click)="loadMore()">
+                    <div class="load-more"
+                         style="height: 24px ;display:flex; align-items:center; justify-content: center; cursor: pointer;">
+                        <i nz-icon nzType="caret-down" nzTheme="outline"></i>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <div id="dialog-detail" hidden>
-        <div class="title">
-            <i class="close-icon" nz-icon nzType="close" nzTheme="outline" (click)="hideWalletDetail()"></i>
-            <span style="margin-left: 30px; font-weight: 500; font-size: 20px; line-height: 28px;"> Wallet
-                details</span>
-            <div class="btn-modify">
-                <button class="btn-delete" nz-button nzType="text" nzDanger><span style="font-weight: 550;">
-                        DELETE</span></button>
-                <button class="btn-edit" nz-button nzType="text"><span style="font-weight: 550;"> EDIT</span></button>
-            </div>
-        </div>
-        <nz-divider nzType="horizontal"></nz-divider>
-        <div class="wallet-detail">
-            <img style="width: 60px;" src="https://static.moneylover.me/img/icon/ic_category_all.png" alt="">
-            <div style="margin-left: 30px;">
-                <div style="font-size: 24px;">{{selectedWallet.name}}</div>
-                <div class="wallet-currency">{{selectedWallet.currency}}</div>
-            </div>
-        </div>
-        <nz-divider nzType="horizontal"></nz-divider>
-        <div class="user-info"><span style="margin-left: 10px; font-weight: 500; color: rgba(0, 0, 0, 0.54);"> Users</span>
-            <div style="display: flex; margin-top: 10px;">
-                <img style="width: 50px;" src="https://static.moneylover.me/img/icon/ic_category_all.png" alt="">
-                <div style="margin-left: 30px;">
-                    <div style="font-size: 14px; font-weight: 600;">currentUser.username <span class="owner-tag">Owner</span></div>
-                    <div class="wallet-currency">{{currentUser.email}}</div>
+        <div *ngIf="!isDetailLoading">
+            <div class="title">
+                <i class="close-icon" nz-icon nzType="close" nzTheme="outline" (click)="hideWalletDetail()"></i>
+                <span style="margin-left: 30px; font-weight: 500; font-size: 20px; line-height: 28px;"> Wallet
+                    details</span>
+                <div class="btn-modify">
+                    <button class="btn-delete" nz-button nzType="text" nzDanger (click)="showWalletDeleteModal()"><span
+                        style="font-weight: 550;">
+                            DELETE</span></button>
+                    <nz-modal [(nzVisible)]="showDeleteModal" nzTitle="Delete Wallet" nzWidth="496px"
+                              nzClosable="false">
+                        <div *nzModalContent>
+                            <span>Are you sure want to delete this wallet?</span>
+                        </div>
+                        <div *nzModalFooter>
+                            <button nz-button nzType="default" (click)="handleCancelDelete()">Cancel</button>
+                            <button nz-button nzType="primary" (click)="handleDelete()"
+                                    [nzLoading]="walletDeleteLoading">
+                                Delete
+                            </button>
+                        </div>
+                    </nz-modal>
+                    <button class="btn-edit" nz-button nzType="text" (click)="editWalletDetail()"><span
+                        style="font-weight: 550;"> EDIT</span></button>
                 </div>
             </div>
+            <nz-divider nzType="horizontal"></nz-divider>
+            <div class="wallet-detail">
+                <img nz-image width="60px" height="60px" [nzSrc]="selectedWallet.getIcon()"
+                     [nzFallback]="selectedWallet.fallBackIcon" alt=""/>
+                <div style="margin-left: 30px;">
+                    <div style="font-size: 24px;">{{selectedWallet.name}}</div>
+                    <div class="wallet-currency">{{selectedWallet.currency}}</div>
+                </div>
+            </div>
+            <nz-divider nzType="horizontal"></nz-divider>
+            <div class="user-info"><span style="margin-left: 10px; font-weight: 500; color: rgba(0, 0, 0, 0.54);">
+                    Users</span>
+                <div style="display: flex; margin-top: 10px;">
+                    <img style="width: 50px;" src="https://static.moneylover.me/img/icon/ic_category_all.png" alt="">
+                    <div style="margin-left: 30px;">
+                        <div style="font-size: 14px; font-weight: 600;">currentUser.username <span
+                            class="owner-tag">Owner</span></div>
+                        <div class="wallet-currency">{{currentUser.email}}</div>
+                    </div>
+                </div>
+            </div>
+            <nz-divider nzType="horizontal"></nz-divider>
+            <div class="options">
+                <label nz-checkbox><span style="margin-left: 37px;">Excluded from total</span></label>
+                <p style="font-size: 12px; color: rgba(0,0,0,.54); margin-left: 60px;">Ignore this wallet and its
+                    balance in the "Total" mode.</p>
+                <label style="margin-top: 20px;" nz-checkbox><span style="margin-left: 37px;">Archived</span></label>
+                <p style="font-size: 12px; color: rgba(0,0,0,.54); margin-left: 60px;">Freeze this wallet and stop
+                    generating bills & recurring transactions..</p>
+            </div>
+            <nz-divider nzType="horizontal"></nz-divider>
+            <div class="btn-group">SHARE WALLET</div>
+            <nz-divider nzType="horizontal"></nz-divider>
+            <div class="btn-group">TRANSFER MONEY</div>
+            <nz-divider nzType="horizontal"></nz-divider>
+            <div class="btn-group">ADJUST BALANCE</div>
         </div>
-        <nz-divider nzType="horizontal"></nz-divider>
-        <div class="options">
-            <label nz-checkbox><span style="margin-left: 37px;">Excluded from total</span></label>
-            <p style="font-size: 12px; color: rgba(0,0,0,.54); margin-left: 60px;">Ignore this wallet and its balance in the "Total" mode.</p>
-            <label style="margin-top: 20px;" nz-checkbox><span style="margin-left: 37px;">Archived</span></label>
-            <p style="font-size: 12px; color: rgba(0,0,0,.54); margin-left: 60px;">Freeze this wallet and stop generating bills & recurring transactions..</p>
+        <div *ngIf="isDetailLoading" style="position: relative; height: 400px;">
+            <app-loading-spinner></app-loading-spinner>
         </div>
-        <nz-divider nzType="horizontal"></nz-divider>
-        <div class="btn-group">SHARE WALLET</div>
-        <nz-divider nzType="horizontal"></nz-divider>
-        <div class="btn-group">TRANSFER MONEY</div>
-        <nz-divider nzType="horizontal"></nz-divider>
-        <div class="btn-group">ADJUST BALANCE</div>
     </div>
 </div>

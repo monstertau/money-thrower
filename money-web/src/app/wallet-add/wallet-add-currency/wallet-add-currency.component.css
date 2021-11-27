@@ -1,0 +1,12 @@
+.currency-pick:hover {
+    background-color: rgba(45, 184, 76, .20);
+}
+
+.currency-pick {
+    cursor: pointer;
+}
+
+.currency-code{
+    color: rgba(0,0,0,.54);
+    font-size: 12px;
+}

@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
 
   isCollapsed: boolean = false;
 
-  constructor(private authService: AuthService) { 
+  constructor(private authService: AuthService) {
     this._currentUser = jwtDecode(this.authService.userDetail.token);
   }
 

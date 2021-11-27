@@ -55,8 +55,8 @@
     padding: 0px;
 
     position: absolute;
-    width: 450px;
-    /* height: 238px; */
+    width: 455px;
+    max-height: 50%;
     left: 210px;
     top: 60px;
 
@@ -69,6 +69,27 @@
     border-radius: 2px;
     text-align: center;
     padding: 0px 10px;
+    overflow: auto;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+  
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+  
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.054);
+    border-radius: 20px;
+}
+  
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #8888;
 }
 
 .menu-title {
@@ -101,4 +122,9 @@
     color: #a0d911;
     font-weight: 600;
     font-size: 20px;
+}
+
+::ng-deep .add-transaction-modal .ant-modal-title {
+  font-size: 20px;
+  font-weight: 600;
 }

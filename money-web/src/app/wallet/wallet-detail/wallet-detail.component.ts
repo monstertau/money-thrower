@@ -1,9 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit, EventEmitter, Output} from '@angular/core';
 import jwtDecode from 'jwt-decode';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { AuthService, UserDetail } from 'src/app/services/auth.service';
-import { Wallet, WalletService } from 'src/app/services/wallet.service';
+import {NzNotificationService} from 'ng-zorro-antd/notification';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
+import {AuthService, UserDetail} from 'src/app/services/auth.service';
+import {CommonService} from 'src/app/services/common.service';
+import {Wallet, WalletService} from 'src/app/services/wallet.service';
+import {WalletView} from 'src/app/view-model/wallet';
+
 
 @Component({
     selector: 'app-wallet-detail',
@@ -12,22 +16,17 @@ import { Wallet, WalletService } from 'src/app/services/wallet.service';
 })
 export class WalletDetailComponent implements OnInit, OnDestroy {
 
-    walletList: Wallet[] = [];
+    @Output() editWallet = new EventEmitter<WalletView>();
+    walletList: WalletView[] = [];
+    data: WalletView[] = [];
 
-    selectedWallet: Wallet = {
-        id: "",
-        name: "",
-        type: 0,
-        currency: "",
-        balance: 0,
-        icon: ""
-    };
+    selectedWallet = new WalletView();
 
     private readonly destroy$ = new Subject();
 
     currentUser: UserDetail;
 
-    pageSize: number = 10;
+    pageSize: number = 4;
 
     pageOffset: number = 0;
 
@@ -35,22 +34,34 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
 
     isDetailLoading: boolean = true;
 
+    walletDeleteLoading: boolean = false;
+
+    showDeleteModal: boolean = false;
+
+    canLoadMore: boolean = true;
+
+    fallbackIcon = 'assets/catalogs/wallet_icon.png';
+
     get isListEmpty(): boolean {
         return this.walletList.length <= 0
     }
 
-    constructor(private walletService: WalletService, private authService: AuthService) {
+    constructor(private walletService: WalletService, private authService: AuthService, private notification: NzNotificationService, private commonService: CommonService) {
         this.currentUser = jwtDecode(this.authService.userDetail.token);
-        console.log(this.currentUser)
     }
 
     ngOnInit() {
         this.loadWalletList();
+        this.data = this.walletList;
     }
 
     loadMore() {
         this.pageOffset += this.pageSize;
-        this.loadWalletList;
+        this.loadWalletList();
+    }
+
+    editWalletDetail() {
+        this.editWallet.emit(this.selectedWallet);
     }
 
     loadWalletList() {
@@ -59,9 +70,11 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe(
                 (res) => {
-                    console.log(res);
+                    if (!res || res.length <= 0) {
+                        this.canLoadMore = false;
+                    }
                     res.forEach(element => {
-                        this.walletList.push(element);
+                        this.walletList.push(new WalletView().addWallet(element));
                     });
                 },
                 (err) => {
@@ -79,8 +92,7 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe(
                 (res) => {
-                    console.log(res);
-                    this.selectedWallet = res;
+                    this.selectedWallet = new WalletView().addWallet(res);
                 },
                 (err) => {
                     console.log(err)
@@ -94,8 +106,8 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
     selectWallet(id: string) {
         let dialog = document.getElementsByClassName('dialog') as HTMLCollectionOf<HTMLElement>;
         let dialogDetail = document.getElementById('dialog-detail') as HTMLElement;
-        if (dialog.length != 0 && dialog[0].style.left != '23%' && dialogDetail.hidden) {
-            dialog[0].style.left = "23%";
+        if (dialog.length != 0 && dialog[0].style.marginLeft != '21%' && dialogDetail.hidden) {
+            dialog[0].style.marginLeft = "21%";
             setTimeout(() => {
                 dialogDetail.hidden = false;
             }, 500);
@@ -107,10 +119,61 @@ export class WalletDetailComponent implements OnInit, OnDestroy {
     hideWalletDetail() {
         let dialog = document.getElementsByClassName('dialog') as HTMLCollectionOf<HTMLElement>;
         let dialogDetail = document.getElementById('dialog-detail') as HTMLElement;
-        if (dialog.length != 0 && dialog[0].style.left == '23%' && !dialogDetail.hidden) {
-            dialog[0].style.left = "50%";
+        if (dialog.length != 0 && dialog[0].style.marginLeft == '21%' && !dialogDetail.hidden) {
+            dialog[0].style.marginLeft = "50%";
             dialogDetail.hidden = true;
         }
+    }
+
+    formatCurrency(balance: number) {
+        return balance.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    }
+
+    showWalletDeleteModal() {
+        this.showDeleteModal = true;
+    }
+
+    handleCancelDelete() {
+        this.showDeleteModal = false;
+    }
+
+    handleDelete() {
+        this.walletDeleteLoading = true;
+        this.deleteWallet()
+            .then(() => {
+                setTimeout(() => {
+                    // reset
+                    this.walletDeleteLoading = false;
+                    this.showDeleteModal = false;
+                    this.commonService.reloadComponent();
+                }, 1000)
+
+            })
+            .catch(error => {
+                this.walletDeleteLoading = false;
+                this.showErrorMessage(error.toString())
+            })
+    }
+
+    async deleteWallet() {
+        let error = null;
+        this.walletService.deleteWallet(this.selectedWallet.id).subscribe(
+            result => {
+                console.log(result);
+            },
+            err => {
+                console.log(err);
+                error = new Error("Something wrong. please")
+            }
+        )
+        if (error !== null) {
+            throw error
+        }
+
+    }
+
+    showErrorMessage(message: string) {
+        this.notification.error('Error', message);
     }
 
     ngOnDestroy() {
