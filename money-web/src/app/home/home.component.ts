@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import jwtDecode from 'jwt-decode';
 import { AuthService, UserDetail } from '../services/auth.service';
 
@@ -13,13 +14,19 @@ export class HomeComponent implements OnInit {
     return this._currentUser;
   };
 
+  private _currentPage!: string;
+  get currentPage() {
+    return this._currentPage;
+  }
+
   isCollapsed: boolean = false;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
     this._currentUser = jwtDecode(this.authService.userDetail.token);
   }
 
   ngOnInit(): void {
+    this._currentPage = this.router.url.split('?')[0].replace("/", '') || 'transaction';
   }
 
   onSizebarCollapse(collapsed: boolean) {
