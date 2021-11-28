@@ -6,10 +6,12 @@ import { takeUntil } from 'rxjs/operators';
 import { InputDaterangeComponent } from 'src/app/components/input-daterange/input-daterange.component';
 import { CategoryService } from 'src/app/services/category.service';
 import { CommonService } from 'src/app/services/common.service';
+import { TransactionFilter, TransactionService } from 'src/app/services/transaction.service';
 import { WalletService } from 'src/app/services/wallet.service';
 import { TransactionAddCategoryComponent } from 'src/app/transaction-add/transaction-add-category/transaction-add-category.component';
 import { TransactionAddWalletComponent } from 'src/app/transaction-add/transaction-add-wallet/transaction-add-wallet.component';
 import { CategoryView } from 'src/app/view-model/category';
+import { TransactionView } from 'src/app/view-model/transactions';
 import { WalletView } from 'src/app/view-model/wallet';
 
 @Component({
@@ -34,9 +36,14 @@ export class TopbarSearchComponent implements OnInit, OnDestroy {
     currentYear = new Date().getFullYear();
     dateNum = new Date(this.currentYear, this.currentMonth, 0).getDate();
 
-    constructor(private router: Router, private commonServce: CommonService, private categoryService: CategoryService, private walletService: WalletService, private modal: NzModalService, private viewContainerRef: ViewContainerRef) {
+    currentSearchResults: TransactionView[][] = [];
+
+    constructor(private router: Router, private commonServce: CommonService, private categoryService: CategoryService, private walletService: WalletService, private transactionService: TransactionService, private modal: NzModalService, private viewContainerRef: ViewContainerRef) {
         this.commonServce.currentWallet.subscribe(res => {
             this.currentWalletId = res;
+        })
+        this.commonServce.currentSearchResults.subscribe(res => {
+            this.currentSearchResults = res;
         })
     }
 
@@ -159,10 +166,13 @@ export class TopbarSearchComponent implements OnInit, OnDestroy {
     }
 
     search() {
+        let timeRange = this.formateDate()
         console.log('wallet:', this.selectedWallet.id);
         console.log('category:', this.selectedCategory.id);
         console.log('start_amount:', this.start);
         console.log('end_amount:', this.end);
+        console.log('start_date', timeRange[0]);
+        console.log('end_date', timeRange[1]);
         console.log('note:', this.note);
     }
 
@@ -170,5 +180,66 @@ export class TopbarSearchComponent implements OnInit, OnDestroy {
         this.destroy$.next();
         this.destroy$.complete();
     }
+
+    formateDate() {
+        if (this.selectedTimeRange === '') {
+            return [0, 0];
+        }
+        let startDate = this.selectedTimeRange.split(' - ')[0];
+        let el1 = startDate.split('/');
+        let start = el1[2] + '-' + el1[1] + '-' + el1[0];
+        let endDate = this.selectedTimeRange.split(' - ')[1];
+        let el2 = endDate.split('/');
+        let end = el2[2] + '-' + el2[1] + '-' + el2[0];
+        return [new Date(`${start} 00:00:00 +0000`).getTime(), new Date(`${end} 23:59:59 +0000`).getTime()];
+    }
+
+
+    getWallet(transaction: TransactionView) {
+        this.walletService.getWalletById(this.currentWalletId).subscribe(
+            data => {
+                transaction.addWallet(data);
+            }
+        );
+    }
+
+    getCategory(transaction: TransactionView) {
+        this.categoryService.getCategoryById(transaction.category.id).subscribe(data => {
+            transaction.addCategory(data);
+            // this.calculateFlow(transaction);
+        })
+    }
+
+    getTransactions() {
+        let filter: TransactionFilter = {
+            start_date: this.formateDate()[0],
+            end_date: this.formateDate()[1],
+            start_amount: this.start,
+            end_amount: this.end,
+            wallet_id: this.selectedWallet.id,
+            cat_id: this.selectedCategory.id,
+            key_note: this.note,
+        }
+        let items: TransactionView[] = [];
+        this.transactionService.getTransactions(filter).subscribe(transactions => {
+            items = [];
+            transactions.forEach(transaction => {
+                if (transaction) {
+                    let transactionView: TransactionView = new TransactionView().addTransaction(transaction);
+                    transactionView.category.id = transaction.cat_id;
+                    this.getCategory(transactionView);
+                    this.getWallet(transactionView);
+                    items.push(transactionView);
+                }
+            })
+            if (items.length)
+                this.currentSearchResults.push(items);
+        })
+    }
+
+    // calculateFlow(transaction: TransactionView) {
+    //     if (!transaction.category.isExpense) this.inflow += transaction.amount;
+    //     else this.outflow += transaction.amount;
+    // }
 
 }

@@ -17,7 +17,6 @@ export class CustomDaterangeComponent implements OnInit {
 
   onChange(result: Date[]): void {
     this.date = result;
-    console.log('onChange: ', result);
   }
 
   getResult() {

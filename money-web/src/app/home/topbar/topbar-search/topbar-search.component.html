@@ -31,10 +31,12 @@
             </div>
             <div style="width: 50%; margin-left: 20px;">
                 <span class="input-name">Amount</span>
-                <nz-slider nzRange [nzMin]="10000" [nzMax]="10000000" [nzStep]="1" [(ngModel)]="rangeValue" (ngModelChange)="onChange($event)"></nz-slider>
+                <nz-slider nzRange [nzMin]="10000" [nzMax]="10000000" [nzStep]="1" [(ngModel)]="rangeValue"
+                    (ngModelChange)="onChange($event)"></nz-slider>
                 <div style="display: flex; margin-top: -12px">
                     <nz-input-number class="input-range" [(ngModel)]="start" type="number"></nz-input-number>
-                    <nz-input-number class="input-range" [(ngModel)]="end" type="number" style="margin-left: auto;"></nz-input-number>
+                    <nz-input-number class="input-range" [(ngModel)]="end" type="number" style="margin-left: auto;">
+                    </nz-input-number>
                 </div>
             </div>
         </div>
@@ -53,8 +55,11 @@
                     <input type="text" [(ngModel)]="note" [placeholder]="'Note'" nz-input nzBorderless nzSize="large" />
                 </div>
             </div>
-            <button class="search-bth" nz-button nzType="primary" (click)="search()"><i nz-icon nzType="search" nzTheme="outline"></i>Search
-            </button>
+            <div style="width: 50%; margin-left: 20px; display: flex;">
+                <button class="search-bth" nz-button nzType="primary" (click)="search()"><i nz-icon nzType="search"
+                        nzTheme="outline"></i>Search
+                </button>
+            </div>
         </div>
     </div>
 </div>

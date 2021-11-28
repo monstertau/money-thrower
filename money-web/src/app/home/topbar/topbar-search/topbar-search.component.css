@@ -104,9 +104,8 @@
 }
 
 .search-bth {
-    margin-left: auto;
-    margin-right: 30%;
-    margin-top: 17px;
+    margin: auto;
+    /* margin-top: 17px; */
 }
 
 .search-bth:hover {

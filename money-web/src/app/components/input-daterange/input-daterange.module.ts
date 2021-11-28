@@ -15,7 +15,7 @@ import { FormsModule } from '@angular/forms';
     imports: [
         CommonModule,
         NzDatePickerModule,
-        FormsModule
+        FormsModule,
     ]
 })
 export class InputDaterangeModule { }

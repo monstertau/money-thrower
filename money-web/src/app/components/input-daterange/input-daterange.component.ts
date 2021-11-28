@@ -13,6 +13,7 @@ export class InputDaterangeComponent implements OnInit {
     @Input() callbackFunc!: Function;
 
     selectedRange: string = '';
+    customRange: Date[] = [];
 
     @ViewChild('inputElement', { static: false }) inputElement?: ElementRef;
 
@@ -52,11 +53,30 @@ export class InputDaterangeComponent implements OnInit {
                 }
             },
             nzWidth: 500,
-            nzFooter: []
+            nzFooter:[{
+                label: 'OK',
+                onClick: () => {
+                    modal.destroy();
+                }
+            }]
         });
         const instance = modal.getContentComponent()
         modal.afterClose.subscribe(result => {
-            console.log(instance.getResult())
+            this.customRange = instance.getResult();
+            let start = this.customRange[0].toLocaleDateString();
+            let el1 = start.split('/');
+            if (parseInt(el1[1]) < 10) {
+                el1[1] = '0' + el1[1];
+            }
+            let startString = `${el1[1]}/${el1[0]}/${el1[2]}`;
+            let end = this.customRange[1].toLocaleDateString();
+            let el2 = end.split('/');
+            if (parseInt(el2[1]) < 10) {
+                el2[1] = '0' + el2[1];
+            }
+            let endString = `${el2[1]}/${el2[0]}/${el2[2]}`;
+            this.selectedRange = `${startString} - ${endString}`;
+            this.callbackFunc();
         });
     }
 
