@@ -294,6 +294,38 @@ paths:
       summary: Register with email and password
       tags:
       - authentication
+  /budget:
+    post:
+      consumes:
+      - application/json
+      description: Add a new budget
+      parameters:
+      - description: Create budget
+        in: body
+        name: create
+        required: true
+        schema:
+          $ref: '#/definitions/view.BudgetForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.BudgetForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Add a new budget
+      tags:
+      - budget
   /budget/:
     get:
       consumes:

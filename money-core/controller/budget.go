@@ -6,6 +6,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"money-core/service"
 	"money-core/validator"
+	"money-core/view"
 	"net/http"
 )
 
@@ -27,6 +28,7 @@ func (h *BudgetController) MakeHandler(g *gin.RouterGroup) {
 	group := g.Group("/budget")
 	group.Use(h.services.JWTService.AuthorizeJWT())
 	{
+		group.POST("", h.Create)
 		group.GET("/:id", h.GetById)
 		group.GET("", h.GetList)
 		group.DELETE("/:id", h.DeleteById)
@@ -118,4 +120,36 @@ func (h *BudgetController) DeleteById(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, "deleted")
+}
+
+// Create godoc
+// @Summary Add a new budget
+// @Description Add a new budget
+// @Tags budget
+// @Accept json
+// @Produce json
+// @Param create body view.BudgetForm true "Create budget"
+// @Security JWT
+// @Success 200 {object} view.BudgetForm
+// @Failure 400 {object} AppError
+// @Failure 500 {object} AppError
+// @Router /budget [post]
+func (h *BudgetController) Create(c *gin.Context) {
+	var createForm *view.BudgetForm
+	if err := c.ShouldBindJSON(&createForm); err != nil {
+		h.logger.Infof("Invalid form: %v ", err.Error())
+		ReportError(c, http.StatusBadRequest, fmt.Sprintf("invalid input in parse json format: %v", err))
+		return
+	}
+	userId, err := h.services.JWTService.GetUserId(c)
+	if err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get user id: %v", err))
+		return
+	}
+	created, err := h.services.BudgetService.Create(userId, createForm)
+	if err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant add budget: %v", err))
+		return
+	}
+	c.JSON(http.StatusCreated, created)
 }

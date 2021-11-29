@@ -9,6 +9,7 @@ import (
 
 type (
 	BudgetServiceInterface interface {
+		Create(userId string, form *view.BudgetForm) (*view.BudgetForm, error)
 		GetById(userId string, id string) (*view.BudgetForm, error)
 		GetList(userId string) ([]*view.BudgetForm, error)
 		DeleteById(userId string, id string) error
@@ -53,4 +54,14 @@ func (s *BudgetService) DeleteById(userId string, id string) error {
 		return errors.Errorf("error in delete budget: %v", err)
 	}
 	return nil
+}
+
+func (s *BudgetService) Create(userId string, form *view.BudgetForm) (*view.BudgetForm, error) {
+	form.UserId = userId
+	Budget, err := s.repositories.BudgetRepo.Create(form)
+	if err != nil {
+		return nil, errors.Errorf("error in create Budget: %v", err)
+	}
+	form.Id = Budget.Id
+	return form, nil
 }

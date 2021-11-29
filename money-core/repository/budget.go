@@ -2,13 +2,16 @@ package repository
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 	"gorm.io/gorm"
 	"money-core/model"
+	"money-core/view"
 	"time"
 )
 
 type (
 	BudgetRepoInterface interface {
+		Create(form *view.BudgetForm) (*model.Budget, error)
 		SyncBudgetStatus(userId string) error
 		GetById(userId string, id string) (*model.Budget, error)
 		GetList(userId string) ([]*model.Budget, error)
@@ -70,4 +73,12 @@ func (r *BudgetRepo) DeleteById(userId string, id string) error {
 		return fmt.Errorf("failed to execute delete query: %s", err)
 	}
 	return nil
+}
+
+func (r *BudgetRepo) Create(form *view.BudgetForm) (*model.Budget, error) {
+	budgetModel := form.ToBudgetModel()
+	if result := r.dbConn.Create(budgetModel); result.Error != nil || result.RowsAffected != 1 {
+		return nil, errors.Errorf("failed to execute insert query: %s", result.Error)
+	}
+	return budgetModel, nil
 }
