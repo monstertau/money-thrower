@@ -10,6 +10,7 @@ import {NzNotificationService} from "ng-zorro-antd/notification";
 import {TransactionService} from "../../../services/transaction.service";
 import { CategoryView } from 'src/app/view-model/category';
 import { CategoryService } from 'src/app/services/category.service';
+import { CategoryFormComponent } from 'src/app/category/category-form/category-form.component';
 
 @Component({
     selector: 'app-topbar-category',
@@ -73,4 +74,32 @@ export class TopbarCategoryComponent implements OnInit {
         }
     }
 
+    addCategory() {
+        const modal: NzModalRef = this.modal.create({
+            nzTitle: 'Add Category',
+            nzClassName: "add-category-modal",
+            nzContent: CategoryFormComponent,
+            nzViewContainerRef: this.viewContainerRef,
+            nzComponentParams: {
+            },
+            nzWidth: 700,
+            nzClosable: false,
+            nzFooter: [
+                {
+                    label: 'Cancel',
+                    type: 'default',
+                    size: 'large',
+                    onClick: () => modal.destroy()
+                },
+                {
+                    label: 'Save',
+                    type: 'primary',
+                    size: 'large',
+                    onClick: () => {
+
+                    }
+                },
+            ]
+        });
+    }
 }

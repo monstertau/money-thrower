@@ -21,6 +21,7 @@ export class CategoryView {
     isExpense: boolean;
     isCurrent: boolean;
     fallbackIcon: string;
+    parent: CategoryView | null;
 
     constructor() {
         this.id = "";
@@ -29,7 +30,8 @@ export class CategoryView {
         this.icon = "null";
         this.isExpense = true;
         this.isCurrent = false;
-        this.fallbackIcon = 'assets/catalogs/null'
+        this.fallbackIcon = 'assets/catalogs/null';
+        this.parent = null;
     }
 
     getTypeNumber(): number {
@@ -43,28 +45,34 @@ export class CategoryView {
         }
     }
 
-  getIcon() {
-    return `assets/catalogs/${this.icon}.png`
-  }
-
-  addCategory(category: Category): CategoryView {
-    this.id = category.id;
-    this.name = category.name;
-    this.icon = category.icon;
-    this.isExpense = category.is_expense;
-    switch (category.type) {
-      case 1:
-        this.type = categoryType.OUTCOME;
-        break;
-      case 2:
-        this.type = categoryType.INCOME;
-        break;
-      default:
-        this.type = categoryType.OTHERS;
-        break;
+    getIcon() {
+        return `assets/catalogs/${this.icon}.png`
     }
-    return this;
-  }
+
+    addCategory(category: Category): CategoryView {
+        this.id = category.id;
+        this.name = category.name;
+        this.icon = category.icon;
+        this.isExpense = category.is_expense;
+
+        if(!this.parent && category.parent_cat_id) {
+            this.parent = new CategoryView();
+            this.parent.id = category.parent_cat_id;
+        }
+
+        switch (category.type) {
+            case 1:
+                this.type = categoryType.OUTCOME;
+                break;
+            case 2:
+                this.type = categoryType.INCOME;
+                break;
+            default:
+                this.type = categoryType.OTHERS;
+                break;
+        }
+        return this;
+    }
 
     toCategory(): Category {
         return {
@@ -73,7 +81,7 @@ export class CategoryView {
             name: this.name,
             icon: this.icon,
             is_expense: this.isExpense,
-            parent_cat_id: "" // do we need to use this field?
+            parent_cat_id: this.parent?.id ?? "" // do we need to use this field?
         }
     }
 }

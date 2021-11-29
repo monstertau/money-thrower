@@ -1,0 +1,68 @@
+.wrapper {
+    /* height: 180px; */
+}
+
+.upper-row {
+    margin-bottom: 24px;
+}
+
+.input-content {
+    display: flex;
+    margin-bottom: 4px;
+    position: relative;
+}
+
+.input-box {
+    cursor: pointer;
+    float: left;
+    padding: 5px 15px;
+    border: 1px solid rgba(0, 0, 0, .12);
+    border-radius: 8px;
+    height: 64px;
+}
+
+.input-box:hover {
+    border: 1px solid rgba(0, 0, 0, .4);
+
+}
+
+.input-name {
+    font-size: 12px;
+    padding-bottom: 3px;
+    color: rgba(0, 0, 0, .54);
+}
+
+.input-text {
+    float: left;
+    font-size: 17px;
+    padding-left: 12px;
+}
+
+.left-arrow {
+    font-size: 12px;
+    font-weight: 1000;
+    margin-top: 8px;
+}
+
+.input-picture {
+    height: 24px;
+    width: 24px;
+}
+
+[nz-input] {
+    padding: 0;
+    width: 100%;
+    outline: none;
+    border: none;
+    font-size: 16px;
+}
+
+::ng-deep .add-transaction-wallet-modal .ant-modal-title {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+::ng-deep .add-parent-category-modal .ant-modal-title {
+    font-size: 20px;
+    font-weight: 600;
+}

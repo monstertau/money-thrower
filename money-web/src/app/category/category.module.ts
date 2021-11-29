@@ -9,13 +9,19 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { CategoryFormComponent } from './category-form/category-form.component';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { FormsModule } from '@angular/forms';
+import { ComponentsModule } from '../components/components.module';
 
 
 @NgModule({
   declarations: [
     CategoryComponent,
     CategoryDetailComponent,
-    LoadingSpinner2Component
+    LoadingSpinner2Component,
+    CategoryFormComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +30,11 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
     NzButtonModule,
     NzIconModule,
     NzImageModule,
-    NzSpinModule
+    NzSpinModule,
+    NzGridModule,
+    NzRadioModule,
+    FormsModule,
+    ComponentsModule
   ]
 })
 
