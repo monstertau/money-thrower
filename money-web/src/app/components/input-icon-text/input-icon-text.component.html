@@ -1,0 +1,10 @@
+<div class="input-name">
+    {{inputName}}
+</div>
+<div class="input-content">
+    <div class="input-picture" (click)="onIconClick()">
+        <img [src]="icon" alt="image" style="width: 24px;height: 24px">
+    </div>
+    <input type="text" [placeholder]="placeholder" [ngModel]="textModel" (ngModelChange)="onChangeText($event)" nz-input
+        nzBorderless nzSize="large" />
+</div>

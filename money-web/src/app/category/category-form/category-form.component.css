@@ -1,0 +1,17 @@
+.upper-row {
+    margin-bottom: 24px;
+}
+
+.input-box {
+    cursor: pointer;
+    float: left;
+    padding: 5px 15px;
+    border: 1px solid rgba(0, 0, 0, .12);
+    border-radius: 8px;
+    height: 64px;
+}
+
+.input-box:hover {
+    border: 1px solid rgba(0, 0, 0, .4);
+
+}

@@ -19,6 +19,10 @@ import {TransactionAddModule} from "../transaction-add/transaction-add.module";
 import {TopbarWalletComponent} from "./topbar/topbar-wallet/topbar-wallet.component";
 import {WalletAddModule} from "../wallet-add/wallet-add.module";
 import { TopbarCategoryComponent } from './topbar/topbar-category/topbar-category.component';
+import { CategoryModule } from '../category/category.module';
+import { InputDateModule } from '../components/input-date/input-date.module';
+import { InputNavigationModule } from '../components/input-navigation/input-navigation.module';
+import { ComponentsModule } from '../components/components.module';
 
 
 @NgModule({
@@ -45,7 +49,10 @@ import { TopbarCategoryComponent } from './topbar/topbar-category/topbar-categor
         NzNotificationModule,
         NzImageModule,
         TransactionAddModule,
-        WalletAddModule
+        WalletAddModule,
+        CategoryModule,
+        NzModalModule,
+        ComponentsModule,
     ],
 
 })
