@@ -12,6 +12,7 @@ import (
 type (
 	BudgetRepoInterface interface {
 		Create(form *view.BudgetForm) (*model.Budget, error)
+		Update(form *view.BudgetForm) error
 		SyncBudgetStatus(userId string) error
 		GetById(userId string, id string) (*model.Budget, error)
 		GetList(userId string) ([]*model.Budget, error)
@@ -81,4 +82,12 @@ func (r *BudgetRepo) Create(form *view.BudgetForm) (*model.Budget, error) {
 		return nil, errors.Errorf("failed to execute insert query: %s", result.Error)
 	}
 	return budgetModel, nil
+}
+func (r *BudgetRepo) Update(form *view.BudgetForm) error {
+	newBudget := form.ToBudgetModel()
+	newBudget.Id = form.Id
+	if err := r.dbConn.Updates(newBudget).Error; err != nil {
+		return errors.Errorf("failed to execute update query: %s", err)
+	}
+	return nil
 }

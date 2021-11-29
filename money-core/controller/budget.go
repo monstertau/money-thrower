@@ -29,6 +29,7 @@ func (h *BudgetController) MakeHandler(g *gin.RouterGroup) {
 	group.Use(h.services.JWTService.AuthorizeJWT())
 	{
 		group.POST("", h.Create)
+		group.PUT("", h.Update)
 		group.GET("/:id", h.GetById)
 		group.GET("", h.GetList)
 		group.DELETE("/:id", h.DeleteById)
@@ -152,4 +153,35 @@ func (h *BudgetController) Create(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusCreated, created)
+}
+
+// Update godoc
+// @Summary Edit info of a budget
+// @Description Edit info of a budget
+// @Tags budget
+// @Accept json
+// @Produce json
+// @Param update body view.BudgetForm true "Update budget"
+// @Security JWT
+// @Success 200 {object} view.BudgetForm
+// @Failure 400 {object} AppError
+// @Failure 500 {object} AppError
+// @Router /budget [put]
+func (h *BudgetController) Update(c *gin.Context) {
+	var updateForm *view.BudgetForm
+	if err := c.ShouldBindJSON(&updateForm); err != nil {
+		h.logger.Infof("Invalid form: %v ", err.Error())
+		ReportError(c, http.StatusBadRequest, fmt.Sprintf("invalid input in parse json format: %v", err))
+		return
+	}
+	userId, err := h.services.JWTService.GetUserId(c)
+	if err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get user id: %v", err))
+		return
+	}
+	if err = h.services.BudgetService.Update(userId, updateForm); err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant update budget: %v", err))
+		return
+	}
+	c.JSON(http.StatusOK, updateForm)
 }
