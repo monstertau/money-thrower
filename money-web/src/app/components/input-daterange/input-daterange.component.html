@@ -5,10 +5,10 @@
             <p class="date">{{getLastMonths(0)}}</p>
         </div>
     </div>
-    <div class="options" (click)="onRangeSelected(getLastMonths(1))">
+    <div class="options" (click)="onRangeSelected(getLastMonth())">
         <div style="padding: 10px 25px">
             Last month
-            <p class="date">{{getLastMonths(1)}}</p>
+            <p class="date">{{getLastMonth()}}</p>
         </div>
     </div>
     <div class="options" (click)="onRangeSelected(getLastMonths(3))">

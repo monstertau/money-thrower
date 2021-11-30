@@ -6,6 +6,7 @@ import { CategoryService } from '../services/category.service';
 import { WalletService } from '../services/wallet.service';
 import { Category, CategoryView } from '../view-model/category';
 import { Utils } from '../util/utils';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-transaction',
@@ -13,8 +14,12 @@ import { Utils } from '../util/utils';
   styleUrls: ['./transaction.component.css']
 })
 export class TransactionComponent implements OnInit {
+    private _currentPage!: string;
+    get currentPage() {
+    return this._currentPage;
+  }
 
-  isLoading: boolean = true;
+  isLoading: boolean = false;
   transactions: TransactionView[] = [];
   selectedTransaction!: TransactionView;
   selected: boolean = false;
@@ -42,13 +47,21 @@ export class TransactionComponent implements OnInit {
   constructor(private transactionService: TransactionService,
     private categoryService: CategoryService,
     private walletService: WalletService,
-    private commonService: CommonService,) {
+    private commonService: CommonService,
+    private router: Router) {
     this.commonService.currentWallet.subscribe(wallet => { this.currentWalletId = wallet; });
     this.filter.wallet_id = this.currentWalletId;
   }
 
   ngOnInit(): void {
-    this.getTransaction();
+    this._currentPage = this.router.url.split('?')[0].replace("/", '') || 'transaction';
+    if (this._currentPage === 'transaction') {
+        this.getTransaction();
+    } else {
+        this.commonService.currentSearchResults.subscribe(results => { this.transactionByTime = results; });
+        this.commonService.currentInflow.subscribe(inflow => { this.inflow = inflow; });
+        this.commonService.currentOutflow.subscribe(outflow => { this.outflow = outflow; });
+    }
   }
 
   getTransaction() {

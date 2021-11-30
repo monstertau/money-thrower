@@ -1,7 +1,7 @@
 <ng-template #indicatorTemplate><i nz-icon nzType="loading" style="font-size: 50px"></i></ng-template>
 <nz-spin *ngIf="isLoading" style="top: 30%; left: 50%; transform: translate(-50%, -50%);"
     [nzIndicator]="indicatorTemplate"></nz-spin>
-<div *ngIf="transactions.length && transactionsByTime.length">
+<div *ngIf="transactionsByTime.length">
     <div class="money-flow" >
         <div class="flow">
             <p>Inflow: </p>
@@ -16,12 +16,12 @@
             <p class="total-amount" *ngIf="(inflow - outflow) < 0">{{getFormatBalance(inflow - outflow)}} vnd</p>
         </div>
     </div>
-    <div class="view-report">
+    <div *ngIf="currentPage!='search'" class="view-report">
         VIEW REPORT FOR THIS PERIOD
     </div>
 </div>
-<div class="transactions" style="overflow: auto; max-height: calc(100vh - 335px);">
-    <div *ngIf="viewMode == 'time'; else category">
+<div class="transactions" [ngClass]="{'transaction-search': currentPage=='search', 'transaction-normal': currentPage!='search'}">
+    <div *ngIf="viewMode == 'time' && currentPage!='search'; else category">
         <div *ngIf="!transactions.length" >
             <div class="gap"></div>
             <div style="text-align: center; font-size: 20px; font-weight: 600; padding: 50px 0px"> No transactions!</div>

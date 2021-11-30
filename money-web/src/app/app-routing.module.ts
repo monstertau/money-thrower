@@ -10,7 +10,6 @@ import { LoginComponent } from './authentication/login/login.component';
 import { TransactionComponent } from './transaction/transaction.component';
 import { LoginGuard } from './guards/login.guard';
 import { CategoryComponent } from './category/category.component';
-import { SearchComponent } from './search/search.component';
 
 const routes: Routes = [
     {
@@ -41,7 +40,7 @@ const routes: Routes = [
             },
             {
                 path: 'search',
-                component: SearchComponent,
+                component: TransactionComponent,
                 loadChildren: () => import('./transaction/transaction.module').then(m => m.TransactionModule)
             }
         ],

@@ -22,7 +22,6 @@ import { TopbarWalletComponent } from "./topbar/topbar-wallet/topbar-wallet.comp
 import { WalletAddModule } from "../wallet-add/wallet-add.module";
 import { TopbarCategoryComponent } from './topbar/topbar-category/topbar-category.component';
 import { TopbarSearchComponent } from './topbar/topbar-search/topbar-search.component';
-import { SearchModule } from '../search/search.module';
 import { FormsModule } from '@angular/forms';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -63,7 +62,6 @@ import { InputDaterangeModule } from '../components/input-daterange/input-datera
         NzInputNumberModule,
         TransactionAddModule,
         WalletAddModule,
-        SearchModule,
         InputDaterangeModule,
     ],
 

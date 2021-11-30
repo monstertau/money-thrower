@@ -22,6 +22,17 @@ export class InputDaterangeComponent implements OnInit {
     ngOnInit(): void {
     }
 
+    getLastMonth(): string {
+        let month: number = 0;
+        let year: number = 0;
+        if (this.currentMonth === 1) {
+            month = 12;
+            year = this.currentYear - 1;
+        } else { month = this.currentMonth - 1; year = this.currentYear; }
+        let datenum = new Date(year, month, 0).getDate();
+        return `01/${month}/${year} - ${datenum}/${month}/${year}`;
+    }
+
     getLastMonths(x: number): string {
         let d = new Date(`${this.currentYear}/${this.currentMonth}/01`);
         let dateNum = new Date(this.currentYear, this.currentMonth, 0).getDate();
@@ -34,7 +45,7 @@ export class InputDaterangeComponent implements OnInit {
     }
 
     getLastYears(x: number): string {
-        return `01/01/${this.currentYear-x} - 31/12/${this.currentYear-x}`;
+        return `01/01/${this.currentYear - x} - 31/12/${this.currentYear - x}`;
     }
 
     getSelectedRange(): string {
@@ -53,7 +64,7 @@ export class InputDaterangeComponent implements OnInit {
                 }
             },
             nzWidth: 500,
-            nzFooter:[{
+            nzFooter: [{
                 label: 'OK',
                 onClick: () => {
                     modal.destroy();

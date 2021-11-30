@@ -85,7 +85,7 @@ export class TopbarComponent implements OnInit, OnChanges {
         if(dialog.length) dialog[0].style.left = "60px";
       } else {
         let dialog = document.getElementsByClassName('wallet-menu') as HTMLCollectionOf<HTMLElement>;
-        if (dialog.length) 
+        if (dialog.length)
             dialog[0].style.left = "210px";
       }
     }

@@ -169,6 +169,9 @@ export class TopbarSearchComponent implements OnInit, OnDestroy {
     }
 
     search() {
+        this.currentSearchResults = [];
+        this.inflow = 0;
+        this.outflow = 0;
         this.getTransactions();
     }
 
