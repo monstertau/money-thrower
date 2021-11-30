@@ -82,10 +82,11 @@ export class TopbarComponent implements OnInit, OnChanges {
       this.sidebarCollapse = changes.sidebarCollapse.currentValue;
       if (this.sidebarCollapse) {
         let dialog = document.getElementsByClassName('wallet-menu') as HTMLCollectionOf<HTMLElement>;
-        dialog[0].style.left = "60px";
+        if(dialog.length) dialog[0].style.left = "60px";
       } else {
         let dialog = document.getElementsByClassName('wallet-menu') as HTMLCollectionOf<HTMLElement>;
-        dialog[0].style.left = "210px";
+        if (dialog.length) 
+            dialog[0].style.left = "210px";
       }
     }
   }

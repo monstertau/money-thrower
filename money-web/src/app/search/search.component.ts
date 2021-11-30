@@ -9,18 +9,18 @@ import { TransactionView } from '../view-model/transactions';
     styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
-    @Input() transactions!: TransactionView[][];
-    @Input() transactionsByTime!: TransactionView[][];
+    transactionsByTime!: TransactionView[][];
     @Output() selectedTransaction = new EventEmitter<TransactionView>();
-    @Input() inflow!: number;
-    @Input() outflow!: number;
-    viewMode!: string;
+    inflow!: number;
+    outflow!: number;
     @Input() isLoading: boolean = true;
     constructor(private commonService: CommonService) {
     }
 
     ngOnInit(): void {
-        this.commonService.currentViewMode.subscribe(mode => { this.viewMode = mode; });
+        this.commonService.currentSearchResults.subscribe(transactions => { this.transactionsByTime = transactions; });
+        this.commonService.currentInflow.subscribe(inflow => { this.inflow = inflow; });
+        this.commonService.currentOutflow.subscribe(outflow => { this.outflow = outflow; });
     }
 
     selectTransaction(transaction: TransactionView) {

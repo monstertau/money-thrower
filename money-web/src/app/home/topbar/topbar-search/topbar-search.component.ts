@@ -37,6 +37,9 @@ export class TopbarSearchComponent implements OnInit, OnDestroy {
     dateNum = new Date(this.currentYear, this.currentMonth, 0).getDate();
 
     currentSearchResults: TransactionView[][] = [];
+    inflow: number = 0;
+    outflow: number = 0;
+    total: number = 0;
 
     constructor(private router: Router, private commonServce: CommonService, private categoryService: CategoryService, private walletService: WalletService, private transactionService: TransactionService, private modal: NzModalService, private viewContainerRef: ViewContainerRef) {
         this.commonServce.currentWallet.subscribe(res => {
@@ -166,14 +169,7 @@ export class TopbarSearchComponent implements OnInit, OnDestroy {
     }
 
     search() {
-        let timeRange = this.formateDate()
-        console.log('wallet:', this.selectedWallet.id);
-        console.log('category:', this.selectedCategory.id);
-        console.log('start_amount:', this.start);
-        console.log('end_amount:', this.end);
-        console.log('start_date', timeRange[0]);
-        console.log('end_date', timeRange[1]);
-        console.log('note:', this.note);
+        this.getTransactions();
     }
 
     ngOnDestroy() {
@@ -206,7 +202,7 @@ export class TopbarSearchComponent implements OnInit, OnDestroy {
     getCategory(transaction: TransactionView) {
         this.categoryService.getCategoryById(transaction.category.id).subscribe(data => {
             transaction.addCategory(data);
-            // this.calculateFlow(transaction);
+            this.calculateFlow(transaction);
         })
     }
 
@@ -220,26 +216,34 @@ export class TopbarSearchComponent implements OnInit, OnDestroy {
             cat_id: this.selectedCategory.id,
             key_note: this.note,
         }
-        let items: TransactionView[] = [];
+        let days: string[] = [];
         this.transactionService.getTransactions(filter).subscribe(transactions => {
-            items = [];
+            let items: TransactionView[] = [];
             transactions.forEach(transaction => {
-                if (transaction) {
-                    let transactionView: TransactionView = new TransactionView().addTransaction(transaction);
-                    transactionView.category.id = transaction.cat_id;
-                    this.getCategory(transactionView);
-                    this.getWallet(transactionView);
-                    items.push(transactionView);
-                }
+                let transactionView: TransactionView = new TransactionView().addTransaction(transaction);
+                transactionView.category.id = transaction.cat_id;
+                this.getCategory(transactionView);
+                this.getWallet(transactionView);
+                items.push(transactionView);
+                if (!days.includes(transactionView.transactionDate.toDateString())) days.push(transactionView.transactionDate.toDateString());
             })
-            if (items.length)
-                this.currentSearchResults.push(items);
+            let dateUnix: number[] = [];
+            days.forEach(day => {
+                dateUnix.push(new Date(day).getTime());
+            });
+            dateUnix = dateUnix.sort((a, b) => b - a);
+            dateUnix.forEach(day => {
+                let trans = items.filter(x => x.transactionDate.toDateString() == new Date(day).toDateString())
+                this.currentSearchResults.push(trans)
+            })
+            this.commonServce.changeSearchResults(this.currentSearchResults);
         })
     }
 
-    // calculateFlow(transaction: TransactionView) {
-    //     if (!transaction.category.isExpense) this.inflow += transaction.amount;
-    //     else this.outflow += transaction.amount;
-    // }
+    calculateFlow(transaction: TransactionView) {
+        if (!transaction.category.isExpense) this.inflow += transaction.amount;
+        else this.outflow += transaction.amount;
+        this.commonServce.changeFlow(this.inflow, this.outflow);
+    }
 
 }

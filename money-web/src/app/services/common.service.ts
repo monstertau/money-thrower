@@ -24,6 +24,11 @@ export class CommonService {
     private searchResults = new BehaviorSubject<TransactionView[][]>([]);
     currentSearchResults = this.searchResults.asObservable();
 
+    private inflow = new BehaviorSubject<number>(0);
+    currentInflow = this.inflow.asObservable();
+    private outflow = new BehaviorSubject<number>(0);
+    currentOutflow = this.outflow.asObservable();
+
     constructor(private router: Router, private walletService: WalletService) {
         this.page.next(this.router.url.split('?')[0].replace("/", '') || 'transaction');
         this.pageCategory.next(this.router.url.split('?')[0].replace("/", '') || 'category');
@@ -85,6 +90,11 @@ export class CommonService {
 
     changeSearchResults(results: TransactionView[][]) {
         this.searchResults.next(results);
+    }
+
+    changeFlow(inflow: number, outflow: number) {
+        this.inflow.next(inflow);
+        this.outflow.next(outflow);
     }
 }
 

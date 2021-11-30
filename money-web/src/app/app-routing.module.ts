@@ -42,7 +42,7 @@ const routes: Routes = [
             {
                 path: 'search',
                 component: SearchComponent,
-                loadChildren: () => import('./search/search.module').then(m => m.SearchModule)
+                loadChildren: () => import('./transaction/transaction.module').then(m => m.TransactionModule)
             }
         ],
     },

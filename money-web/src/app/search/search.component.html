@@ -1,70 +1,77 @@
-<div>
-    <div class="money-flow">
-        <div class="flow">
-            <p>Inflow: </p>
-            <p style="margin-left: auto; color: #1890FF">{{getFormatBalance(inflow)}} vnd</p>
-        </div>
-        <div class="flow">
-            <p>Outflow: </p>
-            <p style="margin-left: auto; color: #FF4D4F">- {{getFormatBalance(outflow)}} vnd</p>
-        </div>
-        <div class="flow">
-            <p class="total-amount" *ngIf="(inflow - outflow) >= 0">+ {{getFormatBalance(inflow - outflow)}} vnd</p>
-            <p class="total-amount" *ngIf="(inflow - outflow) < 0">{{getFormatBalance(inflow - outflow)}} vnd</p>
-        </div>
-    </div>
-</div>
-<div class="transactions" style="overflow: auto; max-height: calc(100vh - 335px);">
-    <div *ngIf="!transactionsByTime.length">
-        <div class="gap"></div>
-        <div style="text-align: center; font-size: 20px; font-weight: 600; padding: 50px 0px"> No transactions!</div>
-    </div>
-    <div class="transaction" *ngFor="let transactionTime of transactionsByTime">
-        <div *ngIf="transactionTime.length">
-            <div class="gap"></div>
-            <div class="transaction-item">
-                <div class="top-section">
-                    <div class="top-left">
-                        <div style="font-size: 30px;">
-                            {{getDate(transactionTime[0].transactionDate.toString()).date}}
-                        </div>
-                        <div class="category-name" style="margin-top: 7px">
-                            <div style="font-size: 12px;">
-                                {{getDate(transactionTime[0].transactionDate.toString()).weekDay}}</div>
-                            <div style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);">
-                                {{getDate(transactionTime[0].transactionDate.toString()).month}}
-                                {{getDate(transactionTime[0].transactionDate.toString()).year}}</div>
-                        </div>
-                    </div>
-                    <div class="top-right">
-                        <div style="font-weight: 500; font-size: 16px;">
-                            {{getFormatBalance(calculateTotalAmount(transactionTime))}}
-                            {{transactionTime[0].wallet.currency}}</div>
-                    </div>
+<div style="display: flex">
+    <div class="list-transaction">
+        <div>
+            <div class="money-flow">
+                <div class="flow">
+                    <p>Inflow: </p>
+                    <p style="margin-left: auto; color: #1890FF">{{getFormatBalance(inflow)}} vnd</p>
                 </div>
-                <div style="margin-top: -25px;">
-                    <nz-divider></nz-divider>
+                <div class="flow">
+                    <p>Outflow: </p>
+                    <p style="margin-left: auto; color: #FF4D4F">- {{getFormatBalance(outflow)}} vnd</p>
                 </div>
-                <div style="margin-top: -25px;">
-                    <div class="bottom-section" *ngFor="let item of transactionTime" (click)="selectTransaction(item)"
-                        style="padding-top: 10px; padding-bottom: 10px;">
-                        <div class="top-left">
-                            <div class="icon">
-                                <img nz-image width="30px" height="30px" [nzSrc]="item.category.getIcon()"
-                                    [nzFallback]="item.category.fallbackIcon" alt="">
-                            </div>
-                            <div class="category-name">
-                                <div style="font-weight: 500;">{{item.category.name}}</div>
-                                <div *ngIf="item.note"
-                                    style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);  max-width: 150px; word-wrap: break-word;">
-                                    Note: {{item.note}}
+                <div class="flow">
+                    <p class="total-amount" *ngIf="(inflow - outflow) >= 0">+ {{getFormatBalance(inflow - outflow)}} vnd
+                    </p>
+                    <p class="total-amount" *ngIf="(inflow - outflow) < 0">{{getFormatBalance(inflow - outflow)}} vnd
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="transactions" style="overflow: auto; max-height: calc(100vh - 335px);">
+            <div *ngIf="!transactionsByTime.length">
+                <div class="gap"></div>
+                <div style="text-align: center; font-size: 20px; font-weight: 600; padding: 50px 0px"> No transactions!
+                </div>
+            </div>
+            <div class="transaction" *ngFor="let transactionTime of transactionsByTime">
+                <div *ngIf="transactionTime.length">
+                    <div class="gap"></div>
+                    <div class="transaction-item">
+                        <div class="top-section">
+                            <div class="top-left">
+                                <div style="font-size: 30px;">
+                                    {{getDate(transactionTime[0].transactionDate.toString()).date}}
+                                </div>
+                                <div class="category-name" style="margin-top: 7px">
+                                    <div style="font-size: 12px;">
+                                        {{getDate(transactionTime[0].transactionDate.toString()).weekDay}}</div>
+                                    <div style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);">
+                                        {{getDate(transactionTime[0].transactionDate.toString()).month}}
+                                        {{getDate(transactionTime[0].transactionDate.toString()).year}}</div>
                                 </div>
                             </div>
+                            <div class="top-right">
+                                <div style="font-weight: 500; font-size: 16px;">
+                                    {{getFormatBalance(calculateTotalAmount(transactionTime))}}
+                                    {{transactionTime[0].wallet.currency}}</div>
+                            </div>
                         </div>
-                        <div class="top-right">
-                            <div [ngClass]="{'is-expense': item.category.isExpense, 'not-expense': !item.category.isExpense}"
-                                style="font-weight: 500;">{{getFormatBalance(item.amount)}}
-                                {{item.wallet.currency}}</div>
+                        <div style="margin-top: -25px;">
+                            <nz-divider></nz-divider>
+                        </div>
+                        <div style="margin-top: -25px;">
+                            <div class="bottom-section" *ngFor="let item of transactionTime"
+                                (click)="selectTransaction(item)" style="padding-top: 10px; padding-bottom: 10px;">
+                                <div class="top-left">
+                                    <div class="icon">
+                                        <img nz-image width="30px" height="30px" [nzSrc]="item.category.getIcon()"
+                                            [nzFallback]="item.category.fallbackIcon" alt="">
+                                    </div>
+                                    <div class="category-name">
+                                        <div style="font-weight: 500;">{{item.category.name}}</div>
+                                        <div *ngIf="item.note"
+                                            style="margin-top: -3px; font-size: 11px; color: rgba(0, 0, 0, 0.54);  max-width: 150px; word-wrap: break-word;">
+                                            Note: {{item.note}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="top-right">
+                                    <div [ngClass]="{'is-expense': item.category.isExpense, 'not-expense': !item.category.isExpense}"
+                                        style="font-weight: 500;">{{getFormatBalance(item.amount)}}
+                                        {{item.wallet.currency}}</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

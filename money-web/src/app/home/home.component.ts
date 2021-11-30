@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.commonService.currentPage.subscribe(page => this._currentPage = page);
+    this.commonService.currentPage.subscribe(page => {this._currentPage = page; console.log(this._currentPage)});
   }
 
   onSizebarCollapse(collapsed: boolean) {
