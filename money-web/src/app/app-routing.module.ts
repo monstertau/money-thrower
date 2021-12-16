@@ -10,6 +10,7 @@ import { LoginComponent } from './authentication/login/login.component';
 import { TransactionComponent } from './transaction/transaction.component';
 import { LoginGuard } from './guards/login.guard';
 import { CategoryComponent } from './category/category.component';
+import { ReportComponent } from './report/report.component'
 
 const routes: Routes = [
   {
@@ -37,7 +38,13 @@ const routes: Routes = [
         component: CategoryComponent,
         canLoad: [AuthGuard],
         loadChildren: () => import('./category/category.module').then(m => m.CategoryModule)
-      }
+      },
+        {
+            path: 'report',
+            component: ReportComponent,
+            canLoad: [AuthGuard],
+            loadChildren: () => import('./report/report.module').then(m => m.ReportModule)
+        }
     ],
   },
   { path: 'forgot-password', component: FwpComponent },

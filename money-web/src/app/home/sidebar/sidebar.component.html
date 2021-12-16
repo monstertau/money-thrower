@@ -14,8 +14,9 @@
         </li>
         <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Report' : ''"
             (click)="selectPage()">
-            <i nz-icon nzType="file-text"></i>
-            <span>Report</span>
+            <a [routerLink]="['/report']"><i nz-icon nzType="file-text"></i>
+                <span>Report</span>
+            </a>
         </li>
         <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Budget' : ''"
             (click)="selectPage()">

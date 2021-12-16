@@ -10,6 +10,7 @@
   </div>
   <div style="margin-left: auto" [ngSwitch]="currentPage">
     <app-topbar-transaction *ngSwitchCase="'transaction'" [wallets]="wallets"></app-topbar-transaction>
+      <app-topbar-transaction *ngSwitchCase="'report'" [wallets]="wallets"></app-topbar-transaction>
     <app-topbar-wallet *ngSwitchCase="'wallet'"></app-topbar-wallet>
     <app-topbar-category *ngSwitchCase="'category'"></app-topbar-category>
     <div *ngSwitchDefault="">Other topbar</div>
