@@ -1,0 +1,21 @@
+<div class="wrapper">
+    <div class="upper-row" nz-row nzJustify="start">
+        <div class="input-box" nz-col [nzSpan]="9">
+            <app-input-icon-text inputName="Category" [icon]="categoryIcon" [textModel]="category?.name ?? ''"
+                (textModelChange)="onChangeCategoryName($event)" (iconClick)="onSelectIcon()" placeholder="Name">
+            </app-input-icon-text>
+        </div>
+        <div nz-col [nzSpan]="1"></div>
+        <div class="input-box" nz-col [nzSpan]="14">
+            <app-input-navigation inputName="Parent Category" [inputIcon]="parentCategoryIcon"
+            [hasChosen]="category.parent ? true : false" [navigationName]="category.parent?.name ?? ''"
+            (click)="onSelectParentCategory()" placeholder="Choose Parent Category"></app-input-navigation>
+        </div>
+    </div>
+    <div class="lower-row" nz-row nzJustify="start">
+        <nz-radio-group [(ngModel)]="category.isExpense">
+            <label nz-radio [nzValue]="true">Income</label>
+            <label nz-radio [nzValue]="false">Outcome</label>
+        </nz-radio-group>
+    </div>
+</div>
