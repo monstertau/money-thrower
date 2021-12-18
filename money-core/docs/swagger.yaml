@@ -34,9 +34,6 @@ definitions:
     type: object
   view.CategoryForm:
     properties:
-      cat_name:
-        example: Food
-        type: string
       icon:
         example: tool
         type: string
@@ -46,6 +43,9 @@ definitions:
       is_expense:
         example: false
         type: boolean
+      name:
+        example: Food
+        type: string
       parent_cat_id:
         example: id
         type: string

@@ -27,6 +27,10 @@ import { NzListModule } from 'ng-zorro-antd/list';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { InputDaterangeModule } from '../components/input-daterange/input-daterange.module';
+import { CategoryModule } from '../category/category.module';
+import { InputDateModule } from '../components/input-date/input-date.module';
+import { InputNavigationModule } from '../components/input-navigation/input-navigation.module';
+import { ComponentsModule } from '../components/components.module';
 
 
 @NgModule({
@@ -63,6 +67,9 @@ import { InputDaterangeModule } from '../components/input-daterange/input-datera
         TransactionAddModule,
         WalletAddModule,
         InputDaterangeModule,
+        CategoryModule,
+        NzModalModule,
+        ComponentsModule,
     ],
 
 })

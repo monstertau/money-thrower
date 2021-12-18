@@ -10,6 +10,7 @@ import {NzNotificationService} from "ng-zorro-antd/notification";
 import {TransactionService} from "../../../services/transaction.service";
 import { CategoryView } from 'src/app/view-model/category';
 import { CategoryService } from 'src/app/services/category.service';
+import { CategoryFormComponent } from 'src/app/category/category-form/category-form.component';
 
 @Component({
     selector: 'app-topbar-category',
@@ -21,6 +22,10 @@ export class TopbarCategoryComponent implements OnInit {
     currentMode: string = CategoryViewMode.ALL;
     viewToolTip: string;
     @Input() categoryList: CategoryView[] = [];
+
+    showAddModal = false;
+    categoryAddLoading = false;
+    currentCategory!: CategoryView;
 
     constructor(private categoryService: CategoryService, private notification: NzNotificationService, private modal: NzModalService, private viewContainerRef: ViewContainerRef, private router: Router, private route: ActivatedRoute, private commonService: CommonService) {
         switch (this.currentMode) {
@@ -52,6 +57,9 @@ export class TopbarCategoryComponent implements OnInit {
         this.commonService.currentPage.subscribe(page => {
             this.currentPage = page;
         });
+
+        this.currentCategory = new CategoryView();
+        this.currentCategory.name = ""
     }
 
     changeCategoryViewMode() {
@@ -81,4 +89,52 @@ export class TopbarCategoryComponent implements OnInit {
         }
     }
 
+    showCategoryForm() {
+        this.showAddModal = true;
+    }
+
+    handleSave() {
+        this.categoryAddLoading = true;
+        this.addCategory()
+            .then(() => {
+                setTimeout(() => {
+                    // reset
+                    this.categoryAddLoading = false;
+                    this.showAddModal = false;
+                    this.currentCategory = new CategoryView()
+                    this.currentCategory.name = "";
+                    this.commonService.reloadComponent();
+                }, 1000)
+
+            })
+            .catch(error => {
+                this.categoryAddLoading = false;
+                this.showErrorMessage(error.toString())
+            })
+    }
+
+    async addCategory() {
+        let error = null;
+
+        if (!this.currentCategory.name) {
+            error = new Error("Please fill in category name")
+        }
+
+        this.categoryService.create(this.currentCategory.toCategory()).subscribe(
+            result => {
+                console.log(result);
+            },
+            err => {
+                console.log(err);
+                error = new Error("Something wrong. please")
+            }
+        )
+        if (error !== null) {
+            throw error
+        }
+    }
+
+    showErrorMessage(message: string) {
+        this.notification.error('Error', message);
+    }
 }

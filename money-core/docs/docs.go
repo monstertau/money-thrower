@@ -1102,10 +1102,6 @@ var doc = `{
         "view.CategoryForm": {
             "type": "object",
             "properties": {
-                "cat_name": {
-                    "type": "string",
-                    "example": "Food"
-                },
                 "icon": {
                     "type": "string",
                     "example": "tool"
@@ -1117,6 +1113,10 @@ var doc = `{
                 "is_expense": {
                     "type": "boolean",
                     "example": false
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Food"
                 },
                 "parent_cat_id": {
                     "type": "string",

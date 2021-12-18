@@ -24,6 +24,7 @@ export class CategoryView {
     isCurrent: boolean;
     isCustom: boolean;
     fallbackIcon: string;
+    parent: CategoryView | null;
 
     constructor() {
         this.id = "";
@@ -34,7 +35,9 @@ export class CategoryView {
         this.isExpense = true;
         this.isCurrent = false;
         this.isCustom = false;
-        this.fallbackIcon = 'assets/catalogs/null.png'
+        this.fallbackIcon = 'assets/catalogs/null.png';
+        this.parent = null;
+
     }
 
     getTypeNumber(): number {
@@ -60,6 +63,12 @@ export class CategoryView {
     this.isExpense = category.is_expense;
     if(this.ownerId === "00000000-0000-0000-0000-000000000000") this.isCustom = false;
     else this.isCustom = true;
+
+    if(!this.parent && category.parent_cat_id) {
+        this.parent = new CategoryView();
+        this.parent.id = category.parent_cat_id;
+    }
+
     switch (category.type) {
       case 1:
         this.type = categoryType.OUTCOME;
@@ -82,7 +91,7 @@ export class CategoryView {
             icon: this.icon,
             owner_id: this.ownerId,
             is_expense: this.isExpense,
-            parent_cat_id: "" // do we need to use this field?
+            parent_cat_id: this.parent?.id ?? ""// do we need to use this field?
         }
     }
 }
