@@ -27,6 +27,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this._currentPage = this.router.url.split('?')[0].replace("/", '') || 'transaction';
+    console.log(this.router.url)
+    console.log(this._currentPage)
   }
 
   onSizebarCollapse(collapsed: boolean) {
