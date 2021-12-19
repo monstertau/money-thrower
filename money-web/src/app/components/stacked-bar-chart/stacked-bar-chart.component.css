@@ -1,0 +1,11 @@
+.stacked-barchart {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.ngx-charts .text {
+    fill: #fff !important;
+}

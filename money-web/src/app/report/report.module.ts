@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReportComponent } from './report.component';
 import {NzGridModule} from "ng-zorro-antd/grid";
 import {NzDividerModule} from "ng-zorro-antd/divider";
+import {ComponentsModule} from "../components/components.module";
 
 
 
@@ -13,7 +14,8 @@ import {NzDividerModule} from "ng-zorro-antd/divider";
     imports: [
         CommonModule,
         NzGridModule,
-        NzDividerModule
+        NzDividerModule,
+        ComponentsModule
     ]
 })
 export class ReportModule { }

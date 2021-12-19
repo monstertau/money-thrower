@@ -1,0 +1,14 @@
+<div class="stacked-barchart">
+    <ngx-charts-bar-vertical-stacked
+        [scheme]="colorScheme"
+        [results]="multi"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [animations]="animations"
+        [barPadding]="8"
+        [yAxisTicks]="[-30,10000,100000]"
+        [yAxisTickFormatting]="abbreviateNumber"
+        [xAxisTickFormatting]="axisFormat"
+    >
+    </ngx-charts-bar-vertical-stacked>
+</div>

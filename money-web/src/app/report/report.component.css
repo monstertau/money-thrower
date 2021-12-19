@@ -47,6 +47,10 @@
     margin-top: -2px;
 }
 
+.over-all-barchart{
+    padding:16px 8px;
+}
+
 .income-report .placeholder {
     font-size: 14px;
     color: rgba(0, 0, 0, .54);
@@ -72,7 +76,7 @@
     font-size: 16px;
     line-height: 20px;
     padding-bottom: 20px;
-    color: #e51c23!important;
+    color: #e51c23 !important;
 }
 
 
