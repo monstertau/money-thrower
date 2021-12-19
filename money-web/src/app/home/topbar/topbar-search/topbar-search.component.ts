@@ -160,8 +160,9 @@ export class TopbarSearchComponent implements OnInit, OnDestroy {
     }
 
     back() {
-        this.router.navigate(['/']);
-        this.commonServce.changePage('transaction');
+        // this.router.navigate(['/']);
+        // this.commonServce.changePage('transaction');
+        this.commonServce.reloadComponent();
     }
 
     reset() {
@@ -210,6 +211,7 @@ export class TopbarSearchComponent implements OnInit, OnDestroy {
     }
 
     getTransactions() {
+        this.commonServce.changeLoading(true);
         let filter: TransactionFilter = {
             start_date: this.formateDate()[0],
             end_date: this.formateDate()[1],
@@ -239,6 +241,7 @@ export class TopbarSearchComponent implements OnInit, OnDestroy {
                 let trans = items.filter(x => x.transactionDate.toDateString() == new Date(day).toDateString())
                 this.currentSearchResults.push(trans)
             })
+            this.commonServce.changeLoading(false);
             this.commonServce.changeSearchResults(this.currentSearchResults);
         })
     }

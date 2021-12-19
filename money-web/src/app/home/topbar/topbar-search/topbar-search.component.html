@@ -1,6 +1,6 @@
 <div class="wrapper">
     <div>
-        <span (click)="back()"><i nz-icon nzType="arrow-left" class="back-icon" nzTheme="outline"></i></span>
+        <span (click)="back()"><a [routerLink]="['/']"><i nz-icon nzType="arrow-left" class="back-icon" nzTheme="outline"></i></a></span>
         <span style="font-size: 24px; font-weight: bold; margin-left: 20px;">Search for transaction</span>
         <span class="reset" (click)="reset()">Reset</span>
     </div>

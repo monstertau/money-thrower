@@ -61,6 +61,7 @@ export class TransactionComponent implements OnInit {
         this.commonService.currentSearchResults.subscribe(results => { this.transactionByTime = results; });
         this.commonService.currentInflow.subscribe(inflow => { this.inflow = inflow; });
         this.commonService.currentOutflow.subscribe(outflow => { this.outflow = outflow; });
+        this.commonService.currentLoading.subscribe(loading => { this.isLoading = loading; });
     }
   }
 
@@ -177,12 +178,14 @@ export class TransactionComponent implements OnInit {
 
   onCurrentChange() {
     this.currentMonth = new Date().getMonth() + 1;
+    this.currentYear = new Date().getFullYear();
     this.dateNum = new Date(this.currentYear, this.currentMonth, 0).getDate();
     this.getTransaction();
   }
 
   onFutureChange() {
     this.currentMonth = new Date().getMonth() + 1;
+    this.currentYear = new Date().getFullYear();
     if (this.currentMonth == 12) {
       this.currentMonth = 1;
       this.currentYear += 1;
@@ -196,6 +199,7 @@ export class TransactionComponent implements OnInit {
 
   onLastChange() {
     this.currentMonth = new Date().getMonth() + 1;
+    this.currentYear = new Date().getFullYear();
     if (this.currentMonth == 1) {
       this.currentMonth = 12;
       this.currentYear -= 1;

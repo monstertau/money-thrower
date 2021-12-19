@@ -14,12 +14,14 @@ export class CommonService {
     private categoryViewMode = new BehaviorSubject<string>('all');
     private month = new BehaviorSubject<string>('this');
     private wallet = new BehaviorSubject<string>('');
+    private loading = new BehaviorSubject<boolean>(false);
     currentPage = this.page.asObservable();
     currentPageCategory = this.page.asObservable();
     currentViewMode = this.viewMode.asObservable();
     currentCategoryViewMode = this.categoryViewMode.asObservable();
     currentMonth = this.month.asObservable();
     currentWallet = this.wallet.asObservable();
+    currentLoading = this.loading.asObservable();
 
     private searchResults = new BehaviorSubject<TransactionView[][]>([]);
     currentSearchResults = this.searchResults.asObservable();
@@ -95,6 +97,10 @@ export class CommonService {
     changeFlow(inflow: number, outflow: number) {
         this.inflow.next(inflow);
         this.outflow.next(outflow);
+    }
+
+    changeLoading(loading: boolean) {
+        this.loading.next(loading);
     }
 }
 
