@@ -23,6 +23,8 @@ import { InputTextModule } from './input-text/input-text.module';
 import { InputNumberModule } from './input-number/input-number.module';
 import { StackedBarChartComponent } from './stacked-bar-chart/stacked-bar-chart.component';
 import { NgxChartsModule} from "@swimlane/ngx-charts";
+import { IncomePieChartComponent } from './income-pie-chart/income-pie-chart.component';
+import { OutcomePieChartComponent } from './outcome-pie-chart/outcome-pie-chart.component';
 
 @NgModule({
     declarations: [
@@ -31,6 +33,8 @@ import { NgxChartsModule} from "@swimlane/ngx-charts";
         PopupSelectIconComponent,
         InputIconTextComponent,
         StackedBarChartComponent,
+        IncomePieChartComponent,
+        OutcomePieChartComponent
     ],
     imports: [
         CommonModule,
@@ -61,7 +65,9 @@ import { NgxChartsModule} from "@swimlane/ngx-charts";
         PopupSelectCategoryComponent,
         PopupSelectIconComponent,
         InputIconTextComponent,
-        StackedBarChartComponent
+        StackedBarChartComponent,
+        IncomePieChartComponent,
+        OutcomePieChartComponent
     ]
 })
 export class ComponentsModule { }
