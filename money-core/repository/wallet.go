@@ -5,6 +5,7 @@ import (
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
 	"money-core/model"
+	"money-core/util"
 	"money-core/view"
 )
 
@@ -16,6 +17,7 @@ type (
 		UpdateAmount(walletId string, amount float64, isExpense bool) error
 		List(userId string, limit int, from int) ([]*model.Wallet, error)
 		DeleteById(id string, userId string) error
+		CalculateDynamicBalance(wallet *model.Wallet) error
 	}
 	WalletRepo struct {
 		dbConn *gorm.DB
@@ -39,6 +41,10 @@ func (r *WalletRepo) GetById(id string, userId string) (*model.Wallet, error) {
 	if err := r.dbConn.First(&wallet, "id=? AND user_id=?", id, userId).Error; err != nil {
 		return nil, errors.Errorf("failed to execute select query: %s", err)
 	}
+	// Sync balance
+	if err := r.CalculateDynamicBalance(wallet); err != nil {
+		return nil, errors.Errorf("failed to calculate wallet balance!!!")
+	}
 	return wallet, nil
 }
 
@@ -46,6 +52,12 @@ func (r *WalletRepo) List(userId string, limit int, from int) ([]*model.Wallet, 
 	var wallets []*model.Wallet
 	if err := r.dbConn.Limit(limit).Offset(from).Find(&wallets, "user_id=?", userId).Error; err != nil {
 		return nil, fmt.Errorf("failed to execute select query: %s", err)
+	}
+	// Sync balance
+	for _, wallet := range wallets {
+		if err := r.CalculateDynamicBalance(wallet); err != nil {
+			return nil, errors.Errorf("failed to calculate wallets balance!!!")
+		}
 	}
 	return wallets, nil
 }
@@ -82,6 +94,38 @@ func (r *WalletRepo) DeleteById(id string, userId string) error {
 	err := r.dbConn.Delete(wallet).RowsAffected
 	if err == 0 {
 		return errors.Errorf("failed to execute delete query, the inputed id may wrong: %s", id)
+	}
+	return nil
+}
+
+func (r *WalletRepo) CalculateDynamicBalance(wallet *model.Wallet) error {
+	var newBalance float64
+	// Find all transaction of this wallet
+	var transactions []*model.Transaction
+	tx := r.dbConn.Where("wallet_id = ?", wallet.Id)
+	if err := tx.Find(&transactions).Error; err != nil {
+		return fmt.Errorf("failed to execute select query: %s", err)
+	}
+	// Loop through all transaction, find category and calculate new balance
+	for _, transaction := range transactions {
+		if transaction.Note == "Initialize Wallet" {
+			newBalance += transaction.Amount
+		} else {
+			category := &model.Category{}
+			if err := r.dbConn.First(&category, "id=? AND (owner_id=? OR owner_id=?)", transaction.CatId, transaction.UserId, util.NilId).Error; err != nil {
+				return errors.Errorf("failed to execute select query: %s", err)
+			}
+			if category.IsExpense {
+				newBalance -= transaction.Amount
+			} else {
+				newBalance += transaction.Amount
+			}
+		}
+	}
+	// Sync new balance
+	wallet.Balance = newBalance
+	if err := r.dbConn.Save(wallet).Error; err != nil {
+		return errors.Errorf("failed to execute update query: %s", err)
 	}
 	return nil
 }
