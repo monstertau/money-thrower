@@ -23,6 +23,7 @@ import { InputTextModule } from './input-text/input-text.module';
 import { InputNumberModule } from './input-number/input-number.module';
 import { StackedBarChartComponent } from './stacked-bar-chart/stacked-bar-chart.component';
 import { NgxChartsModule} from "@swimlane/ngx-charts";
+import { DateSelectComponent } from './date-select/date-select.component';
 
 @NgModule({
     declarations: [
@@ -31,6 +32,7 @@ import { NgxChartsModule} from "@swimlane/ngx-charts";
         PopupSelectIconComponent,
         InputIconTextComponent,
         StackedBarChartComponent,
+        DateSelectComponent,
     ],
     imports: [
         CommonModule,
@@ -61,7 +63,8 @@ import { NgxChartsModule} from "@swimlane/ngx-charts";
         PopupSelectCategoryComponent,
         PopupSelectIconComponent,
         InputIconTextComponent,
-        StackedBarChartComponent
+        StackedBarChartComponent,
+        DateSelectComponent
     ]
 })
 export class ComponentsModule { }

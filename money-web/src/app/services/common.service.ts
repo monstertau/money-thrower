@@ -90,3 +90,4 @@ export enum CategoryViewMode {
   DL = 'debt or loan',
   CUS = 'custom'
 }
+
