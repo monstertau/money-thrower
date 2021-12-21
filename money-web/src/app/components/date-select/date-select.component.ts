@@ -22,6 +22,9 @@ export class DateSelectComponent implements OnInit {
     @Output()
     dateRangeChange = new EventEmitter<DateOption>();
 
+    @Output()
+    onCancel = new EventEmitter();
+
     selectedOptionIndex = - 1;
 
     get showDateRangeInput() { return this.dateRange.title == "Custom" };
