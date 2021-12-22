@@ -7,6 +7,7 @@ import (
 	"money-core/model"
 	"money-core/util"
 	"money-core/view"
+	"time"
 )
 
 type (
@@ -100,9 +101,10 @@ func (r *WalletRepo) DeleteById(id string, userId string) error {
 
 func (r *WalletRepo) CalculateDynamicBalance(wallet *model.Wallet) error {
 	var newBalance float64
-	// Find all transaction of this wallet
+	// Find all past transactions of this wallet
 	var transactions []*model.Transaction
 	tx := r.dbConn.Where("wallet_id = ?", wallet.Id)
+	tx.Where("transaction_date <= ?", time.Now())
 	if err := tx.Find(&transactions).Error; err != nil {
 		return fmt.Errorf("failed to execute select query: %s", err)
 	}
