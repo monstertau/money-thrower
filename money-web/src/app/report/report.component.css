@@ -47,8 +47,8 @@
     margin-top: -2px;
 }
 
-.over-all-barchart{
-    padding:16px 8px;
+.over-all-barchart {
+    padding: 16px 8px;
 }
 
 .income-report .placeholder {
@@ -82,4 +82,23 @@
 
 .report-divider {
     border-top: 1px solid #e0e0e0;
+}
+
+.debt, .loan, .other {
+    padding: 8px 0 7px;
+    cursor: pointer;
+}
+
+.debt:hover, .loan:hover, .other:hover {
+    background-color: rgba(45, 184, 76, .20);
+}
+
+
+.balance-metadata {
+    padding-top: 5px;
+    text-align: right;
+}
+
+.left-arrow{
+    padding-top:5px;
 }

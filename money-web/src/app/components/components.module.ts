@@ -23,6 +23,8 @@ import { InputTextModule } from './input-text/input-text.module';
 import { InputNumberModule } from './input-number/input-number.module';
 import { StackedBarChartComponent } from './stacked-bar-chart/stacked-bar-chart.component';
 import { NgxChartsModule} from "@swimlane/ngx-charts";
+import { TransactionHistoryPopupComponent } from './transaction-history-popup/transaction-history-popup.component';
+import {NzEmptyModule} from "ng-zorro-antd/empty";
 
 @NgModule({
     declarations: [
@@ -31,6 +33,7 @@ import { NgxChartsModule} from "@swimlane/ngx-charts";
         PopupSelectIconComponent,
         InputIconTextComponent,
         StackedBarChartComponent,
+        TransactionHistoryPopupComponent,
     ],
     imports: [
         CommonModule,
@@ -55,13 +58,15 @@ import { NgxChartsModule} from "@swimlane/ngx-charts";
         InputIconModule,
         InputTextModule,
         InputNumberModule,
-        NgxChartsModule
+        NgxChartsModule,
+        NzEmptyModule
     ],
     exports: [
         PopupSelectCategoryComponent,
         PopupSelectIconComponent,
         InputIconTextComponent,
-        StackedBarChartComponent
+        StackedBarChartComponent,
+        TransactionHistoryPopupComponent,
     ]
 })
 export class ComponentsModule { }

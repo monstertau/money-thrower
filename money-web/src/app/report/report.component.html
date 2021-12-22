@@ -39,10 +39,59 @@
             </div>
         </div>
         <div class="report-divider"></div>
-        <div class="debt">debt</div>
+        <div class="debt" nz-row (click)="triggerShowPopup('Nợ')">
+            <div nz-col nzSpan="2">
+            </div>
+            <p class="title" nz-col nzSpan="13">
+                Nợ
+            </p>
+            <div class="balance-metadata" nz-col nzSpan="5">
+                <div style="color: #039be5!important;">
+                    +20,000 đ
+                </div>
+                <div style="color: #aaa;">
+                    Còn 20,000 đ
+                </div>
+            </div>
+            <div nz-col nzSpan="1"></div>
+            <div class="left-arrow" nz-col nzSpan="3">
+                <i nz-icon nzType="right" nzTheme="outline"></i>
+            </div>
+        </div>
         <div class="report-divider"></div>
-        <div class="loan">loan</div>
+        <div class="loan" nz-row (click)="triggerShowPopup('Cho vay')">
+            <div nz-col nzSpan="2">
+            </div>
+            <p class="title" nz-col nzSpan="13">
+                Cho vay
+            </p>
+            <div class="balance-metadata" nz-col nzSpan="5">
+                <div style="color: #e51c23!important;">
+                    -20,000 đ
+                </div>
+                <div style="color: #aaa;">
+                    Còn 20,000 đ
+                </div>
+            </div>
+            <div nz-col nzSpan="1"></div>
+            <div class="left-arrow" nz-col nzSpan="3">
+                <i nz-icon nzType="right" nzTheme="outline"></i>
+            </div>
+        </div>
         <div class="report-divider"></div>
-        <div class="other">other</div>
+        <div class="other" nz-row (click)="triggerShowPopup('Khác')">
+            <div nz-col nzSpan="2">
+            </div>
+            <p class="title" nz-col nzSpan="13">
+                Khác
+            </p>
+            <div class="balance-metadata" nz-col nzSpan="5">
+                0 đ
+            </div>
+            <div nz-col nzSpan="1"></div>
+            <div class="left-arrow" nz-col nzSpan="3">
+                <i nz-icon nzType="right" nzTheme="outline"></i>
+            </div>
+        </div>
     </div>
 </div>
