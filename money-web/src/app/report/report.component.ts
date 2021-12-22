@@ -20,6 +20,9 @@ export class ReportComponent implements OnInit {
             nzViewContainerRef: this.viewContainerRef,
             nzComponentParams: {
             },
+            nzBodyStyle: {
+                "padding": "0",
+            },
             nzWidth: 500,
             nzFooter: []
         });

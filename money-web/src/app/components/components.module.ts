@@ -25,6 +25,7 @@ import { StackedBarChartComponent } from './stacked-bar-chart/stacked-bar-chart.
 import { NgxChartsModule} from "@swimlane/ngx-charts";
 import { TransactionHistoryPopupComponent } from './transaction-history-popup/transaction-history-popup.component';
 import {NzEmptyModule} from "ng-zorro-antd/empty";
+import {TransactionModule} from "../transaction/transaction.module";
 
 @NgModule({
     declarations: [
@@ -59,7 +60,8 @@ import {NzEmptyModule} from "ng-zorro-antd/empty";
         InputTextModule,
         InputNumberModule,
         NgxChartsModule,
-        NzEmptyModule
+        NzEmptyModule,
+        TransactionModule
     ],
     exports: [
         PopupSelectCategoryComponent,

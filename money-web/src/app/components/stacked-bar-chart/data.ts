@@ -379,10 +379,6 @@ export var multi = [
             {
                 "name": "outcome",
                 "value": -10000
-            },
-            {
-                "name":"test",
-                "value":-10000
             }
         ]
     },
