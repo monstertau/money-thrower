@@ -14,6 +14,7 @@ type (
 		GetById(userId string, id string) (*view.WalletForm, error)
 		GetAll(userId string, limit int, from int) ([]*view.WalletForm, error)
 		DeleteById(userId string, id string) error
+		BalanceByTimeRange(userId string, form *view.WalletBalanceByTimeForm) error
 	}
 	WalletService struct {
 		validator    *validator.Validator
@@ -99,6 +100,19 @@ func (s *WalletService) DeleteById(userId string, id string) error {
 	err := s.repositories.WalletRepo.DeleteById(id, userId)
 	if err != nil {
 		return errors.Errorf("error in delete wallet: %v", err)
+	}
+	return nil
+}
+
+func (s *WalletService) BalanceByTimeRange(userId string, form *view.WalletBalanceByTimeForm) error {
+	var err error
+	form.StartBalance, err = s.repositories.WalletRepo.BalanceByDate(form.WalletId, userId, form.StartDate)
+	if err != nil {
+		return errors.Errorf("error in calculate balance: %v", err)
+	}
+	form.EndBalance, err = s.repositories.WalletRepo.BalanceByDate(form.WalletId, userId, form.EndDate)
+	if err != nil {
+		return errors.Errorf("error in calculate balance: %v", err)
 	}
 	return nil
 }

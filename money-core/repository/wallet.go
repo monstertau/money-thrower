@@ -19,6 +19,7 @@ type (
 		List(userId string, limit int, from int) ([]*model.Wallet, error)
 		DeleteById(id string, userId string) error
 		CalculateDynamicBalance(wallet *model.Wallet) error
+		BalanceByDate(walletId string, userId string, date int64) (float64, error)
 	}
 	WalletRepo struct {
 		dbConn *gorm.DB
@@ -130,4 +131,32 @@ func (r *WalletRepo) CalculateDynamicBalance(wallet *model.Wallet) error {
 		return errors.Errorf("failed to execute update query: %s", err)
 	}
 	return nil
+}
+
+func (r *WalletRepo) BalanceByDate(walletId string, userId string, date int64) (float64, error) {
+	var balance float64
+	// Find all past transactions of this wallet till input date
+	var transactions []*model.Transaction
+	tx := r.dbConn.Where("wallet_id = ?", walletId)
+	tx.Where("transaction_date <= ?", time.Unix(0, util.NormalizeTimeAsMilliseconds(date)*int64(time.Millisecond)))
+	if err := tx.Find(&transactions).Error; err != nil {
+		return 0, fmt.Errorf("failed to execute select query: %s", err)
+	}
+	// Loop through all transaction, find category and calculate the balance up till then
+	for _, transaction := range transactions {
+		if transaction.Note == "Initialize Wallet" {
+			balance += transaction.Amount
+		} else {
+			category := &model.Category{}
+			if err := r.dbConn.First(&category, "id=? AND (owner_id=? OR owner_id=?)", transaction.CatId, transaction.UserId, util.NilId).Error; err != nil {
+				return 0, errors.Errorf("failed to execute select query: %s", err)
+			}
+			if category.IsExpense {
+				balance -= transaction.Amount
+			} else {
+				balance += transaction.Amount
+			}
+		}
+	}
+	return balance, nil
 }
