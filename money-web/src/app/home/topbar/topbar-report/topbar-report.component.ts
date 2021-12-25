@@ -1,9 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Route, Router } from '@angular/router';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Params, Route, Router} from '@angular/router';
 import * as moment from 'moment';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { DateOption } from 'src/app/components/date-select/date-select.component';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
+import {DateOption} from 'src/app/components/date-select/date-select.component';
+import {Utils} from "../../../util/utils";
 
 @Component({
     selector: 'app-topbar-report',
@@ -12,11 +13,12 @@ import { DateOption } from 'src/app/components/date-select/date-select.component
 })
 export class TopbarReportComponent implements OnInit, OnDestroy {
 
-    constructor(public router: Router, public activatedRoute: ActivatedRoute) { }
+    constructor(public router: Router, public activatedRoute: ActivatedRoute) {
+    }
 
     showDateRangeSelect = false;
 
-    selectedDateRange = {
+    selectedDateRange: DateRange = {
         title: "Today",
         startDate: new Date(),
         endDate: new Date()
@@ -28,13 +30,15 @@ export class TopbarReportComponent implements OnInit, OnDestroy {
         this.activatedRoute.queryParams
             .pipe(takeUntil(this.destroy$))
             .subscribe((params: Params) => {
+
                 this.selectedDateRange = {
                     title: params.title,
                     startDate: moment(params.startDate, "DD/MM/YYYY").toDate(),
                     endDate: moment(params.endDate, "DD/MM/YYYY").toDate()
                 }
 
-                if (isNaN(this.selectedDateRange.startDate.getTime()) || isNaN(this.selectedDateRange.endDate.getTime())) {
+                if (isNaN(this.selectedDateRange.startDate.getTime())
+                    || isNaN(this.selectedDateRange.endDate.getTime())) {
                     let date = new Date();
 
                     this.router.navigate([],
@@ -43,11 +47,12 @@ export class TopbarReportComponent implements OnInit, OnDestroy {
                             queryParams: {
                                 title: "This month",
                                 startDate: moment(new Date(date.getFullYear(), date.getMonth(), 1)).format("DD/MM/YYYY"),
-                                endDate: moment(date).format("DD/MM/YYYY"),
+                                endDate: moment(new Date(date.getFullYear(), date.getMonth() + 1, 0)).format("DD/MM/YYYY"),
                             },
                             queryParamsHandling: 'merge', // remove to replace all query params by provided
                         });
                 }
+                this.selectedDateRange.title = Utils.getDateRangeTitle(this.selectedDateRange.startDate, this.selectedDateRange.endDate)
             });
     }
 
@@ -76,10 +81,16 @@ export class TopbarReportComponent implements OnInit, OnDestroy {
     }
 
     onSearchClick() {
-        this.router.navigate(["/search"], { queryParams: {}});
+        this.router.navigate(["/search"], {queryParams: {}});
     }
 
     ngOnDestroy(): void {
         this.destroy$.next();
     }
+}
+
+export type DateRange = {
+    title: string;
+    startDate: Date;
+    endDate: Date;
 }

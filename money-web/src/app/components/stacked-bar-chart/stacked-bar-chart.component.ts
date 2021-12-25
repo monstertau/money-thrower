@@ -92,10 +92,6 @@ export class StackedBarChartComponent implements OnInit {
             5000000, 10000000, 20000000,
             50000000, 100000000, 20000000, 500000000, 1000000000, 2000000000, 5000000000]
         const gotAmount = tickAmount.find(function (item) {
-            if (absAmount <= item) {
-                console.log("abs" + absAmount)
-                console.log(item)
-            }
             return absAmount <= item
         })
         if (gotAmount === undefined) {

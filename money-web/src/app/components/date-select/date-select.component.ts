@@ -1,4 +1,14 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    SimpleChange,
+    SimpleChanges
+} from '@angular/core';
 
 export type DateOption = {
     title: string,
@@ -25,9 +35,11 @@ export class DateSelectComponent implements OnInit {
     @Output()
     onCancel = new EventEmitter();
 
-    selectedOptionIndex = - 1;
+    selectedOptionIndex = -1;
 
-    get showDateRangeInput() { return this.dateRange.title == "Custom" };
+    get showDateRangeInput() {
+        return this.dateRange.title == "Custom"
+    };
 
     customStartDate = null;
 
@@ -42,7 +54,7 @@ export class DateSelectComponent implements OnInit {
         {
             title: "This month",
             startDate: new Date(this.y, this.m, 1),
-            endDate: new Date(),
+            endDate: new Date(this.y, this.m + 1, 0),
         },
         {
             title: "Last month",
@@ -51,18 +63,18 @@ export class DateSelectComponent implements OnInit {
         },
         {
             title: "Last 3 months",
-            startDate: new Date(this.y, this.m - 3, this.d),
-            endDate: new Date(),
+            startDate: new Date(this.y, this.m - 3, 1),
+            endDate: new Date(this.y, this.m + 1, 0),
         },
         {
             title: "Last 6 months",
-            startDate: new Date(this.y, this.m - 6, this.d),
-            endDate: new Date(),
+            startDate: new Date(this.y, this.m - 6, 1),
+            endDate: new Date(this.y, this.m + 1, 0),
         },
         {
             title: "This year",
             startDate: new Date(this.y, 0, 1),
-            endDate: new Date(),
+            endDate: new Date(this.y, 11, 31),
         },
         {
             title: "Last year",

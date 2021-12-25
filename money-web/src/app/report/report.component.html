@@ -3,19 +3,19 @@
 
         <div class="balance-report" nz-row>
             <div class="balance-data" nz-col nzSpan="12">
-                <div class="balance-placeholder">Số dư đầu</div>
-                <div class="balance">+ 99,000 đ</div>
+                <div class="balance-placeholder">Start Balance</div>
+                <div class="balance">{{this.startBalance}} đ</div>
             </div>
             <div class="balance-data" nz-col nzSpan="12">
-                <div class="balance-placeholder">Số dư cuối</div>
-                <div class="balance"> +1,760,000 đ</div>
+                <div class="balance-placeholder">End Balance</div>
+                <div class="balance"> {{this.endBalance}} đ</div>
             </div>
         </div>
         <div class="report-divider"></div>
         <div class="overall-chart" (click)="showDetail()">
             <div class="over-all-chart-header">
-                <div class="placeholder">Thu nhập ròng</div>
-                <div class="balance">+ 1,760,000 đ</div>
+                <div class="placeholder">Net Income</div>
+                <div class="balance">{{this.netBalance}} đ</div>
             </div>
             <div class="over-all-barchart">
                 <app-stacked-bar-chart></app-stacked-bar-chart>
