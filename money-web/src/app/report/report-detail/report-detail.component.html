@@ -1,1 +1,42 @@
-<p>report-detail works!</p>
+
+<div class="title">
+    <i class="close-icon" nz-icon nzType="close" nzTheme="outline" (click)="hideReportDetail()"></i>
+    <span style="margin-left: 30px; font-weight: 500; font-size: 20px; line-height: 28px;"> Thu nhập ròng</span>
+</div>
+<div class="report-divider"></div>
+<div class="overall-chart">
+    <div class="over-all-chart-header">
+        <div class="balance">+ 1,760,000 đ</div>
+    </div>
+    <div class="over-all-barchart">
+        <app-stacked-bar-chart></app-stacked-bar-chart>
+    </div>
+</div>
+<div class="report-divider"></div>
+<div class="detail-transaction-component">
+    <div class="detail-transaction" nz-row>
+        <div nz-col nzSpan="2">
+        </div>
+        <p class="detail-title" nz-col nzSpan="13">
+            Thứ 5 16/12/2021
+        </p>
+        <div class="balance-metadata" nz-col nzSpan="5">
+            <div style="color: #039be5!important;">
+                + 40,000 đ
+            </div>
+            <div style="color: #e51c23!important;">
+                - 20,000 đ
+            </div>
+            <div>
+                20,000 đ
+            </div>
+        </div>
+        <div nz-col nzSpan="1"></div>
+        <div class="left-arrow" nz-col nzSpan="3">
+            <div class="left-icon">
+                <i nz-icon nzType="right" nzTheme="outline"></i>
+            </div>
+        </div>
+    </div>
+    <div class="report-divider"></div>
+</div>

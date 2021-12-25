@@ -1,10 +1,17 @@
+.main {
+
+}
+
 .main-report {
     width: 50%;
     margin-left: 50%;
     margin-top: 1%;
-    transform: translate(-50%, -0%);
+    transform: translate(-45%, -0%);
     transition: margin-left 0.5s;
     background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.043);
+    height: 85%;
 }
 
 .balance-report {
@@ -98,7 +105,7 @@
 }
 
 .debt:hover, .loan:hover, .other:hover {
-    background-color: rgba(45, 184, 76, .20);
+    background-color: rgba(45, 184, 76, .10);
 }
 
 
@@ -115,10 +122,10 @@
     position: absolute;
     width: 49%;
     left: 50%;
-    top: 80px;
-    /* height: 238px; */
-
+    margin-top: 1%;
+    overflow: scroll;
     background: #ffffff;
-    border-radius: 20px;
+    border-radius: 10px;
     box-shadow: 0 2px 0 rgba(0, 0, 0, 0.043);
+    height: 86%;
 }

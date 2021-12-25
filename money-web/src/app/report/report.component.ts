@@ -12,14 +12,14 @@ export class ReportComponent implements OnInit {
 
     constructor(private modal: NzModalService, private viewContainerRef: ViewContainerRef) {
     }
-    triggerShowPopup(title:string){
+
+    triggerShowPopup(title: string) {
         const modal: NzModalRef = this.modal.create({
             nzTitle: title,
             nzClassName: "debt-transaction-history",
             nzContent: TransactionHistoryPopupComponent,
             nzViewContainerRef: this.viewContainerRef,
-            nzComponentParams: {
-            },
+            nzComponentParams: {},
             nzBodyStyle: {
                 "padding": "0",
             },
@@ -27,7 +27,19 @@ export class ReportComponent implements OnInit {
             nzFooter: []
         });
     }
+
     ngOnInit(): void {
     }
 
+    showDetail() {
+        let dialog = document.getElementsByClassName('main-report') as HTMLCollectionOf<HTMLElement>;
+        let dialogDetail = document.getElementById('report-detail') as HTMLElement;
+        if (dialog.length != 0 && dialog[0].style.marginLeft != '19%' && dialogDetail.hidden) {
+            dialog[0].style.marginLeft = "19%";
+            dialog[0].style.width = "40%";
+            setTimeout(() => {
+                dialogDetail.hidden = false;
+            }, 500);
+        }
+    }
 }
