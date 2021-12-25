@@ -1,10 +1,17 @@
+.main {
+
+}
+
 .main-report {
     width: 50%;
     margin-left: 50%;
     margin-top: 1%;
-    transform: translate(-50%, -0%);
+    transform: translate(-45%, -0%);
     transition: margin-left 0.5s;
     background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.043);
+    height: 85%;
 }
 
 .balance-report {
@@ -27,6 +34,14 @@
     line-height: 24px;
 }
 
+.overall-chart {
+    cursor: pointer;
+}
+
+.overall-chart:hover {
+    background-color: rgba(45, 184, 76, .20);
+}
+
 .over-all-chart-header, .income-report, .outcome-report {
     text-align: center;
 }
@@ -36,7 +51,7 @@
     font-size: 14px;
     line-height: 20px;
     color: rgba(0, 0, 0, .54);
-    margin-top: 24px;
+    padding-top: 24px;
 
 }
 
@@ -47,8 +62,8 @@
     margin-top: -2px;
 }
 
-.over-all-barchart{
-    padding:16px 8px;
+.over-all-barchart {
+    padding: 16px 8px;
 }
 
 .income-report .placeholder {
@@ -82,4 +97,35 @@
 
 .report-divider {
     border-top: 1px solid #e0e0e0;
+}
+
+.debt, .loan, .other {
+    padding: 8px 0 7px;
+    cursor: pointer;
+}
+
+.debt:hover, .loan:hover, .other:hover {
+    background-color: rgba(45, 184, 76, .10);
+}
+
+
+.balance-metadata {
+    padding-top: 5px;
+    text-align: right;
+}
+
+.left-arrow {
+    padding-top: 5px;
+}
+
+#report-detail {
+    position: absolute;
+    width: 49%;
+    left: 50%;
+    margin-top: 1%;
+    overflow: scroll;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.043);
+    height: 86%;
 }

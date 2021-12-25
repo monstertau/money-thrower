@@ -24,7 +24,7 @@ import { InputDateModule } from '../components/input-date/input-date.module';
 import { InputNavigationModule } from '../components/input-navigation/input-navigation.module';
 import { ComponentsModule } from '../components/components.module';
 import { TopbarReportComponent } from './topbar/topbar-report/topbar-report.component';
-
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
     declarations: [
@@ -55,6 +55,7 @@ import { TopbarReportComponent } from './topbar/topbar-report/topbar-report.comp
         CategoryModule,
         NzModalModule,
         ComponentsModule,
+        ScrollingModule,
     ],
 
 })

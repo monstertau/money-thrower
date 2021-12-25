@@ -1,15 +1,45 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
+import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
+import {WalletAddIconComponent} from "../wallet-add/wallet-add-icon/wallet-add-icon.component";
+import {TransactionHistoryPopupComponent} from "../components/transaction-history-popup/transaction-history-popup.component";
 
 @Component({
-  selector: 'app-report',
-  templateUrl: './report.component.html',
-  styleUrls: ['./report.component.css']
+    selector: 'app-report',
+    templateUrl: './report.component.html',
+    styleUrls: ['./report.component.css']
 })
 export class ReportComponent implements OnInit {
 
-  constructor() { }
+    constructor(private modal: NzModalService, private viewContainerRef: ViewContainerRef) {
+    }
 
-  ngOnInit(): void {
-  }
+    triggerShowPopup(title: string) {
+        const modal: NzModalRef = this.modal.create({
+            nzTitle: title,
+            nzClassName: "debt-transaction-history",
+            nzContent: TransactionHistoryPopupComponent,
+            nzViewContainerRef: this.viewContainerRef,
+            nzComponentParams: {},
+            nzBodyStyle: {
+                "padding": "0",
+            },
+            nzWidth: 500,
+            nzFooter: []
+        });
+    }
 
+    ngOnInit(): void {
+    }
+
+    showDetail() {
+        let dialog = document.getElementsByClassName('main-report') as HTMLCollectionOf<HTMLElement>;
+        let dialogDetail = document.getElementById('report-detail') as HTMLElement;
+        if (dialog.length != 0 && dialog[0].style.marginLeft != '19%' && dialogDetail.hidden) {
+            dialog[0].style.marginLeft = "19%";
+            dialog[0].style.width = "40%";
+            setTimeout(() => {
+                dialogDetail.hidden = false;
+            }, 500);
+        }
+    }
 }
