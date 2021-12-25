@@ -23,6 +23,7 @@ import { InputTextModule } from './input-text/input-text.module';
 import { InputNumberModule } from './input-number/input-number.module';
 import { StackedBarChartComponent } from './stacked-bar-chart/stacked-bar-chart.component';
 import { NgxChartsModule} from "@swimlane/ngx-charts";
+import { DateSelectComponent } from './date-select/date-select.component';
 import { TransactionHistoryPopupComponent } from './transaction-history-popup/transaction-history-popup.component';
 import {NzEmptyModule} from "ng-zorro-antd/empty";
 import {TransactionModule} from "../transaction/transaction.module";
@@ -34,6 +35,7 @@ import {TransactionModule} from "../transaction/transaction.module";
         PopupSelectIconComponent,
         InputIconTextComponent,
         StackedBarChartComponent,
+        DateSelectComponent,
         TransactionHistoryPopupComponent,
     ],
     imports: [
@@ -68,6 +70,7 @@ import {TransactionModule} from "../transaction/transaction.module";
         PopupSelectIconComponent,
         InputIconTextComponent,
         StackedBarChartComponent,
+        DateSelectComponent
         TransactionHistoryPopupComponent,
     ]
 })
