@@ -27,6 +27,14 @@
     line-height: 24px;
 }
 
+.overall-chart {
+    cursor: pointer;
+}
+
+.overall-chart:hover {
+    background-color: rgba(45, 184, 76, .20);
+}
+
 .over-all-chart-header, .income-report, .outcome-report {
     text-align: center;
 }
@@ -36,7 +44,7 @@
     font-size: 14px;
     line-height: 20px;
     color: rgba(0, 0, 0, .54);
-    margin-top: 24px;
+    padding-top: 24px;
 
 }
 
@@ -99,6 +107,18 @@
     text-align: right;
 }
 
-.left-arrow{
-    padding-top:5px;
+.left-arrow {
+    padding-top: 5px;
+}
+
+#report-detail {
+    position: absolute;
+    width: 49%;
+    left: 50%;
+    top: 80px;
+    /* height: 238px; */
+
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.043);
 }
