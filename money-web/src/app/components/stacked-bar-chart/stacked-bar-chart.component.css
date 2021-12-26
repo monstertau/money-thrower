@@ -4,8 +4,6 @@
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
+    height: 200px;
 }
 
-.ngx-charts .text {
-    fill: #fff !important;
-}

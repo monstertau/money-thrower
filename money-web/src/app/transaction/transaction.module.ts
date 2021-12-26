@@ -14,20 +14,23 @@ import { TransactionDetailComponent } from './transaction-detail/transaction-det
 
 
 @NgModule({
-  declarations: [
-    TransactionComponent,
-    TransactionListComponent,
-    TransactionDetailComponent,
-  ],
-  imports: [
-    CommonModule,
-    NzTabsModule,
-    NzDividerModule,
-    NzButtonModule,
-    NzIconModule,
-    NzImageModule,
-    NzModalModule,
-    NzSpinModule
-  ]
+    declarations: [
+        TransactionComponent,
+        TransactionListComponent,
+        TransactionDetailComponent,
+    ],
+    exports: [
+        TransactionListComponent
+    ],
+    imports: [
+        CommonModule,
+        NzTabsModule,
+        NzDividerModule,
+        NzButtonModule,
+        NzIconModule,
+        NzImageModule,
+        NzModalModule,
+        NzSpinModule
+    ]
 })
 export class TransactionModule { }
