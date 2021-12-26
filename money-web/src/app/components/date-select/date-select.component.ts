@@ -105,8 +105,6 @@ export class DateSelectComponent implements OnInit {
         } else {
             this.dateRange = option;
         }
-
-        console.log(this.dateRange);
     }
 
     applyClick() {

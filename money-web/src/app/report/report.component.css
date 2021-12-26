@@ -39,7 +39,7 @@
 }
 
 .overall-chart:hover {
-    background-color: rgba(45, 184, 76, .20);
+    background-color: rgba(45, 184, 76, .08);
 }
 
 .over-all-chart-header, .income-report, .outcome-report {
@@ -63,7 +63,7 @@
 }
 
 .over-all-barchart {
-    padding: 16px 8px;
+    padding: 16px 12px;
 }
 
 .income-report .placeholder {
@@ -105,7 +105,7 @@
 }
 
 .debt:hover, .loan:hover, .other:hover {
-    background-color: rgba(45, 184, 76, .10);
+    background-color: rgba(45, 184, 76, .08);
 }
 
 

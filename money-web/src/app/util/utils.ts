@@ -1,6 +1,8 @@
 import {Moment} from "moment";
+import {Constant} from "./constant";
 
 export class Utils {
+
     static weekDays = [
         {
             key: 'Mon',
@@ -113,7 +115,7 @@ export class Utils {
 
     static formatCurrency(balance: number) {
         const formatBalance = balance.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
-        if(balance < 0){
+        if (balance < 0) {
             return "- " + formatBalance;
         }
         return "+ " + formatBalance;
@@ -148,37 +150,37 @@ export class Utils {
 
         const dateOptions = [
             {
-                title: "This month",
+                title: Constant.THIS_MONTH,
                 startDate: new Date(y, m, 1),
                 endDate: new Date(y, m + 1, 0),
             },
             {
-                title: "Last month",
+                title: Constant.LAST_MONTH,
                 startDate: new Date(y, m - 1, 1),
                 endDate: new Date(y, m, 0),
             },
             {
-                title: "Last 3 months",
+                title: Constant.LAST_3_MONTH,
                 startDate: new Date(y, m - 3, 1),
                 endDate: new Date(y, m + 1, 0),
             },
             {
-                title: "Last 6 months",
+                title: Constant.LAST_6_MONTH,
                 startDate: new Date(y, m - 6, 1),
                 endDate: new Date(y, m + 1, 0),
             },
             {
-                title: "This year",
+                title: Constant.THIS_YEAR,
                 startDate: new Date(y, 0, 1),
-                endDate: new Date(y, 12, 31),
+                endDate: new Date(y, 11, 31),
             },
             {
-                title: "Last year",
+                title: Constant.LAST_YEAR,
                 startDate: new Date(y - 1, 0, 1),
-                endDate: new Date(y - 1, 12, 31),
+                endDate: new Date(y - 1, 11, 31),
             },
             {
-                title: "Custom",
+                title: Constant.CUSTOM,
                 startDate: new Date(),
                 endDate: new Date(),
             }
@@ -188,9 +190,10 @@ export class Utils {
                 return item.title
             }
         }
-        return "Custom";
+        return Constant.CUSTOM;
     }
 }
+
 
 export interface FormatedDate {
     weekDay: string;

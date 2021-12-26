@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {multi} from './data';
 import {parse} from "@angular/compiler/src/render3/view/style_parser";
+import {TransactionView} from "../../view-model/transactions";
+import * as moment from "moment";
 
 @Component({
     selector: 'app-stacked-bar-chart',
@@ -8,13 +10,10 @@ import {parse} from "@angular/compiler/src/render3/view/style_parser";
     styleUrls: ['./stacked-bar-chart.component.css']
 })
 export class StackedBarChartComponent implements OnInit {
-
-
-    ngOnInit(): void {
-    }
-
-
-    @Input() multi!: any[];
+    @Input() transactions!: TransactionView[];
+    @Input() startDate!: Date;
+    @Input() endDate!: Date;
+    @Input() multi: DataPoint[] = [];
     @Input() view?: any[];
     // options
     showXAxis: boolean = true;
@@ -28,12 +27,34 @@ export class StackedBarChartComponent implements OnInit {
     xAxisTick: number[] = []
 
     constructor() {
-        Object.assign(this, {multi})
         this.addYAxisTick()
         this.addXAxisTick()
     }
 
+    ngOnInit(): void {
+        if (this.transactions.length) {
+
+            this.multi.push({
+                name: "1",
+                series: [
+                    {
+                        name: "income",
+                        value: 100000
+                    },
+                    {
+                        name: "outcome",
+                        value: -10000
+                    }
+                ]
+            })
+        }
+    }
+
     addYAxisTick() {
+        if (this.multi.length == 0) {
+            this.yAxisTick.push(0);
+            return;
+        }
         let maxAmount = 10000;
         let minAmount = -10000;
         multi.forEach(function (item) {
@@ -48,7 +69,6 @@ export class StackedBarChartComponent implements OnInit {
         })
         const lowerBatch = (0 - minAmount) / 2
         const upperBatch = maxAmount / 3
-        console.log(maxAmount)
         for (let i = 0; i < 2; i++) {
             const data = minAmount + lowerBatch * i
             if (this.normalizeLabelNumber(data) > maxAmount / 2) {
@@ -62,6 +82,9 @@ export class StackedBarChartComponent implements OnInit {
     }
 
     addXAxisTick() {
+        if (this.multi.length == 0) {
+            return;
+        }
         let maxRange = 1;
         let minRange = 1;
         multi.forEach(function (item) {
@@ -123,9 +146,15 @@ export class StackedBarChartComponent implements OnInit {
         // return
     }
 
-    axisFormat(val: any) {
-        return (val % 2) === 0 ? val : '';
-        // return val
-    }
 
+}
+
+interface SeriesPoint {
+    name: string;
+    value: number;
+}
+
+interface DataPoint {
+    name: string;
+    series: SeriesPoint[];
 }

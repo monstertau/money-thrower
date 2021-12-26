@@ -22,6 +22,9 @@ import {CategoryService} from "../services/category.service";
 export class ReportComponent implements OnInit {
 
     private destroy$ = new Subject();
+    isLoading: boolean = true;
+    startDate: Date = new Date();
+    endDate: Date = new Date();
     startBalance: string = "0";
     endBalance: string = "0";
     netBalance: string = "0";
@@ -31,7 +34,7 @@ export class ReportComponent implements OnInit {
     constructor(private modal: NzModalService, private viewContainerRef: ViewContainerRef,
                 public activatedRoute: ActivatedRoute, private walletService: WalletService,
                 private transactionService: TransactionService, private commonService: CommonService,
-                private categoryService:CategoryService){
+                private categoryService: CategoryService) {
         this.commonService.currentWallet.subscribe(wallet => {
             this.currentWalletId = wallet;
         });
@@ -55,9 +58,14 @@ export class ReportComponent implements OnInit {
     ngOnInit(): void {
         this.activatedRoute.queryParams
             .pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
-            this.queryData(params.startDate, params.endDate)
+            this.isLoading = true;
+            this.queryData(params.startDate, params.endDate);
+            setTimeout(() => {
+                this.isLoading = false;
+            }, 200);
+            this.startDate = moment(params.startDate, "DD/MM/YYYY").toDate();
+            this.endDate = moment(params.endDate, "DD/MM/YYYY").toDate();
         })
-
     }
 
     queryData(startDate: string, endDate: string) {
@@ -88,6 +96,7 @@ export class ReportComponent implements OnInit {
             })
         })
     }
+
     getWallet(transaction: TransactionView) {
         this.walletService.getWalletById(this.currentWalletId).subscribe(
             data => {
