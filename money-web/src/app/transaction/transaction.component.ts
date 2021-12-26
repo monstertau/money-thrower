@@ -49,6 +49,8 @@ export class TransactionComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTransaction();
+    // console.log(this.transactionByTime);
+    // console.log(this.transactionByCategory);
   }
 
   getTransaction() {
