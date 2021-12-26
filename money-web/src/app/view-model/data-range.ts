@@ -6,28 +6,29 @@ export class DataRange {
     startDate!: Date;
     endDate!: Date;
     dataUnits: DataUnit[] = [];
-
+    totalIncome:number = 0;
+    totalOutcome:number = 0;
     constructor(title: string, start: Date, end: Date, allTransaction: TransactionView[]) {
         this.startDate = start;
         this.endDate = end;
         switch (title) {
             case Constant.THIS_MONTH:
-                this.getMonthDataUnits(30);
+                this.getMonthDataUnits();
                 break;
             case Constant.LAST_MONTH:
-                this.getMonthDataUnits(30);
+                this.getMonthDataUnits();
                 break;
             case Constant.LAST_3_MONTH:
-                this.getYearDataUnits(3);
+                this.getYearDataUnits();
                 break;
             case Constant.LAST_6_MONTH:
-                this.getYearDataUnits(6);
+                this.getYearDataUnits();
                 break;
             case Constant.THIS_YEAR:
-                this.getYearDataUnits(12);
+                this.getYearDataUnits();
                 break;
             case Constant.LAST_YEAR:
-                this.getYearDataUnits(12);
+                this.getYearDataUnits();
                 break;
             default:
                 const days = moment(this.endDate).diff(moment(this.startDate), 'days')
@@ -38,29 +39,34 @@ export class DataRange {
 
     }
 
-    getYearDataUnits(numMonth: number) {
+    getYearDataUnits() {
+        const numMonth = this.endDate.getMonth() - this.startDate.getMonth() + 1
         for (let i = 0; i < numMonth; i++) {
             let dataUnit: DataUnit = {
-                name: (i + 1).toString(),
+                name: (this.startDate.getMonth() + i + 1).toString(),
                 startDate: moment(this.startDate).add(i, 'month').toDate(),
                 endDate: moment(this.startDate).add(i + 1, 'month').subtract(1, 'day').toDate(),
                 incomeTransaction: [],
                 outcomeTransaction: [],
-                total: 0,
+                totalIncome: 0,
+                totalOutcome: 0,
             }
             this.dataUnits.push(dataUnit);
         }
     }
 
-    getMonthDataUnits(numDays: number) {
+    getMonthDataUnits() {
+        const numDays = this.endDate.getDate() - this.startDate.getDate() + 1
         for (let i = 0; i < numDays; i++) {
+
             let dataUnit: DataUnit = {
-                name: (i + 1).toString(),
+                name: (this.startDate.getDate() + i).toString(),
                 startDate: moment(this.startDate).add(i, 'day').toDate(),
                 endDate: moment(this.startDate).add(i + 1, 'day').subtract(1, 'second').toDate(),
                 incomeTransaction: [],
                 outcomeTransaction: [],
-                total: 0,
+                totalIncome: 0,
+                totalOutcome: 0,
             }
             this.dataUnits.push(dataUnit);
         }
@@ -69,12 +75,13 @@ export class DataRange {
     getCustomDataUnits(numInterval: number) {
         for (let i = 0; i < numInterval; i++) {
             let dataUnit: DataUnit = {
-                name: (i + 1).toString(),
+                name: (this.startDate.getDate() + i).toString(),
                 startDate: moment(this.startDate).add(i, 'day').toDate(),
                 endDate: moment(this.startDate).add(i + 1, 'day').subtract(1, 'second').toDate(),
                 incomeTransaction: [],
                 outcomeTransaction: [],
-                total: 0,
+                totalIncome: 0,
+                totalOutcome: 0,
             }
             this.dataUnits.push(dataUnit);
         }
@@ -87,10 +94,12 @@ export class DataRange {
                     transaction.transactionDate.valueOf() <= dataUnit.endDate.valueOf()) {
                     if (transaction.category.isExpense) {
                         dataUnit.outcomeTransaction.push(transaction);
-                        dataUnit.total -= transaction.amount;
+                        dataUnit.totalOutcome += transaction.amount;
+                        this.totalOutcome += transaction.amount;
                     } else {
                         dataUnit.incomeTransaction.push(transaction);
-                        dataUnit.total += transaction.amount;
+                        dataUnit.totalIncome += transaction.amount;
+                        this.totalIncome += transaction.amount;
                     }
                 }
             }
@@ -104,5 +113,6 @@ export interface DataUnit {
     endDate: Date;
     incomeTransaction: TransactionView[];
     outcomeTransaction: TransactionView[];
-    total: number;
+    totalIncome: number;
+    totalOutcome: number;
 }

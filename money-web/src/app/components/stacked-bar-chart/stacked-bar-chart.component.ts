@@ -59,6 +59,7 @@ export class StackedBarChartComponent implements OnInit {
                 }
                 this.multi.push(dataPoint)
             }
+            console.log(this.multi);
             this.addYAxisTick()
             this.addXAxisTick()
         }
@@ -69,9 +70,20 @@ export class StackedBarChartComponent implements OnInit {
             this.yAxisTick.push(0);
             return;
         }
+        let hasData = false;
+        for (let dataUnit of this.dataRange.dataUnits) {
+            if (dataUnit.totalIncome > 0 || dataUnit.totalOutcome > 0) {
+                hasData = true;
+                break;
+            }
+        }
+        if (!hasData) {
+            this.yAxisTick.push(0);
+            return;
+        }
         let maxAmount = 10000;
         let minAmount = -10000;
-        multi.forEach(function (item) {
+        this.multi.forEach(function (item) {
             for (let i = 0; i < item.series.length; i++) {
                 if (item.series[i].value > maxAmount) {
                     maxAmount = item.series[i].value
@@ -99,10 +111,10 @@ export class StackedBarChartComponent implements OnInit {
         if (this.multi.length == 0) {
             return;
         }
-        let maxRange = 1;
-        let minRange = 1;
-        multi.forEach(function (item) {
-            let data = item.name
+        let maxRange = parseInt(this.multi[0].name);
+        let minRange = parseInt(this.multi[0].name);
+        this.multi.forEach(function (item) {
+            let data = parseInt(item.name)
             if (data > maxRange) {
                 maxRange = data
             }
@@ -110,7 +122,8 @@ export class StackedBarChartComponent implements OnInit {
                 minRange = data
             }
         })
-        const interval = maxRange - minRange
+        const interval = maxRange - minRange;
+        console.log(interval);
         if (interval < 15) {
             for (let i = 0; i <= interval; i++) {
                 this.xAxisTick.push(minRange + i)

@@ -3,8 +3,8 @@ import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
 import {WalletAddIconComponent} from "../wallet-add/wallet-add-icon/wallet-add-icon.component";
 import {TransactionHistoryPopupComponent} from "../components/transaction-history-popup/transaction-history-popup.component";
 import {ActivatedRoute, Params} from "@angular/router";
-import {takeUntil} from "rxjs/operators";
-import {Subject} from "rxjs";
+import {catchError, concatMap, map, takeUntil} from "rxjs/operators";
+import {from, Observable, of, Subject} from "rxjs";
 import {WalletService} from "../services/wallet.service";
 import {TransactionService} from "../services/transaction.service";
 import {CommonService} from "../services/common.service";
@@ -32,6 +32,8 @@ export class ReportComponent implements OnInit {
     allTransactions: TransactionView[] = [];
     title!: string;
     dataRange!: DataRange;
+    totalIncome:string = "0";
+    totalOutcome:string = "0";
     private currentWalletId!: string;
 
     constructor(private modal: NzModalService, private viewContainerRef: ViewContainerRef,
@@ -63,9 +65,6 @@ export class ReportComponent implements OnInit {
             .pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
             this.isLoading = true;
             this.queryData(params.title, params.startDate, params.endDate);
-            setTimeout(() => {
-                this.isLoading = false;
-            }, 200);
         })
 
     }
@@ -88,34 +87,49 @@ export class ReportComponent implements OnInit {
             key_note: "",
             wallet_id: this.currentWalletId,
         }
-        this.transactionService.getTransactions(filter).subscribe(transactions => {
-            transactions.forEach(transaction => {
-                let transactionView: TransactionView = new TransactionView().addTransaction(transaction);
-                transactionView.category.id = transaction.cat_id;
-                this.getCategory(transactionView);
-                this.getWallet(transactionView);
-                this.allTransactions.push(transactionView);
-            })
+        this.allTransactions = [];
+        this.transactionService.getTransactions(filter)
+            .pipe( // pipeline for sequential call
+                concatMap(transactions => {
+                    if (transactions.length <= 0) {
+                        throw 'Data not found';
+                    }
+                    return from(transactions)
+                }),
+                concatMap(transaction => {
+                    let transactionView: TransactionView = new TransactionView().addTransaction(transaction);
+                    transactionView.category.id = transaction.cat_id;
+                    return this.categoryService.getCategoryById(transactionView.category.id).pipe(
+                        map(category => {
+                                return transactionView.addCategory(category)
+                            }
+                        )
+                    );
+                }),
+                concatMap(transactionView => {
+                        return this.walletService.getWalletById(this.currentWalletId).pipe(
+                            map(data => {
+                                return transactionView.addWallet(data);
+                            })
+                        );
+                    }
+                ),
+                map(transactionView => {
+                    this.allTransactions.push(transactionView);
+                }),
+                catchError((error) => of(error))
+            ).subscribe(() => {
             this.startDate = moment(startDate, "DD/MM/YYYY").toDate();
             this.endDate = moment(endDate, "DD/MM/YYYY").toDate();
             this.title = title;
-            this.dataRange = new DataRange(this.title, this.startDate, this.endDate, this.allTransactions)
+            this.dataRange = new DataRange(this.title, this.startDate, this.endDate, this.allTransactions);
+            setTimeout(() => {
+                this.isLoading = false;
+            }, 200);
+            this.totalIncome = Utils.formatCurrency(this.dataRange.totalIncome)
+            this.totalOutcome = Utils.formatCurrency(-this.dataRange.totalOutcome)
         })
 
-    }
-
-    getWallet(transaction: TransactionView) {
-        this.walletService.getWalletById(this.currentWalletId).subscribe(
-            data => {
-                transaction.addWallet(data);
-            }
-        );
-    }
-
-    getCategory(transaction: TransactionView) {
-        this.categoryService.getCategoryById(transaction.category.id).subscribe(data => {
-            transaction.addCategory(data);
-        })
     }
 
     ngOnDestroy(): void {
