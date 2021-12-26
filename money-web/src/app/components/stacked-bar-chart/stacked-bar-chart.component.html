@@ -1,0 +1,15 @@
+<div #containerRef class="stacked-barchart">
+    <ngx-charts-bar-vertical-stacked
+        [view]="[containerRef.offsetWidth, containerRef.offsetHeight]"
+        [scheme]="colorScheme"
+        [results]="multi"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [animations]="animations"
+        [barPadding]="12"
+        [yAxisTicks]="yAxisTick"
+        [xAxisTicks]="xAxisTick"
+        [yAxisTickFormatting]="abbreviateNumber"
+    >
+    </ngx-charts-bar-vertical-stacked>
+</div>

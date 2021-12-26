@@ -1,0 +1,9 @@
+.stacked-barchart {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    height: 200px;
+}
+
