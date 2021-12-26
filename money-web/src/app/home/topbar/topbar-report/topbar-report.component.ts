@@ -52,7 +52,7 @@ export class TopbarReportComponent implements OnInit, OnDestroy {
                             queryParamsHandling: 'merge', // remove to replace all query params by provided
                         });
                 }
-                this.selectedDateRange.title = Utils.getDateRangeTitle(this.selectedDateRange.startDate, this.selectedDateRange.endDate)
+                this.selectedDateRange.title = Utils.getDateRangeTitle(this.selectedDateRange.startDate, this.selectedDateRange.endDate);
             });
     }
 

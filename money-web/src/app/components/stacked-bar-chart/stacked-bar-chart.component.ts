@@ -3,6 +3,8 @@ import {multi} from './data';
 import {parse} from "@angular/compiler/src/render3/view/style_parser";
 import {TransactionView} from "../../view-model/transactions";
 import * as moment from "moment";
+import {DataRange, DataUnit} from "../../view-model/data-range";
+import {out} from "@amcharts/amcharts5/.internal/core/util/Ease";
 
 @Component({
     selector: 'app-stacked-bar-chart',
@@ -10,7 +12,7 @@ import * as moment from "moment";
     styleUrls: ['./stacked-bar-chart.component.css']
 })
 export class StackedBarChartComponent implements OnInit {
-    @Input() transactions!: TransactionView[];
+    @Input() dataRange!: DataRange;
     @Input() startDate!: Date;
     @Input() endDate!: Date;
     @Input() multi: DataPoint[] = [];
@@ -32,21 +34,33 @@ export class StackedBarChartComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        if (this.transactions.length) {
-
-            this.multi.push({
-                name: "1",
-                series: [
-                    {
-                        name: "income",
-                        value: 100000
-                    },
-                    {
-                        name: "outcome",
-                        value: -10000
-                    }
-                ]
-            })
+        if (this.dataRange.dataUnits.length) {
+            for (let dataUnit of this.dataRange.dataUnits) {
+                let income = 0;
+                let outcome = 0;
+                for (let incomeTrans of dataUnit.incomeTransaction) {
+                    income += incomeTrans.amount
+                }
+                for (let outcomeTrans of dataUnit.outcomeTransaction) {
+                    outcome += outcomeTrans.amount
+                }
+                let dataPoint = {
+                    name: dataUnit.name,
+                    series: [
+                        {
+                            name: "income",
+                            value: income,
+                        },
+                        {
+                            name: "outcome",
+                            value: -outcome
+                        }
+                    ]
+                }
+                this.multi.push(dataPoint)
+            }
+            this.addYAxisTick()
+            this.addXAxisTick()
         }
     }
 

@@ -13,6 +13,7 @@ import {Utils} from "../util/utils";
 import {TransactionView} from "../view-model/transactions";
 import {parse} from "@angular/compiler/src/render3/view/style_parser";
 import {CategoryService} from "../services/category.service";
+import {DataRange} from "../view-model/data-range";
 
 @Component({
     selector: 'app-report',
@@ -29,6 +30,8 @@ export class ReportComponent implements OnInit {
     endBalance: string = "0";
     netBalance: string = "0";
     allTransactions: TransactionView[] = [];
+    title!: string;
+    dataRange!: DataRange;
     private currentWalletId!: string;
 
     constructor(private modal: NzModalService, private viewContainerRef: ViewContainerRef,
@@ -59,16 +62,15 @@ export class ReportComponent implements OnInit {
         this.activatedRoute.queryParams
             .pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
             this.isLoading = true;
-            this.queryData(params.startDate, params.endDate);
+            this.queryData(params.title, params.startDate, params.endDate);
             setTimeout(() => {
                 this.isLoading = false;
             }, 200);
-            this.startDate = moment(params.startDate, "DD/MM/YYYY").toDate();
-            this.endDate = moment(params.endDate, "DD/MM/YYYY").toDate();
         })
+
     }
 
-    queryData(startDate: string, endDate: string) {
+    queryData(title: string, startDate: string, endDate: string) {
         const start = moment(startDate, "DD/MM/YYYY").format("x");
         const end = moment(endDate, "DD/MM/YYYY").format("x");
         this.walletService.getWalletBalance(this.currentWalletId, parseInt(start), parseInt(end))
@@ -94,7 +96,12 @@ export class ReportComponent implements OnInit {
                 this.getWallet(transactionView);
                 this.allTransactions.push(transactionView);
             })
+            this.startDate = moment(startDate, "DD/MM/YYYY").toDate();
+            this.endDate = moment(endDate, "DD/MM/YYYY").toDate();
+            this.title = title;
+            this.dataRange = new DataRange(this.title, this.startDate, this.endDate, this.allTransactions)
         })
+
     }
 
     getWallet(transaction: TransactionView) {

@@ -21,7 +21,7 @@
                     <div class="balance">{{this.netBalance}} đ</div>
                 </div>
                 <div class="over-all-barchart">
-                    <app-stacked-bar-chart [transactions]="allTransactions"
+                    <app-stacked-bar-chart [dataRange]="this.dataRange"
                                            [startDate]="this.startDate"
                                            [endDate]="this.endDate"></app-stacked-bar-chart>
                 </div>
