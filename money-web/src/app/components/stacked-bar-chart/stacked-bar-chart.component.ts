@@ -25,11 +25,9 @@ export class StackedBarChartComponent implements OnInit {
     colorScheme = {
         domain: ['#22a1d3', '#f25a5a', '#AAAAAA']
     };
-    yAxisTick: number[] = []
     xAxisTick: number[] = []
 
     constructor() {
-        this.addYAxisTick()
         this.addXAxisTick()
     }
 
@@ -60,50 +58,7 @@ export class StackedBarChartComponent implements OnInit {
                 this.multi.push(dataPoint)
             }
             console.log(this.multi);
-            this.addYAxisTick()
             this.addXAxisTick()
-        }
-    }
-
-    addYAxisTick() {
-        if (this.multi.length == 0) {
-            this.yAxisTick.push(0);
-            return;
-        }
-        let hasData = false;
-        for (let dataUnit of this.dataRange.dataUnits) {
-            if (dataUnit.totalIncome > 0 || dataUnit.totalOutcome > 0) {
-                hasData = true;
-                break;
-            }
-        }
-        if (!hasData) {
-            this.yAxisTick.push(0);
-            return;
-        }
-        let maxAmount = 10000;
-        let minAmount = -10000;
-        this.multi.forEach(function (item) {
-            for (let i = 0; i < item.series.length; i++) {
-                if (item.series[i].value > maxAmount) {
-                    maxAmount = item.series[i].value
-                }
-                if (item.series[i].value < minAmount) {
-                    minAmount = item.series[i].value
-                }
-            }
-        })
-        const lowerBatch = (0 - minAmount) / 2
-        const upperBatch = maxAmount / 3
-        for (let i = 0; i < 2; i++) {
-            const data = minAmount + lowerBatch * i
-            if (this.normalizeLabelNumber(data) > maxAmount / 2) {
-                this.yAxisTick.push(this.normalizeLabelNumber(data))
-            }
-        }
-        this.yAxisTick.push(0)
-        for (let i = 2; i >= 0; i--) {
-            this.yAxisTick.push(this.normalizeLabelNumber(maxAmount - upperBatch * i))
         }
     }
 

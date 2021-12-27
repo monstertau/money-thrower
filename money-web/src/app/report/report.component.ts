@@ -125,7 +125,7 @@ export class ReportComponent implements OnInit {
             this.dataRange = new DataRange(this.title, this.startDate, this.endDate, this.allTransactions);
             setTimeout(() => {
                 this.isLoading = false;
-            }, 200);
+            }, 1000);
             this.totalIncome = Utils.formatCurrency(this.dataRange.totalIncome)
             this.totalOutcome = Utils.formatCurrency(-this.dataRange.totalOutcome)
         })
