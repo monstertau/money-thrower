@@ -34,12 +34,20 @@
                         <div class="balance">+ 1,760,000 đ</div>
 
                     </div>
+                    <div class = "income-pie-chart">
+                        Income report
+                        <app-income-pie-chart></app-income-pie-chart>
+                    </div>
                 </div>
                 <div class="outcome-report" nz-col nzSpan="12">
                     <div class="outcome-header">
                         <div class="placeholder">Khoản chi</div>
                         <div class="balance">- 1,760,000 đ</div>
 
+                    </div>
+                    <div class="outcome-pie-chart">
+                        Outcome report
+                        <app-outcome-pie-chart></app-outcome-pie-chart>
                     </div>
                 </div>
             </div>
@@ -82,10 +90,6 @@
                 <div class="left-arrow" nz-col nzSpan="3">
                     <i nz-icon nzType="right" nzTheme="outline"></i>
                 </div>
-                <div class = "income-pie-chart">
-                    Income report
-                    <app-income-pie-chart></app-income-pie-chart>
-                </div>
             </div>
             <div class="report-divider"></div>
             <div class="other" nz-row (click)="triggerShowPopup('Khác')">
@@ -101,10 +105,7 @@
                 <div class="left-arrow" nz-col nzSpan="3">
                     <i nz-icon nzType="right" nzTheme="outline"></i>
                 </div>
-                <div class="outcome-pie-chart">
-                    Outcome report
-                    <app-outcome-pie-chart></app-outcome-pie-chart>
-                </div>
+                
             </div>
         </div>
     </div>

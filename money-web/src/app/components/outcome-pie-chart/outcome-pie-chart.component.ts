@@ -49,26 +49,26 @@ export class OutcomePieChartComponent implements OnInit {
   
         Object.assign(this, {multi});
        
-        while(this.multi.length>0){
-            this.multi.pop();
-        }
+        // while(this.multi.length>0){
+        //     this.multi.pop();
+        // }
 
         this.filter.cat_id = '';
         this.filter.start_date = 0;
         this.filter.end_date = 0;
 
-        this.transactionService.getTransactions(this.filter).subscribe(transactions => {
-            transactions.forEach(transaction => {
-                this.tmp = {
-                    "name": transaction.cat_id,
-                    "value": transaction.amount
-                };
-                this.multi.push(this.tmp); 
-            })
-          }, (err) => {
-            console.log(err)
-          }
-        );
+        // this.transactionService.getTransactions(this.filter).subscribe(transactions => {
+        //     transactions.forEach(transaction => {
+        //         this.tmp = {
+        //             "name": transaction.cat_id,
+        //             "value": transaction.amount
+        //         };
+        //         this.multi.push(this.tmp); 
+        //     })
+        //   }, (err) => {
+        //     console.log(err)
+        //   }
+        // );
         // for(let i=0; i<9; i++){
         //     this.test = {
         //         "name" : i.toString(),
@@ -79,7 +79,7 @@ export class OutcomePieChartComponent implements OnInit {
 
         // }
 
-        console.log(this.multi);
+        // console.log(this.multi);
 
     }
 

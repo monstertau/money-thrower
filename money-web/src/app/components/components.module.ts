@@ -27,6 +27,8 @@ import {DateSelectComponent} from './date-select/date-select.component';
 import {TransactionHistoryPopupComponent} from './transaction-history-popup/transaction-history-popup.component';
 import {NzEmptyModule} from "ng-zorro-antd/empty";
 import {TransactionModule} from "../transaction/transaction.module";
+import { IncomePieChartComponent } from './income-pie-chart/income-pie-chart.component';
+import { OutcomePieChartComponent } from './outcome-pie-chart/outcome-pie-chart.component';
 
 @NgModule({
     declarations: [
@@ -35,6 +37,8 @@ import {TransactionModule} from "../transaction/transaction.module";
         PopupSelectIconComponent,
         InputIconTextComponent,
         StackedBarChartComponent,
+        IncomePieChartComponent,
+        OutcomePieChartComponent,
         DateSelectComponent,
         TransactionHistoryPopupComponent,
     ],
@@ -72,6 +76,8 @@ import {TransactionModule} from "../transaction/transaction.module";
         StackedBarChartComponent,
         DateSelectComponent,
         TransactionHistoryPopupComponent,
+        IncomePieChartComponent,
+        OutcomePieChartComponent
     ]
 })
 export class ComponentsModule {
