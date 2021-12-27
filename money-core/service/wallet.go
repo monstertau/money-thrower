@@ -2,6 +2,7 @@ package service
 
 import (
 	"github.com/pkg/errors"
+	"math"
 	"money-core/repository"
 	"money-core/util"
 	"money-core/validator"
@@ -64,15 +65,22 @@ func (s *WalletService) Update(userId string, form *view.WalletForm) error {
 }
 
 func (s *WalletService) InitTransaction(f *view.WalletForm) error {
+	w, err := s.repositories.WalletRepo.GetById(f.WalletId, f.UserId)
+	if err != nil {
+		return errors.Wrap(err, "in GetByID")
+	}
+	addedTransaction := f.WalletBalance - w.Balance
 	var form = &view.AddTransactionForm{
 		UserId:          f.UserId,
 		WalletId:        f.WalletId,
 		CatId:           "ae5b7f63-01f6-4c48-b751-cb4f8235581c",
-		Amount:          f.WalletBalance,
+		Amount:          math.Abs(addedTransaction),
 		Note:            "Initialize Wallet",
 		TransactionDate: util.NormalizeTimeAsMilliseconds(time.Now().Unix()),
 	}
-	//TODO: need to transform to const table
+	if addedTransaction < 0 {
+		form.CatId = "3a20667c-10be-43af-bcd7-3ed78232dedd"
+	}
 	if _, err := s.repositories.TransactionRepo.Create(form); err != nil {
 		return errors.Errorf("%v", err)
 	}
