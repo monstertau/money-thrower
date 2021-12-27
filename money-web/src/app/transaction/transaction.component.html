@@ -1,6 +1,6 @@
 <div style="display: flex">
     <div class="list-transaction">
-        <nz-tabset nzCentered [nzSelectedIndex]="1">
+        <nz-tabset *ngIf="currentPage=='transaction'" nzCentered [nzSelectedIndex]="1">
             <nz-tab class="tabs" (nzClick)="onMonthChange('last')" nzTitle="LAST MONTH">
                 <ng-template nz-tab>
                     <app-transaction-list [transactions]="transactionByCategory" [isLoading]="isLoading"
@@ -19,6 +19,15 @@
                 <ng-template nz-tab>
                     <app-transaction-list [transactions]="transactionByCategory" [isLoading]="isLoading"
                         [transactionsByTime]="transactionByTime" [inflow]="inflow/2" [outflow]="outflow/2"
+                        (selectedTransaction)="onTransactionSelected($event)"></app-transaction-list>
+                </ng-template>
+            </nz-tab>
+        </nz-tabset>
+        <nz-tabset nzCentered *ngIf="currentPage=='search'">
+            <nz-tab class="tabs">
+                <ng-template nz-tab>
+                    <app-transaction-list [isLoading]="isLoading"
+                        [transactionsByTime]="transactionByTime" [currentPage]="currentPage" [inflow]="inflow" [outflow]="outflow"
                         (selectedTransaction)="onTransactionSelected($event)"></app-transaction-list>
                 </ng-template>
             </nz-tab>

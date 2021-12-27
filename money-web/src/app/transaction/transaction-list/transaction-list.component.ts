@@ -14,6 +14,7 @@ export class TransactionListComponent implements OnInit {
   @Output() selectedTransaction = new EventEmitter<TransactionView>();
   @Input() inflow!: number;
   @Input() outflow!: number;
+  @Input() currentPage!: string;
   viewMode!: string;
   @Input() isLoading: boolean = true;
   constructor(private commonService: CommonService) {
@@ -30,6 +31,7 @@ export class TransactionListComponent implements OnInit {
     if (dialog.length != 0 && dialog[0].style.marginLeft != '21%' && dialogDetail.hidden) {
       dialog[0].style.marginLeft = "21%";
       setTimeout(() => {
+        if (this.currentPage == 'search') dialogDetail.style.top = '242px';
         dialogDetail.hidden = false;
       }, 500);
     }

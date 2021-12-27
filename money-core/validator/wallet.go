@@ -37,9 +37,6 @@ func (v *WalletValidator) ValidateWalletForm(form *view.WalletForm) error {
 	if _, ok := supportCurrency[form.WalletCurrency]; !ok {
 		return errors.Errorf("unsupported wallet currency %v", form.WalletType)
 	}
-	if form.WalletBalance < 0 {
-		return errors.New("wallet balance need to be larger than 0!")
-	}
 	return nil
 }
 

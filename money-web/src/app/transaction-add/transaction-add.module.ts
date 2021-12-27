@@ -9,7 +9,7 @@ import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
 import {TransactionAddCategoryComponent} from './transaction-add-category/transaction-add-category.component';
 import {TransactionAddWalletComponent} from './transaction-add-wallet/transaction-add-wallet.component';
 import {NzDividerModule} from "ng-zorro-antd/divider";
-import {BrowserModule} from "@angular/platform-browser";
+import { CommonModule } from "@angular/common";
 import {NzTabsModule} from "ng-zorro-antd/tabs";
 import {NzListModule} from "ng-zorro-antd/list";
 import {InputNavigationModule} from "../components/input-navigation/input-navigation.module";
@@ -35,7 +35,7 @@ import {InputNumberModule} from "../components/input-number/input-number.module"
         FormsModule,
         NzDatePickerModule,
         NzDividerModule,
-        BrowserModule,
+        CommonModule,
         NzTabsModule,
         NzListModule,
         InputNavigationModule,
