@@ -114,7 +114,10 @@ export class Utils {
     }
 
     static formatCurrency(balance: number) {
-        const formatBalance = balance.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
+        const formatBalance = Math.abs(balance).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
+        if(balance == 0){
+            return formatBalance;
+        }
         if (balance < 0) {
             return "- " + formatBalance;
         }

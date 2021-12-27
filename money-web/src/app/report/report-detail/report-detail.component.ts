@@ -1,4 +1,6 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {DataRange} from "../../view-model/data-range";
+import {Utils} from "../../util/utils";
 
 @Component({
     selector: 'app-report-detail',
@@ -7,13 +9,17 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 })
 export class ReportDetailComponent implements OnInit {
     @Output() closed = new EventEmitter<boolean>();
-
+    @Input() title!: string;
+    @Input() balance!: string;
+    @Input() dataRange!: DataRange;
+    @Input() startDate!: Date;
+    @Input() endDate!: Date;
+    @Input() isLoading!:boolean;
     constructor() {
     }
 
     ngOnInit(): void {
     }
-    data:number[] = [1,2,3,4,5,6,7,8,9,10]
 
     hideReportDetail() {
         this.closed.emit(true);
@@ -24,5 +30,8 @@ export class ReportDetailComponent implements OnInit {
             dialogList[0].style.marginLeft = '50%';
             dialogList[0].style.width = "50%";
         }
+    }
+    formatCurrency(balance:number):string{
+        return Utils.formatCurrency(balance)
     }
 }

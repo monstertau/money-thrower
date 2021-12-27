@@ -30,8 +30,8 @@
             <div class="income-outcome-report" nz-row>
                 <div class="income-report" nz-col nzSpan="12">
                     <div class="income-header">
-                        <div class="placeholder">Khoản thu</div>
-                        <div class="balance">+ 1,760,000 đ</div>
+                        <div class="placeholder">Income</div>
+                        <div class="balance">{{this.totalIncome}} đ</div>
 
                     </div>
                     <div class = "income-pie-chart">
@@ -41,9 +41,8 @@
                 </div>
                 <div class="outcome-report" nz-col nzSpan="12">
                     <div class="outcome-header">
-                        <div class="placeholder">Khoản chi</div>
-                        <div class="balance">- 1,760,000 đ</div>
-
+                        <div class="placeholder">Outcome</div>
+                        <div class="balance">{{this.totalOutcome}} đ</div>
                     </div>
                     <div class="outcome-pie-chart">
                         Outcome report
@@ -56,7 +55,7 @@
                 <div nz-col nzSpan="2">
                 </div>
                 <p class="title" nz-col nzSpan="13">
-                    Nợ
+                    Debt
                 </p>
                 <div class="balance-metadata" nz-col nzSpan="5">
                     <div style="color: #039be5!important;">
@@ -76,7 +75,7 @@
                 <div nz-col nzSpan="2">
                 </div>
                 <p class="title" nz-col nzSpan="13">
-                    Cho vay
+                    Loan
                 </p>
                 <div class="balance-metadata" nz-col nzSpan="5">
                     <div style="color: #e51c23!important;">
@@ -96,7 +95,7 @@
                 <div nz-col nzSpan="2">
                 </div>
                 <p class="title" nz-col nzSpan="13">
-                    Khác
+                    Other
                 </p>
                 <div class="balance-metadata" nz-col nzSpan="5">
                     0 đ
@@ -110,6 +109,8 @@
         </div>
     </div>
     <div id="report-detail" hidden>
-        <app-report-detail></app-report-detail>
+        <app-report-detail title="Net Income" [balance]="this.netBalance" [dataRange]="this.dataRange"
+                           [startDate]="this.startDate"
+                           [endDate]="this.endDate" [isLoading]="isLoading"></app-report-detail>
     </div>
 </div>
