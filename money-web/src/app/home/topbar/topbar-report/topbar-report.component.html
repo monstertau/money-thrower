@@ -1,0 +1,18 @@
+<div class="topbar-report">
+    <div class="date-range-selection" (click)="openDateRangePopup()">
+        <span class="date-range-title">{{selectedDateRange.title}}</span>
+        <br>
+        <span class="date-range-value">{{selectedDateRange.startDate| date:"dd/MM/yyyy"}} - {{selectedDateRange.endDate|
+            date:"dd/MM/yyyy"}}</span>
+    </div>
+    <span class="topbar-icon" style="margin-right: 50px;" nzTooltipTitle="Search" nz-tooltip
+        nzTooltipPlacement="bottom" (click)="onSearchClick()"><i nz-icon nzType="search" nzTheme="outline"></i></span>
+
+    <nz-modal nzClassName="select-date-modal" [(nzVisible)]="showDateRangeSelect" nzTitle="Select date range"
+        [nzFooter]="null" nzWidth="400px" nzClosable="false">
+        <div *nzModalContent>
+            <app-date-select [dateRange]="selectedDateRange" (dateRangeChange)="onDateRangeSelected($event)" (onCancel)="onDateRangeSelectCanceled()">
+            </app-date-select>
+        </div>
+    </nz-modal>
+</div>

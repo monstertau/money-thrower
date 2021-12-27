@@ -8,8 +8,8 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 export class InputDateComponent implements OnInit {
     @Input() inputName!: string;
     @Input() inputFormat: string = "dd/MM/yyyy";
-    @Input() transactionDate: Date = new Date();
-    @Output() transactionDateChange = new EventEmitter<Date>();
+    @Input() dateValue: Date = new Date();
+    @Output() dateValueChange = new EventEmitter<Date>();
 
     constructor() {
     }
