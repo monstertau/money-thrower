@@ -111,19 +111,16 @@ func (r *WalletRepo) CalculateDynamicBalance(wallet *model.Wallet) error {
 	}
 	// Loop through all transaction, find category and calculate new balance
 	for _, transaction := range transactions {
-		if transaction.Note == "Initialize Wallet" {
-			newBalance += transaction.Amount
-		} else {
-			category := &model.Category{}
-			if err := r.dbConn.First(&category, "id=? AND (owner_id=? OR owner_id=?)", transaction.CatId, transaction.UserId, util.NilId).Error; err != nil {
-				return errors.Errorf("failed to execute select query: %s", err)
-			}
-			if category.IsExpense {
-				newBalance -= transaction.Amount
-			} else {
-				newBalance += transaction.Amount
-			}
+		category := &model.Category{}
+		if err := r.dbConn.First(&category, "id=? AND (owner_id=? OR owner_id=?)", transaction.CatId, transaction.UserId, util.NilId).Error; err != nil {
+			return errors.Errorf("failed to execute select query: %s", err)
 		}
+		if category.IsExpense {
+			newBalance -= transaction.Amount
+		} else {
+			newBalance += transaction.Amount
+		}
+
 	}
 	// Sync new balance
 	wallet.Balance = newBalance
