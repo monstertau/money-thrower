@@ -3,8 +3,10 @@ package service
 import (
 	"github.com/pkg/errors"
 	"money-core/repository"
+	"money-core/util"
 	"money-core/validator"
 	"money-core/view"
+	"time"
 )
 
 type (
@@ -63,11 +65,12 @@ func (s *WalletService) Update(userId string, form *view.WalletForm) error {
 
 func (s *WalletService) InitTransaction(f *view.WalletForm) error {
 	var form = &view.AddTransactionForm{
-		UserId:   f.UserId,
-		WalletId: f.WalletId,
-		CatId:    "228f6db1-bac7-47ab-84b0-65d0e16ff12d",
-		Amount:   f.WalletBalance,
-		Note:     "Initialize Wallet",
+		UserId:          f.UserId,
+		WalletId:        f.WalletId,
+		CatId:           "228f6db1-bac7-47ab-84b0-65d0e16ff12d",
+		Amount:          f.WalletBalance,
+		Note:            "Initialize Wallet",
+		TransactionDate: util.NormalizeTimeAsMilliseconds(time.Now().Unix()),
 	}
 	//TODO: need to transform to const table
 	if _, err := s.repositories.TransactionRepo.Create(form); err != nil {
