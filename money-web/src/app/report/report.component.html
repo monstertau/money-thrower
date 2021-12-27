@@ -46,7 +46,9 @@
                     </div>
                     <div class="outcome-pie-chart">
                         Outcome report
-                        <app-outcome-pie-chart></app-outcome-pie-chart>
+                        <app-outcome-pie-chart  [dataRange]="this.dataRange"
+                                                [startDate]="this.startDate"
+                                                [endDate]="this.endDate"></app-outcome-pie-chart>
                     </div>
                 </div>
             </div>
