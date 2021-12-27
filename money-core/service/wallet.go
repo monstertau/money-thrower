@@ -67,7 +67,7 @@ func (s *WalletService) InitTransaction(f *view.WalletForm) error {
 	var form = &view.AddTransactionForm{
 		UserId:          f.UserId,
 		WalletId:        f.WalletId,
-		CatId:           "228f6db1-bac7-47ab-84b0-65d0e16ff12d",
+		CatId:           "ae5b7f63-01f6-4c48-b751-cb4f8235581c",
 		Amount:          f.WalletBalance,
 		Note:            "Initialize Wallet",
 		TransactionDate: util.NormalizeTimeAsMilliseconds(time.Now().Unix()),
