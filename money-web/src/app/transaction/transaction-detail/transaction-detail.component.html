@@ -5,42 +5,56 @@
     <div class="btn-modify">
         <button class="btn-delete" nz-button nzType="text" nzDanger (click)="showTransactionDeleteModal()"><span style="font-weight: 550;">
                 DELETE</span></button>
-        <nz-modal [(nzVisible)]="showDeleteModal" nzTitle="Delete Transaction" nzWidth="496px"
-                  nzClosable="false">
-            <div *nzModalContent>
-                <span>Are you sure want to delete this transaction?</span>
-            </div>
-            <div *nzModalFooter>
-                <button nz-button nzType="default" (click)="handleCancelDelete()">Cancel</button>
-                <button nz-button nzType="primary" (click)="handleDelete()"
-                        [nzLoading]="transactionDeleteLoading">
-                    Delete
-                </button>
-            </div>
-        </nz-modal>
-        <button class="btn-edit" nz-button nzType="text"><span style="font-weight: 550;"> EDIT</span></button>
+
+        <button class="btn-edit" nz-button nzType="text" (click)="showTransactionEditModal()"><span
+            style="font-weight: 550;"> EDIT</span></button>
     </div>
 </div>
 <nz-divider nzType="horizontal"></nz-divider>
 <div class="details">
     <div class="detail-left">
         <img nz-image width="40px" height="40px" [nzSrc]="transaction.category.getIcon()"
-            [nzFallback]="transaction.category.fallbackIcon" alt="">
+             [nzFallback]="transaction.category.fallbackIcon" alt="">
         <div class="detail-text">
             <div style="font-weight: 500; font-size: 24px; line-height: 28px;">{{transaction.category.name}}</div>
             <div style="font-size: 12px;">{{transaction.wallet.name}}</div>
             <div style="color: rgba(0, 0, 0, 0.54); font-size: 12px;">
                 {{getDate(transaction.transactionDate.toString()).weekDay}},
-                {{getDate(transaction.transactionDate.toString()).date}}/{{getDate(transaction.transactionDate.toString()).month_num}}/{{getDate(transaction.transactionDate.toString()).year}}
+                {{getDate(transaction.transactionDate.toString()).date}}
+                /{{getDate(transaction.transactionDate.toString()).month_num}}
+                /{{getDate(transaction.transactionDate.toString()).year}}
             </div>
             <nz-divider nzType="horizontal" style="margin-top: 10px;"></nz-divider>
         </div>
     </div>
     <div class="detail-right">
         <div *ngIf="transaction.category.isExpense" class="amount-right is-expense">
-            {{getFormatBalance(transaction.amount *-1)}} {{transaction.wallet.currency}}</div>
+            {{getFormatBalance(transaction.amount * -1)}} {{transaction.wallet.currency}}</div>
         <div *ngIf="!transaction.category.isExpense" class="amount-right not-expense">
             {{getFormatBalance(transaction.amount)}} {{transaction.wallet.currency}}</div>
         <div *ngIf="transaction.note" class="note-right">Note: {{transaction.note}}</div>
     </div>
 </div>
+<nz-modal [(nzVisible)]="showDeleteModal" nzTitle="Delete Transaction" nzWidth="496px"
+          nzClosable="false">
+    <div *nzModalContent>
+        <span>Are you sure want to delete this transaction?</span>
+    </div>
+    <div *nzModalFooter>
+        <button nz-button nzType="default" (click)="handleCancelDelete()">Cancel</button>
+        <button nz-button nzType="primary" (click)="handleDelete()"
+                [nzLoading]="transactionDeleteLoading">
+            Delete
+        </button>
+    </div>
+</nz-modal>
+<nz-modal [(nzVisible)]="showEditModal" nzTitle="Edit Transaction" nzWidth="848px" nzClosable="false">
+    <div *nzModalContent>
+        <app-transaction-add [transaction]="transactionClone" ></app-transaction-add>
+    </div>
+    <div *nzModalFooter>
+        <button nz-button nzType="default" (click)="handleCancelAdd()">Cancel</button>
+        <button nz-button nzType="primary" (click)="handleSave()" [nzLoading]="transactionEditLoading">Save</button>
+    </div>
+</nz-modal>
+

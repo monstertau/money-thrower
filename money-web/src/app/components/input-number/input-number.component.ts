@@ -8,6 +8,7 @@ import {Utils} from "../../util/utils";
 })
 export class InputNumberComponent implements OnInit {
     @Input() inputName!: string;
+    @Input() supportNegative: boolean = false;
     @Input() inputValue: number = 0;
     @Output() inputValueChange = new EventEmitter<number>();
     @ViewChild('inputElement', {static: false}) inputElement?: ElementRef;
@@ -20,7 +21,9 @@ export class InputNumberComponent implements OnInit {
 
     onChangeAmount(value: string): void {
         let res = value.replace(/\D/g, "");
-
+        if (this.supportNegative) {
+            res = value.replace(/[,]/g, "");
+        }
         if (res === null || res.length <= 0) {
             this.inputValue = 0;
             this.inputElement!.nativeElement.value = this.getFormatAmount();

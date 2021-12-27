@@ -17,7 +17,8 @@
         </div>
 
         <div class="input-box" nz-col [nzSpan]="9">
-            <app-input-number inputName="Initial Value" [(inputValue)]="wallet.balance"></app-input-number>
+            <app-input-number inputName="Initial Value" [(inputValue)]="wallet.balance"
+                              [supportNegative]="true"></app-input-number>
         </div>
     </div>
 </div>

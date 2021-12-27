@@ -38,6 +38,9 @@ export class WalletComponent implements OnInit {
         if (this.currentWallet.name.length == 0) {
             error = new Error("Please enter wallet name")
         }
+        if (error !== null) {
+            throw error;
+        }
         this.walletService.editWallet(this.currentWallet.toWallet()).subscribe(
             result => {
                 console.log(result);
@@ -48,7 +51,7 @@ export class WalletComponent implements OnInit {
             }
         )
         if (error !== null) {
-            throw error
+            throw error;
         }
     }
 
