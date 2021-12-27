@@ -81,7 +81,8 @@ export class TopbarReportComponent implements OnInit, OnDestroy {
     }
 
     onSearchClick() {
-        this.router.navigate(["/search"], {queryParams: {}});
+        // this.router.navigate(["/search"], {queryParams: {}});
+        window.location.href = '/search';
     }
 
     ngOnDestroy(): void {

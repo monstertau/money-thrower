@@ -38,9 +38,9 @@
     </div>
     <div class="detail-right">
         <div *ngIf="transaction.category.isExpense" class="amount-right is-expense">
-            -{{getFormatBalance(transaction.amount)}} {{transaction.wallet.currency}}</div>
+            {{getFormatBalance(transaction.amount *-1)}} {{transaction.wallet.currency}}</div>
         <div *ngIf="!transaction.category.isExpense" class="amount-right not-expense">
-            +{{getFormatBalance(transaction.amount)}} {{transaction.wallet.currency}}</div>
+            {{getFormatBalance(transaction.amount)}} {{transaction.wallet.currency}}</div>
         <div *ngIf="transaction.note" class="note-right">Note: {{transaction.note}}</div>
     </div>
 </div>

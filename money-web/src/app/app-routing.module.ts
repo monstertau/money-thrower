@@ -40,6 +40,11 @@ const routes: Routes = [
                 loadChildren: () => import('./category/category.module').then(m => m.CategoryModule)
             },
             {
+                path: 'search',
+                component: TransactionComponent,
+                loadChildren: () => import('./transaction/transaction.module').then(m => m.TransactionModule)
+            },
+            {
                 path: 'report',
                 component: ReportComponent,
                 canLoad: [AuthGuard],
@@ -47,9 +52,9 @@ const routes: Routes = [
             }
         ],
     },
-    {path: 'forgot-password', component: FwpComponent},
+    { path: 'forgot-password', component: FwpComponent },
     // { path: 'forgot-password/:**',component:FwpComponent},
-    {path: 'change-password', component: ChangePassComponent},
+    { path: 'change-password', component: ChangePassComponent },
     {
         path: 'add_wallet', component: WalletAddComponent,
         canActivate: [AuthGuard],

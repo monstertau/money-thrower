@@ -1,5 +1,5 @@
 <!-- <p>topbar works!</p> -->
-<div class="topbar">
+<div class="topbar" *ngIf="currentPage != 'search'; else search">
   <div class="left" (click)="openWalletMenu()" *ngIf="wallets.length >= 0">
     <div class="icon"><img nz-image width="40px" height="40px" [nzSrc]="currentWallet.getIcon()"
         [nzFallback]="currentWallet.fallBackIcon" alt="" /></div>
@@ -36,3 +36,7 @@
     <nz-divider style="margin-top: 10px; width: 430px;" nzType="horizontal"></nz-divider>
   </div>
 </div>
+
+<ng-template #search>
+    <app-topbar-search></app-topbar-search>
+</ng-template>

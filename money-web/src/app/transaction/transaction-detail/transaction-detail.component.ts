@@ -39,6 +39,7 @@ export class TransactionDetailComponent implements OnInit {
     }
 
     getFormatBalance(balance: number) {
+        console.log(Utils.formatCurrency(balance));
         return Utils.formatCurrency(balance);
     }
 
