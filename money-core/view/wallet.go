@@ -12,6 +12,13 @@ type (
 		WalletBalance  float64 `json:"balance" example:"1500000"`
 		WalletIconPath string  `json:"icon" example:"mua_sam"`
 	}
+	WalletBalanceByTimeForm struct {
+		WalletId     string  `json:"id" example:"id"`
+		StartDate    int64   `json:"start_date" example:"1636206838000"`
+		EndDate      int64   `json:"end_date" example:"1936206828000"`
+		StartBalance float64 `json:"start_balance" example:"0"`
+		EndBalance   float64 `json:"end_balance" example:"0"`
+	}
 )
 
 func (f *WalletForm) ToWalletModel() *model.Wallet {

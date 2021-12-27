@@ -954,6 +954,57 @@ var doc = `{
                 }
             }
         },
+        "/wallet/balance": {
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "get start and end balance of a wallet by a time range",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "wallet"
+                ],
+                "summary": "get start and end balance of a wallet by a time range",
+                "parameters": [
+                    {
+                        "description": "Get Balance",
+                        "name": "create",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/view.WalletBalanceByTimeForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/view.WalletBalanceByTimeForm"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controller.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controller.AppError"
+                        }
+                    }
+                }
+            }
+        },
         "/wallet/{id}": {
             "get": {
                 "security": [
@@ -1166,7 +1217,7 @@ var doc = `{
                 },
                 "end_date": {
                     "type": "integer",
-                    "example": 4102444799
+                    "example": 1936206829000
                 },
                 "key_note": {
                     "type": "string",
@@ -1178,7 +1229,7 @@ var doc = `{
                 },
                 "start_date": {
                     "type": "integer",
-                    "example": -315619200
+                    "example": -1036206827000
                 },
                 "wallet_id": {
                     "type": "string",
@@ -1282,6 +1333,31 @@ var doc = `{
                 },
                 "wallet_id": {
                     "type": "string"
+                }
+            }
+        },
+        "view.WalletBalanceByTimeForm": {
+            "type": "object",
+            "properties": {
+                "end_balance": {
+                    "type": "number",
+                    "example": 0
+                },
+                "end_date": {
+                    "type": "integer",
+                    "example": 1936206828000
+                },
+                "id": {
+                    "type": "string",
+                    "example": "id"
+                },
+                "start_balance": {
+                    "type": "number",
+                    "example": 0
+                },
+                "start_date": {
+                    "type": "integer",
+                    "example": 1636206838000
                 }
             }
         },
