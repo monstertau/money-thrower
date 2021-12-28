@@ -1,21 +1,15 @@
 import {Component, Input, OnInit} from '@angular/core';
+import { DataRange } from 'src/app/view-model/data-range';
 import {multi} from './data';
-import { TransactionService, Transaction2, TransactionFilter } from 'src/app/services/transaction.service';
-import { CommonService } from 'src/app/services/common.service';
-import { TransactionView } from '../../view-model/transactions';
-import { CategoryService } from '../../services/category.service';
-import { WalletService } from '../../services/wallet.service';
-import {DataRange, DataUnit} from "../../view-model/data-range";
-import * as moment from "moment";
-
-
 
 @Component({
-    selector: 'app-outcome-pie-chart',
-    templateUrl: './outcome-pie-chart.component.html',
-    styleUrls: ['./outcome-pie-chart.component.css']
+    selector: 'app-income-detail-pie-chart',
+    templateUrl: './income-detail-pie-chart.component.html',
+    styleUrls: ['./income-detail-pie-chart.component.css']
 })
-export class OutcomePieChartComponent implements OnInit {
+export class IncomeDetailPieChartComponent implements OnInit {
+
+
 
     @Input() dataRange!: DataRange;
     @Input() startDate!: Date;
@@ -23,12 +17,8 @@ export class OutcomePieChartComponent implements OnInit {
     @Input() multi: DataPoint[] = [];
     @Input() view?: any[];
     // options
-    animations: boolean = true;
-    colorScheme = {
-        domain: ['#597C2B', '#668D2E', '#80A142', '#91B247', '#D2E459']
-      };
 
-    
+    animations: boolean = true;
 
     constructor() {}
 
@@ -36,11 +26,11 @@ export class OutcomePieChartComponent implements OnInit {
         if (this.dataRange.dataUnits.length) {
             //console.log(this.dataRange.dataUnits)
             for (let dataUnit of this.dataRange.dataUnits) {
-                if(dataUnit.outcomeList.length>0){
-                    for(let i = 0; i< dataUnit.outcomeList.length;i++){
+                if(dataUnit.incomeList.length>0){
+                    for(let i = 0; i< dataUnit.incomeList.length;i++){
                         let dataPoint = {
-                            name: dataUnit.outcomeList[i].name,
-                            value: dataUnit.outcomeList[i].value
+                            name: dataUnit.incomeList[i].name,
+                            value: dataUnit.incomeList[i].value
                         }
                         this.multi.push(dataPoint);
                         
@@ -77,4 +67,3 @@ interface DataPoint {
     name: string;
     value: number;
 }
-

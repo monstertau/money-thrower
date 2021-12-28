@@ -65,7 +65,9 @@
 .over-all-barchart {
     padding: 16px 12px;
 }
-
+.income-report{
+    cursor: pointer;
+}
 .income-report .placeholder {
     font-size: 14px;
     color: rgba(0, 0, 0, .54);
@@ -79,7 +81,9 @@
     padding-bottom: 20px;
     color: #039be5 !important;
 }
-
+.outcome-report{
+    cursor: pointer;
+}
 .outcome-report .placeholder {
     font-size: 14px;
     color: rgba(0, 0, 0, .54);
@@ -119,6 +123,28 @@
 }
 
 #report-detail {
+    position: absolute;
+    width: 49%;
+    left: 50%;
+    margin-top: 1%;
+    overflow: scroll;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.043);
+    height: 86%;
+}
+#outcome-detail {
+    position: absolute;
+    width: 49%;
+    left: 50%;
+    margin-top: 1%;
+    overflow: scroll;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.043);
+    height: 86%;
+}
+#income-detail {
     position: absolute;
     width: 49%;
     left: 50%;

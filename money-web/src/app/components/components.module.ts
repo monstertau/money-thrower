@@ -29,6 +29,8 @@ import {NzEmptyModule} from "ng-zorro-antd/empty";
 import {TransactionModule} from "../transaction/transaction.module";
 import { IncomePieChartComponent } from './income-pie-chart/income-pie-chart.component';
 import { OutcomePieChartComponent } from './outcome-pie-chart/outcome-pie-chart.component';
+import { OutcomeDetailPieChartComponent } from './outcome-detail-pie-chart/outcome-detail-pie-chart.component';
+import { IncomeDetailPieChartComponent } from './income-detail-pie-chart/income-detail-pie-chart.component';
 
 @NgModule({
     declarations: [
@@ -41,6 +43,8 @@ import { OutcomePieChartComponent } from './outcome-pie-chart/outcome-pie-chart.
         OutcomePieChartComponent,
         DateSelectComponent,
         TransactionHistoryPopupComponent,
+        OutcomeDetailPieChartComponent,
+        IncomeDetailPieChartComponent
     ],
     imports: [
         CommonModule,
@@ -77,7 +81,9 @@ import { OutcomePieChartComponent } from './outcome-pie-chart/outcome-pie-chart.
         DateSelectComponent,
         TransactionHistoryPopupComponent,
         IncomePieChartComponent,
-        OutcomePieChartComponent
+        OutcomePieChartComponent,
+        OutcomeDetailPieChartComponent,
+        IncomeDetailPieChartComponent
     ]
 })
 export class ComponentsModule {

@@ -1,0 +1,46 @@
+<div class="title">
+    <i class="close-icon" nz-icon nzType="close" nzTheme="outline" (click)="hideReportDetail()"></i>
+    <span style="margin-left: 30px; font-weight: 500; font-size: 20px; line-height: 28px;"> {{this.title}}</span>
+</div>
+<div class="report-divider"></div>
+<ng-template #indicatorTemplate><i nz-icon nzType="loading" style="font-size: 50px;"></i></ng-template>
+<nz-spin *ngIf="isLoading" style="padding-top:50%;margin-top: 50%"
+         [nzIndicator]="indicatorTemplate"></nz-spin>
+<div *ngIf="!isLoading">
+    <div class="income-report">
+        <div class="income-header">
+            <div class="balance">{{this.income}} đ</div>
+        </div>
+        <div class="income-pie-chart">
+            <app-income-detail-pie-chart  [dataRange]="this.dataRange"
+                                    [startDate]="this.startDate"
+                                    [endDate]="this.endDate"></app-income-detail-pie-chart>
+        </div>
+    </div>
+    <div class="report-divider"></div>
+    <div class="detail-transaction-component">
+        <ng-container *ngFor="let dataUnit of this.dataRange.dataUnits">
+            <ng-container *ngIf="dataUnit.totalIncome != 0">
+                <div class="detail-transaction" nz-row>
+                    <div nz-col nzSpan="2">
+                    </div>
+                    <p class="detail-title" nz-col nzSpan="13">
+                        {{dataUnit.startDate.toDateString()}}
+                    </p>
+                    <div class="balance-metadata" nz-col nzSpan="5">
+                        <div style="color: #039be5!important;">
+                            {{formatCurrency(dataUnit.totalIncome)}} đ
+                        </div>
+                    </div>
+                    <div nz-col nzSpan="1"></div>
+                    <div class="left-arrow" nz-col nzSpan="3">
+                        <div class="left-icon">
+                            <i nz-icon nzType="right" nzTheme="outline"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="report-divider"></div>
+            </ng-container>
+        </ng-container>
+    </div>
+</div>

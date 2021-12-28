@@ -8,6 +8,11 @@ export class DataRange {
     dataUnits: DataUnit[] = [];
     totalIncome:number = 0;
     totalOutcome:number = 0;
+    totalDebt: number = 0;
+    totalLoan: number = 0;
+    otherInflow: number = 0;
+    otherOutflow: number = 0;
+
     constructor(title: string, start: Date, end: Date, allTransaction: TransactionView[]) {
         this.startDate = start;
         this.endDate = end;
@@ -50,6 +55,15 @@ export class DataRange {
                 outcomeTransaction: [],
                 totalIncome: 0,
                 totalOutcome: 0,
+                incomeList:[],
+                outcomeList:[],
+                debtTransaction:[],
+                loanTransaction:[],
+                otherTransaction:[],
+                totalDebt: 0,
+                totalLoan: 0,
+                otherInflow: 0,
+                otherOutflow: 0
             }
             this.dataUnits.push(dataUnit);
         }
@@ -67,6 +81,15 @@ export class DataRange {
                 outcomeTransaction: [],
                 totalIncome: 0,
                 totalOutcome: 0,
+                incomeList:[],
+                outcomeList:[],
+                debtTransaction:[],
+                loanTransaction:[],
+                otherTransaction:[],
+                totalDebt: 0,
+                totalLoan: 0,
+                otherInflow: 0,
+                otherOutflow: 0
             }
             this.dataUnits.push(dataUnit);
         }
@@ -82,6 +105,15 @@ export class DataRange {
                 outcomeTransaction: [],
                 totalIncome: 0,
                 totalOutcome: 0,
+                incomeList:[],
+                outcomeList:[],
+                debtTransaction:[],
+                loanTransaction:[],
+                otherTransaction:[],
+                totalDebt: 0,
+                totalLoan: 0,
+                otherInflow: 0,
+                otherOutflow: 0
             }
             this.dataUnits.push(dataUnit);
         }
@@ -96,10 +128,44 @@ export class DataRange {
                         dataUnit.outcomeTransaction.push(transaction);
                         dataUnit.totalOutcome += transaction.amount;
                         this.totalOutcome += transaction.amount;
+                        let dataPoint = {
+                            icon: `assets/catalogs/${transaction.category.icon}.png`,
+                            value: transaction.amount,
+                            name: transaction.category.name,
+                            type: transaction.category.type
+                        }
+                        dataUnit.outcomeList.push(dataPoint);
                     } else {
                         dataUnit.incomeTransaction.push(transaction);
                         dataUnit.totalIncome += transaction.amount;
                         this.totalIncome += transaction.amount;
+                        let dataPoint = {
+                            name: transaction.category.name,
+                            value: transaction.amount,
+                            icon: `assets/catalogs/${transaction.category.icon}.png`,
+                            type: transaction.category.type
+                        }
+                        dataUnit.incomeList.push(dataPoint);
+                    }
+                    if(transaction.category.type == "debt/loan" && !transaction.category.isExpense){
+                        dataUnit.debtTransaction.push(transaction);
+                        dataUnit.totalDebt += transaction.amount;
+                        this.totalDebt += transaction.amount;
+                    }
+                    if(transaction.category.type == "debt/loan" && transaction.category.isExpense){
+                        dataUnit.loanTransaction.push(transaction);
+                        dataUnit.totalLoan += transaction.amount;
+                        this.totalLoan += transaction.amount;
+                    }
+                    if(transaction.category.type != "debt/loan" && !transaction.category.isExpense){
+                        dataUnit.otherTransaction.push(transaction);
+                        dataUnit.otherInflow += transaction.amount;
+                        this.otherInflow += transaction.amount;
+                    }
+                    if(transaction.category.type != "debt/loan" && transaction.category.isExpense){
+                        dataUnit.otherTransaction.push(transaction);
+                        dataUnit.otherOutflow += transaction.amount;
+                        this.otherOutflow += transaction.amount;
                     }
                 }
             }
@@ -115,4 +181,19 @@ export interface DataUnit {
     outcomeTransaction: TransactionView[];
     totalIncome: number;
     totalOutcome: number;
+    incomeList: DataPoint[];
+    outcomeList: DataPoint[];
+    debtTransaction: TransactionView[];
+    loanTransaction: TransactionView[];
+    otherTransaction: TransactionView[];
+    totalDebt: number;
+    totalLoan: number;
+    otherInflow: number;
+    otherOutflow: number;
+}
+export interface DataPoint {
+    name: string;
+    value: number;
+    icon: string;
+    type: string
 }

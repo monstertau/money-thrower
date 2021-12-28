@@ -57,7 +57,7 @@ export class StackedBarChartComponent implements OnInit {
                 }
                 this.multi.push(dataPoint)
             }
-            console.log(this.multi);
+            //console.log(this.multi);
             this.addXAxisTick()
         }
     }
@@ -78,7 +78,7 @@ export class StackedBarChartComponent implements OnInit {
             }
         })
         const interval = maxRange - minRange;
-        console.log(interval);
+        //console.log(interval);
         if (interval < 15) {
             for (let i = 0; i <= interval; i++) {
                 this.xAxisTick.push(minRange + i)
@@ -106,7 +106,7 @@ export class StackedBarChartComponent implements OnInit {
     }
 
     onSelect(event: any) {
-        console.log(event);
+        //console.log(event);
     }
 
     abbreviateNumber(num: number) {

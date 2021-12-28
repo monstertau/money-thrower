@@ -11,11 +11,11 @@ import * as moment from "moment";
 
 
 @Component({
-    selector: 'app-outcome-pie-chart',
-    templateUrl: './outcome-pie-chart.component.html',
-    styleUrls: ['./outcome-pie-chart.component.css']
+    selector: 'app-outcome-detail-pie-chart',
+    templateUrl: './outcome-detail-pie-chart.component.html',
+    styleUrls: ['./outcome-detail-pie-chart.component.css']
 })
-export class OutcomePieChartComponent implements OnInit {
+export class OutcomeDetailPieChartComponent implements OnInit {
 
     @Input() dataRange!: DataRange;
     @Input() startDate!: Date;
@@ -33,6 +33,7 @@ export class OutcomePieChartComponent implements OnInit {
     constructor() {}
 
     ngOnInit(): void {
+        //console.log(this.dataRange)
         if (this.dataRange.dataUnits.length) {
             //console.log(this.dataRange.dataUnits)
             for (let dataUnit of this.dataRange.dataUnits) {
