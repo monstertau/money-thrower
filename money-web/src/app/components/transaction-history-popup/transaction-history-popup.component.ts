@@ -25,8 +25,8 @@ export class TransactionHistoryPopupComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        console.log(this.startDate)
         console.log(this.dataRange.dataUnits)
-        console.log(this.type)
         if (this.dataRange.dataUnits.length) {
             if(this.type == "debt"){
                 for (let dataUnit of this.dataRange.dataUnits) {
@@ -55,6 +55,16 @@ export class TransactionHistoryPopupComponent implements OnInit {
                         this.transactions.push(dataUnit.otherTransaction);
                         this.inflow += dataUnit.otherInflow;
                         this.outflow += dataUnit.otherOutflow;
+                    }
+                
+                }
+            }
+            if(this.type == "daily"){
+                for (let dataUnit of this.dataRange.dataUnits) {
+                    if(dataUnit.startDate == this.startDate){
+                        this.transactions.push(dataUnit.dailyTransaction);
+                        this.inflow += dataUnit.totalIncome;
+                        this.outflow += dataUnit.totalOutcome;
                     }
                 
                 }

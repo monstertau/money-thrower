@@ -12,6 +12,8 @@ export class DataRange {
     totalLoan: number = 0;
     otherInflow: number = 0;
     otherOutflow: number = 0;
+    dailyIncome:number = 0;
+    dailyOutcome:number = 0;
 
     constructor(title: string, start: Date, end: Date, allTransaction: TransactionView[]) {
         this.startDate = start;
@@ -63,7 +65,8 @@ export class DataRange {
                 totalDebt: 0,
                 totalLoan: 0,
                 otherInflow: 0,
-                otherOutflow: 0
+                otherOutflow: 0,
+                dailyTransaction:[]
             }
             this.dataUnits.push(dataUnit);
         }
@@ -89,7 +92,8 @@ export class DataRange {
                 totalDebt: 0,
                 totalLoan: 0,
                 otherInflow: 0,
-                otherOutflow: 0
+                otherOutflow: 0,
+                dailyTransaction:[]
             }
             this.dataUnits.push(dataUnit);
         }
@@ -113,7 +117,8 @@ export class DataRange {
                 totalDebt: 0,
                 totalLoan: 0,
                 otherInflow: 0,
-                otherOutflow: 0
+                otherOutflow: 0,
+                dailyTransaction:[]
             }
             this.dataUnits.push(dataUnit);
         }
@@ -125,6 +130,8 @@ export class DataRange {
                 if (transaction.transactionDate.valueOf() >= dataUnit.startDate.valueOf() &&
                     transaction.transactionDate.valueOf() <= dataUnit.endDate.valueOf()) {
                     if (transaction.category.isExpense) {
+
+                        dataUnit.dailyTransaction.push(transaction);
                         dataUnit.outcomeTransaction.push(transaction);
                         dataUnit.totalOutcome += transaction.amount;
                         this.totalOutcome += transaction.amount;
@@ -136,6 +143,7 @@ export class DataRange {
                         }
                         dataUnit.outcomeList.push(dataPoint);
                     } else {
+                        dataUnit.dailyTransaction.push(transaction);
                         dataUnit.incomeTransaction.push(transaction);
                         dataUnit.totalIncome += transaction.amount;
                         this.totalIncome += transaction.amount;
@@ -190,6 +198,7 @@ export interface DataUnit {
     totalLoan: number;
     otherInflow: number;
     otherOutflow: number;
+    dailyTransaction: TransactionView[];
 }
 export interface DataPoint {
     name: string;
