@@ -19,6 +19,8 @@ export class TransactionHistoryPopupComponent implements OnInit {
     @Input() endDate!: Date;
     @Input() type!: string;
 
+    currentPage: string = 'search';
+
     constructor() {
     }
 

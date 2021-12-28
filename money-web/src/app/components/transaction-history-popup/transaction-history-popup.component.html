@@ -4,5 +4,6 @@
 <div style="padding:16px 0">
     <app-transaction-list [transactions]="transactions" [isLoading]="false"
                           [transactionsByTime]="transactions" [inflow]="inflow" [outflow]="outflow"
+                          [currentPage] = "currentPage"
     ></app-transaction-list>
 </div>
