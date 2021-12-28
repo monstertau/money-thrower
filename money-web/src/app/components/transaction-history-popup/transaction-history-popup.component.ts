@@ -69,6 +69,26 @@ export class TransactionHistoryPopupComponent implements OnInit {
                 
                 }
             }
+            if(this.type == "daily-outcome"){
+                for (let dataUnit of this.dataRange.dataUnits) {
+                    if(dataUnit.startDate == this.startDate){
+                        this.transactions.push(dataUnit.outcomeTransaction);
+                        this.inflow += dataUnit.totalIncome;
+                        this.outflow += dataUnit.totalOutcome;
+                    }
+                
+                }
+            }
+            if(this.type == "daily-income"){
+                for (let dataUnit of this.dataRange.dataUnits) {
+                    if(dataUnit.startDate == this.startDate){
+                        this.transactions.push(dataUnit.incomeTransaction);
+                        this.inflow += dataUnit.totalIncome;
+                        this.outflow += dataUnit.totalOutcome;
+                    }
+                
+                }
+            }
             
         }
         console.log(this.transactions);

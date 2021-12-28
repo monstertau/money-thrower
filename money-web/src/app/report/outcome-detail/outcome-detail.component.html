@@ -21,7 +21,7 @@
     <div class="detail-transaction-component">
         <ng-container *ngFor="let dataUnit of this.dataRange.dataUnits">
             <ng-container *ngIf="dataUnit.totalOutcome != 0">
-                <div class="detail-transaction" nz-row>
+                <div class="detail-transaction"(click)="triggerShowPopup(dataUnit.startDate.toDateString(),dataUnit.startDate,this.endDate,this.dataRange,'daily-outcome')" nz-row>
                     <div nz-col nzSpan="2">
                     </div>
                     <p class="detail-title" nz-col nzSpan="13">
