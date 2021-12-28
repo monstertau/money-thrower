@@ -31,6 +31,8 @@ import { IncomePieChartComponent } from './income-pie-chart/income-pie-chart.com
 import { OutcomePieChartComponent } from './outcome-pie-chart/outcome-pie-chart.component';
 import { OutcomeDetailPieChartComponent } from './outcome-detail-pie-chart/outcome-detail-pie-chart.component';
 import { IncomeDetailPieChartComponent } from './income-detail-pie-chart/income-detail-pie-chart.component';
+import { ReportDetailTransactionComponent } from './report-detail-transaction/report-detail-transaction.component';
+
 
 @NgModule({
     declarations: [
@@ -44,7 +46,8 @@ import { IncomeDetailPieChartComponent } from './income-detail-pie-chart/income-
         DateSelectComponent,
         TransactionHistoryPopupComponent,
         OutcomeDetailPieChartComponent,
-        IncomeDetailPieChartComponent
+        IncomeDetailPieChartComponent,
+        ReportDetailTransactionComponent
     ],
     imports: [
         CommonModule,
@@ -83,7 +86,8 @@ import { IncomeDetailPieChartComponent } from './income-detail-pie-chart/income-
         IncomePieChartComponent,
         OutcomePieChartComponent,
         OutcomeDetailPieChartComponent,
-        IncomeDetailPieChartComponent
+        IncomeDetailPieChartComponent,
+        ReportDetailTransactionComponent
     ]
 })
 export class ComponentsModule {

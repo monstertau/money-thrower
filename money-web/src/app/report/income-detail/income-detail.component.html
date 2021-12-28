@@ -19,28 +19,9 @@
     </div>
     <div class="report-divider"></div>
     <div class="detail-transaction-component">
-        <ng-container *ngFor="let dataUnit of this.dataRange.dataUnits">
-            <ng-container *ngIf="dataUnit.totalIncome != 0">
-                <div class="detail-transaction" (click)="triggerShowPopup(dataUnit.startDate.toDateString(),dataUnit.startDate,this.endDate,this.dataRange,'daily-income')" nz-row>
-                    <div nz-col nzSpan="2">
-                    </div>
-                    <p class="detail-title" nz-col nzSpan="13">
-                        {{dataUnit.startDate.toDateString()}}
-                    </p>
-                    <div class="balance-metadata" nz-col nzSpan="5">
-                        <div style="color: #039be5!important;">
-                            {{formatCurrency(dataUnit.totalIncome)}} đ
-                        </div>
-                    </div>
-                    <div nz-col nzSpan="1"></div>
-                    <div class="left-arrow" nz-col nzSpan="3">
-                        <div class="left-icon">
-                            <i nz-icon nzType="right" nzTheme="outline"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="report-divider"></div>
-            </ng-container>
-        </ng-container>
+        <app-report-detail-transaction  [dataRange]="this.dataRange"
+                                        [startDate]="this.startDate"
+                                        [endDate]="this.endDate"
+                                        [type] ="this.type"></app-report-detail-transaction>
     </div>
 </div>

@@ -19,14 +19,17 @@ export class TransactionHistoryPopupComponent implements OnInit {
     @Input() endDate!: Date;
     @Input() type!: string;
 
+    @Input() multi!: DataPoint[];
+
     currentPage: string = 'search';
 
     constructor() {
     }
 
     ngOnInit(): void {
-        console.log(this.startDate)
-        console.log(this.dataRange.dataUnits)
+        console.log(this.type)
+        //console.log(this.dataRange.dataUnits)
+        console.log(this.multi);
         if (this.dataRange.dataUnits.length) {
             if(this.type == "debt"){
                 for (let dataUnit of this.dataRange.dataUnits) {
@@ -69,7 +72,7 @@ export class TransactionHistoryPopupComponent implements OnInit {
                 
                 }
             }
-            if(this.type == "daily-outcome"){
+            if(this.type == "outcome"){
                 for (let dataUnit of this.dataRange.dataUnits) {
                     if(dataUnit.startDate == this.startDate){
                         this.transactions.push(dataUnit.outcomeTransaction);
@@ -79,7 +82,7 @@ export class TransactionHistoryPopupComponent implements OnInit {
                 
                 }
             }
-            if(this.type == "daily-income"){
+            if(this.type == "income"){
                 for (let dataUnit of this.dataRange.dataUnits) {
                     if(dataUnit.startDate == this.startDate){
                         this.transactions.push(dataUnit.incomeTransaction);
@@ -91,7 +94,12 @@ export class TransactionHistoryPopupComponent implements OnInit {
             }
             
         }
-        console.log(this.transactions);
+        //console.log(this.transactions);
     }
 
+}
+
+interface DataPoint {
+    name: string;
+    value: number;
 }

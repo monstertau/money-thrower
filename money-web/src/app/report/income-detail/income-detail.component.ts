@@ -18,6 +18,8 @@ export class IncomeDetailComponent implements OnInit {
     @Input() startDate!: Date;
     @Input() endDate!: Date;
     @Input() isLoading!:boolean
+    type: string = "income";
+
     constructor(private modal: NzModalService, private viewContainerRef: ViewContainerRef) {
     }
 

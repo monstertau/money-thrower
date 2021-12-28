@@ -37,6 +37,7 @@ export class IncomeDetailPieChartComponent implements OnInit {
                     }
                     
                 }
+                
             for (let i = 0; i<this.multi.length;i++){
                 for(let j = i+1;j<this.multi.length;j++){
                     if(this.multi[i].name == this.multi[j].name){

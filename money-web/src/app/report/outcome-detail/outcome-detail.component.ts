@@ -17,6 +17,8 @@ export class OutcomeDetailComponent implements OnInit {
     @Input() startDate!: Date;
     @Input() endDate!: Date;
     @Input() isLoading!:boolean;
+
+    type: string = "outcome";
     constructor(private modal: NzModalService, private viewContainerRef: ViewContainerRef) {
     }
 
