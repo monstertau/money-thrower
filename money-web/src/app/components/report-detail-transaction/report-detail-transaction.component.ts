@@ -4,6 +4,7 @@ import * as moment from "moment";
 import { Utils } from 'src/app/util/utils';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { TransactionHistoryPopupComponent } from '../transaction-history-popup/transaction-history-popup.component';
+import { TransactionView } from 'src/app/view-model/transactions';
 
 
 
@@ -22,9 +23,17 @@ export class ReportDetailTransactionComponent implements OnInit {
     @Input() view?: any[];
     @Input() type!: string;
 
+    @Input() typeOutcomeTransaction: TransactionView[][][] = [];
+    @Input() typeIncomeTransaction: TransactionView[][][] = [];
+
+
+    @Input() outcomeTransaction: TransactionView[][] = [];
+    @Input() incomeTransaction: TransactionView[][] =[];
+
     constructor(private modal: NzModalService, private viewContainerRef: ViewContainerRef) {}
 
     ngOnInit(): void {
+        
         if (this.dataRange.dataUnits.length) {
             for (let dataUnit of this.dataRange.dataUnits) {
                 if(dataUnit.outcomeList.length>0){
@@ -72,10 +81,48 @@ export class ReportDetailTransactionComponent implements OnInit {
                 }
 
             }
+            for (let dataUnit of this.dataRange.dataUnits) {
+                    if(dataUnit.outcomeTransaction.length>0){
+                        this.outcomeTransaction.push(dataUnit.outcomeTransaction);
+                    }               
+            }
+            for (let dataUnit of this.dataRange.dataUnits) {
+                if(dataUnit.incomeTransaction.length>0){
+                    this.incomeTransaction.push(dataUnit.incomeTransaction);
+                }               
+        }
         
         
         
         }
+        for(let i = 0; i<this.outcomeList.length; i++){
+            let tmp1: TransactionView[][] = [];
+            for(let j = 0; j<this.outcomeTransaction.length;j++){
+                let tmp2: TransactionView[] = [];
+                for(let k = 0; k<this.outcomeTransaction[j].length; k++){
+                    if(this.outcomeList[i].name == this.outcomeTransaction[j][k].category.name){                       
+                        tmp2.push(this.outcomeTransaction[j][k]);
+                    }
+                }
+                tmp1.push(tmp2);
+            }
+            this.typeOutcomeTransaction.push(tmp1);
+        }
+        for(let i = 0; i<this.incomeList.length; i++){
+            let tmp1: TransactionView[][] = [];
+            for(let j = 0; j<this.incomeTransaction.length;j++){
+                let tmp2: TransactionView[] = [];
+                for(let k = 0; k<this.incomeTransaction[j].length; k++){
+                    if(this.incomeList[i].name == this.incomeTransaction[j][k].category.name){                       
+                        tmp2.push(this.incomeTransaction[j][k]);
+                    }
+                }
+                tmp1.push(tmp2);
+            }
+            this.typeIncomeTransaction.push(tmp1);
+        }
+
+        
     }
 
 
@@ -93,7 +140,7 @@ export class ReportDetailTransactionComponent implements OnInit {
             nzClassName: "debt-transaction-history",
             nzContent: TransactionHistoryPopupComponent,
             nzViewContainerRef: this.viewContainerRef,
-            nzComponentParams: {startDate,endDate,dataRange,type},
+            nzComponentParams: {title,startDate,endDate,dataRange,type},
             nzBodyStyle: {
                 "padding": "0",
             },
@@ -101,13 +148,13 @@ export class ReportDetailTransactionComponent implements OnInit {
             nzFooter: []
         });
     }
-    triggerShowPopup2(title: string,startDate: Date, endDate: Date, dataRange: DataRange,type:string,multi: DataPoint[]) {
+    triggerShowPopup2(title: string,startDate: Date, endDate: Date, dataRange: DataRange,type:string, typeTransaction: TransactionView[][][], typeList: DataPoint[]) {
         const modal: NzModalRef = this.modal.create({
             nzTitle: title,
             nzClassName: "debt-transaction-history",
             nzContent: TransactionHistoryPopupComponent,
             nzViewContainerRef: this.viewContainerRef,
-            nzComponentParams: {startDate,endDate,dataRange,type,multi},
+            nzComponentParams: {title,startDate,endDate,dataRange,type,typeTransaction,typeList},
             nzBodyStyle: {
                 "padding": "0",
             },

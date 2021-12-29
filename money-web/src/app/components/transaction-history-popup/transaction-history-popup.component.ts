@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Transaction, TransactionView} from "../../view-model/transactions";
 import {id} from "@swimlane/ngx-charts";
 import { DataRange } from 'src/app/view-model/data-range';
+import { of } from 'rxjs';
 
 @Component({
     selector: 'app-transaction-history-popup',
@@ -10,6 +11,7 @@ import { DataRange } from 'src/app/view-model/data-range';
 })
 export class TransactionHistoryPopupComponent implements OnInit {
 
+    @Input() title!: string;
     @Input() transactions:TransactionView[][] = [];
     @Input() inflow: number = 0;
     @Input() outflow: number = 0;
@@ -19,7 +21,8 @@ export class TransactionHistoryPopupComponent implements OnInit {
     @Input() endDate!: Date;
     @Input() type!: string;
 
-    @Input() multi!: DataPoint[];
+    @Input() typeTransaction: TransactionView[][][] = [];
+    @Input() typeList: DataPoint[] = [];
 
     currentPage: string = 'search';
 
@@ -27,17 +30,11 @@ export class TransactionHistoryPopupComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        console.log(this.type)
-        //console.log(this.dataRange.dataUnits)
-        console.log(this.multi);
         if (this.dataRange.dataUnits.length) {
             if(this.type == "debt"){
                 for (let dataUnit of this.dataRange.dataUnits) {
                     if(dataUnit.debtTransaction.length>0){
                         this.transactions.push(dataUnit.debtTransaction);
-                        // for(let i= 0; i< dataUnit.debtTransaction.length;i++){
-                        //     this.inflow += dataUnit.debtTransaction[i].amount;
-                        // }
                         this.inflow += dataUnit.totalDebt;
                     }
                 
@@ -73,28 +70,26 @@ export class TransactionHistoryPopupComponent implements OnInit {
                 }
             }
             if(this.type == "outcome"){
-                for (let dataUnit of this.dataRange.dataUnits) {
-                    if(dataUnit.startDate == this.startDate){
-                        this.transactions.push(dataUnit.outcomeTransaction);
-                        this.inflow += dataUnit.totalIncome;
-                        this.outflow += dataUnit.totalOutcome;
+                for(let i = 0; i<this.typeList.length; i++){
+                    if(this.typeList[i].name == this.title){
+                        this.transactions = this.typeTransaction[i];
+                        this.outflow = this.typeList[i].value;
                     }
-                
                 }
             }
+
+
             if(this.type == "income"){
-                for (let dataUnit of this.dataRange.dataUnits) {
-                    if(dataUnit.startDate == this.startDate){
-                        this.transactions.push(dataUnit.incomeTransaction);
-                        this.inflow += dataUnit.totalIncome;
-                        this.outflow += dataUnit.totalOutcome;
+                for(let i = 0; i<this.typeList.length; i++){
+                    if(this.typeList[i].name == this.title){
+                        this.transactions = this.typeTransaction[i];
+                        this.inflow = this.typeList[i].value;
                     }
-                
                 }
             }
             
+            
         }
-        //console.log(this.transactions);
     }
 
 }
