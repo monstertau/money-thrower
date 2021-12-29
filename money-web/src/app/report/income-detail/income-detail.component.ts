@@ -1,24 +1,25 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewContainerRef} from '@angular/core';
-import {DataRange} from "../../view-model/data-range";
+import {DataPoint, DataRange} from "../../view-model/data-range";
 import {Utils} from "../../util/utils";
-import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { TransactionHistoryPopupComponent } from 'src/app/components/transaction-history-popup/transaction-history-popup.component';
 
 @Component({
-    selector: 'app-report-detail',
-    templateUrl: './report-detail.component.html',
-    styleUrls: ['./report-detail.component.css']
+    selector: 'app-income-detail',
+    templateUrl: './income-detail.component.html',
+    styleUrls: ['./income-detail.component.css']
 })
-export class ReportDetailComponent implements OnInit {
+export class IncomeDetailComponent implements OnInit {
     @Output() closed = new EventEmitter<boolean>();
     @Input() title!: string;
-    @Input() balance!: string;
+    @Input() income!: string;
+
     @Input() dataRange!: DataRange;
     @Input() startDate!: Date;
     @Input() endDate!: Date;
-    @Input() isLoading!:boolean;
+    @Input() isLoading!:boolean
+    type: string = "income";
 
-    type: string = "overall";
     constructor(private modal: NzModalService, private viewContainerRef: ViewContainerRef) {
     }
 
@@ -27,7 +28,7 @@ export class ReportDetailComponent implements OnInit {
 
     hideReportDetail() {
         this.closed.emit(true);
-        let dialog = document.getElementById('report-detail') as HTMLElement;
+        let dialog = document.getElementById('income-detail') as HTMLElement;
         dialog.hidden = true;
         let dialogList = document.getElementsByClassName('main-report') as HTMLCollectionOf<HTMLElement>;
         if (dialogList.length > 0) {

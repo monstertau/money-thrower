@@ -27,23 +27,35 @@
                 </div>
             </div>
             <div class="report-divider"></div>
-            <div class="income-outcome-report" nz-row>
+            <div class="income-outcome-report" (click)="showIncomeDetail()" nz-row>
                 <div class="income-report" nz-col nzSpan="12">
                     <div class="income-header">
                         <div class="placeholder">Income</div>
                         <div class="balance">{{this.totalIncome}} đ</div>
 
                     </div>
+                    <div class = "income-pie-chart">
+                        Income report
+                        <app-income-pie-chart   [dataRange]="this.dataRange"
+                                                [startDate]="this.startDate"
+                                                [endDate]="this.endDate"></app-income-pie-chart>
+                    </div>
                 </div>
-                <div class="outcome-report" nz-col nzSpan="12">
+                <div class="outcome-report"  (click)="showOutcomeDetail()" nz-col nzSpan="12">
                     <div class="outcome-header">
                         <div class="placeholder">Outcome</div>
                         <div class="balance">{{this.totalOutcome}} đ</div>
                     </div>
+                    <div class="outcome-pie-chart" >
+                        Outcome report
+                        <app-outcome-pie-chart  [dataRange]="this.dataRange"
+                                                [startDate]="this.startDate"
+                                                [endDate]="this.endDate"></app-outcome-pie-chart>
+                    </div>
                 </div>
             </div>
             <div class="report-divider"></div>
-            <div class="debt" nz-row (click)="triggerShowPopup('Nợ')">
+            <div class="debt" nz-row (click)="triggerShowPopup('Nợ',this.startDate,this.endDate,this.dataRange,'debt')">
                 <div nz-col nzSpan="2">
                 </div>
                 <p class="title" nz-col nzSpan="13">
@@ -51,10 +63,10 @@
                 </p>
                 <div class="balance-metadata" nz-col nzSpan="5">
                     <div style="color: #039be5!important;">
-                        +20,000 đ
+                        {{this.totalDebt}} đ
                     </div>
                     <div style="color: #aaa;">
-                        Còn 20,000 đ
+                        {{this.totalDebt}} đ
                     </div>
                 </div>
                 <div nz-col nzSpan="1"></div>
@@ -63,7 +75,7 @@
                 </div>
             </div>
             <div class="report-divider"></div>
-            <div class="loan" nz-row (click)="triggerShowPopup('Cho vay')">
+            <div class="loan" nz-row (click)="triggerShowPopup('Cho vay',this.startDate,this.endDate,this.dataRange,'loan')">
                 <div nz-col nzSpan="2">
                 </div>
                 <p class="title" nz-col nzSpan="13">
@@ -71,10 +83,10 @@
                 </p>
                 <div class="balance-metadata" nz-col nzSpan="5">
                     <div style="color: #e51c23!important;">
-                        -20,000 đ
+                        {{this.totalLoan}} đ
                     </div>
                     <div style="color: #aaa;">
-                        Còn 20,000 đ
+                        {{this.totalLoan}} đ
                     </div>
                 </div>
                 <div nz-col nzSpan="1"></div>
@@ -83,19 +95,20 @@
                 </div>
             </div>
             <div class="report-divider"></div>
-            <div class="other" nz-row (click)="triggerShowPopup('Khác')">
+            <div class="other" nz-row (click)="triggerShowPopup('Khác',this.startDate,this.endDate,this.dataRange,'other')">
                 <div nz-col nzSpan="2">
                 </div>
                 <p class="title" nz-col nzSpan="13">
                     Other
                 </p>
                 <div class="balance-metadata" nz-col nzSpan="5">
-                    0 đ
+                    {{this.otherBalance}} đ
                 </div>
                 <div nz-col nzSpan="1"></div>
                 <div class="left-arrow" nz-col nzSpan="3">
                     <i nz-icon nzType="right" nzTheme="outline"></i>
                 </div>
+
             </div>
         </div>
     </div>
@@ -104,4 +117,18 @@
                            [startDate]="this.startDate"
                            [endDate]="this.endDate" [isLoading]="isLoading"></app-report-detail>
     </div>
+    <div id="outcome-detail" hidden>
+        <app-outcome-detail title="Outcome Report" [outcome]="this.totalOutcome" [dataRange]="this.dataRange"
+                           [startDate]="this.startDate"
+                           [endDate]="this.endDate"
+                           [isLoading]="isLoading"></app-outcome-detail>
+    </div>
+    <div id="income-detail" hidden>
+        <app-income-detail title="Income Report" [income]="this.totalIncome"
+                            [dataRange]="this.dataRange"
+                            [startDate]="this.startDate"
+                            [endDate]="this.endDate"
+                            [isLoading]="isLoading"></app-income-detail>
+    </div>
+
 </div>

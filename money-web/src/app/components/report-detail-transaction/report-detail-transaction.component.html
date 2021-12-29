@@ -1,0 +1,92 @@
+<div class="report-detail-transaction">
+    <ng-container *ngIf="this.type == 'outcome'">
+        <ng-container *ngFor="let dataPoint of this.outcomeList"> 
+            <div class="detail-transaction" (click)="triggerShowPopup2(dataPoint.name,this.startDate,this.endDate,this.dataRange,'outcome',this.typeOutcomeTransaction,this.outcomeList)"  nz-row>
+                <div nz-col nzSpan="2">
+                </div>
+                <p class="detail-title" style="margin-top:15px;" nz-col nzSpan="13">
+                    {{dataPoint.name}}
+                </p>
+                <div class="balance-metadata" nz-col nzSpan="5">
+                    <!-- <div style="color: #039be5!important;">
+                        {{formatCurrency(dataPoint.totalIncome)}} đ
+                    </div> -->
+                    <div style="color: #e51c23!important; margin-top: 15px;">
+                        {{formatCurrency(-dataPoint.value)}} đ
+                    </div>
+                    <!-- <div>
+                        {{formatCurrency(dataUnit.totalIncome - dataUnit.totalOutcome)}} đ
+                    </div> -->
+                </div>
+                <div nz-col nzSpan="1"></div>
+                <div class="left-arrow" nz-col nzSpan="3">
+                    <div class="left-icon">
+                        <i nz-icon nzType="right" nzTheme="outline"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="report-divider"></div>
+        </ng-container>
+    </ng-container>
+    <ng-container *ngIf="this.type == 'income'">
+        <ng-container *ngFor="let dataPoint of this.incomeList"> 
+            <div class="detail-transaction" (click)="triggerShowPopup2(dataPoint.name,this.startDate,this.endDate,this.dataRange,'income',this.typeIncomeTransaction,this.incomeList)"  nz-row>
+                <div nz-col nzSpan="2">
+                </div>
+                <p class="detail-title" style="margin-top:15px;" nz-col nzSpan="13">
+                    {{dataPoint.name}}
+                </p>
+                <div class="balance-metadata" nz-col nzSpan="5">
+                    <div style="color: #039be5!important;">
+                        {{formatCurrency(dataPoint.value)}} đ
+                    </div>
+                    <!-- <div style="color: #e51c23!important; margin-top: 15px;">
+                        {{formatCurrency(-dataPoint.value)}} đ
+                    </div> -->
+                    <!-- <div>
+                        {{formatCurrency(dataUnit.totalIncome - dataUnit.totalOutcome)}} đ
+                    </div> -->
+                </div>
+                <div nz-col nzSpan="1"></div>
+                <div class="left-arrow" nz-col nzSpan="3">
+                    <div class="left-icon">
+                        <i nz-icon nzType="right" nzTheme="outline"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="report-divider"></div>
+        </ng-container>
+    </ng-container>
+    <ng-container *ngIf="this.type == 'overall'">
+        <ng-container *ngFor="let dataUnit of this.dataRange.dataUnits">
+            <ng-container *ngIf="dataUnit.totalIncome != 0 || dataUnit.totalOutcome != 0">
+                <div class="detail-transaction"  (click)="triggerShowPopup(dataUnit.startDate.toDateString(),dataUnit.startDate,this.endDate,this.dataRange,'daily')" nz-row>
+                    <div nz-col nzSpan="2">
+                    </div>
+                    <p class="detail-title" style="margin-top: 15px;" nz-col nzSpan="13">
+                        {{dataUnit.startDate.toDateString()}}
+                    </p>
+                    <div class="balance-metadata" nz-col nzSpan="5">
+                        <div style="color: #039be5!important;">
+                            {{formatCurrency(dataUnit.totalIncome)}} đ
+                        </div>
+                        <div style="color: #e51c23!important;">
+                            {{formatCurrency(-dataUnit.totalOutcome)}} đ
+                        </div>
+                        <div>
+                            {{formatCurrency(dataUnit.totalIncome - dataUnit.totalOutcome)}} đ
+                        </div>
+                    </div>
+                    <div nz-col nzSpan="1"></div>
+                    <div class="left-arrow" nz-col nzSpan="3">
+                        <div class="left-icon">
+                            <i nz-icon nzType="right" nzTheme="outline"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="report-divider"></div>
+                
+            </ng-container>
+        </ng-container>
+    </ng-container>
+</div>

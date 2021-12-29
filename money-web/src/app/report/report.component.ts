@@ -13,7 +13,7 @@ import {Utils} from "../util/utils";
 import {TransactionView} from "../view-model/transactions";
 import {parse} from "@angular/compiler/src/render3/view/style_parser";
 import {CategoryService} from "../services/category.service";
-import {DataRange} from "../view-model/data-range";
+import {DataPoint, DataRange} from "../view-model/data-range";
 
 @Component({
     selector: 'app-report',
@@ -34,7 +34,13 @@ export class ReportComponent implements OnInit {
     dataRange!: DataRange;
     totalIncome:string = "0";
     totalOutcome:string = "0";
+    totalDebt: string = "0";
+    totalLoan: string = "0";
+    otherInflow: string = "0";
+    otherOutflow: string = "0";
+    otherBalance: string ="0";
     private currentWalletId!: string;
+
 
     constructor(private modal: NzModalService, private viewContainerRef: ViewContainerRef,
                 public activatedRoute: ActivatedRoute, private walletService: WalletService,
@@ -45,13 +51,13 @@ export class ReportComponent implements OnInit {
         });
     }
 
-    triggerShowPopup(title: string) {
+    triggerShowPopup(title: string,startDate: Date, endDate: Date, dataRange: DataRange, type: string) {
         const modal: NzModalRef = this.modal.create({
             nzTitle: title,
             nzClassName: "debt-transaction-history",
             nzContent: TransactionHistoryPopupComponent,
             nzViewContainerRef: this.viewContainerRef,
-            nzComponentParams: {},
+            nzComponentParams: {startDate,endDate,dataRange,type},
             nzBodyStyle: {
                 "padding": "0",
             },
@@ -65,7 +71,7 @@ export class ReportComponent implements OnInit {
             .pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
             this.isLoading = true;
             this.queryData(params.title, params.startDate, params.endDate);
-        })
+        });
 
     }
 
@@ -125,9 +131,16 @@ export class ReportComponent implements OnInit {
             this.dataRange = new DataRange(this.title, this.startDate, this.endDate, this.allTransactions);
             setTimeout(() => {
                 this.isLoading = false;
-            }, 1000);
+            }, 3000);
             this.totalIncome = Utils.formatCurrency(this.dataRange.totalIncome)
             this.totalOutcome = Utils.formatCurrency(-this.dataRange.totalOutcome)
+            this.totalDebt = Utils.formatCurrency(this.dataRange.totalDebt)
+            this.totalLoan = Utils.formatCurrency(-this.dataRange.totalLoan)
+            this.otherInflow = Utils.formatCurrency(this.dataRange.otherInflow)
+            this.otherOutflow = Utils.formatCurrency(-this.dataRange.otherOutflow)
+            this.otherBalance = Utils.formatCurrency(this.dataRange.otherInflow-this.dataRange.otherOutflow);
+
+
         })
 
     }
@@ -140,8 +153,30 @@ export class ReportComponent implements OnInit {
         let dialog = document.getElementsByClassName('main-report') as HTMLCollectionOf<HTMLElement>;
         let dialogDetail = document.getElementById('report-detail') as HTMLElement;
         if (dialog.length != 0 && dialog[0].style.marginLeft != '19%' && dialogDetail.hidden) {
-            dialog[0].style.marginLeft = "19%";
-            dialog[0].style.width = "40%";
+            dialog[0].style.marginLeft = "16%";
+            dialog[0].style.width = "33%";
+            setTimeout(() => {
+                dialogDetail.hidden = false;
+            }, 500);
+        }
+    }
+    showOutcomeDetail() {
+        let dialog = document.getElementsByClassName('main-report') as HTMLCollectionOf<HTMLElement>;
+        let dialogDetail = document.getElementById('outcome-detail') as HTMLElement;
+        if (dialog.length != 0 && dialog[0].style.marginLeft != '19%' && dialogDetail.hidden) {
+            dialog[0].style.marginLeft = "16%";
+            dialog[0].style.width = "33%";
+            setTimeout(() => {
+                dialogDetail.hidden = false;
+            }, 500);
+        }
+    }
+    showIncomeDetail() {
+        let dialog = document.getElementsByClassName('main-report') as HTMLCollectionOf<HTMLElement>;
+        let dialogDetail = document.getElementById('income-detail') as HTMLElement;
+        if (dialog.length != 0 && dialog[0].style.marginLeft != '19%' && dialogDetail.hidden) {
+            dialog[0].style.marginLeft = "16%";
+            dialog[0].style.width = "33%";
             setTimeout(() => {
                 dialogDetail.hidden = false;
             }, 500);
