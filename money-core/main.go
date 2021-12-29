@@ -78,6 +78,7 @@ func main() {
 		CategoryRepo:    repository.NewCategoryRepo(dbConn),
 		RedisRepo:       repository.NewRedisRepo(redisConn, appConfig.MailConfig.Timeout),
 		TransactionRepo: repository.NewTransactionRepo(dbConn),
+		BudgetRepo:      repository.NewBudgetRepo(dbConn),
 	}
 	// init validator
 	validators := &validator.Validator{
@@ -96,6 +97,7 @@ func main() {
 		WalletService:      service.NewWalletService(validators, repo),
 		TransactionService: service.NewTransactionService(validators, repo),
 		CategoryService:    service.NewCategoryService(repo),
+		BudgetService:      service.NewBudgetService(validators, repo),
 	}
 
 	route := gin.Default()
@@ -114,11 +116,13 @@ func main() {
 	walletController := controller.NewWalletController(serv, validators)
 	transactionController := controller.NewTransactionController(serv, validators)
 	categoryController := controller.NewCategoryController(serv)
+	budgetController := controller.NewBudgetController(serv, validators)
 	authController.MakeHandler(v1)
 	dummyController.MakeHandler(v1)
 	walletController.MakeHandler(v1)
 	forgotPasswordController.MakeHandler(v1)
 	categoryController.MakeHandler(v1)
+	budgetController.MakeHandler(v1)
 	transactionController.MakeHandler(v1)
 
 	docs.SwaggerInfo.Host = appConfig.SwagConfig.Host
