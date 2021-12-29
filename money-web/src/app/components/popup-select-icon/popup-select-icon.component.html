@@ -1,0 +1,12 @@
+<div nz-row nzJustify="space-between" [nzGutter]="[16,24]">
+    <div class="icon-pick" *ngFor="let icon of IconList"
+         [style.background-color]="choseIcon===icon.text?'rgba(45, 184, 76, .10)':''" (click)="callbackFunc(icon.text)">
+        <div nz-col [nzSpan]="2">
+            <i nz-icon>
+                <img src="/assets/catalogs/{{icon.text}}.png" alt="image"
+                     style="width: 40px;height: 40px;margin-top:5px">
+            </i>
+        </div>
+    </div>
+</div>
+

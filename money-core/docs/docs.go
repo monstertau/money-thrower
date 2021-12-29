@@ -329,6 +329,104 @@ var doc = `{
                         }
                     }
                 }
+            },
+            "put": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Edit info of a category",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "category"
+                ],
+                "summary": "Edit info of a category",
+                "parameters": [
+                    {
+                        "description": "Update category",
+                        "name": "update",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/view.CategoryForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/view.CategoryForm"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controller.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controller.AppError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Add a new category",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "category"
+                ],
+                "summary": "Add a new category",
+                "parameters": [
+                    {
+                        "description": "Create category",
+                        "name": "create",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/view.CategoryForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/view.CategoryForm"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controller.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controller.AppError"
+                        }
+                    }
+                }
             }
         },
         "/category/{id}": {
@@ -363,6 +461,53 @@ var doc = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/view.CategoryForm"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controller.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controller.AppError"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Return result detail",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "category"
+                ],
+                "summary": "Delete specific category by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "category id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
                         }
                     },
                     "400": {
@@ -945,6 +1090,57 @@ var doc = `{
                 }
             }
         },
+        "/wallet/balance": {
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "get start and end balance of a wallet by a time range",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "wallet"
+                ],
+                "summary": "get start and end balance of a wallet by a time range",
+                "parameters": [
+                    {
+                        "description": "Get Balance",
+                        "name": "create",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/view.WalletBalanceByTimeForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/view.WalletBalanceByTimeForm"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controller.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controller.AppError"
+                        }
+                    }
+                }
+            }
+        },
         "/wallet/{id}": {
             "get": {
                 "security": [
@@ -1189,7 +1385,7 @@ var doc = `{
                 },
                 "end_date": {
                     "type": "integer",
-                    "example": 4102444799
+                    "example": 1936206829000
                 },
                 "key_note": {
                     "type": "string",
@@ -1201,7 +1397,7 @@ var doc = `{
                 },
                 "start_date": {
                     "type": "integer",
-                    "example": -315619200
+                    "example": -1036206827000
                 },
                 "wallet_id": {
                     "type": "string",
@@ -1305,6 +1501,31 @@ var doc = `{
                 },
                 "wallet_id": {
                     "type": "string"
+                }
+            }
+        },
+        "view.WalletBalanceByTimeForm": {
+            "type": "object",
+            "properties": {
+                "end_balance": {
+                    "type": "number",
+                    "example": 0
+                },
+                "end_date": {
+                    "type": "integer",
+                    "example": 1936206828000
+                },
+                "id": {
+                    "type": "string",
+                    "example": "id"
+                },
+                "start_balance": {
+                    "type": "number",
+                    "example": 0
+                },
+                "start_date": {
+                    "type": "integer",
+                    "example": 1636206838000
                 }
             }
         },

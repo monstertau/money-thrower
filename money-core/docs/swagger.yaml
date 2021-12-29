@@ -100,7 +100,7 @@ definitions:
         example: 999999
         type: number
       end_date:
-        example: 4102444799
+        example: 1936206829000
         type: integer
       key_note:
         example: mua
@@ -109,7 +109,7 @@ definitions:
         example: 1
         type: number
       start_date:
-        example: -315619200
+        example: -1036206827000
         type: integer
       wallet_id:
         example: dda1d792-337b-476b-adbc-f81b06baa0d0
@@ -182,6 +182,24 @@ definitions:
         type: string
       wallet_id:
         type: string
+    type: object
+  view.WalletBalanceByTimeForm:
+    properties:
+      end_balance:
+        example: 0
+        type: number
+      end_date:
+        example: 1936206828000
+        type: integer
+      id:
+        example: id
+        type: string
+      start_balance:
+        example: 0
+        type: number
+      start_date:
+        example: 1636206838000
+        type: integer
     type: object
   view.WalletForm:
     properties:
@@ -407,7 +425,99 @@ paths:
       summary: Get list category with paging
       tags:
       - category
+    post:
+      consumes:
+      - application/json
+      description: Add a new category
+      parameters:
+      - description: Create category
+        in: body
+        name: create
+        required: true
+        schema:
+          $ref: '#/definitions/view.CategoryForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.CategoryForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Add a new category
+      tags:
+      - category
+    put:
+      consumes:
+      - application/json
+      description: Edit info of a category
+      parameters:
+      - description: Update category
+        in: body
+        name: update
+        required: true
+        schema:
+          $ref: '#/definitions/view.CategoryForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.CategoryForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Edit info of a category
+      tags:
+      - category
   /category/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Return result detail
+      parameters:
+      - description: category id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Delete specific category by id
+      tags:
+      - category
     get:
       consumes:
       - application/json
@@ -856,6 +966,38 @@ paths:
       security:
       - JWT: []
       summary: Get specific wallet by id
+      tags:
+      - wallet
+  /wallet/balance:
+    post:
+      consumes:
+      - application/json
+      description: get start and end balance of a wallet by a time range
+      parameters:
+      - description: Get Balance
+        in: body
+        name: create
+        required: true
+        schema:
+          $ref: '#/definitions/view.WalletBalanceByTimeForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.WalletBalanceByTimeForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: get start and end balance of a wallet by a time range
       tags:
       - wallet
 schemes:

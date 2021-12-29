@@ -4,7 +4,7 @@
     <span class="topbar-icon" [nzTooltipTitle]="viewToolTip" nzTooltipPlacement="bottom" nz-tooltip
           (click)="changeViewMode()"><i nz-icon nzType="eye" nzTheme="outline"></i></span>
     <span class="topbar-icon" style="margin-right: 50px;" nzTooltipTitle="Search" nz-tooltip
-          nzTooltipPlacement="bottom"><i nz-icon nzType="search" nzTheme="outline"></i></span>
+          (click)="search()" nzTooltipPlacement="bottom"><i nz-icon nzType="search" class="topbar-icon" nzTheme="outline"></i></span>
     <button class="transaction-btn" nz-button nzType="primary" (click)="showTransactionAddModal()">Add Transaction
     </button>
     <nz-modal [(nzVisible)]="showAddModal" nzTitle="Add Transaction" nzWidth="848px" nzClosable="false">

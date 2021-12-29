@@ -5,7 +5,9 @@ import (
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
 	"money-core/model"
+	"money-core/util"
 	"money-core/view"
+	"time"
 )
 
 type (
@@ -16,6 +18,8 @@ type (
 		UpdateAmount(walletId string, amount float64, isExpense bool) error
 		List(userId string, limit int, from int) ([]*model.Wallet, error)
 		DeleteById(id string, userId string) error
+		CalculateDynamicBalance(wallet *model.Wallet) error
+		BalanceByDate(walletId string, userId string, date int64) (float64, error)
 	}
 	WalletRepo struct {
 		dbConn *gorm.DB
@@ -39,6 +43,10 @@ func (r *WalletRepo) GetById(id string, userId string) (*model.Wallet, error) {
 	if err := r.dbConn.First(&wallet, "id=? AND user_id=?", id, userId).Error; err != nil {
 		return nil, errors.Errorf("failed to execute select query: %s", err)
 	}
+	// Sync balance
+	if err := r.CalculateDynamicBalance(wallet); err != nil {
+		return nil, errors.Errorf("failed to calculate wallet balance!!!")
+	}
 	return wallet, nil
 }
 
@@ -46,6 +54,12 @@ func (r *WalletRepo) List(userId string, limit int, from int) ([]*model.Wallet, 
 	var wallets []*model.Wallet
 	if err := r.dbConn.Limit(limit).Offset(from).Find(&wallets, "user_id=?", userId).Error; err != nil {
 		return nil, fmt.Errorf("failed to execute select query: %s", err)
+	}
+	// Sync balance
+	for _, wallet := range wallets {
+		if err := r.CalculateDynamicBalance(wallet); err != nil {
+			return nil, errors.Errorf("failed to calculate wallets balance!!!")
+		}
 	}
 	return wallets, nil
 }
@@ -84,4 +98,62 @@ func (r *WalletRepo) DeleteById(id string, userId string) error {
 		return errors.Errorf("failed to execute delete query, the inputed id may wrong: %s", id)
 	}
 	return nil
+}
+
+func (r *WalletRepo) CalculateDynamicBalance(wallet *model.Wallet) error {
+	var newBalance float64
+	// Find all past transactions of this wallet
+	var transactions []*model.Transaction
+	tx := r.dbConn.Where("wallet_id = ?", wallet.Id)
+	tx.Where("transaction_date <= ?", time.Now())
+	if err := tx.Find(&transactions).Error; err != nil {
+		return fmt.Errorf("failed to execute select query: %s", err)
+	}
+	// Loop through all transaction, find category and calculate new balance
+	for _, transaction := range transactions {
+		category := &model.Category{}
+		if err := r.dbConn.First(&category, "id=? AND (owner_id=? OR owner_id=?)", transaction.CatId, transaction.UserId, util.NilId).Error; err != nil {
+			return errors.Errorf("failed to execute select query: %s", err)
+		}
+		if category.IsExpense {
+			newBalance -= transaction.Amount
+		} else {
+			newBalance += transaction.Amount
+		}
+
+	}
+	// Sync new balance
+	wallet.Balance = newBalance
+	if err := r.dbConn.Save(wallet).Error; err != nil {
+		return errors.Errorf("failed to execute update query: %s", err)
+	}
+	return nil
+}
+
+func (r *WalletRepo) BalanceByDate(walletId string, userId string, date int64) (float64, error) {
+	var balance float64
+	// Find all past transactions of this wallet till input date
+	var transactions []*model.Transaction
+	tx := r.dbConn.Where("wallet_id = ?", walletId)
+	tx.Where("transaction_date <= ?", time.Unix(0, util.NormalizeTimeAsMilliseconds(date)*int64(time.Millisecond)))
+	if err := tx.Find(&transactions).Error; err != nil {
+		return 0, fmt.Errorf("failed to execute select query: %s", err)
+	}
+	// Loop through all transaction, find category and calculate the balance up till then
+	for _, transaction := range transactions {
+		if transaction.Note == "Initialize Wallet" {
+			balance += transaction.Amount
+		} else {
+			category := &model.Category{}
+			if err := r.dbConn.First(&category, "id=? AND (owner_id=? OR owner_id=?)", transaction.CatId, transaction.UserId, util.NilId).Error; err != nil {
+				return 0, errors.Errorf("failed to execute select query: %s", err)
+			}
+			if category.IsExpense {
+				balance -= transaction.Amount
+			} else {
+				balance += transaction.Amount
+			}
+		}
+	}
+	return balance, nil
 }

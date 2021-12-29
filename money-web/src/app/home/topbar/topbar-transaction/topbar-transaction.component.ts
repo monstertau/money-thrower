@@ -135,4 +135,12 @@ export class TopbarTransactionComponent implements OnInit {
         }
     }
 
+    search() {
+        // this.router.navigate(['/search']);
+        // this.commonService.changePage('search');
+        // this.commonService.reloadComponent();
+        // this.commonService.changeSearchResults([]);
+        window.location.href = '/search';
+    }
+
 }

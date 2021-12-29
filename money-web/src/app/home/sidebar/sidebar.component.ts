@@ -29,8 +29,8 @@ export class SidebarComponent implements OnInit {
         this.collapse.emit(this.isCollapsed);
     }
 
-    selectPage(page: string) {
-        this.commonService.changePage(page);
+    selectPage() {
+        this.commonService.reloadComponent();
     }
 
     showLogoutDialogModal() {

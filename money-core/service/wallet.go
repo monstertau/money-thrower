@@ -2,9 +2,12 @@ package service
 
 import (
 	"github.com/pkg/errors"
+	"math"
 	"money-core/repository"
+	"money-core/util"
 	"money-core/validator"
 	"money-core/view"
+	"time"
 )
 
 type (
@@ -14,6 +17,7 @@ type (
 		GetById(userId string, id string) (*view.WalletForm, error)
 		GetAll(userId string, limit int, from int) ([]*view.WalletForm, error)
 		DeleteById(userId string, id string) error
+		BalanceByTimeRange(userId string, form *view.WalletBalanceByTimeForm) error
 	}
 	WalletService struct {
 		validator    *validator.Validator
@@ -61,14 +65,22 @@ func (s *WalletService) Update(userId string, form *view.WalletForm) error {
 }
 
 func (s *WalletService) InitTransaction(f *view.WalletForm) error {
-	var form = &view.AddTransactionForm{
-		UserId:   f.UserId,
-		WalletId: f.WalletId,
-		CatId:    "228f6db1-bac7-47ab-84b0-65d0e16ff12d",
-		Amount:   f.WalletBalance,
-		Note:     "Initialize Wallet",
+	w, err := s.repositories.WalletRepo.GetById(f.WalletId, f.UserId)
+	if err != nil {
+		return errors.Wrap(err, "in GetByID")
 	}
-	//TODO: need to transform to const table
+	addedTransaction := f.WalletBalance - w.Balance
+	var form = &view.AddTransactionForm{
+		UserId:          f.UserId,
+		WalletId:        f.WalletId,
+		CatId:           "ae5b7f63-01f6-4c48-b751-cb4f8235581c",
+		Amount:          math.Abs(addedTransaction),
+		Note:            "Initialize Wallet",
+		TransactionDate: util.NormalizeTimeAsMilliseconds(time.Now().Unix()),
+	}
+	if addedTransaction < 0 {
+		form.CatId = "3a20667c-10be-43af-bcd7-3ed78232dedd"
+	}
 	if _, err := s.repositories.TransactionRepo.Create(form); err != nil {
 		return errors.Errorf("%v", err)
 	}
@@ -99,6 +111,19 @@ func (s *WalletService) DeleteById(userId string, id string) error {
 	err := s.repositories.WalletRepo.DeleteById(id, userId)
 	if err != nil {
 		return errors.Errorf("error in delete wallet: %v", err)
+	}
+	return nil
+}
+
+func (s *WalletService) BalanceByTimeRange(userId string, form *view.WalletBalanceByTimeForm) error {
+	var err error
+	form.StartBalance, err = s.repositories.WalletRepo.BalanceByDate(form.WalletId, userId, form.StartDate)
+	if err != nil {
+		return errors.Errorf("error in calculate balance: %v", err)
+	}
+	form.EndBalance, err = s.repositories.WalletRepo.BalanceByDate(form.WalletId, userId, form.EndDate)
+	if err != nil {
+		return errors.Errorf("error in calculate balance: %v", err)
 	}
 	return nil
 }
