@@ -78,7 +78,6 @@ func main() {
 		CategoryRepo:    repository.NewCategoryRepo(dbConn),
 		RedisRepo:       repository.NewRedisRepo(redisConn, appConfig.MailConfig.Timeout),
 		TransactionRepo: repository.NewTransactionRepo(dbConn),
-		CategoryRepo:    repository.NewCategoryRepo(dbConn),
 		BudgetRepo:      repository.NewBudgetRepo(dbConn),
 	}
 	// init validator
