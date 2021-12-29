@@ -31,7 +31,13 @@ func (s *BudgetService) GetById(userId string, id string) (*view.BudgetForm, err
 	if err != nil {
 		return nil, errors.Errorf("error in find budget: %v", err)
 	}
-	return view.ToBudgetForm(budget), nil
+	form := view.ToBudgetForm(budget)
+	spentAmount, err := s.repositories.BudgetRepo.GetSpentAmount(budget)
+	if err != nil {
+		return nil, errors.Errorf("error in calculate spent amount of budget: %v", err)
+	}
+	form.SpentAmount = spentAmount
+	return form, nil
 }
 
 func (s *BudgetService) GetList(userId string) ([]*view.BudgetForm, error) {
@@ -42,6 +48,11 @@ func (s *BudgetService) GetList(userId string) ([]*view.BudgetForm, error) {
 	}
 	for _, budgetModel := range budgetModels {
 		budgetForm := view.ToBudgetForm(budgetModel)
+		spentAmount, err := s.repositories.BudgetRepo.GetSpentAmount(budgetModel)
+		if err != nil {
+			return nil, errors.Errorf("error in calculate spent amount of budget: %v", err)
+		}
+		budgetForm.SpentAmount = spentAmount
 		budgetForms = append(budgetForms, budgetForm)
 	}
 	return budgetForms, nil

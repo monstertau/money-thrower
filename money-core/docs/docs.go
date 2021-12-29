@@ -1105,6 +1105,9 @@ var doc = `{
                 "id": {
                     "type": "string"
                 },
+                "spent_amount": {
+                    "type": "number"
+                },
                 "start_date": {
                     "type": "integer"
                 },
