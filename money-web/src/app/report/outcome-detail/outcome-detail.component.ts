@@ -23,7 +23,7 @@ export class OutcomeDetailComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        
+
     }
 
     hideReportDetail() {
@@ -32,7 +32,7 @@ export class OutcomeDetailComponent implements OnInit {
         dialog.hidden = true;
         let dialogList = document.getElementsByClassName('main-report') as HTMLCollectionOf<HTMLElement>;
         if (dialogList.length > 0) {
-            dialogList[0].style.marginLeft = '50%';
+            dialogList[0].style.marginLeft = '40%';
             dialogList[0].style.width = "50%";
         }
     }

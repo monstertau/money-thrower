@@ -139,8 +139,8 @@ export class ReportComponent implements OnInit {
             this.otherInflow = Utils.formatCurrency(this.dataRange.otherInflow)
             this.otherOutflow = Utils.formatCurrency(-this.dataRange.otherOutflow)
             this.otherBalance = Utils.formatCurrency(this.dataRange.otherInflow-this.dataRange.otherOutflow);
-                
-            
+
+
         })
 
     }
@@ -153,8 +153,8 @@ export class ReportComponent implements OnInit {
         let dialog = document.getElementsByClassName('main-report') as HTMLCollectionOf<HTMLElement>;
         let dialogDetail = document.getElementById('report-detail') as HTMLElement;
         if (dialog.length != 0 && dialog[0].style.marginLeft != '19%' && dialogDetail.hidden) {
-            dialog[0].style.marginLeft = "19%";
-            dialog[0].style.width = "40%";
+            dialog[0].style.marginLeft = "16%";
+            dialog[0].style.width = "33%";
             setTimeout(() => {
                 dialogDetail.hidden = false;
             }, 500);
@@ -164,8 +164,8 @@ export class ReportComponent implements OnInit {
         let dialog = document.getElementsByClassName('main-report') as HTMLCollectionOf<HTMLElement>;
         let dialogDetail = document.getElementById('outcome-detail') as HTMLElement;
         if (dialog.length != 0 && dialog[0].style.marginLeft != '19%' && dialogDetail.hidden) {
-            dialog[0].style.marginLeft = "19%";
-            dialog[0].style.width = "40%";
+            dialog[0].style.marginLeft = "16%";
+            dialog[0].style.width = "33%";
             setTimeout(() => {
                 dialogDetail.hidden = false;
             }, 500);
@@ -175,8 +175,8 @@ export class ReportComponent implements OnInit {
         let dialog = document.getElementsByClassName('main-report') as HTMLCollectionOf<HTMLElement>;
         let dialogDetail = document.getElementById('income-detail') as HTMLElement;
         if (dialog.length != 0 && dialog[0].style.marginLeft != '19%' && dialogDetail.hidden) {
-            dialog[0].style.marginLeft = "19%";
-            dialog[0].style.width = "40%";
+            dialog[0].style.marginLeft = "16%";
+            dialog[0].style.width = "33%";
             setTimeout(() => {
                 dialogDetail.hidden = false;
             }, 500);

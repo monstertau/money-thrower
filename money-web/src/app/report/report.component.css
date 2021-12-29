@@ -4,14 +4,16 @@
 
 .main-report {
     width: 50%;
-    margin-left: 50%;
+    margin-left: 40%;
     margin-top: 1%;
     transform: translate(-45%, -0%);
     transition: margin-left 0.5s;
     background: #ffffff;
     border-radius: 10px;
     box-shadow: 0 2px 0 rgba(0, 0, 0, 0.043);
-    height: 100%;
+    position: absolute;
+    overflow-y: scroll;
+    height: 86%;
 }
 
 .balance-report {
