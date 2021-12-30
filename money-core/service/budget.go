@@ -3,8 +3,10 @@ package service
 import (
 	"github.com/pkg/errors"
 	"money-core/repository"
+	"money-core/util"
 	"money-core/validator"
 	"money-core/view"
+	"time"
 )
 
 type (
@@ -70,6 +72,10 @@ func (s *BudgetService) DeleteById(userId string, id string) error {
 
 func (s *BudgetService) Create(userId string, form *view.BudgetForm) (*view.BudgetForm, error) {
 	form.UserId = userId
+	form.Status = 1
+	if util.NormalizeTimeAsMilliseconds(form.EndDate) < util.NormalizeTimeAsSeconds(time.Now().Unix()) {
+		form.Status = 0
+	}
 	Budget, err := s.repositories.BudgetRepo.Create(form)
 	if err != nil {
 		return nil, errors.Errorf("error in create Budget: %v", err)
