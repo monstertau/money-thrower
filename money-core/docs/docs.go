@@ -976,8 +976,10 @@ var doc = `{
                         }
                     }
                 }
-            },
-            "post": {
+            }
+        },
+        "/user/update-password": {
+            "put": {
                 "security": [
                     {
                         "JWT": []
@@ -1615,10 +1617,16 @@ var doc = `{
         },
         "view.UpdatePasswordForm": {
             "type": "object",
+            "required": [
+                "password"
+            ],
             "properties": {
-                "string": {
+                "password": {
                     "type": "string",
-                    "example": "123456"
+                    "example": "12345678"
+                }
+            }
+        },
         "view.WalletBalanceByTimeForm": {
             "type": "object",
             "properties": {

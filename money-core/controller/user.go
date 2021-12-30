@@ -30,7 +30,7 @@ func (h *UserController) MakeHandler(g *gin.RouterGroup) {
 	group.Use(h.services.JWTService.AuthorizeJWT())
 	{
 		group.GET("/", h.GetById)
-		group.POST("/", h.UpdatePassword)
+		group.PUT("/update-password", h.UpdatePassword)
 	}
 }
 
@@ -72,7 +72,7 @@ func (h *UserController) GetById(c *gin.Context) {
 // @Success 200 {object} string
 // @Failure 400 {object} AppError
 // @Failure 500 {object} AppError
-// @Router /user/ [POST]
+// @Router /user/update-password [PUT]
 func (h *UserController) UpdatePassword(c *gin.Context) {
 	var form *view.UpdatePasswordForm
 	if err := c.ShouldBindJSON(&form); err != nil {

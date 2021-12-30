@@ -198,9 +198,12 @@ definitions:
     type: object
   view.UpdatePasswordForm:
     properties:
-      string:
-        example: "123456"
+      password:
+        example: "12345678"
         type: string
+    required:
+    - password
+    type: object
   view.WalletBalanceByTimeForm:
     properties:
       end_balance:
@@ -854,7 +857,8 @@ paths:
       summary: Get User Info
       tags:
       - User
-    post:
+  /user/update-password:
+    put:
       consumes:
       - application/json
       description: Update Password User
