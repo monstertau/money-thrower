@@ -15,6 +15,7 @@ type (
 		FindByEmail(email string) (*model.User, error)
 		Find(form *view.LoginForm) (*model.User, error)
 		UpdatePassword(email string, password string) error
+		FindByID(id string) (*model.User, error)
 	}
 	UserRepo struct {
 		dbConn *gorm.DB
@@ -47,6 +48,15 @@ func (r *UserRepo) FindByEmail(email string) (*model.User, error) {
 
 func (r *UserRepo) Find(form *view.LoginForm) (*model.User, error) {
 	return nil, nil
+}
+
+func (r *UserRepo) FindByID(id string) (*model.User, error) {
+	var user *model.User
+	if err := r.dbConn.First(&user, "id=?", id).Error; err != nil {
+		return nil, fmt.Errorf("failed to execute select query: %s", err)
+	}
+	return user, nil
+
 }
 
 func (r *UserRepo) UpdatePassword(email string, password string) error {

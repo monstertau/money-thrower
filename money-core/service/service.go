@@ -9,4 +9,5 @@ type Services struct {
 	TransactionService TransactionServiceInterface
 	CategoryService    CategoryServiceInterface
 	BudgetService      BudgetServiceInterface
+  UserService        UserServiceInterface
 }
