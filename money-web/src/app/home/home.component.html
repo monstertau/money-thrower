@@ -3,7 +3,7 @@
         <app-sidebar (collapse)="onSizebarCollapse($event)"></app-sidebar>
     </nz-sider>
     <nz-layout>
-        <nz-header>
+        <nz-header [ngClass]="{'search-header': currentPage=='search'}">
             <app-topbar [sidebarCollapse]="isCollapsed" [currentPage]="currentPage"></app-topbar>
         </nz-header>
         <nz-content>

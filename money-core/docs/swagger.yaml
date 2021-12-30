@@ -45,6 +45,27 @@ definitions:
     - cat_id
     - wallet_id
     type: object
+  view.BudgetForm:
+    properties:
+      amount:
+        type: number
+      cat_id:
+        type: string
+      end_date:
+        type: integer
+      id:
+        type: string
+      spent_amount:
+        type: number
+      start_date:
+        type: integer
+      status:
+        type: integer
+      user_id:
+        type: string
+      wallet_id:
+        type: string
+    type: object
   view.CategoryForm:
     properties:
       icon:
@@ -92,7 +113,7 @@ definitions:
         example: 999999
         type: number
       end_date:
-        example: 4102444799
+        example: 1936206829000
         type: integer
       key_note:
         example: mua
@@ -101,7 +122,7 @@ definitions:
         example: 1
         type: number
       start_date:
-        example: -315619200
+        example: -1036206827000
         type: integer
       wallet_id:
         example: dda1d792-337b-476b-adbc-f81b06baa0d0
@@ -180,6 +201,23 @@ definitions:
       string:
         example: "123456"
         type: string
+  view.WalletBalanceByTimeForm:
+    properties:
+      end_balance:
+        example: 0
+        type: number
+      end_date:
+        example: 1936206828000
+        type: integer
+      id:
+        example: id
+        type: string
+      start_balance:
+        example: 0
+        type: number
+      start_date:
+        example: 1636206838000
+        type: integer
     type: object
   view.WalletForm:
     properties:
@@ -294,6 +332,92 @@ paths:
       summary: Register with email and password
       tags:
       - authentication
+  /budget/:
+    get:
+      consumes:
+      - application/json
+      description: Get list of budgets
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.BudgetForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Get list of budgets
+      tags:
+      - budget
+  /budget/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a budget
+      parameters:
+      - description: budget id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Delete a budget
+      tags:
+      - budget
+    get:
+      consumes:
+      - application/json
+      description: Get detail information of a budget by id
+      parameters:
+      - description: budget id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.BudgetForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Get detail information of a budget by id
+      tags:
+      - budget
   /category:
     get:
       consumes:
@@ -916,6 +1040,38 @@ paths:
       security:
       - JWT: []
       summary: Get specific wallet by id
+      tags:
+      - wallet
+  /wallet/balance:
+    post:
+      consumes:
+      - application/json
+      description: get start and end balance of a wallet by a time range
+      parameters:
+      - description: Get Balance
+        in: body
+        name: create
+        required: true
+        schema:
+          $ref: '#/definitions/view.WalletBalanceByTimeForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.WalletBalanceByTimeForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: get start and end balance of a wallet by a time range
       tags:
       - wallet
 schemes:

@@ -1,0 +1,9 @@
+<div *ngIf="transactions.length == 0">
+    <nz-empty nzNotFoundImage="simple"></nz-empty>
+</div>
+<div style="padding:16px 0">
+    <app-transaction-list [transactions]="transactions" [isLoading]="false"
+                          [transactionsByTime]="transactions" [inflow]="inflow" [outflow]="outflow"
+                          [currentPage] = "currentPage"
+    ></app-transaction-list>
+</div>

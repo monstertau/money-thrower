@@ -34,6 +34,7 @@ func (h *WalletController) MakeHandler(g *gin.RouterGroup) {
 		group.GET("", h.GetAll)
 		group.GET("/:id", h.GetById)
 		group.DELETE("/:id", h.DeleteById)
+		group.POST("/balance", h.BalanceByTimeRange)
 	}
 }
 
@@ -208,4 +209,40 @@ func (h *WalletController) DeleteById(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, walletId)
+}
+
+// BalanceByTimeRange godoc
+// @Summary get start and end balance of a wallet by a time range
+// @Description get start and end balance of a wallet by a time range
+// @Tags wallet
+// @Accept json
+// @Produce json
+// @Param create body view.WalletBalanceByTimeForm true "Get Balance"
+// @Security JWT
+// @Success 200 {object} view.WalletBalanceByTimeForm
+// @Failure 400 {object} AppError
+// @Failure 500 {object} AppError
+// @Router /wallet/balance [post]
+func (h *WalletController) BalanceByTimeRange(c *gin.Context) {
+	var form *view.WalletBalanceByTimeForm
+	if err := c.ShouldBindJSON(&form); err != nil {
+		h.logger.Infof("Invalid form: %v ", err.Error())
+		ReportError(c, http.StatusBadRequest, fmt.Sprintf("invalid input in parse json format: %v", err))
+		return
+	}
+	if err := h.validator.WalletValidator.ValidateBalanceByTimeForm(form); err != nil {
+		ReportError(c, http.StatusBadRequest, fmt.Sprintf("invalid wallet balance by time range form: %v", err))
+		return
+	}
+	userId, err := h.services.JWTService.GetUserId(c)
+	if err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("cant get user id: %v", err))
+		return
+	}
+	err = h.services.WalletService.BalanceByTimeRange(userId, form)
+	if err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("fail to query balance by time: %v", err))
+		return
+	}
+	c.JSON(http.StatusOK, form)
 }

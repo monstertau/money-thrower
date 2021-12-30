@@ -1,0 +1,113 @@
+.wrapper {
+    line-height: normal;
+    padding: 10px 20px;
+}
+
+.back-icon {
+    font-size: 22px;
+    color: rgba(0, 0, 0, 0.54);
+}
+
+.back-icon:hover {
+    cursor: pointer;
+    color: black;
+}
+
+.reset {
+    float: right;
+    font-weight: bold;
+    margin-top: 5px;
+    color: rgba(0, 0, 0, 0.54);
+}
+
+.reset:hover {
+    cursor: pointer;
+    color: black;
+}
+
+.filters {
+    margin-top: 20px;
+}
+
+.filters-top {
+    display: flex;
+}
+
+.input-box {
+    border: 0.1px solid rgba(0, 0, 0, 0.26);
+    width: 250px;
+    border-radius: 10px;
+    height: 65px;
+    padding: 7px 10px;
+}
+
+.input-box:hover {
+    cursor: pointer;
+    border: 0.1px solid black;
+}
+
+.input-name {
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.45);
+}
+
+.input-bottom {
+    display: flex;
+    margin-top: 10px;
+}
+
+.name {
+    margin-left: 20px;
+    margin-top: 5px;
+}
+
+.more-icon {
+    font-size: 10px;
+    color: rgba(0, 0, 0, 0.45);
+    margin-left: auto;
+    margin-top: 7px;
+}
+
+.filters-bottom {
+    display: flex;
+    margin-top: 20px;
+}
+
+.placeholder {
+    color: rgba(0, 0, 0, 0.26);
+    margin-top: 2px;
+    font-size: 16px;
+}
+
+.timerange {
+    color: black;
+    margin-top: 2px;
+    font-size: 16px;
+}
+
+.input-range {
+    border: none;
+    border-bottom: 0.1px solid rgba(0, 0, 0, 0.26);
+    width: 100px;
+}
+
+.input-range:focus {
+    outline: none;
+}
+
+[nz-input] {
+    padding: 0;
+}
+
+:host ::ng-deep .ant-slider {
+    padding: 0;
+}
+
+.search-bth {
+    margin: auto;
+    /* margin-top: 17px; */
+}
+
+.search-bth:hover {
+    cursor: pointer;
+}

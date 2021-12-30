@@ -75,6 +75,14 @@ export class WalletService {
     getWalletById(id: string) {
         return this.httpService.get<Wallet>(`${this.route}/${id}`)
     }
+
+    getWalletBalance(id: string, startDate: number, endDate: number) {
+        return this.httpService.post<WalletBalance>(`${this.route}/balance`, {
+            id: id,
+            start_date: startDate,
+            end_date: endDate
+        })
+    }
 }
 
 export interface Wallet {
@@ -104,3 +112,10 @@ export interface WalletResponse {
     type: number;
 }
 
+export interface WalletBalance {
+    "end_balance": number,
+    "end_date": number,
+    "id": string,
+    "start_balance": number,
+    "start_date": number
+}

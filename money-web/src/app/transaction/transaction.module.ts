@@ -10,24 +10,28 @@ import { TransactionComponent } from './transaction.component';
 import { TransactionListComponent } from './transaction-list/transaction-list.component';
 import {NzModalModule} from "ng-zorro-antd/modal";
 import { TransactionDetailComponent } from './transaction-detail/transaction-detail.component';
-
+import {TransactionAddModule} from "../transaction-add/transaction-add.module";
 
 
 @NgModule({
-  declarations: [
-    TransactionComponent,
-    TransactionListComponent,
-    TransactionDetailComponent,
-  ],
-  imports: [
-    CommonModule,
-    NzTabsModule,
-    NzDividerModule,
-    NzButtonModule,
-    NzIconModule,
-    NzImageModule,
-    NzModalModule,
-    NzSpinModule
-  ]
+    declarations: [
+        TransactionComponent,
+        TransactionListComponent,
+        TransactionDetailComponent,
+    ],
+    exports: [
+        TransactionListComponent
+    ],
+    imports: [
+        CommonModule,
+        NzTabsModule,
+        NzDividerModule,
+        NzButtonModule,
+        NzIconModule,
+        NzImageModule,
+        NzModalModule,
+        NzSpinModule,
+        TransactionAddModule
+    ]
 })
 export class TransactionModule { }

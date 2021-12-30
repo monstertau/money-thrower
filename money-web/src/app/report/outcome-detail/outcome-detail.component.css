@@ -1,0 +1,47 @@
+.title {
+    display: flex;
+    padding: 10px 20px;
+}
+
+.close-icon {
+    font-size: 20px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.54);
+    padding-top: 5px;
+}
+
+.close-icon:hover {
+    color: black;
+    cursor: pointer;
+}
+
+.report-divider {
+    border-top: 1px solid #e0e0e0;
+}
+
+
+.outcome-report {
+    margin-top: 16px;
+    padding: 40px 64px;
+}
+
+.outcome-report .balance {
+    font-size: 32px;
+    line-height: 32px;
+    color: rgba(0, 0, 0, .87);
+    margin-top: -2px;
+}
+
+.outcome-header {
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.balance-metadata {
+    padding-top: 5px;
+    text-align: right;
+}
+
+
+.detail-transaction-component {
+}

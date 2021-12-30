@@ -78,6 +78,7 @@ func main() {
 		CategoryRepo:    repository.NewCategoryRepo(dbConn),
 		RedisRepo:       repository.NewRedisRepo(redisConn, appConfig.MailConfig.Timeout),
 		TransactionRepo: repository.NewTransactionRepo(dbConn),
+		BudgetRepo:      repository.NewBudgetRepo(dbConn),
 	}
 	// init validator
 	validators := &validator.Validator{
@@ -97,6 +98,7 @@ func main() {
 		TransactionService: service.NewTransactionService(validators, repo),
 		CategoryService:    service.NewCategoryService(repo),
 		UserService:        service.NewUserService(repo),
+		BudgetService:      service.NewBudgetService(validators, repo),
 	}
 
 	route := gin.Default()
@@ -116,12 +118,13 @@ func main() {
 	transactionController := controller.NewTransactionController(serv, validators)
 	categoryController := controller.NewCategoryController(serv)
 	userController := controller.NewUserController(serv, validators)
-
+	budgetController := controller.NewBudgetController(serv, validators)
 	authController.MakeHandler(v1)
 	dummyController.MakeHandler(v1)
 	walletController.MakeHandler(v1)
 	forgotPasswordController.MakeHandler(v1)
 	categoryController.MakeHandler(v1)
+	budgetController.MakeHandler(v1)
 	transactionController.MakeHandler(v1)
 	userController.MakeHandler(v1)
 
