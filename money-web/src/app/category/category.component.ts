@@ -31,7 +31,6 @@ export class CategoryComponent implements OnInit {
           let categoryView = new CategoryView().addCategory(element)
           this.categories.push(categoryView);
       });
-      console.log(this.categories);
 
 
   },

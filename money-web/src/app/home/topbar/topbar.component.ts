@@ -17,8 +17,8 @@ import { TransactionView } from "../../view-model/transactions";
 })
 export class TopbarComponent implements OnInit, OnChanges {
   @Input() sidebarCollapse = false;
+  @Input() currentPage!: string;
   isWalletMenuOpen = false;
-  currentPage!: string;
 
   private readonly destroy$ = new Subject();
   wallets: WalletView[] = [];
@@ -53,7 +53,6 @@ export class TopbarComponent implements OnInit, OnChanges {
   constructor(private walletService: WalletService, private eRef: ElementRef, private commonService: CommonService) { }
 
   ngOnInit(): void {
-    this.commonService.currentPage.subscribe(page => { this.currentPage = page; });
     this.commonService.currentWallet.pipe(takeUntil(this.destroy$)).subscribe(id => {
       this.currentWalletId = id;
     })
@@ -83,10 +82,11 @@ export class TopbarComponent implements OnInit, OnChanges {
       this.sidebarCollapse = changes.sidebarCollapse.currentValue;
       if (this.sidebarCollapse) {
         let dialog = document.getElementsByClassName('wallet-menu') as HTMLCollectionOf<HTMLElement>;
-        dialog[0].style.left = "60px";
+        if(dialog.length) dialog[0].style.left = "60px";
       } else {
         let dialog = document.getElementsByClassName('wallet-menu') as HTMLCollectionOf<HTMLElement>;
-        dialog[0].style.left = "210px";
+        if (dialog.length)
+            dialog[0].style.left = "210px";
       }
     }
   }

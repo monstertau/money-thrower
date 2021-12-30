@@ -10,7 +10,8 @@ export interface Category {
     name: string,
     icon: string,
     is_expense: boolean,
-    parent_cat_id: string
+    parent_cat_id: string,
+    owner_id: string
 }
 
 export class CategoryView {
@@ -18,18 +19,25 @@ export class CategoryView {
     type: string;
     name: string;
     icon: string;
+    ownerId: string;
     isExpense: boolean;
     isCurrent: boolean;
+    isCustom: boolean;
     fallbackIcon: string;
+    parent: CategoryView | null;
 
     constructor() {
         this.id = "";
         this.type = categoryType.OTHERS;
         this.name = "Others";
+        this.ownerId ="";
         this.icon = "null";
         this.isExpense = true;
         this.isCurrent = false;
-        this.fallbackIcon = 'assets/catalogs/null'
+        this.isCustom = false;
+        this.fallbackIcon = 'assets/catalogs/null.png';
+        this.parent = null;
+
     }
 
     getTypeNumber(): number {
@@ -51,7 +59,16 @@ export class CategoryView {
     this.id = category.id;
     this.name = category.name;
     this.icon = category.icon;
+    this.ownerId = category.owner_id;
     this.isExpense = category.is_expense;
+    if(this.ownerId === "00000000-0000-0000-0000-000000000000") this.isCustom = false;
+    else this.isCustom = true;
+
+    if(!this.parent && category.parent_cat_id) {
+        this.parent = new CategoryView();
+        this.parent.id = category.parent_cat_id;
+    }
+
     switch (category.type) {
       case 1:
         this.type = categoryType.OUTCOME;
@@ -72,8 +89,9 @@ export class CategoryView {
             type: this.getTypeNumber(),
             name: this.name,
             icon: this.icon,
+            owner_id: this.ownerId,
             is_expense: this.isExpense,
-            parent_cat_id: "" // do we need to use this field?
+            parent_cat_id: this.parent?.id ?? ""// do we need to use this field?
         }
     }
 }

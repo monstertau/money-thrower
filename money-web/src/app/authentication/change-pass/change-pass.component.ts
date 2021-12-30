@@ -27,7 +27,7 @@ export class ChangePassComponent implements OnInit{
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private notification: NzNotificationService) {
-      
+
      }
 
   ngOnInit(): void {
@@ -41,8 +41,6 @@ export class ChangePassComponent implements OnInit{
           this.token = params.token;
           this.email = params.email;
       });
-      console.log(this.email);
-      console.log(this.token);
       var user = {
         email: this.email,
         token: this.token
@@ -51,7 +49,7 @@ export class ChangePassComponent implements OnInit{
         if (result == 'SUCCESS') {
           console.log("success");
         } else if (result == 'FAIL') {
-          alert('Error');    
+          alert('Error');
         }
       }, (message) => {
         this.isLoading = false;
@@ -61,7 +59,7 @@ export class ChangePassComponent implements OnInit{
         this.reset;
       });
 
-    
+
   }
 
   get f() {
@@ -122,7 +120,7 @@ export class ChangePassComponent implements OnInit{
       else if (message.message.includes('invalid password'))
         this.notification.error('Error', "Password must contain at least 8 charaters. Please try again.");
       else this.notification.error('Error', message.message);
-      
+
     });
   }
   }

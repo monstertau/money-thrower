@@ -1,0 +1,27 @@
+<div class="title">
+    <i class="close-icon" nz-icon nzType="close" nzTheme="outline" (click)="hideReportDetail()"></i>
+    <span style="margin-left: 30px; font-weight: 500; font-size: 20px; line-height: 28px;"> {{this.title}}</span>
+</div>
+<div class="report-divider"></div>
+<ng-template #indicatorTemplate><i nz-icon nzType="loading" style="font-size: 50px;"></i></ng-template>
+<nz-spin *ngIf="isLoading" style="padding-top:50%;margin-top: 50%"
+         [nzIndicator]="indicatorTemplate"></nz-spin>
+<div *ngIf="!isLoading">
+    <div class="income-report">
+        <div class="income-header">
+            <div class="balance">{{this.income}} đ</div>
+        </div>
+        <div class="income-pie-chart">
+            <app-income-detail-pie-chart  [dataRange]="this.dataRange"
+                                    [startDate]="this.startDate"
+                                    [endDate]="this.endDate"></app-income-detail-pie-chart>
+        </div>
+    </div>
+    <div class="report-divider"></div>
+    <div class="detail-transaction-component">
+        <app-report-detail-transaction  [dataRange]="this.dataRange"
+                                        [startDate]="this.startDate"
+                                        [endDate]="this.endDate"
+                                        [type] ="this.type"></app-report-detail-transaction>
+    </div>
+</div>

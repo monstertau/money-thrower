@@ -2,13 +2,13 @@
     <div class="dialog">
         <div *ngIf="categoryViewMode == 'all'">
             <div class="header">
-               All categories
+                All categories
             </div>
             <div class="categories">
                 <div *ngFor="let item of data; let i = index" style="width: 100%;" (click)="selectCategory(item.id)">
                     <div class="category-item">
-                        <img nz-image width="40px" height="40px" [nzSrc]="item.getIcon()" [nzFallback]="item.fallbackIcon"
-                            alt="" />
+                        <img nz-image width="40px" height="40px" [nzSrc]="item.getIcon()"
+                            [nzFallback]="item.fallbackIcon" alt="" />
                         <div style="margin-left: 20px;">
                             <div class="name">{{item.name}}</div>
                         </div>
@@ -27,106 +27,169 @@
         <div *ngIf="categoryViewMode == 'debt or loan'">
             <div class="header">
                 Debt or loan categories
-             </div>
-             <div class="categories">
-                 <div *ngFor="let item of dataDL; let i = index" style="width: 100%;" (click)="selectCategory(item.id)">
-                     <div class="category-item">
-                         <img nz-image width="40px" height="40px" [nzSrc]="item.getIcon()" [nzFallback]="item.fallbackIcon"
-                             alt="" />
-                         <div style="margin-left: 20px;">
-                             <div class="name">{{item.name}}</div>
-                         </div>
-                     </div>
-                 </div>
-                 <div class="load-all">
-                     <nz-divider nzType="horizontal"></nz-divider>
-                     <div *ngIf="isListLoading" style="width: 100%;">
-                         <div class="category-item" style="position: relative; height: 80px;">
-                         </div>
-                     </div>
-                 </div>
-             </div>
+            </div>
+            <div class="categories">
+                <div *ngFor="let item of dataDL; let i = index" style="width: 100%;" (click)="selectCategory(item.id)">
+                    <div class="category-item">
+                        <img nz-image width="40px" height="40px" [nzSrc]="item.getIcon()"
+                            [nzFallback]="item.fallbackIcon" alt="" />
+                        <div style="margin-left: 20px;">
+                            <div class="name">{{item.name}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="load-all">
+                    <nz-divider nzType="horizontal"></nz-divider>
+                    <div *ngIf="isListLoading" style="width: 100%;">
+                        <div class="category-item" style="position: relative; height: 80px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div *ngIf="categoryViewMode == 'income'">
             <div class="header">
                 Income categories
-             </div>
-             <div class="categories">
-                 <div *ngFor="let item of dataIN; let i = index" style="width: 100%;" (click)="selectCategory(item.id)">
-                     <div class="category-item">
-                         <img nz-image width="40px" height="40px" [nzSrc]="item.getIcon()" [nzFallback]="item.fallbackIcon"
-                             alt="" />
-                         <div style="margin-left: 20px;">
-                             <div class="name">{{item.name}}</div>
-                         </div>
-                     </div>
-                 </div>
-                 <div class="load-all">
-                     <nz-divider nzType="horizontal"></nz-divider>
-                     <div *ngIf="isListLoading" style="width: 100%;">
-                         <div class="category-item" style="position: relative; height: 80px;">
-                         </div>
-                     </div>
-                 </div>
-             </div>
+            </div>
+            <div class="categories">
+                <div *ngFor="let item of dataIN; let i = index" style="width: 100%;" (click)="selectCategory(item.id)">
+                    <div class="category-item">
+                        <img nz-image width="40px" height="40px" [nzSrc]="item.getIcon()"
+                            [nzFallback]="item.fallbackIcon" alt="" />
+                        <div style="margin-left: 20px;">
+                            <div class="name">{{item.name}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="load-all">
+                    <nz-divider nzType="horizontal"></nz-divider>
+                    <div *ngIf="isListLoading" style="width: 100%;">
+                        <div class="category-item" style="position: relative; height: 80px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div *ngIf="categoryViewMode == 'outcome'">
             <div class="header">
                 Outcome categories
-             </div>
-             <div class="categories">
-                 <div *ngFor="let item of dataOUT; let i = index" style="width: 100%;" (click)="selectCategory(item.id)">
-                     <div class="category-item">
-                         <img nz-image width="40px" height="40px" [nzSrc]="item.getIcon()" [nzFallback]="item.fallbackIcon"
-                             alt="" />
-                         <div style="margin-left: 20px;">
-                             <div class="name">{{item.name}}</div>
-                         </div>
-                     </div>
-                 </div>
-                 <div class="load-all">
-                     <nz-divider nzType="horizontal"></nz-divider>
-                     <div *ngIf="isListLoading" style="width: 100%;">
-                         <div class="category-item" style="position: relative; height: 80px;">
-                         </div>
-                     </div>
-                 </div>
-             </div>
+            </div>
+            <div class="categories">
+                <div *ngFor="let item of dataOUT; let i = index" style="width: 100%;" (click)="selectCategory(item.id)">
+                    <div class="category-item">
+                        <img nz-image width="40px" height="40px" [nzSrc]="item.getIcon()"
+                            [nzFallback]="item.fallbackIcon" alt="" />
+                        <div style="margin-left: 20px;">
+                            <div class="name">{{item.name}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="load-all">
+                    <nz-divider nzType="horizontal"></nz-divider>
+                    <div *ngIf="isListLoading" style="width: 100%;">
+                        <div class="category-item" style="position: relative; height: 80px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="categoryViewMode == 'custom'">
+            <div class="header">
+                Custom categories
+            </div>
+            <div class="categories">
+                <div *ngFor="let item of dataCUS; let i = index" style="width: 100%;" (click)="selectCategory(item.id)">
+                    <div class="category-item">
+                        <img nz-image width="40px" height="40px" [nzSrc]="item.getIcon()"
+                            [nzFallback]="item.fallbackIcon" alt="" />
+                        <div style="margin-left: 20px;">
+                            <div class="name">{{item.name}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="load-all">
+                    <nz-divider nzType="horizontal"></nz-divider>
+                    <div *ngIf="isListLoading" style="width: 100%;">
+                        <div class="category-item" style="position: relative; height: 80px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div id="dialog-detail" hidden>
         <div *ngIf="!isDetailLoading">
-            <div class="title">
-                <i class="close-icon" nz-icon nzType="close" nzTheme="outline" (click)="hideCategoryDetail()"></i>
-                <span style="margin-left: 30px; font-weight: 500; font-size: 20px; line-height: 28px;"> Category
-                    details</span>
-            </div>
-            <!-- <nz-divider nzType="horizontal"></nz-divider> -->
-            <div class="category-detail">
-                <img nz-image width="60px" height="60px" [nzSrc]="selectedCategory.getIcon()"
-                    [nzFallback]="selectedCategory.fallbackIcon" alt="" />
-                <div style="margin-left: 30px;">
-                    <div style="font-size: 24px;">{{selectedCategory.name}}</div>
-                    <div *ngIf="selectedCategory.isExpense" style="font-size: 10px; font-weight: 700; color: rgba(255,255,255,.87);text-align: center; margin-left: 2px; border: 2px solid; border-radius: 12px;background-color:#1890FF;width: 60px;">INCOME</div>
-                    <div *ngIf="!selectedCategory.isExpense" style="font-size: 10px; font-weight: 700; color: rgba(255,255,255,.87);text-align: center; margin-left: 2px; border: 2px solid; border-radius: 12px;background-color:#FF4D4F;width: 60px;">EXPENSE</div>
-                </div>
-
-            </div>
-            <!-- <nz-divider nzType="horizontal"></nz-divider> -->
-            <!-- <div class="user-info"><span style="margin-left: 10px; font-weight: 500; color: rgba(0, 0, 0, 0.54);">
-                    Users</span>
-                <div style="display: flex; margin-top: 10px;">
-                    <img style="width: 50px;" src="https://static.moneylover.me/img/icon/ic_category_all.png" alt="">
-                    <div style="margin-left: 30px;">
-                        <div style="font-size: 14px; font-weight: 600;">currentUser.username <span
-                                class="owner-tag">Owner</span></div>
-                        <div class="wallet-currency">{{currentUser.email}}</div>
+            <div *ngIf="selectedCategory.isCustom">
+                <div class="title">
+                    <i class="close-icon" nz-icon nzType="close" nzTheme="outline" (click)="hideCategoryDetail()"></i>
+                    <span style="margin-left: 30px; font-weight: 500; font-size: 20px; line-height: 28px;"> Category
+                        details</span>
+                    <div class="btn-modify">
+                        <button class="btn-delete" nz-button nzType="text" nzDanger (click)="onDeleteClick()"><span
+                                style="font-weight: 550;">DELETE</span></button>
+                        <button class="btn-edit" nz-button nzType="text" (click)="onEditClick()"><span
+                                style="font-weight: 550;"> EDIT</span></button>
                     </div>
                 </div>
-            </div> -->
+                <div class="category-detail">
+                    <img nz-image width="60px" height="60px" [nzSrc]="selectedCategory.getIcon()"
+                        [nzFallback]="selectedCategory.fallbackIcon" alt="" />
+                    <div style="margin-left: 30px;">
+                        <div style="font-size: 24px;">{{selectedCategory.name}}</div>
+                        <div *ngIf="selectedCategory.isExpense"
+                            style="font-size: 10px; font-weight: 700; color: rgba(255,255,255,.87);text-align: center; margin-left: 2px; border: 2px solid; border-radius: 12px;background-color:#1890FF;width: 60px;">
+                            INCOME</div>
+                        <div *ngIf="!selectedCategory.isExpense"
+                            style="font-size: 10px; font-weight: 700; color: rgba(255,255,255,.87);text-align: center; margin-left: 2px; border: 2px solid; border-radius: 12px;background-color:#FF4D4F;width: 60px;">
+                            EXPENSE</div>
+                    </div>
+
+                </div>
+            </div>
+            <div *ngIf="!selectedCategory.isCustom">
+                <div class="title">
+                    <i class="close-icon" nz-icon nzType="close" nzTheme="outline" (click)="hideCategoryDetail()"></i>
+                    <span style="margin-left: 30px; font-weight: 500; font-size: 20px; line-height: 28px;"> Category
+                        details</span>
+                </div>
+                <div class="category-detail">
+                    <img nz-image width="60px" height="60px" [nzSrc]="selectedCategory.getIcon()"
+                        [nzFallback]="selectedCategory.fallbackIcon" alt="" />
+                    <div style="margin-left: 30px;">
+                        <div style="font-size: 24px;">{{selectedCategory.name}}</div>
+                        <div *ngIf="selectedCategory.isExpense"
+                            style="font-size: 10px; font-weight: 700; color: rgba(255,255,255,.87);text-align: center; margin-left: 2px; border: 2px solid; border-radius: 12px;background-color:#1890FF;width: 60px;">
+                            INCOME</div>
+                        <div *ngIf="!selectedCategory.isExpense"
+                            style="font-size: 10px; font-weight: 700; color: rgba(255,255,255,.87);text-align: center; margin-left: 2px; border: 2px solid; border-radius: 12px;background-color:#FF4D4F;width: 60px;">
+                            EXPENSE</div>
+                    </div>
+
+                </div>
+            </div>
         </div>
-        <!-- <div *ngIf="isDetailLoading" style="position: relative; height: 400px;">
-        </div> -->
     </div>
 
+    <nz-modal [(nzVisible)]="showDeleteModal" nzTitle="Delete Category" nzWidth="496px" nzClosable="false">
+        <div *nzModalContent>
+            <span>Are you sure want to delete this category?</span>
+        </div>
+        <div *nzModalFooter>
+            <button nz-button nzType="default" (click)="showDeleteModal = false">Cancel</button>
+            <button nz-button nzType="primary" (click)="handleDelete()" [nzLoading]="deleteLoading">
+                Delete
+            </button>
+        </div>
+    </nz-modal>
+
+    <nz-modal [(nzVisible)]="showEditModal" nzTitle="Edit Category" nzWidth="496px" nzClosable="false">
+        <div *nzModalContent>
+            <app-category-form [category]="currentCategory"></app-category-form>
+        </div>
+        <div *nzModalFooter>
+            <button nz-button nzType="default" (click)="showEditModal = false">Cancel</button>
+            <button nz-button nzType="primary" (click)="handleSave()"
+                [nzLoading]="categoryEditLoading">Save</button>
+        </div>
+    </nz-modal>
 </div>

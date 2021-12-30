@@ -10,6 +10,7 @@ import {NzNotificationService} from "ng-zorro-antd/notification";
 import {TransactionService} from "../../../services/transaction.service";
 import { CategoryView } from 'src/app/view-model/category';
 import { CategoryService } from 'src/app/services/category.service';
+import { CategoryFormComponent } from 'src/app/category/category-form/category-form.component';
 
 @Component({
     selector: 'app-topbar-category',
@@ -22,20 +23,27 @@ export class TopbarCategoryComponent implements OnInit {
     viewToolTip: string;
     @Input() categoryList: CategoryView[] = [];
 
+    showAddModal = false;
+    categoryAddLoading = false;
+    currentCategory!: CategoryView;
+
     constructor(private categoryService: CategoryService, private notification: NzNotificationService, private modal: NzModalService, private viewContainerRef: ViewContainerRef, private router: Router, private route: ActivatedRoute, private commonService: CommonService) {
         switch (this.currentMode) {
             case CategoryViewMode.ALL:
                 this.viewToolTip = CategoryViewMode.DL + "categories";
                 break;
             case CategoryViewMode.OUT:
-                this.viewToolTip = CategoryViewMode.ALL + "categories";
+                this.viewToolTip = CategoryViewMode.CUS + "categories";
                 break;
             case CategoryViewMode.DL:
                 this.viewToolTip = CategoryViewMode.IN + "categories";
                 break;
             case CategoryViewMode.IN:
                 this.viewToolTip = CategoryViewMode.OUT + "categories";
-                break;                
+                break;
+            case CategoryViewMode.CUS:
+                this.viewToolTip = CategoryViewMode.ALL + "categories";     
+                break;           
             default:
                 this.viewToolTip = "All categories";
                 break;
@@ -49,10 +57,13 @@ export class TopbarCategoryComponent implements OnInit {
         this.commonService.currentPage.subscribe(page => {
             this.currentPage = page;
         });
+
+        this.currentCategory = new CategoryView();
+        this.currentCategory.name = ""
     }
 
     changeCategoryViewMode() {
-        if (this.currentMode === CategoryViewMode.OUT) {
+        if (this.currentMode === CategoryViewMode.CUS) {
             this.currentMode = CategoryViewMode.ALL;
             this.viewToolTip = "Debt or Loan categories";
             this.commonService.changeCategoryViewMode(this.currentMode);
@@ -66,11 +77,64 @@ export class TopbarCategoryComponent implements OnInit {
             this.viewToolTip = "Outcome categories";
             this.commonService.changeCategoryViewMode(this.currentMode);
         }
-        else {
+        else if(this.currentMode === CategoryViewMode.IN){
             this.currentMode = CategoryViewMode.OUT;
+            this.viewToolTip = "Custom categories";
+            this.commonService.changeCategoryViewMode(this.currentMode);
+        }
+        else {
+            this.currentMode = CategoryViewMode.CUS;
             this.viewToolTip = "All categories";
             this.commonService.changeCategoryViewMode(this.currentMode);
         }
     }
 
+    showCategoryForm() {
+        this.showAddModal = true;
+    }
+
+    handleSave() {
+        this.categoryAddLoading = true;
+        this.addCategory()
+            .then(() => {
+                setTimeout(() => {
+                    // reset
+                    this.categoryAddLoading = false;
+                    this.showAddModal = false;
+                    this.currentCategory = new CategoryView()
+                    this.currentCategory.name = "";
+                    this.commonService.reloadComponent();
+                }, 1000)
+
+            })
+            .catch(error => {
+                this.categoryAddLoading = false;
+                this.showErrorMessage(error.toString())
+            })
+    }
+
+    async addCategory() {
+        let error = null;
+
+        if (!this.currentCategory.name) {
+            error = new Error("Please fill in category name")
+        }
+
+        this.categoryService.create(this.currentCategory.toCategory()).subscribe(
+            result => {
+                console.log(result);
+            },
+            err => {
+                console.log(err);
+                error = new Error("Something wrong. please")
+            }
+        )
+        if (error !== null) {
+            throw error
+        }
+    }
+
+    showErrorMessage(message: string) {
+        this.notification.error('Error', message);
+    }
 }

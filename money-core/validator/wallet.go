@@ -19,6 +19,7 @@ var (
 type (
 	WalletValidatorInterface interface {
 		ValidateWalletForm(form *view.WalletForm) error
+		ValidateBalanceByTimeForm(form *view.WalletBalanceByTimeForm) error
 	}
 	WalletValidator struct {
 		repo *repository.Repositories
@@ -36,8 +37,12 @@ func (v *WalletValidator) ValidateWalletForm(form *view.WalletForm) error {
 	if _, ok := supportCurrency[form.WalletCurrency]; !ok {
 		return errors.Errorf("unsupported wallet currency %v", form.WalletType)
 	}
-	if form.WalletBalance < 0 {
-		return errors.New("wallet balance need to be larger than 0!")
+	return nil
+}
+
+func (v *WalletValidator) ValidateBalanceByTimeForm(form *view.WalletBalanceByTimeForm) error {
+	if form.StartDate > form.EndDate {
+		return errors.New("start date should before end date")
 	}
 	return nil
 }

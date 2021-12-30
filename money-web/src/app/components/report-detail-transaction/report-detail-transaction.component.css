@@ -1,0 +1,23 @@
+.detail-transaction {
+    padding: 12px 8px;
+}
+
+.left-arrow {
+    position: relative;
+}
+
+.left-arrow .left-icon {
+    position: absolute;
+    top: 30%;
+}
+
+.detail-transaction:hover {
+    cursor: pointer;
+    background-color: rgba(45, 184, 76, .10);
+}
+
+.report-detail-transaction {
+}
+.report-divider {
+    border-top: 1px solid #e0e0e0;
+}

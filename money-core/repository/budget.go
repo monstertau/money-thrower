@@ -5,6 +5,7 @@ import (
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
 	"money-core/model"
+	"money-core/util"
 	"money-core/view"
 	"time"
 )
@@ -17,6 +18,7 @@ type (
 		GetById(userId string, id string) (*model.Budget, error)
 		GetList(userId string) ([]*model.Budget, error)
 		DeleteById(userId string, id string) error
+		GetSpentAmount(budget *model.Budget) (float64, error)
 	}
 	BudgetRepo struct {
 		dbConn *gorm.DB
@@ -74,6 +76,31 @@ func (r *BudgetRepo) DeleteById(userId string, id string) error {
 		return fmt.Errorf("failed to execute delete query: %s", err)
 	}
 	return nil
+}
+
+func (r *BudgetRepo) GetSpentAmount(budget *model.Budget) (float64, error) {
+	var spentAmount float64
+	var transactions []*model.Transaction
+	// Query transactions
+	tx := r.dbConn.Where("user_id = ?", budget.UserId)
+	tx.Where("wallet_id = ?", budget.WalletId)
+	tx.Where("cat_id = ?", budget.CatId)
+	tx.Where("transaction_date BETWEEN ? AND ?", budget.StartDate, time.Now())
+	if err := tx.Find(&transactions).Error; err != nil {
+		return 0, fmt.Errorf("failed to execute select query: %s", err)
+	}
+	// Take category info
+	category := &model.Category{}
+	if err := r.dbConn.First(&category, "id=? AND (owner_id=? OR owner_id=?)", budget.CatId, budget.UserId, util.NilId).Error; err != nil {
+		return 0, errors.Errorf("failed to execute select query: %s", err)
+	}
+	// Loop through all transaction and calculate spent amount
+	for _, transaction := range transactions {
+		if category.IsExpense && transaction.Note != "Initialize Wallet" {
+			spentAmount += transaction.Amount
+		}
+	}
+	return spentAmount, nil
 }
 
 func (r *BudgetRepo) Create(form *view.BudgetForm) (*model.Budget, error) {

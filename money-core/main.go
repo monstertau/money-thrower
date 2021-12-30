@@ -75,12 +75,11 @@ func main() {
 	repo := &repository.Repositories{
 		UserRepo:        repository.NewUserRepo(dbConn),
 		WalletRepo:      repository.NewWalletRepo(dbConn),
+		CategoryRepo:    repository.NewCategoryRepo(dbConn),
 		RedisRepo:       repository.NewRedisRepo(redisConn, appConfig.MailConfig.Timeout),
 		TransactionRepo: repository.NewTransactionRepo(dbConn),
-		CategoryRepo:    repository.NewCategoryRepo(dbConn),
 		BudgetRepo:      repository.NewBudgetRepo(dbConn),
 	}
-
 	// init validator
 	validators := &validator.Validator{
 		AuthValidator:           validator.NewAuthValidator(repo),
@@ -98,6 +97,7 @@ func main() {
 		WalletService:      service.NewWalletService(validators, repo),
 		TransactionService: service.NewTransactionService(validators, repo),
 		CategoryService:    service.NewCategoryService(repo),
+		UserService:        service.NewUserService(repo),
 		BudgetService:      service.NewBudgetService(validators, repo),
 	}
 
@@ -117,14 +117,16 @@ func main() {
 	walletController := controller.NewWalletController(serv, validators)
 	transactionController := controller.NewTransactionController(serv, validators)
 	categoryController := controller.NewCategoryController(serv)
+	userController := controller.NewUserController(serv, validators)
 	budgetController := controller.NewBudgetController(serv, validators)
 	authController.MakeHandler(v1)
 	dummyController.MakeHandler(v1)
 	walletController.MakeHandler(v1)
 	forgotPasswordController.MakeHandler(v1)
-	transactionController.MakeHandler(v1)
 	categoryController.MakeHandler(v1)
 	budgetController.MakeHandler(v1)
+	transactionController.MakeHandler(v1)
+	userController.MakeHandler(v1)
 
 	docs.SwaggerInfo.Host = appConfig.SwagConfig.Host
 	docs.SwaggerInfo.Schemes = appConfig.SwagConfig.Schemes

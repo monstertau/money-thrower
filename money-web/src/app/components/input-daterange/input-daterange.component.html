@@ -1,0 +1,43 @@
+<div class="container">
+    <div class="options" (click)="onRangeSelected(getLastMonths(0))">
+        <div style="padding: 10px 25px">
+            This month
+            <p class="date">{{getLastMonths(0)}}</p>
+        </div>
+    </div>
+    <div class="options" (click)="onRangeSelected(getLastMonth())">
+        <div style="padding: 10px 25px">
+            Last month
+            <p class="date">{{getLastMonth()}}</p>
+        </div>
+    </div>
+    <div class="options" (click)="onRangeSelected(getLastMonths(3))">
+        <div style="padding: 10px 25px">
+            Last 3 month
+            <p class="date">{{getLastMonths(3)}}</p>
+        </div>
+    </div>
+    <div class="options" (click)="onRangeSelected(getLastMonths(6))">
+        <div style="padding: 10px 25px">
+            Last 6 month
+            <p class="date">{{getLastMonths(6)}}</p>
+        </div>
+    </div>
+    <div class="options" (click)="onRangeSelected(getLastYears(0))">
+        <div style="padding: 10px 25px">
+            This year
+            <p class="date">{{getLastYears(0)}}</p>
+        </div>
+    </div>
+    <div class="options" (click)="onRangeSelected(getLastYears(1))">
+        <div style="padding: 10px 25px">
+            Last year
+            <p class="date">{{getLastYears(1)}}</p>
+        </div>
+    </div>
+    <div class="options" (click)="onAddCustomRange()">
+        <div style="padding: 25px 25px">
+            Custom
+        </div>
+    </div>
+</div>

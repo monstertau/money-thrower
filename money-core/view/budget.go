@@ -8,27 +8,29 @@ import (
 
 type (
 	BudgetForm struct {
-		Id        string  `json:"id"`
-		UserId    string  `json:"user_id"`
-		WalletId  string  `json:"wallet_id"`
-		CatId     string  `json:"cat_id"`
-		Amount    float64 `json:"amount"`
-		StartDate int64   `json:"start_date"`
-		EndDate   int64   `json:"end_date"`
-		Status    int     `json:"status"`
+		Id          string  `json:"id"`
+		UserId      string  `json:"user_id"`
+		WalletId    string  `json:"wallet_id"`
+		CatId       string  `json:"cat_id"`
+		Amount      float64 `json:"amount"`
+		SpentAmount float64 `json:"spent_amount"`
+		StartDate   int64   `json:"start_date"`
+		EndDate     int64   `json:"end_date"`
+		Status      int     `json:"status"`
 	}
 )
 
 func ToBudgetForm(b *model.Budget) *BudgetForm {
 	return &BudgetForm{
-		Id:        b.Id,
-		UserId:    b.UserId,
-		WalletId:  b.WalletId,
-		CatId:     b.CatId,
-		Amount:    b.Amount,
-		StartDate: util.NormalizeTimeAsMilliseconds(b.StartDate.Unix()),
-		EndDate:   util.NormalizeTimeAsMilliseconds(b.EndDate.Unix()),
-		Status:    b.Status,
+		Id:          b.Id,
+		UserId:      b.UserId,
+		WalletId:    b.WalletId,
+		CatId:       b.CatId,
+		Amount:      b.Amount,
+		SpentAmount: 0.0,
+		StartDate:   util.NormalizeTimeAsMilliseconds(b.StartDate.Unix()),
+		EndDate:     util.NormalizeTimeAsMilliseconds(b.EndDate.Unix()),
+		Status:      b.Status,
 	}
 }
 

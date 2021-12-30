@@ -21,8 +21,8 @@
     </div>
     <div class="lower-row" nz-row nzJustify="space-between">
         <div class="input-box" nz-col [nzSpan]="7">
-            <app-input-date inputFormat="dd/MM/yyyy" inputName="Date" [transactionDate]="transaction.transactionDate"
-                            (transactionDateChange)="onChangeDate($event)"></app-input-date>
+            <app-input-date inputFormat="dd/MM/yyyy" inputName="Date" [dateValue]="transaction.transactionDate"
+                            (dateValueChange)="onChangeDate($event)"></app-input-date>
         </div>
 
         <div class="input-box" nz-col [nzSpan]="16">
