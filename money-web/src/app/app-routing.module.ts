@@ -13,6 +13,9 @@ import {CategoryComponent} from './category/category.component';
 import {ReportComponent} from "./report/report.component";
 
 const routes: Routes = [
+    { path: 'forgot-password', component: FwpComponent },
+    // { path: 'forgot-password/:**',component:FwpComponent},
+    { path: 'change-password', component: ChangePassComponent },
     {
         path: 'login', component: LoginComponent,
         canActivate: [LoginGuard],
@@ -52,9 +55,6 @@ const routes: Routes = [
             }
         ],
     },
-    { path: 'forgot-password', component: FwpComponent },
-    // { path: 'forgot-password/:**',component:FwpComponent},
-    { path: 'change-password', component: ChangePassComponent },
     {
         path: 'add_wallet', component: WalletAddComponent,
         canActivate: [AuthGuard],

@@ -1,3 +1,8 @@
+<div class="modal" [ngClass]="{'d-none': isLoading == false}">
+    <ng-template #indicatorTemplate><i nz-icon nzType="loading" style="font-size: 50px"></i></ng-template>
+    <nz-spin style="top: 30%; left: 50%; transform: translate(-50%, -50%);"
+        [nzIndicator]="indicatorTemplate"></nz-spin>
+</div>
 <div style="display: flex">
     <div class="list-transaction">
         <nz-tabset *ngIf="currentPage=='transaction'" nzCentered [nzSelectedIndex]="1">
@@ -26,8 +31,8 @@
         <nz-tabset nzCentered *ngIf="currentPage=='search'">
             <nz-tab class="tabs">
                 <ng-template nz-tab>
-                    <app-transaction-list [isLoading]="isLoading"
-                        [transactionsByTime]="transactionByTime" [currentPage]="currentPage" [inflow]="inflow" [outflow]="outflow"
+                    <app-transaction-list [isLoading]="isLoading" [transactionsByTime]="transactionByTime"
+                        [currentPage]="currentPage" [inflow]="inflow" [outflow]="outflow"
                         (selectedTransaction)="onTransactionSelected($event)"></app-transaction-list>
                 </ng-template>
             </nz-tab>
