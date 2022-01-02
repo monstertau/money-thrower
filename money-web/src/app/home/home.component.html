@@ -1,6 +1,6 @@
 <nz-layout class="body-container">
     <nz-sider [style.min-width.px]="48" [style.max-width.px]="256" nzWidth="-1">
-        <app-sidebar (collapse)="onSizebarCollapse($event)"></app-sidebar>
+        <app-sidebar (collapse)="onSizebarCollapse($event)" [currentPage]="currentPage" (changePath) = "onSideBarChangePath($event)"></app-sidebar>
     </nz-sider>
     <nz-layout>
         <nz-header [ngClass]="{'search-header': currentPage=='search'}">

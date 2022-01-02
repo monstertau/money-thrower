@@ -89,6 +89,10 @@ export class TopbarComponent implements OnInit, OnChanges {
             dialog[0].style.left = "210px";
       }
     }
+    if(changes.currentPage){
+      this.currentPage = changes.currentPage.currentValue;
+    }
+    //console.log(this.currentPage);
   }
 
   openWalletMenu() {

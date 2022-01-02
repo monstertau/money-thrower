@@ -32,5 +32,7 @@ export class HomeComponent implements OnInit {
   onSizebarCollapse(collapsed: boolean) {
     this.isCollapsed = collapsed;
   }
-
+  onSideBarChangePath(changePath: string) {
+    this._currentPage = changePath;
+  }
 }

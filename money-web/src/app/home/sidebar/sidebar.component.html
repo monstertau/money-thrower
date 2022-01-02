@@ -7,7 +7,7 @@
     <ul nz-menu [nzInlineCollapsed]="isCollapsed" nzMode="inline" class="sider-menu"
         style="display: flex; flex-direction: column; height: calc(100% - 32px);">
         <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Transactions' : ''"
-            (click)="selectPage()">
+            (click)="selectPage()" id="Transactions" class="Transactions">
             <a [routerLink]="['/']"><i nz-icon nzType="book"></i>
                 <span>Transactions</span>
             </a>
@@ -31,8 +31,8 @@
                 <span>Wallets</span>
             </a>
         </li>
-        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Category' : ''" (click)="selectPage()">
-            <a [routerLink]="['/category']">
+        <li id="Category" nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Category' : ''" (click)="selectPage()">
+            <a [routerLink]="['/category']" >
                 <i nz-icon nzType="gold"></i>
                 <span>Category</span>
             </a>

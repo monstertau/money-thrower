@@ -1,7 +1,8 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CommonService} from 'src/app/services/common.service';
 import {AuthService} from 'src/app/services/auth.service';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-sidebar',
@@ -10,17 +11,24 @@ import {NzNotificationService} from 'ng-zorro-antd/notification';
 })
 export class SidebarComponent implements OnInit {
     @Output() collapse = new EventEmitter<boolean>();
+    @Output() changePath = new EventEmitter<string>();
 
+    @Input() currentPage!: string;
     LogoutLoading: boolean = false;
 
     showLogoutModal: boolean = false;
 
-    constructor(private commonService: CommonService, private authService: AuthService, private notification: NzNotificationService) {
+    activePath: string = "";
+
+    constructor(private commonService: CommonService,private router: Router, private authService: AuthService,private activatedRoute: ActivatedRoute, private notification: NzNotificationService) {
     }
 
     ngOnInit(): void {
         this.collapse.emit(false);
-    }
+        
+        
+        
+    }   
 
     isCollapsed = false;
 
@@ -30,7 +38,13 @@ export class SidebarComponent implements OnInit {
     }
 
     selectPage() {
-        this.commonService.reloadComponent();
+        //this.commonService.reloadComponent();
+        let urlTree = this.router.url.split('?')[0].replace("/", '') || 'transaction';
+        this.activePath = urlTree.toString();
+        //console.log(this.activePath);
+        this.currentPage = this.activePath;
+        this.changePath.emit(this.currentPage);
+    
     }
 
     showLogoutDialogModal() {
