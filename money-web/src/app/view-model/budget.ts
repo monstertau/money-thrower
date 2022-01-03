@@ -77,15 +77,4 @@ export class BudgetView {
             status: this.status
         }
     }
-
-    // clone(): TransactionView {
-    //     let transactionView = new TransactionView();
-    //     transactionView.id = this.id;
-    //     transactionView.transactionDate = this.transactionDate;
-    //     transactionView.wallet = this.wallet;
-    //     transactionView.amount = this.amount;
-    //     transactionView.category = this.category;
-    //     transactionView.note = this.note;
-    //     return transactionView;
-    // }
 }

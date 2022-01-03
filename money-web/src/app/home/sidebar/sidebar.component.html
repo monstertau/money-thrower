@@ -21,8 +21,9 @@
         </li>
         <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Budget' : ''"
             (click)="selectPage()">
-            <i nz-icon nzType="container"></i>
-            <span>Budget</span>
+            <a [routerLink]="['/budget']"><i nz-icon nzType="container"></i>
+                <span>Budget</span>
+            </a>
         </li>
         <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Wallets' : ''"
             (click)="selectPage()">

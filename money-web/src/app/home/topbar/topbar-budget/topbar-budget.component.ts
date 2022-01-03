@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { CommonService } from 'src/app/services/common.service';
 import { BudgetView } from 'src/app/view-model/budget';
+import { WalletView } from 'src/app/view-model/wallet';
 
 @Component({
   selector: 'app-topbar-budget',
@@ -14,11 +15,24 @@ export class TopbarBudgetComponent implements OnInit {
     budgetAddLoading = false;
     currentBudget!: BudgetView;
 
+    selectedTimeRange = '';
+
+    @Input() wallets: WalletView[] = [];
+
     constructor(private commonService: CommonService, private notification: NzNotificationService) {
     }
 
     ngOnInit(): void {
-        this.currentBudget = new BudgetView();
+        this.currentBudget = new BudgetView().addWalletView(this.getCurrentWallet());
+    }
+
+    getCurrentWallet(): WalletView {
+        for (let wallet of this.wallets) {
+            if (wallet.isCurrent) {
+                return wallet;
+            }
+        }
+        return new WalletView();
     }
 
     showBudgetAddModal() {
@@ -27,6 +41,7 @@ export class TopbarBudgetComponent implements OnInit {
 
     handleCancelAdd() {
         this.showAddModal = false;
+        this.currentBudget = new BudgetView().addWalletView(this.getCurrentWallet());
     }
 
     handleSave() {
@@ -37,7 +52,7 @@ export class TopbarBudgetComponent implements OnInit {
                     // reset
                     this.budgetAddLoading = false;
                     this.showAddModal = false;
-                    this.currentBudget = new BudgetView()
+                    this.currentBudget = new BudgetView().addWalletView(this.getCurrentWallet());
                     this.commonService.reloadComponent();
                 }, 1000)
 
@@ -51,8 +66,25 @@ export class TopbarBudgetComponent implements OnInit {
     async addBudget() {
         let error = null;
         if (this.currentBudget.amount == 0) {
+            console.log('here')
             error = new Error("Please fill in budget amount!")
         }
+        if (!this.currentBudget.category.isCurrent) {
+            error = new Error("Please choose transaction category!")
+        }
+        if (this.currentBudget.startDate.getTime() == this.currentBudget.endDate.getTime()) {
+            error = new Error("Please choose time range!")
+        }
+        console.log(this.currentBudget);
+        // this.transactionService.createTransaction(this.currentTransaction.toTransaction()).subscribe(
+        //     result => {
+        //         console.log(result);
+        //     },
+        //     err => {
+        //         console.log(err);
+        //         error = new Error("Something wrong. please")
+        //     }
+        // )
         if (error !== null) {
             throw error
         }

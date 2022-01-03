@@ -13,7 +13,7 @@
     <app-topbar-wallet *ngSwitchCase="'wallet'"></app-topbar-wallet>
     <app-topbar-category *ngSwitchCase="'category'"></app-topbar-category>
     <app-topbar-report *ngSwitchCase="'report'"></app-topbar-report>
-    <app-topbar-budget *ngSwitchCase="'budget'"></app-topbar-budget>
+    <app-topbar-budget *ngSwitchCase="'budget'" [wallets]="wallets"></app-topbar-budget>
     <div *ngSwitchDefault="">Other topbar</div>
   </div>
   <div hidden class="wallet-menu">

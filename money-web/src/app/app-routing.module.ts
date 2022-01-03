@@ -52,6 +52,12 @@ const routes: Routes = [
                 component: ReportComponent,
                 canLoad: [AuthGuard],
                 loadChildren: () => import('./report/report.module').then(m => m.ReportModule)
+            },
+            {
+                path: 'budget',
+                component: TransactionComponent,
+                canLoad: [AuthGuard],
+                loadChildren: () => import('./transaction/transaction.module').then(m => m.TransactionModule)
             }
         ],
     },

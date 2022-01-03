@@ -12,6 +12,8 @@ import { InputNavigationModule } from '../components/input-navigation/input-navi
 import { InputTextModule } from '../components/input-text/input-text.module';
 import { InputDateModule } from '../components/input-date/input-date.module';
 import { InputNumberModule } from '../components/input-number/input-number.module';
+import { InputDaterangeModule } from '../components/input-daterange/input-daterange.module';
+import { BudgetAddDateComponent } from './budget-add-date/budget-add-date.component';
 
 
 
@@ -19,7 +21,8 @@ import { InputNumberModule } from '../components/input-number/input-number.modul
     declarations: [
         BudgetAddWalletComponent,
         BudgetAddCategoryComponent,
-        BudgetAddComponent
+        BudgetAddComponent,
+        BudgetAddDateComponent
     ],
     imports: [
         CommonModule,
@@ -28,10 +31,14 @@ import { InputNumberModule } from '../components/input-number/input-number.modul
         InputTextModule,
         InputDateModule,
         InputNumberModule,
+        InputDaterangeModule,
 
         NzTabsModule,
         NzInputModule,
         NzGridModule,
+    ],
+    exports: [
+        BudgetAddComponent
     ]
 })
 export class BudgetAddModule { }
