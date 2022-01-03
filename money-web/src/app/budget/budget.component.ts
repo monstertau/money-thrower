@@ -16,7 +16,10 @@ export class BudgetComponent implements OnInit {
 
     budgets: BudgetView[] = [];
     selectedBudget!: BudgetView;
-    selected: boolean = false;
+    // selected: boolean = false;
+
+    // Test
+    selected: boolean = true;
 
     constructor() {
     }

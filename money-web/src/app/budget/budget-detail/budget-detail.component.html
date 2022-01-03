@@ -13,24 +13,46 @@
 <nz-divider nzType="horizontal"></nz-divider>
 <div class="details">
     <div class="detail-left">
-        <img nz-image width="40px" height="40px" [nzSrc]="budget.category.getIcon()"
-             [nzFallback]="budget.category.fallbackIcon" alt="">
+        <img nz-image width="40px" height="40px" src="/assets/catalogs/return-loan.png" alt="">
         <div class="detail-text">
-            <div style="font-weight: 500; font-size: 24px; line-height: 28px;">{{budget.category.name}}</div>
-            <div style="font-size: 12px;">{{budget.wallet.name}}</div>
-<!--            <div style="color: rgba(0, 0, 0, 0.54); font-size: 12px;">-->
-<!--                {{getDate(transaction.transactionDate.toString()).weekDay}},-->
-<!--                {{getDate(transaction.transactionDate.toString()).date}}-->
-<!--                /{{getDate(transaction.transactionDate.toString()).month_num}}-->
-<!--                /{{getDate(transaction.transactionDate.toString()).year}}-->
-<!--            </div>-->
+            <div style="font-weight: 500; font-size: 24px; line-height: 28px;">Budget Name</div>
+            <div style="font-size: 12px;">Test Wallet</div>
+            <div style="color: rgba(0, 0, 0, 0.54); font-size: 12px;">8 days remaining</div>
             <nz-divider nzType="horizontal" style="margin-top: 10px;"></nz-divider>
+            <div class="detail-amount">
+                <div style="color: rgba(0, 0, 0, 0.54)">Overspending</div>
+                <div class="amount-right is-expense">300,000 VND</div>
+            </div>
         </div>
     </div>
-    <div class="detail-right">
-<!--        <div *ngIf="budget.category.isExpense" class="amount-right is-expense">-->
-<!--            {{getFormatBalance(transaction.amount * -1)}} {{transaction.wallet.currency}}</div>-->
-<!--        <div *ngIf="!budget.category.isExpense" class="amount-right not-expense">-->
-<!--            {{getFormatBalance(transaction.amount)}} {{transaction.wallet.currency}}</div>-->
+    <div class="detail-right" (click)="moreDetailClick()">
+        <div class="more-detail-text">
+            More detail
+            <i nz-icon nzType="down" nzTheme="outline"></i>
+        </div>
     </div>
+</div>
+<div class="toggle-view" *ngIf="showMoreDetail">
+    <div class="toggle-layout">
+        <div style="width: 30%">
+            <div style="color: rgba(0, 0, 0, 0.54); font-size: 12px;">Spent</div>
+            <div>400,000 VND</div>
+        </div>
+        <div style="width: 30%">
+            <div style="color: rgba(0, 0, 0, 0.54); font-size: 12px;">Estimated spending</div>
+            <div>400,000 VND</div>
+        </div>
+    </div>
+    <div class="toggle-layout">
+        <div style="width: 30%">
+            <div style="color: rgba(0, 0, 0, 0.54); font-size: 12px;">Daily spending recommendation</div>
+            <div>400,000 VND</div>
+        </div>
+        <div style="width: 30%">
+            <div style="color: rgba(0, 0, 0, 0.54); font-size: 12px;">Actual daily spending</div>
+            <div>400,000 VND</div>
+        </div>
+    </div>
+</div>
+<div class="over-all-areachart">
 </div>

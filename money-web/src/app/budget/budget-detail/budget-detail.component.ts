@@ -12,16 +12,20 @@ import {WalletView} from "../../view-model/wallet";
 export class BudgetDetailComponent implements OnInit {
     @Input() budget!: BudgetView;
     @Output() closed = new EventEmitter<boolean>();
+    budgetClone!:BudgetView;
 
 
     showDeleteModal: boolean = false;
     showEditModal: boolean = false;
+    showMoreDetail: boolean =false;
     budgetEditLoading = false;
+    budgetDeleteLoading = false;
 
     constructor(private notification: NzNotificationService, private commonService: CommonService) {
     }
 
     ngOnInit(): void {
+        this.budgetClone = this.budget.clone();
     }
 
     closeDetail() {
@@ -36,6 +40,72 @@ export class BudgetDetailComponent implements OnInit {
 
     showBudgetDeleteModal() {
         this.showDeleteModal = true;
+    }
+
+    handleCancelDelete() {
+        this.showDeleteModal = false;
+    }
+
+    handleDelete() {
+        this.budgetDeleteLoading = true;
+        this.deleteBudget()
+            .then(() => {
+                setTimeout(() => {
+                    // reset
+                    this.budgetDeleteLoading = false;
+                    this.showDeleteModal = false;
+                    this.commonService.reloadComponent();
+                }, 1000)
+
+            })
+            .catch(error => {
+                this.budgetDeleteLoading = false;
+                this.showErrorMessage(error.toString())
+            })
+    }
+
+    async deleteBudget() {
+        // Todo: deleteBudget
+    }
+
+    handleCancelAdd() {
+        this.showEditModal = false;
+        if(JSON.stringify(this.budget) !== JSON.stringify(this.budgetClone)){
+            this.budgetClone = this.budget.clone();
+        }
+    }
+
+    moreDetailClick() {
+        if (this.showMoreDetail == true) this.showMoreDetail = false;
+        else this.showMoreDetail = true;
+    }
+
+    handleSave() {
+        this.showEditModal = false;
+        this.budgetEditLoading = true;
+        this.editBudget()
+            .then(() => {
+                setTimeout(() => {
+                    // reset
+                    this.budgetEditLoading = false;
+                    this.showEditModal = false;
+                    this.commonService.reloadComponent();
+                }, 1000)
+
+            })
+            .catch(error => {
+                console.log(error)
+                this.showEditModal = false;
+                this.showErrorMessage(error.toString())
+            })
+    }
+
+    async editBudget() {
+        // Todo: editBudget
+    }
+
+    showErrorMessage(message: string) {
+        this.notification.error('Error', message);
     }
 
     showBudgetEditModal() {
