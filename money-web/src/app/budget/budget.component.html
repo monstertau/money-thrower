@@ -1,0 +1,11 @@
+<div class="modal" [ngClass]="{'d-none': isLoading == false}">
+    <ng-template #indicatorTemplate><i nz-icon nzType="loading" style="font-size: 50px"></i></ng-template>
+    <nz-spin style="top: 30%; left: 50%; transform: translate(-50%, -50%);"
+             [nzIndicator]="indicatorTemplate"></nz-spin>
+</div>
+<div style="display: flex">
+    <div id="transaction-detail" >
+        <app-budget-detail *ngIf="selected" (closed)="onBudgetDetailClose($event)"
+                                [budget]="selectedBudget"></app-budget-detail>
+    </div>
+</div>

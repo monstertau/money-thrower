@@ -11,6 +11,7 @@ import {TransactionComponent} from './transaction/transaction.component';
 import {LoginGuard} from './guards/login.guard';
 import {CategoryComponent} from './category/category.component';
 import {ReportComponent} from "./report/report.component";
+import {BudgetComponent} from "./budget/budget.component"
 
 const routes: Routes = [
     { path: 'forgot-password', component: FwpComponent },
@@ -52,12 +53,14 @@ const routes: Routes = [
                 component: ReportComponent,
                 canLoad: [AuthGuard],
                 loadChildren: () => import('./report/report.module').then(m => m.ReportModule)
-            }
+            },
+            {
+                path: 'budget',
+                component: BudgetComponent,
+                canLoad: [AuthGuard],
+                loadChildren: () => import('./budget/budget.module').then(m => m.BudgetModule)
+            },
         ],
-    },
-    {
-        path: 'add_wallet', component: WalletAddComponent,
-        canActivate: [AuthGuard],
     },
     {path: '**', redirectTo: '/login', pathMatch: 'full'},
 ];
