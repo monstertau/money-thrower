@@ -41,6 +41,8 @@ export class ReportComponent implements OnInit {
     otherBalance: string ="0";
     private currentWalletId!: string;
 
+    detail_type: string = '';
+
 
     constructor(private modal: NzModalService, private viewContainerRef: ViewContainerRef,
                 public activatedRoute: ActivatedRoute, private walletService: WalletService,
@@ -149,9 +151,14 @@ export class ReportComponent implements OnInit {
         this.destroy$.next();
     }
 
-    showDetail() {
+    showDetailType(type: string) {
         let dialog = document.getElementsByClassName('main-report') as HTMLCollectionOf<HTMLElement>;
-        let dialogDetail = document.getElementById('report-detail') as HTMLElement;
+        let dialogDetail = document.getElementById('report-detail-type') as HTMLElement;
+        if(this.detail_type != ''){
+            dialogDetail.hidden = true;
+        }
+        this.detail_type = type;
+        
         if (dialog.length != 0 && dialog[0].style.marginLeft != '19%' && dialogDetail.hidden) {
             dialog[0].style.marginLeft = "16%";
             dialog[0].style.width = "33%";
@@ -159,27 +166,7 @@ export class ReportComponent implements OnInit {
                 dialogDetail.hidden = false;
             }, 500);
         }
+        //console.log(this.detail_type);
     }
-    showOutcomeDetail() {
-        let dialog = document.getElementsByClassName('main-report') as HTMLCollectionOf<HTMLElement>;
-        let dialogDetail = document.getElementById('outcome-detail') as HTMLElement;
-        if (dialog.length != 0 && dialog[0].style.marginLeft != '19%' && dialogDetail.hidden) {
-            dialog[0].style.marginLeft = "16%";
-            dialog[0].style.width = "33%";
-            setTimeout(() => {
-                dialogDetail.hidden = false;
-            }, 500);
-        }
-    }
-    showIncomeDetail() {
-        let dialog = document.getElementsByClassName('main-report') as HTMLCollectionOf<HTMLElement>;
-        let dialogDetail = document.getElementById('income-detail') as HTMLElement;
-        if (dialog.length != 0 && dialog[0].style.marginLeft != '19%' && dialogDetail.hidden) {
-            dialog[0].style.marginLeft = "16%";
-            dialog[0].style.width = "33%";
-            setTimeout(() => {
-                dialogDetail.hidden = false;
-            }, 500);
-        }
-    }
+   
 }
