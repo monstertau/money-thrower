@@ -8,9 +8,9 @@ import {TransactionView} from 'src/app/view-model/transactions';
 import {WalletView} from 'src/app/view-model/wallet';
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {TransactionService} from "../../../services/transaction.service";
-import { CategoryView } from 'src/app/view-model/category';
-import { CategoryService } from 'src/app/services/category.service';
-import { CategoryFormComponent } from 'src/app/category/category-form/category-form.component';
+import {categoryType, CategoryView} from 'src/app/view-model/category';
+import {CategoryService} from 'src/app/services/category.service';
+import {CategoryFormComponent} from 'src/app/category/category-form/category-form.component';
 
 @Component({
     selector: 'app-topbar-category',
@@ -42,8 +42,8 @@ export class TopbarCategoryComponent implements OnInit {
                 this.viewToolTip = CategoryViewMode.OUT + "categories";
                 break;
             case CategoryViewMode.CUS:
-                this.viewToolTip = CategoryViewMode.ALL + "categories";     
-                break;           
+                this.viewToolTip = CategoryViewMode.ALL + "categories";
+                break;
             default:
                 this.viewToolTip = "All categories";
                 break;
@@ -67,22 +67,19 @@ export class TopbarCategoryComponent implements OnInit {
             this.currentMode = CategoryViewMode.ALL;
             this.viewToolTip = "Debt or Loan categories";
             this.commonService.changeCategoryViewMode(this.currentMode);
-        } else if(this.currentMode === CategoryViewMode.ALL){
+        } else if (this.currentMode === CategoryViewMode.ALL) {
             this.currentMode = CategoryViewMode.DL;
             this.viewToolTip = "Income categories";
             this.commonService.changeCategoryViewMode(this.currentMode);
-        }
-        else if(this.currentMode === CategoryViewMode.DL){
+        } else if (this.currentMode === CategoryViewMode.DL) {
             this.currentMode = CategoryViewMode.IN;
             this.viewToolTip = "Outcome categories";
             this.commonService.changeCategoryViewMode(this.currentMode);
-        }
-        else if(this.currentMode === CategoryViewMode.IN){
+        } else if (this.currentMode === CategoryViewMode.IN) {
             this.currentMode = CategoryViewMode.OUT;
             this.viewToolTip = "Custom categories";
             this.commonService.changeCategoryViewMode(this.currentMode);
-        }
-        else {
+        } else {
             this.currentMode = CategoryViewMode.CUS;
             this.viewToolTip = "All categories";
             this.commonService.changeCategoryViewMode(this.currentMode);
@@ -118,6 +115,13 @@ export class TopbarCategoryComponent implements OnInit {
 
         if (!this.currentCategory.name) {
             error = new Error("Please fill in category name")
+            throw error
+        }
+
+        if (this.currentCategory.isExpense) {
+            this.currentCategory.type = categoryType.OUTCOME
+        } else {
+            this.currentCategory.type = categoryType.INCOME
         }
 
         this.categoryService.create(this.currentCategory.toCategory()).subscribe(

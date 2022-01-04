@@ -1,13 +1,13 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
-import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { PopupSelectCategoryComponent } from 'src/app/components/popup-select-category/popup-select-category.component';
-import { PopupSelectIconComponent } from 'src/app/components/popup-select-icon/popup-select-icon.component';
-import { CategoryService } from 'src/app/services/category.service';
-import { WalletService } from 'src/app/services/wallet.service';
-import { CategoryView } from 'src/app/view-model/category';
-import { WalletView } from 'src/app/view-model/wallet';
+import {Component, ElementRef, Input, OnDestroy, OnInit, ViewContainerRef} from '@angular/core';
+import {NzModalRef, NzModalService} from 'ng-zorro-antd/modal';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
+import {PopupSelectCategoryComponent} from 'src/app/components/popup-select-category/popup-select-category.component';
+import {PopupSelectIconComponent} from 'src/app/components/popup-select-icon/popup-select-icon.component';
+import {CategoryService} from 'src/app/services/category.service';
+import {WalletService} from 'src/app/services/wallet.service';
+import {CategoryView} from 'src/app/view-model/category';
+import {WalletView} from 'src/app/view-model/wallet';
 
 @Component({
     selector: 'app-category-form',
@@ -30,20 +30,21 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
 
     hasChooseCategory: boolean = false;
 
-    get parentCategoryIcon() : string {
+    get parentCategoryIcon(): string {
         let iconName = this.category.parent?.icon ?? "null";
 
         return `/assets/catalogs/${iconName}.png`
     }
 
-    get categoryIcon() : string {
+    get categoryIcon(): string {
         let iconName = this.category.icon ?? "null";
 
         return `/assets/catalogs/${iconName}.png`
     }
 
 
-    constructor(private categoryService: CategoryService, private walletService: WalletService, private modal: NzModalService, private viewContainerRef: ViewContainerRef) { }
+    constructor(private categoryService: CategoryService, private walletService: WalletService, private modal: NzModalService, private viewContainerRef: ViewContainerRef) {
+    }
 
     ngOnInit(): void {
         this.categoryService.getAllCategory().pipe(takeUntil(this.destroy$))
@@ -65,7 +66,7 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
                 }
             )
     }
-    
+
     onSelectParentCategory() {
         const modal: NzModalRef = this.modal.create({
             nzTitle: 'Select Category',

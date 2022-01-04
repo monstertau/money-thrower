@@ -13,7 +13,7 @@
             <p class="total-amount" *ngIf="(inflow - outflow) < 0">{{getFormatBalance(inflow - outflow)}} vnd</p>
         </div>
     </div>
-    <div *ngIf="currentPage!='search'" class="view-report">
+    <div *ngIf="currentPage!='search'" class="view-report" (click)="showReport()">
         VIEW REPORT FOR THIS PERIOD
     </div>
 </div>

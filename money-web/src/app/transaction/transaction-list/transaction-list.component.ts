@@ -1,59 +1,65 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { CommonService } from 'src/app/services/common.service';
-import { TransactionView } from 'src/app/view-model/transactions';
-import { Utils } from 'src/app/util/utils';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {CommonService} from 'src/app/services/common.service';
+import {TransactionView} from 'src/app/view-model/transactions';
+import {Utils} from 'src/app/util/utils';
 
 @Component({
-  selector: 'app-transaction-list',
-  templateUrl: './transaction-list.component.html',
-  styleUrls: ['./transaction-list.component.css']
+    selector: 'app-transaction-list',
+    templateUrl: './transaction-list.component.html',
+    styleUrls: ['./transaction-list.component.css']
 })
 export class TransactionListComponent implements OnInit {
-  @Input() transactions!: TransactionView[][];
-  @Input() transactionsByTime!: TransactionView[][];
-  @Output() selectedTransaction = new EventEmitter<TransactionView>();
-  @Input() inflow!: number;
-  @Input() outflow!: number;
-  @Input() currentPage!: string;
-  viewMode!: string;
-  @Input() isLoading: boolean = true;
-  constructor(private commonService: CommonService) {
-  }
+    @Input() transactions!: TransactionView[][];
+    @Input() transactionsByTime!: TransactionView[][];
+    @Output() selectedTransaction = new EventEmitter<TransactionView>();
+    @Input() inflow!: number;
+    @Input() outflow!: number;
+    @Input() currentPage!: string;
+    viewMode!: string;
+    @Input() isLoading: boolean = true;
 
-  ngOnInit(): void {
-    this.commonService.currentViewMode.subscribe(mode => { this.viewMode = mode; });
-  }
-
-  selectTransaction(transaction: TransactionView) {
-    this.selectedTransaction.emit(transaction);
-    let dialog = document.getElementsByClassName('list-transaction') as HTMLCollectionOf<HTMLElement>;
-    let dialogDetail = document.getElementById('transaction-detail') as HTMLElement;
-    if (dialog.length != 0 && dialog[0].style.marginLeft != '21%' && dialogDetail.hidden) {
-      dialog[0].style.marginLeft = "21%";
-      setTimeout(() => {
-        if (this.currentPage == 'search') dialogDetail.style.top = '242px';
-        dialogDetail.hidden = false;
-      }, 500);
+    constructor(private commonService: CommonService) {
     }
-  }
 
-  calculateTotalAmount(transaction: TransactionView[]) {
-    let total = 0;
-    transaction.forEach(element => {
-      if (element.category.isExpense) total -= element.amount;
-      else total += element.amount;
-    });
-    return total;
-  }
+    ngOnInit(): void {
+        this.commonService.currentViewMode.subscribe(mode => {
+            this.viewMode = mode;
+        });
+    }
 
-  getDate(date: string) {
-    return Utils.getDate(date);
-  }
+    selectTransaction(transaction: TransactionView) {
+        this.selectedTransaction.emit(transaction);
+        let dialog = document.getElementsByClassName('list-transaction') as HTMLCollectionOf<HTMLElement>;
+        let dialogDetail = document.getElementById('transaction-detail') as HTMLElement;
+        if (dialog.length != 0 && dialog[0].style.marginLeft != '21%' && dialogDetail.hidden) {
+            dialog[0].style.marginLeft = "21%";
+            setTimeout(() => {
+                if (this.currentPage == 'search') dialogDetail.style.top = '242px';
+                dialogDetail.hidden = false;
+            }, 500);
+        }
+    }
 
-  getFormatBalance(balance: number) {
-    if (balance)
-      return Utils.formatCurrency(balance);
-    return '0';
-  }
+    calculateTotalAmount(transaction: TransactionView[]) {
+        let total = 0;
+        transaction.forEach(element => {
+            if (element.category.isExpense) total -= element.amount;
+            else total += element.amount;
+        });
+        return total;
+    }
 
+    getDate(date: string) {
+        return Utils.getDate(date);
+    }
+
+    getFormatBalance(balance: number) {
+        if (balance)
+            return Utils.formatCurrency(balance);
+        return '0';
+    }
+
+    showReport() {
+        window.location.href = '/report';
+    }
 }

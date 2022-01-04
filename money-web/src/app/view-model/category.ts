@@ -92,6 +92,7 @@ export class CategoryView {
             owner_id: this.ownerId,
             is_expense: this.isExpense,
             parent_cat_id: this.parent?.id ?? ""// do we need to use this field?
+
         }
     }
 }
