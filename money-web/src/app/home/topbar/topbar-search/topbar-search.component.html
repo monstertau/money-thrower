@@ -34,8 +34,8 @@
                 <nz-slider nzRange [nzMin]="10000" [nzMax]="10000000" [nzStep]="1" [(ngModel)]="rangeValue"
                     (ngModelChange)="onChange($event)"></nz-slider>
                 <div style="display: flex; margin-top: -12px">
-                    <nz-input-number class="input-range" [(ngModel)]="start" type="number"></nz-input-number>
-                    <nz-input-number class="input-range" [(ngModel)]="end" type="number" style="margin-left: auto;">
+                    <nz-input-number class="input-range" [(ngModel)]="start" type="number" disabled></nz-input-number>
+                    <nz-input-number class="input-range" [(ngModel)]="end" type="number" style="margin-left: auto;" disabled>
                     </nz-input-number>
                 </div>
             </div>

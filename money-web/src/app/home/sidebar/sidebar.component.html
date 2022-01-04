@@ -6,34 +6,34 @@
     </div>
     <ul nz-menu [nzInlineCollapsed]="isCollapsed" nzMode="inline" class="sider-menu"
         style="display: flex; flex-direction: column; height: calc(100% - 32px);">
-        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Transactions' : ''"
+        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" id="transaction" [nzTooltipTitle]="isCollapsed ? 'Transactions' : ''"
             (click)="selectPage()">
-            <a [routerLink]="['/']"><i nz-icon nzType="book"></i>
+            <a href="/"><i nz-icon nzType="book"></i>
                 <span>Transactions</span>
             </a>
         </li>
-        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Report' : ''"
+        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" id="report" [nzTooltipTitle]="isCollapsed ? 'Report' : ''"
             (click)="selectPage()">
-            <a [routerLink]="['/report']">
+            <a href="/report">
             <i nz-icon nzType="file-text"></i>
             <span>Report</span>
             </a>
         </li>
-        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Budget' : ''"
+        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" id="budget" [nzTooltipTitle]="isCollapsed ? 'Budget' : ''"
             (click)="selectPage()">
-            <a [routerLink]="['/budget']"><i nz-icon nzType="container"></i>
+            <a href="/budget"><i nz-icon nzType="container"></i>
                 <span>Budget</span>
             </a>
         </li>
-        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Wallets' : ''"
+        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" id="wallet" [nzTooltipTitle]="isCollapsed ? 'Wallets' : ''"
             (click)="selectPage()">
-            <a [routerLink]="['/wallet']">
+            <a href="/wallet">
                 <i nz-icon nzType="wallet"></i>
                 <span>Wallets</span>
             </a>
         </li>
-        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Category' : ''" (click)="selectPage()">
-            <a [routerLink]="['/category']">
+        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" id="category" [nzTooltipTitle]="isCollapsed ? 'Category' : ''" (click)="selectPage()">
+            <a href="/category">
                 <i nz-icon nzType="gold"></i>
                 <span>Category</span>
             </a>

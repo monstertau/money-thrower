@@ -16,6 +16,7 @@ export class CommonService {
     private wallet = new BehaviorSubject<string>('');
     private loading = new BehaviorSubject<boolean>(false);
     private sizebarCollapsed = new BehaviorSubject<boolean>(false);
+    private selectedItem = '';
     currentPage = this.page.asObservable();
     currentPageCategory = this.page.asObservable();
     currentViewMode = this.viewMode.asObservable();
