@@ -1,0 +1,49 @@
+<div class="container">
+    <div class="options" (click)="onRangeSelected(getThisWeek())">
+        <div style="padding: 10px 25px">
+            This week
+            <p class="date">{{getThisWeek()}}</p>
+        </div>
+    </div>
+    <div class="options" (click)="onRangeSelected(getNextMonths(0))">
+        <div style="padding: 10px 25px">
+            This month
+            <p class="date">{{getNextMonths(0)}}</p>
+        </div>
+    </div>
+    <div class="options" (click)="onRangeSelected(getCurrentQuarter(currentMonth))">
+        <div style="padding: 10px 25px">
+            This quarter
+            <p class="date">{{getCurrentQuarter(currentMonth)}}</p>
+        </div>
+    </div>
+    <div class="options" (click)="onRangeSelected(getThisYear())">
+        <div style="padding: 10px 25px">
+            This year
+            <p class="date">{{getThisYear()}}</p>
+        </div>
+    </div>
+    <div class="options" (click)="onRangeSelected(getNextMonths(1))">
+        <div style="padding: 10px 25px">
+            Next month
+            <p class="date">{{getNextMonths(1)}}</p>
+        </div>
+    </div>
+    <div class="options" (click)="onRangeSelected(getNextQuarter(currentMonth))">
+        <div style="padding: 10px 25px">
+            Next quarter
+            <p class="date">{{getNextQuarter(currentMonth)}}</p>
+        </div>
+    </div>
+    <div class="options" (click)="onRangeSelected(getNextYear())">
+        <div style="padding: 10px 25px">
+            Next year
+            <p class="date">{{getNextYear()}}</p>
+        </div>
+    </div>
+    <div class="options" (click)="onAddCustomRange()">
+        <div style="padding: 25px 25px">
+            Custom
+        </div>
+    </div>
+</div>

@@ -15,6 +15,8 @@ type (
 		FindByEmail(email string) (*model.User, error)
 		Find(form *view.LoginForm) (*model.User, error)
 		UpdatePassword(email string, password string) error
+		FindByID(id string) (*model.User, error)
+		Delete(id string) error
 	}
 	UserRepo struct {
 		dbConn *gorm.DB
@@ -49,6 +51,15 @@ func (r *UserRepo) Find(form *view.LoginForm) (*model.User, error) {
 	return nil, nil
 }
 
+func (r *UserRepo) FindByID(id string) (*model.User, error) {
+	var user *model.User
+	if err := r.dbConn.First(&user, "id=?", id).Error; err != nil {
+		return nil, fmt.Errorf("failed to execute select query: %s", err)
+	}
+	return user, nil
+
+}
+
 func (r *UserRepo) UpdatePassword(email string, password string) error {
 	pass, err := util.Hash(password)
 	if err != nil {
@@ -59,6 +70,14 @@ func (r *UserRepo) UpdatePassword(email string, password string) error {
 	r.dbConn.First(&user, "email=?", email).Update("password", pass)
 	if err != nil {
 		return errors.New("Can not find email associated with")
+	}
+	return nil
+}
+
+func (r *UserRepo) Delete(id string) error {
+	user := &model.User{}
+	if err := r.dbConn.Delete(&user, "id=?", id).Error; err != nil {
+		return errors.New("Failed to remove user")
 	}
 	return nil
 }

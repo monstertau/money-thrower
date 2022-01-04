@@ -1,6 +1,6 @@
 <div class="report-detail-transaction">
     <ng-container *ngIf="this.type == 'outcome'">
-        <ng-container *ngFor="let dataPoint of this.outcomeList"> 
+        <ng-container *ngFor="let dataPoint of this.outcomeList">
             <div class="detail-transaction" (click)="triggerShowPopup2(dataPoint.name,this.startDate,this.endDate,this.dataRange,'outcome',this.typeOutcomeTransaction,this.outcomeList)"  nz-row>
                 <div nz-col nzSpan="2">
                 </div>
@@ -24,7 +24,7 @@
         </ng-container>
     </ng-container>
     <ng-container *ngIf="this.type == 'income'">
-        <ng-container *ngFor="let dataPoint of this.incomeList"> 
+        <ng-container *ngFor="let dataPoint of this.incomeList">
             <div class="detail-transaction" (click)="triggerShowPopup2(dataPoint.name,this.startDate,this.endDate,this.dataRange,'income',this.typeIncomeTransaction,this.incomeList)"  nz-row>
                 <div nz-col nzSpan="2">
                 </div>
@@ -75,7 +75,7 @@
                     </div>
                 </div>
                 <div class="report-divider"></div>
-                
+
             </ng-container>
         </ng-container>
     </ng-container>

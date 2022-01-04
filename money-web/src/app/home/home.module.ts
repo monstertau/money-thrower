@@ -33,6 +33,8 @@ import { InputNavigationModule } from '../components/input-navigation/input-navi
 import { ComponentsModule } from '../components/components.module';
 import { TopbarReportComponent } from './topbar/topbar-report/topbar-report.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { TopbarBudgetComponent } from './topbar/topbar-budget/topbar-budget.component';
+import { BudgetAddModule } from '../budget-add/budget-add.module';
 
 @NgModule({
     declarations: [
@@ -43,7 +45,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
         TopbarWalletComponent,
         TopbarCategoryComponent,
         TopbarSearchComponent,
-        TopbarReportComponent
+        TopbarReportComponent,
+        TopbarBudgetComponent
     ],
     imports: [
         NzModalModule,
@@ -68,6 +71,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
         NzInputNumberModule,
         TransactionAddModule,
         WalletAddModule,
+        BudgetAddModule,
         InputDaterangeModule,
         CategoryModule,
         NzModalModule,

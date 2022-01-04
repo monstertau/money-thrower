@@ -15,6 +15,19 @@ definitions:
         example: invalid form
         type: string
     type: object
+  model.User:
+    properties:
+      created_time:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      password:
+        type: string
+      updated_time:
+        type: string
+    type: object
   view.AddTransactionForm:
     properties:
       amount:
@@ -31,6 +44,27 @@ definitions:
     - amount
     - cat_id
     - wallet_id
+    type: object
+  view.BudgetForm:
+    properties:
+      amount:
+        type: number
+      cat_id:
+        type: string
+      end_date:
+        type: integer
+      id:
+        type: string
+      spent_amount:
+        type: number
+      start_date:
+        type: integer
+      status:
+        type: integer
+      user_id:
+        type: string
+      wallet_id:
+        type: string
     type: object
   view.CategoryForm:
     properties:
@@ -161,6 +195,14 @@ definitions:
         type: string
       wallet_id:
         type: string
+    type: object
+  view.UpdatePasswordForm:
+    properties:
+      password:
+        example: "12345678"
+        type: string
+    required:
+    - password
     type: object
   view.WalletBalanceByTimeForm:
     properties:
@@ -293,6 +335,155 @@ paths:
       summary: Register with email and password
       tags:
       - authentication
+  /budget:
+    post:
+      consumes:
+      - application/json
+      description: Add a new budget
+      parameters:
+      - description: Create budget
+        in: body
+        name: create
+        required: true
+        schema:
+          $ref: '#/definitions/view.BudgetForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.BudgetForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Add a new budget
+      tags:
+      - budget
+    put:
+      consumes:
+      - application/json
+      description: Edit info of a budget
+      parameters:
+      - description: Update budget
+        in: body
+        name: update
+        required: true
+        schema:
+          $ref: '#/definitions/view.BudgetForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.BudgetForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Edit info of a budget
+      tags:
+      - budget
+  /budget/:
+    get:
+      consumes:
+      - application/json
+      description: Get list of budgets
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.BudgetForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Get list of budgets
+      tags:
+      - budget
+  /budget/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a budget
+      parameters:
+      - description: budget id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Delete a budget
+      tags:
+      - budget
+    get:
+      consumes:
+      - application/json
+      description: Get detail information of a budget by id
+      parameters:
+      - description: budget id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view.BudgetForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Get detail information of a budget by id
+      tags:
+      - budget
   /category:
     get:
       consumes:
@@ -704,6 +895,87 @@ paths:
       summary: Get list of transactions based on filter
       tags:
       - transaction
+  /user/:
+    delete:
+      consumes:
+      - application/json
+      description: Delete user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Delete user
+      tags:
+      - User
+    get:
+      consumes:
+      - application/json
+      description: Get User Info
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Get User Info
+      tags:
+      - User
+  /user/update-password:
+    put:
+      consumes:
+      - application/json
+      description: Update Password User
+      parameters:
+      - description: Update password
+        in: body
+        name: create
+        required: true
+        schema:
+          $ref: '#/definitions/view.UpdatePasswordForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controller.AppError'
+      security:
+      - JWT: []
+      summary: Update Password User
+      tags:
+      - User
   /wallet:
     get:
       consumes:

@@ -158,7 +158,7 @@ export class ReportComponent implements OnInit {
             dialogDetail.hidden = true;
         }
         this.detail_type = type;
-        
+
         if (dialog.length != 0 && dialog[0].style.marginLeft != '19%' && dialogDetail.hidden) {
             dialog[0].style.marginLeft = "16%";
             dialog[0].style.width = "33%";
@@ -168,5 +168,5 @@ export class ReportComponent implements OnInit {
         }
         //console.log(this.detail_type);
     }
-   
+
 }

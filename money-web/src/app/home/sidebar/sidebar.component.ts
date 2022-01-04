@@ -27,6 +27,7 @@ export class SidebarComponent implements OnInit {
     toggleCollapsed(): void {
         this.isCollapsed = !this.isCollapsed;
         this.collapse.emit(this.isCollapsed);
+        this.commonService.changeSizebarCollapsed(this.isCollapsed);
     }
 
     selectPage() {

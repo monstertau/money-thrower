@@ -15,6 +15,7 @@ export class CommonService {
     private month = new BehaviorSubject<string>('this');
     private wallet = new BehaviorSubject<string>('');
     private loading = new BehaviorSubject<boolean>(false);
+    private sizebarCollapsed = new BehaviorSubject<boolean>(false);
     currentPage = this.page.asObservable();
     currentPageCategory = this.page.asObservable();
     currentViewMode = this.viewMode.asObservable();
@@ -22,6 +23,7 @@ export class CommonService {
     currentMonth = this.month.asObservable();
     currentWallet = this.wallet.asObservable();
     currentLoading = this.loading.asObservable();
+    currentSizebarCollapsed = this.sizebarCollapsed.asObservable();
 
     private searchResults = new BehaviorSubject<TransactionView[][]>([]);
     currentSearchResults = this.searchResults.asObservable();
@@ -101,6 +103,10 @@ export class CommonService {
 
     changeLoading(loading: boolean) {
         this.loading.next(loading);
+    }
+
+    changeSizebarCollapsed(collapsed: boolean) {
+        this.sizebarCollapsed.next(collapsed);
     }
 }
 
