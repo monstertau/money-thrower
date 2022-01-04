@@ -1,25 +1,32 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, AfterViewInit} from '@angular/core';
 import {CommonService} from 'src/app/services/common.service';
 import {AuthService} from 'src/app/services/auth.service';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-sidebar',
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.css']
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, AfterViewInit {
     @Output() collapse = new EventEmitter<boolean>();
 
     LogoutLoading: boolean = false;
 
     showLogoutModal: boolean = false;
 
-    constructor(private commonService: CommonService, private authService: AuthService, private notification: NzNotificationService) {
+    selectedItem = '';
+
+    constructor(private commonService: CommonService, private router: Router, private authService: AuthService, private notification: NzNotificationService) {
     }
 
     ngOnInit(): void {
         this.collapse.emit(false);
+    }
+
+    ngAfterViewInit(): void {
+        this.selectItem();
     }
 
     isCollapsed = false;
@@ -79,6 +86,25 @@ export class SidebarComponent implements OnInit {
 
     showErrorMessage(message: string) {
         this.notification.error('Error', message);
+    }
+
+    selectItem() {
+        this.selectedItem = this.router.url.split('?')[0].replace("/", '') || 'transaction';
+        let id = '';
+        if (this.selectedItem === 'transaction' || this.selectedItem === '') {
+            id = 'transaction';
+        } else id = this.selectedItem;
+        let selectedElement = document.getElementById(id) as HTMLElement;
+        let elements = document.getElementsByClassName('ant-menu-item') as HTMLCollectionOf<HTMLElement>;
+        for (let i = 0; i < elements.length; i++) {
+            if (elements[i].classList.contains('ant-menu-item-selected')) {
+                elements[i].classList.remove('ant-menu-item-selected');
+            }
+        }
+        if (!selectedElement.classList.contains('ant-menu-item-selected')) {
+            console.log('here');
+            selectedElement.classList.add('ant-menu-item-selected');
+        }
     }
 
 }
