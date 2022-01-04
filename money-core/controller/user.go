@@ -31,6 +31,7 @@ func (h *UserController) MakeHandler(g *gin.RouterGroup) {
 	{
 		group.GET("/", h.GetById)
 		group.PUT("/update-password", h.UpdatePassword)
+		group.DELETE("/", h.Delete)
 	}
 }
 
@@ -87,6 +88,36 @@ func (h *UserController) UpdatePassword(c *gin.Context) {
 
 	if err := h.services.UserService.UpdatePassword(userId, form.Password); err != nil {
 		ReportError(c, http.StatusBadRequest, fmt.Sprintf("Cannot update password"))
+		return
+	}
+	c.JSON(http.StatusOK, "ok")
+}
+
+// Delete godoc
+// @Summary Delete user
+// @Description Delete user
+// @Tags User
+// @Accept json
+// @Produce json
+// @Security JWT
+// @Success 200 {object} string
+// @Failure 400 {object} AppError
+// @Failure 500 {object} AppError
+// @Router /user/ [DELETE]
+func (h *UserController) Delete(c *gin.Context) {
+	userId, err := h.services.JWTService.GetUserId(c)
+	if err != nil {
+		ReportError(c, http.StatusBadRequest, fmt.Sprintf("Error when get current user"))
+		return
+	}
+	if err := h.services.UserService.Delete(userId); err != nil {
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("Cant remove user"))
+		return
+	}
+	tokenString := h.services.JWTService.GetAuthorizedToken(c)
+	if err := h.services.AuthService.Logout(tokenString); err != nil {
+		h.logger.Infof("Cant blacklist token: %v", err)
+		ReportError(c, http.StatusInternalServerError, fmt.Sprintf("Cant logout. Something Wrong."))
 		return
 	}
 	c.JSON(http.StatusOK, "ok")
