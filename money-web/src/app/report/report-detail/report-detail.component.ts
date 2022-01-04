@@ -27,7 +27,7 @@ export class ReportDetailComponent implements OnInit {
 
     hideReportDetail() {
         this.closed.emit(true);
-        let dialog = document.getElementById('report-detail') as HTMLElement;
+        let dialog = document.getElementById('report-detail-type') as HTMLElement;
         dialog.hidden = true;
         let dialogList = document.getElementsByClassName('main-report') as HTMLCollectionOf<HTMLElement>;
         if (dialogList.length > 0) {

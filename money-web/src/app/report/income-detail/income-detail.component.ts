@@ -28,7 +28,7 @@ export class IncomeDetailComponent implements OnInit {
 
     hideReportDetail() {
         this.closed.emit(true);
-        let dialog = document.getElementById('income-detail') as HTMLElement;
+        let dialog = document.getElementById('report-detail-type') as HTMLElement;
         dialog.hidden = true;
         let dialogList = document.getElementsByClassName('main-report') as HTMLCollectionOf<HTMLElement>;
         if (dialogList.length > 0) {
