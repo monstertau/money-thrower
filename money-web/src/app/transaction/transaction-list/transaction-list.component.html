@@ -17,6 +17,7 @@
         VIEW REPORT FOR THIS PERIOD
     </div>
 </div>
+<nz-empty *ngIf="!transactionsByTime.length" nzNotFoundImage="simple"></nz-empty>
 <div class="transactions" [ngClass]="{'transaction-search': currentPage=='search', 'transaction-normal': currentPage!='search'}">
     <div *ngIf="viewMode == 'time' && currentPage!='search'; else category">
         <div *ngIf="!transactions.length" >

@@ -11,6 +11,7 @@ import { TransactionListComponent } from './transaction-list/transaction-list.co
 import {NzModalModule} from "ng-zorro-antd/modal";
 import { TransactionDetailComponent } from './transaction-detail/transaction-detail.component';
 import {TransactionAddModule} from "../transaction-add/transaction-add.module";
+import {NzEmptyModule} from "ng-zorro-antd/empty";
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import {TransactionAddModule} from "../transaction-add/transaction-add.module";
         NzImageModule,
         NzModalModule,
         NzSpinModule,
-        TransactionAddModule
+        TransactionAddModule,
+        NzEmptyModule
     ]
 })
 export class TransactionModule { }

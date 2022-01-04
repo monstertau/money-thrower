@@ -75,18 +75,18 @@
 ::-webkit-scrollbar {
     width: 5px;
 }
-  
+
 /* Track */
 ::-webkit-scrollbar-track {
     background: #f1f1f1;
 }
-  
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.054);
     border-radius: 20px;
 }
-  
+
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #8888;
@@ -94,7 +94,7 @@
 
 .menu-title {
     width: 100%;
-    margin-top: -10px;
+    margin-top: 10px;
 }
 
 .wallet-items {
@@ -112,7 +112,7 @@
 }
 
 .item-amount {
-    margin-top: -45px;
+    /*margin-top: -45px;*/
     height: 20px;
     font-size: 12px;
 }

@@ -24,6 +24,7 @@ export class ReportComponent implements OnInit {
 
     private destroy$ = new Subject();
     isLoading: boolean = true;
+    isQuery: boolean = false;
     startDate: Date = new Date();
     endDate: Date = new Date();
     startBalance: string = "0";
@@ -32,13 +33,13 @@ export class ReportComponent implements OnInit {
     allTransactions: TransactionView[] = [];
     title!: string;
     dataRange!: DataRange;
-    totalIncome:string = "0";
-    totalOutcome:string = "0";
+    totalIncome: string = "0";
+    totalOutcome: string = "0";
     totalDebt: string = "0";
     totalLoan: string = "0";
     otherInflow: string = "0";
     otherOutflow: string = "0";
-    otherBalance: string ="0";
+    otherBalance: string = "0";
     private currentWalletId!: string;
 
     detail_type: string = '';
@@ -53,13 +54,13 @@ export class ReportComponent implements OnInit {
         });
     }
 
-    triggerShowPopup(title: string,startDate: Date, endDate: Date, dataRange: DataRange, type: string) {
+    triggerShowPopup(title: string, startDate: Date, endDate: Date, dataRange: DataRange, type: string) {
         const modal: NzModalRef = this.modal.create({
             nzTitle: title,
             nzClassName: "debt-transaction-history",
             nzContent: TransactionHistoryPopupComponent,
             nzViewContainerRef: this.viewContainerRef,
-            nzComponentParams: {startDate,endDate,dataRange,type},
+            nzComponentParams: {startDate, endDate, dataRange, type},
             nzBodyStyle: {
                 "padding": "0",
             },
@@ -72,7 +73,10 @@ export class ReportComponent implements OnInit {
         this.activatedRoute.queryParams
             .pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
             this.isLoading = true;
-            this.queryData(params.title, params.startDate, params.endDate);
+            if (!this.isQuery) {
+                this.isQuery = true;
+                this.queryData(params.title, params.startDate, params.endDate);
+            }
         });
 
     }
@@ -96,6 +100,7 @@ export class ReportComponent implements OnInit {
             wallet_id: this.currentWalletId,
         }
         this.allTransactions = [];
+
         this.transactionService.getTransactions(filter)
             .pipe( // pipeline for sequential call
                 concatMap(transactions => {
@@ -127,23 +132,24 @@ export class ReportComponent implements OnInit {
                 }),
                 catchError((error) => of(error))
             ).subscribe(() => {
+            setTimeout(() => {
+                this.isLoading = false;
+                this.isQuery = false;
+            }, 3000);
             this.startDate = moment(startDate, "DD/MM/YYYY").toDate();
             this.endDate = moment(endDate, "DD/MM/YYYY").toDate();
             this.title = title;
             this.dataRange = new DataRange(this.title, this.startDate, this.endDate, this.allTransactions);
-            setTimeout(() => {
-                this.isLoading = false;
-            }, 3000);
+            console.log(this.dataRange)
             this.totalIncome = Utils.formatCurrency(this.dataRange.totalIncome)
             this.totalOutcome = Utils.formatCurrency(-this.dataRange.totalOutcome)
             this.totalDebt = Utils.formatCurrency(this.dataRange.totalDebt)
             this.totalLoan = Utils.formatCurrency(-this.dataRange.totalLoan)
             this.otherInflow = Utils.formatCurrency(this.dataRange.otherInflow)
             this.otherOutflow = Utils.formatCurrency(-this.dataRange.otherOutflow)
-            this.otherBalance = Utils.formatCurrency(this.dataRange.otherInflow-this.dataRange.otherOutflow);
-
-
+            this.otherBalance = Utils.formatCurrency(this.dataRange.otherInflow - this.dataRange.otherOutflow);
         })
+
 
     }
 
@@ -154,7 +160,7 @@ export class ReportComponent implements OnInit {
     showDetailType(type: string) {
         let dialog = document.getElementsByClassName('main-report') as HTMLCollectionOf<HTMLElement>;
         let dialogDetail = document.getElementById('report-detail-type') as HTMLElement;
-        if(this.detail_type != ''){
+        if (this.detail_type != '') {
             dialogDetail.hidden = true;
         }
         this.detail_type = type;
