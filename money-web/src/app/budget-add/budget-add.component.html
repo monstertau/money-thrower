@@ -1,0 +1,41 @@
+<div class="wrapper">
+    <div class="upper-row" nz-row nzJustify="space-between">
+        <div class="input-box" nz-col [nzSpan]="11">
+            <app-input-navigation inputName="Wallet"
+                                  [inputIcon]="'/assets/catalogs/'+this.budget.wallet.icon+'.png'"
+                                  [navigationName]="this.budget.wallet.name"
+                                  (click)="onAddWallet()"
+                                  placeholder="Choose Wallet"></app-input-navigation>
+        </div>
+        <div class="input-box" nz-col [nzSpan]="12">
+            <app-input-navigation inputName="Category"
+                                  [inputIcon]="'/assets/catalogs/'+this.budget.category.icon+'.png'"
+                                  [hasChosen]="this.budget.category.isCurrent"
+                                  [navigationName]="this.budget.category.name"
+                                  (click)="onAddCategory()"
+                                  placeholder="Choose Category"></app-input-navigation>
+        </div>
+    </div>
+    <div class="lower-row" nz-row nzJustify="space-between">
+        <!-- <div class="input-box" nz-col [nzSpan]="7">
+            <app-input-date inputFormat="dd/MM/yyyy" inputName="Date" [dateValue]="budget.transactionDate"
+                            (dateValueChange)="onChangeDate($event)"></app-input-date>
+        </div>
+
+        <div class="input-box" nz-col [nzSpan]="16">
+            <app-input-text inputName="Note" [textModel]="transaction.note" placeholder="Note"
+                            (textModelChange)="onChangeNote($event)"></app-input-text>
+        </div> -->
+        <div class="input-box" nz-col [nzSpan]="11">
+            <app-input-number inputName="Amount" [(inputValue)]="this.budget.amount"></app-input-number>
+        </div>
+        <div class="input-box" (click)="onAddDateRange()" nz-col [nzSpan]="12">
+            <div class="input-name">Date</div>
+            <div class="input-bottom">
+                <div class="placeholder" *ngIf="!selectedTimeRange">Select time range</div>
+                <div class="timerange" *ngIf="selectedTimeRange">{{selectedTimeRange}}</div>
+                <span class="more-icon"><i nz-icon nzType="right" nzTheme="outline"></i></span>
+            </div>
+        </div>
+    </div>
+</div>

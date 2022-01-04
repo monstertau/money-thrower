@@ -1,0 +1,64 @@
+<div nz-row nzJustify="center">
+    <div nz-col nzSpan="12">
+        <nz-input-group [nzSuffix]="suffixIconSearch">
+            <input type="text" nz-input placeholder="Search" [ngModel]="searchContent"
+                   (ngModelChange)="onChangeSearchBox($event)"/>
+        </nz-input-group>
+    </div>
+</div>
+<ng-template #suffixIconSearch>
+    <i nz-icon nzType="search"></i>
+</ng-template>
+<nz-tabset nzCentered [(nzSelectedIndex)]="activeTab">
+    <nz-tab nzTitle="DEBT/LOAN">
+        <div class="category-items" *ngFor="let item of debtLoanCategoriesShow">
+            <div class="category-item" (click)="onClickCategory(item.id)"
+                 [style.background-color]="item.isCurrent? 'rgba(45,184,76,.08)' : ''">
+                <div nz-row nzJustify="space-between">
+                    <div class="icon" nz-col nzSpan="2"><img style="width: 40px;"
+                                                             src="/assets/catalogs/{{item.icon}}.png" alt=""></div>
+                    <div class="category-info" nz-col nzSpan="19">
+                        <div class="name">{{item.name}}</div>
+                    </div>
+                    <div class="selected-category" nz-col nzSpan="1"><span><i *ngIf="item.isCurrent" nz-icon
+                                                                              nzType="check"
+                                                                              nzTheme="outline"></i></span></div>
+                </div>
+            </div>
+        </div>
+    </nz-tab>
+    <nz-tab nzTitle="EXPENSE">
+        <div class="category-items" *ngFor="let item of expenseCategoriesShow">
+            <div class="category-item" (click)="onClickCategory(item.id)"
+                 [style.background-color]="item.isCurrent? 'rgba(45,184,76,.08)' : ''">
+                <div nz-row nzJustify="space-between">
+                    <div class="icon" nz-col nzSpan="2"><img style="width: 40px;"
+                                                             src="/assets/catalogs/{{item.icon}}.png" alt=""></div>
+                    <div class="category-info" nz-col nzSpan="19">
+                        <div class="name">{{item.name}}</div>
+                    </div>
+                    <div class="selected-category" nz-col nzSpan="1"><span><i *ngIf="item.isCurrent" nz-icon
+                                                                              nzType="check"
+                                                                              nzTheme="outline"></i></span></div>
+                </div>
+            </div>
+        </div>
+    </nz-tab>
+    <nz-tab nzTitle="INCOME">
+        <!-- <div class="category-items" *ngFor="let item of incomeCategoriesShow">
+            <div class="category-item" (click)="onClickCategory(item.id)"
+                 [style.background-color]="item.isCurrent? 'rgba(45,184,76,.08)' : ''">
+                <div nz-row nzJustify="space-between">
+                    <div class="icon" nz-col nzSpan="2"><img style="width: 40px;"
+                                                             src="/assets/catalogs/{{item.icon}}.png" alt=""></div>
+                    <div class="category-info" nz-col nzSpan="19">
+                        <div class="name">{{item.name}}</div>
+                    </div>
+                    <div class="selected-category" nz-col nzSpan="1"><span><i *ngIf="item.isCurrent" nz-icon
+                                                                              nzType="check"
+                                                                              nzTheme="outline"></i></span></div>
+                </div>
+            </div>
+        </div> -->
+    </nz-tab>
+</nz-tabset>
