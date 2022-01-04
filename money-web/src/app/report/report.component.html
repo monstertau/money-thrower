@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="report-divider"></div>
-            <div class="overall-chart" (click)="showDetail()">
+            <div class="overall-chart" (click)="showDetailType('overall')">
                 <div class="over-all-chart-header">
                     <div class="placeholder">Net Income</div>
                     <div class="balance">{{this.netBalance}} đ</div>
@@ -27,8 +27,8 @@
                 </div>
             </div>
             <div class="report-divider"></div>
-            <div class="income-outcome-report" (click)="showIncomeDetail()" nz-row>
-                <div class="income-report" nz-col nzSpan="12">
+            <div class="income-outcome-report"  nz-row>
+                <div class="income-report" (click)="showDetailType('income')" nz-col nzSpan="12">
                     <div class="income-header">
                         <div class="placeholder">Income</div>
                         <div class="balance">{{this.totalIncome}} đ</div>
@@ -41,7 +41,7 @@
                                                 [endDate]="this.endDate"></app-income-pie-chart>
                     </div>
                 </div>
-                <div class="outcome-report"  (click)="showOutcomeDetail()" nz-col nzSpan="12">
+                <div class="outcome-report"  (click)="showDetailType('outcome')" nz-col nzSpan="12">
                     <div class="outcome-header">
                         <div class="placeholder">Outcome</div>
                         <div class="balance">{{this.totalOutcome}} đ</div>
@@ -112,23 +112,25 @@
             </div>
         </div>
     </div>
-    <div id="report-detail" hidden>
-        <app-report-detail title="Net Income" [balance]="this.netBalance" [dataRange]="this.dataRange"
-                           [startDate]="this.startDate"
-                           [endDate]="this.endDate" [isLoading]="isLoading"></app-report-detail>
-    </div>
-    <div id="outcome-detail" hidden>
-        <app-outcome-detail title="Outcome Report" [outcome]="this.totalOutcome" [dataRange]="this.dataRange"
+    <div id="report-detail-type" hidden>
+        <ng-container *ngIf="this.detail_type == 'outcome'">
+            <app-outcome-detail title="Outcome Report" [outcome]="this.totalOutcome" [dataRange]="this.dataRange"
                            [startDate]="this.startDate"
                            [endDate]="this.endDate"
                            [isLoading]="isLoading"></app-outcome-detail>
-    </div>
-    <div id="income-detail" hidden>
-        <app-income-detail title="Income Report" [income]="this.totalIncome"
+        </ng-container>
+        <ng-container *ngIf="this.detail_type == 'income'">
+            <app-income-detail title="Income Report" [income]="this.totalIncome"
                             [dataRange]="this.dataRange"
                             [startDate]="this.startDate"
                             [endDate]="this.endDate"
                             [isLoading]="isLoading"></app-income-detail>
+        </ng-container>
+        <ng-container *ngIf="this.detail_type == 'overall'">
+            <app-report-detail title="Net Income" [balance]="this.netBalance" [dataRange]="this.dataRange"
+                           [startDate]="this.startDate"
+                           [endDate]="this.endDate" [isLoading]="isLoading"></app-report-detail>
+        </ng-container>
     </div>
 
 </div>

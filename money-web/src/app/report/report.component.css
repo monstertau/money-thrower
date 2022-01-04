@@ -135,6 +135,17 @@
     box-shadow: 0 2px 0 rgba(0, 0, 0, 0.043);
     height: 86%;
 }
+#report-detail-type {
+    position: absolute;
+    width: 49%;
+    left: 50%;
+    margin-top: 1%;
+    overflow: scroll;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.043);
+    height: 86%;
+}
 #outcome-detail {
     position: absolute;
     width: 49%;
