@@ -1,15 +1,15 @@
 <div class="right">
     <span class="topbar-icon" [nzTooltipTitle]="viewToolTip" nzTooltipPlacement="bottom" nz-tooltip
           (click)="changeCategoryViewMode()"><i nz-icon nzType="eye" nzTheme="outline"></i></span>
-    <button class="category-btn" nz-button nzType="primary" (click)="showCategoryForm()">Add category
+    <button class="category-btn" nz-button nzType="primary" (click)="showCategoryForm()">ADD CATEGORY
     </button>
     <nz-modal [(nzVisible)]="showAddModal" nzTitle="Add Category" nzWidth="496px" nzClosable="false">
         <div *nzModalContent>
             <app-category-form [category]="currentCategory"></app-category-form>
         </div>
         <div *nzModalFooter>
-            <button nz-button nzType="default" (click)="showAddModal = false">Cancel</button>
-            <button nz-button nzType="primary" (click)="handleSave()" [nzLoading]="categoryAddLoading">Save</button>
+            <button nz-button nzType="default" (click)="showAddModal = false">CANCEL</button>
+            <button nz-button nzType="primary" (click)="handleSave()" [nzLoading]="categoryAddLoading">SAVE</button>
         </div>
     </nz-modal>
 </div>

@@ -25,7 +25,7 @@
                                         </ng-container>
                                     </ng-template>
                                 </nz-form-control>
-                            </nz-form-item>                       
+                            </nz-form-item>
                             <button nz-button class="mail-form-button mail-form-margin"
                                 [nzType]="'primary'"
                                 (click)="mailConfirm(form.controls.email.value)">Enter
@@ -33,10 +33,10 @@
                             </button>
                             <br>
                             <div style="display: flex; margin-top: 50px;">
-                                <a style="margin-left: auto; margin-left: 28%; color: #a0d911;"
+                                <a style="margin-left: auto; margin-left: 28%; color: #038C0C;"
                                     (click)="login()">Log in
                                     now!</a>
-                                <a style="margin-left: auto; margin-right: 28%; color: #a0d911;"
+                                <a style="margin-left: auto; margin-right: 28%; color: #038C0C;"
                                     (click)="register()">Register
                                     now!</a>
                             </div>
@@ -46,17 +46,17 @@
                 <div class="center" *ngIf="!isMailForm">
                     Thank you for your information, we will send you an email with instructions as soon as possible
                     <br>
-                    <i nz-icon nzType="mail" nzTheme="outline" style="font-size: 70px; margin-top: 40px; margin-bottom: 40px;"></i> 
+                    <i nz-icon nzType="mail" nzTheme="outline" style="font-size: 70px; margin-top: 40px; margin-bottom: 40px;"></i>
                     <br>
-                    Please check your email for instructions    
-                    <br>  
+                    Please check your email for instructions
+                    <br>
                     <div style="display: flex; margin-top: 40px;">
                                 <p style="margin-left: 28%;">Already have an account?</p>
-                                <a style="margin-left: auto; margin-right: 28%; color: #a0d911;"
+                                <a style="margin-left: auto; margin-right: 28%; color: #038C0C;"
                                     (click)="login()">Login
                                     now!</a>
                     </div>
-                            
+
                 </div>
             </div>
     </div>

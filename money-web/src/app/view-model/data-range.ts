@@ -6,14 +6,14 @@ export class DataRange {
     startDate!: Date;
     endDate!: Date;
     dataUnits: DataUnit[] = [];
-    totalIncome:number = 0;
-    totalOutcome:number = 0;
+    totalIncome: number = 0;
+    totalOutcome: number = 0;
     totalDebt: number = 0;
     totalLoan: number = 0;
     otherInflow: number = 0;
     otherOutflow: number = 0;
-    dailyIncome:number = 0;
-    dailyOutcome:number = 0;
+    dailyIncome: number = 0;
+    dailyOutcome: number = 0;
 
     constructor(title: string, start: Date, end: Date, allTransaction: TransactionView[]) {
         this.startDate = start;
@@ -47,7 +47,9 @@ export class DataRange {
     }
 
     getYearDataUnits() {
-        const numMonth = this.endDate.getMonth() - this.startDate.getMonth() + 1
+        const year = this.endDate.getFullYear() - this.startDate.getFullYear()
+        const numMonth = this.endDate.getMonth() + 12 * year - this.startDate.getMonth() + 1
+        console.log(numMonth)
         for (let i = 0; i < numMonth; i++) {
             let dataUnit: DataUnit = {
                 name: (this.startDate.getMonth() + i + 1).toString(),
@@ -57,16 +59,16 @@ export class DataRange {
                 outcomeTransaction: [],
                 totalIncome: 0,
                 totalOutcome: 0,
-                incomeList:[],
-                outcomeList:[],
-                debtTransaction:[],
-                loanTransaction:[],
-                otherTransaction:[],
+                incomeList: [],
+                outcomeList: [],
+                debtTransaction: [],
+                loanTransaction: [],
+                otherTransaction: [],
                 totalDebt: 0,
                 totalLoan: 0,
                 otherInflow: 0,
                 otherOutflow: 0,
-                dailyTransaction:[]
+                dailyTransaction: []
             }
             this.dataUnits.push(dataUnit);
         }
@@ -84,16 +86,16 @@ export class DataRange {
                 outcomeTransaction: [],
                 totalIncome: 0,
                 totalOutcome: 0,
-                incomeList:[],
-                outcomeList:[],
-                debtTransaction:[],
-                loanTransaction:[],
-                otherTransaction:[],
+                incomeList: [],
+                outcomeList: [],
+                debtTransaction: [],
+                loanTransaction: [],
+                otherTransaction: [],
                 totalDebt: 0,
                 totalLoan: 0,
                 otherInflow: 0,
                 otherOutflow: 0,
-                dailyTransaction:[]
+                dailyTransaction: []
             }
             this.dataUnits.push(dataUnit);
         }
@@ -109,16 +111,16 @@ export class DataRange {
                 outcomeTransaction: [],
                 totalIncome: 0,
                 totalOutcome: 0,
-                incomeList:[],
-                outcomeList:[],
-                debtTransaction:[],
-                loanTransaction:[],
-                otherTransaction:[],
+                incomeList: [],
+                outcomeList: [],
+                debtTransaction: [],
+                loanTransaction: [],
+                otherTransaction: [],
                 totalDebt: 0,
                 totalLoan: 0,
                 otherInflow: 0,
                 otherOutflow: 0,
-                dailyTransaction:[]
+                dailyTransaction: []
             }
             this.dataUnits.push(dataUnit);
         }
@@ -155,22 +157,22 @@ export class DataRange {
                         }
                         dataUnit.incomeList.push(dataPoint);
                     }
-                    if(transaction.category.type == "debt/loan" && !transaction.category.isExpense){
+                    if (transaction.category.type == "debt/loan" && !transaction.category.isExpense) {
                         dataUnit.debtTransaction.push(transaction);
                         dataUnit.totalDebt += transaction.amount;
                         this.totalDebt += transaction.amount;
                     }
-                    if(transaction.category.type == "debt/loan" && transaction.category.isExpense){
+                    if (transaction.category.type == "debt/loan" && transaction.category.isExpense) {
                         dataUnit.loanTransaction.push(transaction);
                         dataUnit.totalLoan += transaction.amount;
                         this.totalLoan += transaction.amount;
                     }
-                    if(transaction.category.type != "debt/loan" && !transaction.category.isExpense){
+                    if (transaction.category.type != "debt/loan" && !transaction.category.isExpense) {
                         dataUnit.otherTransaction.push(transaction);
                         dataUnit.otherInflow += transaction.amount;
                         this.otherInflow += transaction.amount;
                     }
-                    if(transaction.category.type != "debt/loan" && transaction.category.isExpense){
+                    if (transaction.category.type != "debt/loan" && transaction.category.isExpense) {
                         dataUnit.otherTransaction.push(transaction);
                         dataUnit.otherOutflow += transaction.amount;
                         this.otherOutflow += transaction.amount;
@@ -200,6 +202,7 @@ export interface DataUnit {
     otherOutflow: number;
     dailyTransaction: TransactionView[];
 }
+
 export interface DataPoint {
     name: string;
     value: number;

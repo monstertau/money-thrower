@@ -1,10 +1,11 @@
 <div class="income-piechart">
-
-<ngx-charts-pie-chart 
-    [results]="multi"
-    [legend]="false"
-    [animations]="animations" 
-    [labels]="false"
-    [doughnut]="true" >
-</ngx-charts-pie-chart>
+    <ngx-charts-pie-chart
+        [scheme]="colorScheme"
+        [results]="multi"
+        [legend]="false"
+        [animations]="animations"
+        [labels]="false"
+        [doughnut]="true"
+        [arcWidth]="0.5">
+    </ngx-charts-pie-chart>
 </div>

@@ -17,7 +17,9 @@ export class IncomeDetailPieChartComponent implements OnInit {
     @Input() multi: DataPoint[] = [];
     @Input() view?: any[];
     // options
-
+    colorScheme = {
+        domain: ['#005C72', '#66D8E8', '#1DB593', '#74FF91', '#C2DB4F']
+    };
     animations: boolean = true;
 
     constructor() {}
@@ -33,11 +35,11 @@ export class IncomeDetailPieChartComponent implements OnInit {
                             value: dataUnit.incomeList[i].value
                         }
                         this.multi.push(dataPoint);
-                        
+
                     }
-                    
+
                 }
-                
+
             for (let i = 0; i<this.multi.length;i++){
                 for(let j = i+1;j<this.multi.length;j++){
                     if(this.multi[i].name == this.multi[j].name){
@@ -46,11 +48,11 @@ export class IncomeDetailPieChartComponent implements OnInit {
                     }
                 }
             }
-                
-                
+
+
             }
             //console.log(this.multi);
-            
+
         }
     }
 
@@ -60,7 +62,7 @@ export class IncomeDetailPieChartComponent implements OnInit {
         console.log(event);
     }
 
-    
+
 
 }
 

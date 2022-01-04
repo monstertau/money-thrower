@@ -1,12 +1,12 @@
 <div>
-    <button class="transaction-btn" nz-button nzType="primary" (click)="showWalletAddModal()">Add Wallet</button>
+    <button class="transaction-btn" nz-button nzType="primary" (click)="showWalletAddModal()">ADD WALLET</button>
     <nz-modal [(nzVisible)]="showAddModal" nzTitle="Add Wallet" nzWidth="496px" nzClosable="false">
         <div *nzModalContent>
             <app-wallet-add [wallet]="currentWallet"></app-wallet-add>
         </div>
         <div *nzModalFooter>
-            <button nz-button nzType="default" (click)="handleCancelAdd()">Cancel</button>
-            <button nz-button nzType="primary" (click)="handleSave()" [nzLoading]="walletAddLoading">Save</button>
+            <button nz-button nzType="default" (click)="handleCancelAdd()">CANCEL</button>
+            <button nz-button nzType="primary" (click)="handleSave()" [nzLoading]="walletAddLoading">SAVE</button>
         </div>
     </nz-modal>
 </div>

@@ -1,10 +1,11 @@
 <div class="outcome-detail-piechart">
-    <ngx-charts-pie-chart 
+    <ngx-charts-pie-chart
         [scheme]="colorScheme"
         [results]="multi"
         [legend]="false"
-        [animations]="animations" 
+        [animations]="animations"
         [labels]="true"
-        [doughnut]="false" >
+        [doughnut]="true"
+        [arcWidth]="0.5" >
     </ngx-charts-pie-chart>
 </div>

@@ -11,7 +11,7 @@
     height: 40%;
     left: 0px;
     top: 0px;
-    background-color: #a0d911;
+    background-color: #038C0C;
     box-shadow: -18px 0px 0px -17px rgba(0, 0, 0, 0.06);
 }
 
@@ -99,17 +99,17 @@ button {
     height: 50px;
     width: 320px;
     border-radius: 20px;
-    background-color: #d3f261;
+    background-color: #52BF04;
     color: black;
     border: none;
 }
 
 button:hover {
-    background-color: #a0d911;
+    background-color: #038C0C;
 }
 
 button:focus {
-    background-color: #d3f261;
+    background-color: #52BF04;
     color: black;
 }
 
@@ -135,7 +135,7 @@ button:focus {
 
 .login-form-forgot {
     margin-left: auto;
-    color: #a0d911;
+    color: #038C0C;
 }
 
 .ant-input-affix-wrapper {
@@ -150,5 +150,5 @@ button:focus {
     .name {
         display: none;
     }
-    
+
 }

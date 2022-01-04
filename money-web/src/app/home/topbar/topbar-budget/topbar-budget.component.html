@@ -1,12 +1,12 @@
 <div>
-    <button class="budget-btn" nz-button nzType="primary" (click)="showBudgetAddModal()">Add Budget</button>
+    <button class="budget-btn" nz-button nzType="primary" (click)="showBudgetAddModal()">ADD BUDGET</button>
     <nz-modal [(nzVisible)]="showAddModal" nzTitle="Add Budget" nzWidth="496px" nzClosable="false">
         <div *nzModalContent>
             <app-budget-add [budget]="currentBudget"></app-budget-add>
         </div>
         <div *nzModalFooter>
-            <button nz-button nzType="default" (click)="handleCancelAdd()">Cancel</button>
-            <button nz-button nzType="primary" (click)="handleSave()" [nzLoading]="budgetAddLoading">Save</button>
+            <button nz-button nzType="default" (click)="handleCancelAdd()">CANCEL</button>
+            <button nz-button nzType="primary" (click)="handleSave()" [nzLoading]="budgetAddLoading">SAVE</button>
         </div>
     </nz-modal>
 </div>

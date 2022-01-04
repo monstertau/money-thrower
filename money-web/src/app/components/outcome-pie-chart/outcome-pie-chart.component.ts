@@ -25,10 +25,10 @@ export class OutcomePieChartComponent implements OnInit {
     // options
     animations: boolean = true;
     colorScheme = {
-        domain: ['#597C2B', '#668D2E', '#80A142', '#91B247', '#D2E459']
-      };
+        domain: ['#005C72', '#66D8E8', '#1DB593', '#74FF91', '#C2DB4F']
+    };
 
-    
+
 
     constructor() {}
 
@@ -43,11 +43,11 @@ export class OutcomePieChartComponent implements OnInit {
                             value: dataUnit.outcomeList[i].value
                         }
                         this.multi.push(dataPoint);
-                        
+
                     }
-                    
+
                 }
-                
+
             for (let i = 0; i<this.multi.length;i++){
                 for(let j = i+1;j<this.multi.length;j++){
                     if(this.multi[i].name == this.multi[j].name){
@@ -56,11 +56,11 @@ export class OutcomePieChartComponent implements OnInit {
                     }
                 }
             }
-                
-                
+
+
             }
             //console.log(this.multi);
-            
+
         }
     }
 
@@ -70,7 +70,7 @@ export class OutcomePieChartComponent implements OnInit {
         console.log(event);
     }
 
-    
+
 
 }
 

@@ -37,25 +37,25 @@
     border-radius: 0px 0px 20px 20px;
     text-align: left;
 
-    overflow: auto; 
+    overflow: auto;
     max-height: calc(100vh - 135px);
 }
 
 ::-webkit-scrollbar {
     width: 5px;
 }
-  
+
 /* Track */
 ::-webkit-scrollbar-track {
     background: #f1f1f1;
 }
-  
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.054);
     border-radius: 20px;
 }
-  
+
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #8888;
@@ -83,7 +83,7 @@
     text-align: center;
     width: 100%;
     padding: 10px;
-    color: #52c41a;
+    color: #52BF04;
 }
 
 .load-all:hover {
@@ -142,7 +142,7 @@
 
 .btn-edit {
     margin-right: 30px;
-    color: #52c41a;
+    color: #52BF04;
     width: 77px;
 }
 
@@ -181,7 +181,7 @@
     text-align: center;
     font-weight: 500;
     padding: 10px 0px;
-    color: #52c41a;
+    color: #52BF04;
 }
 
 .btn-group:hover {

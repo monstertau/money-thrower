@@ -19,7 +19,9 @@ export class IncomePieChartComponent implements OnInit {
     // options
 
     animations: boolean = true;
-
+    colorScheme = {
+        domain: ['#005C72', '#66D8E8', '#1DB593', '#74FF91', '#C2DB4F']
+    };
     constructor() {}
 
     ngOnInit(): void {
@@ -34,9 +36,9 @@ export class IncomePieChartComponent implements OnInit {
                             value: dataUnit.incomeList[i].value
                         }
                         this.multi.push(dataPoint);
-                        
+
                     }
-                    
+
                 }
             for (let i = 0; i<this.multi.length;i++){
                 for(let j = i+1;j<this.multi.length;j++){
@@ -46,11 +48,11 @@ export class IncomePieChartComponent implements OnInit {
                     }
                 }
             }
-                
-                
+
+
             }
             //console.log(this.multi);
-            
+
         }
     }
 
@@ -60,7 +62,7 @@ export class IncomePieChartComponent implements OnInit {
         console.log(event);
     }
 
-    
+
 
 }
 
