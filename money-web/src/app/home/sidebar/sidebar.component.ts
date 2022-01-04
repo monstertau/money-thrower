@@ -38,7 +38,9 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     }
 
     selectPage() {
-        this.commonService.reloadComponent();
+        // this.commonService.reloadComponent();
+        this.removeSelectedItem();
+        window.location.reload();
     }
 
     showLogoutDialogModal() {
@@ -95,15 +97,19 @@ export class SidebarComponent implements OnInit, AfterViewInit {
             id = 'transaction';
         } else id = this.selectedItem;
         let selectedElement = document.getElementById(id) as HTMLElement;
+        this.removeSelectedItem();
+        if (!selectedElement.classList.contains('ant-menu-item-selected')) {
+            console.log('here');
+            selectedElement.classList.add('ant-menu-item-selected');
+        }
+    }
+
+    removeSelectedItem() {
         let elements = document.getElementsByClassName('ant-menu-item') as HTMLCollectionOf<HTMLElement>;
         for (let i = 0; i < elements.length; i++) {
             if (elements[i].classList.contains('ant-menu-item-selected')) {
                 elements[i].classList.remove('ant-menu-item-selected');
             }
-        }
-        if (!selectedElement.classList.contains('ant-menu-item-selected')) {
-            console.log('here');
-            selectedElement.classList.add('ant-menu-item-selected');
         }
     }
 
